@@ -1,0 +1,9 @@
+pane	0	1	1	:*	1	gabrielagilizasistemas	:/home/gabriel-agsis/Projects/python/practice-python	1	zsh	:
+pane	0	2	0	:	1	gabrielagilizasistemas	:/home/gabriel-agsis	1	python3	:/home/gabriel-agsis/pgadmin4/bin/python3 /home/gabriel-agsis/pgadmin4/bin/pgadmin4
+pane	0	3	0	:##-	1	gabrielagilizasistemas	:/home/gabriel-agsis/Projects/python/practice-python/djangoAPI	1	python3	:python3 manage.py runserver
+pane	0	4	0	:	1	gabrielagilizasistemas	:/home/gabriel-agsis/Projects/php/sistemas7/z3motos	1	zsh	:
+window	0	1	:zsh	1	:*	b83e,159x42,0,0,1	:
+window	0	2	:python3	0	:	c040,159x44,0,0,3	:
+window	0	3	:python3	0	:##-	b842,159x42,0,0,5	:
+window	0	4	:zsh	0	:	b844,159x42,0,0,7	:
+state	0	
