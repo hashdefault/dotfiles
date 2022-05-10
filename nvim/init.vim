@@ -4,16 +4,13 @@
 :set shiftwidth=4
 :set smarttab
 :set softtabstop=4
-:set omnifunc=phpcomplete#CompletePHP
 syntax on
 
 call plug#begin()
-Plug 'StanAngeloff/php.vim'
 Plug 'https://github.com/eshion/vim-sync'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'leafoftree/vim-vue-plugin'
 Plug 'HerringtonDarkholme/yats.vim'
-Plug 'maxmellon/vim-jsx-pretty'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'https://github.com/junegunn/fzf.vim'
 Plug 'https://github.com/vim-airline/vim-airline'
