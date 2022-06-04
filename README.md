@@ -1,5 +1,5 @@
 # .config
-my .config files to **zsh** , ** NeoVim** and **tmux**
+my .config files to **zsh** , **NeoVim** and **tmux**
 
 
 
