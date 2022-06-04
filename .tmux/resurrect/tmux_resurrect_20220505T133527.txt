@@ -1,7 +1,0 @@
-pane	0	1	0	:	1	gabrielagilizasistemas	:/home/gabriel-agsis	1	python3	:/home/gabriel-agsis/pgadmin4/bin/python3 /home/gabriel-agsis/pgadmin4/bin/pgadmin4
-pane	0	2	0	:##-	1	gabrielagilizasistemas	:/home/gabriel-agsis/Projects/python/djangoAPI	1	python3	:python3 manage.py runserver
-pane	0	3	1	:*	1	gabrielagilizasistemas	:/home/gabriel-agsis/Projects/python/djangoAPI	1	zsh	:
-window	0	1	:python3	0	:	c03e,159x44,0,0,1	:
-window	0	2	:python3	0	:##-	c03f,159x44,0,0,2	:
-window	0	3	:zsh	1	:*	b840,159x42,0,0,3	:
-state	0	

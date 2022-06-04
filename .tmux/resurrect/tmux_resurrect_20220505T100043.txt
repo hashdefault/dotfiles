@@ -1,3 +1,0 @@
-pane	0	1	1	:*	1	gabrielagilizasistemas	:/home/gabriel-agsis/Projects/php/sistemas7/jjsempilhadeiras	1	zsh	:
-window	0	1	:zsh	1	:*	b83d,159x42,0,0,0	:
-state	0	
