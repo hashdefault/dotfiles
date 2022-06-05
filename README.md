@@ -1,5 +1,5 @@
-# .config
-my .config files to **zsh** , **NeoVim** and **tmux**
+# Dotfiles 
+my dotfiles to **zsh** , **NeoVim** and **tmux**
 
 
 
