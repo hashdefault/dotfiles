@@ -4,13 +4,13 @@ my dotfiles to **zsh** , **NeoVim** and **tmux**
 
 ## Install Tmux Plugin Manager
 
-**First**
+**First**  
 Clone TPM:
 ```
 $ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-**Second**
+**Second**  
 On your ```~/.tmux.conf``` file:
 ```
 #List of plugins
@@ -50,7 +50,7 @@ Choose which theme is loaded by setting the @themepack option in your ```.tmux.c
 
 ## Install PowerLevel10k
 
-**First**
+**First**  
 
 ```
 $ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
@@ -58,6 +58,6 @@ $ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:
 $ p10k configure
 ```
 
-**Second**
+**Second**  
 ```Set ZSH_THEME="powerlevel10k/powerlevel10k" in ~/.zshrc.```
 
