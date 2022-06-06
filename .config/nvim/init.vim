@@ -11,8 +11,6 @@ call plug#begin()
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'ryanoasis/vim-devicons'
 Plug 'neovim/nvim-lspconfig'
-"Plug 'leafOfTree/vim-vue-plugin'"
-Plug 'edkolev/tmuxline.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'preservim/nerdtree'
@@ -20,6 +18,10 @@ Plug 'tpope/vim-surround'
 Plug 'mattn/emmet-vim'
 Plug 'flazz/vim-colorschemes'
 Plug 'sainnhe/everforest'
+Plug 'hrsh7th/nvim-compe'
+
+Plug 'williamboman/nvim-lsp-installer'
+
 call plug#end()
 
 
@@ -44,6 +46,20 @@ require('nvim-treesitter.configs').setup {
   indent = { enable = true }
 }
 EOF
+
+source ~/.config/nvim/lua/lsp/bash-lsp.lua
+source ~/.config/nvim/lua/lsp/vue-lsp.lua
+source ~/.config/nvim/lua/lsp/python-lsp.lua
+source ~/.config/nvim/lua/lsp/php-lsp.lua
+source ~/.config/nvim/lua/lsp/css-lsp.lua
+source ~/.config/nvim/lua/lsp/ts-lsp.lua
+source ~/.config/nvim/lua/lsp/docker-lsp.lua
+source ~/.config/nvim/lua/lsp/eslint-lsp.lua
+source ~/.config/nvim/lua/lsp/sumnekolua-lsp.lua
+source ~/.config/nvim/lua/lsp/stylelint-lsp.lua
+source ~/.config/nvim/lua/lsp/lsp-installer.lua
+
+source ~/.config/nvim/lua/plugins/compe-config.lua
 "let g:vim_vue_plugin_config = { 
 "    \'syntax': {
 "    \   'template': ['html'],
