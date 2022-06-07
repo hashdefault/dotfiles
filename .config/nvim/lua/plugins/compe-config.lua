@@ -99,14 +99,3 @@ vim.api.nvim_set_keymap("s","<S-Tab>","v:s.tab_complete()", {expr = true})
 --end
 
 
-
-
-
-
-
-
-
-
-
-
-
