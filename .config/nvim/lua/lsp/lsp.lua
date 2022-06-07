@@ -23,6 +23,13 @@ lspconfig.stylelint_lsp.setup {}
 lspconfig.html.setup {}
 lspconfig.cmake.setup {}
 
+vim.diagnostic.config({
+  virtual_text = true,
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = false,
+})
 
 -- symbols to lsp dignostic
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
