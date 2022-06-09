@@ -10,8 +10,6 @@ require("nvim-lsp-installer").setup({
 	}
 })
 
-
-
 local lspconfig = require('lspconfig')
 --setting up all LSP needed
 lspconfig.sumneko_lua.setup {}
@@ -24,6 +22,7 @@ lspconfig.tsserver.setup {}
 lspconfig.stylelint_lsp.setup {}
 lspconfig.html.setup {}
 lspconfig.cmake.setup {}
+
 
 vim.diagnostic.config({
 	virtual_text = true,
@@ -67,7 +66,7 @@ local cfg = {
 
 	fix_pos = false,  -- set to true, the floating window will not auto-close until finish all parameters
 	hint_enable = true, -- virtual hint enable
-	hint_prefix = "🐼 ",  -- Panda for parameter
+	hint_prefix = "🤖 ",  -- robot for parameter
 	hint_scheme = "String",
 	hi_parameter = "LspSignatureActiveParameter", -- how your parameter will be highlight
 	max_height = 12, -- max height of signature floating_window, if content is more than max_height, you can scroll down
@@ -93,8 +92,6 @@ local cfg = {
 }
 
 require'lsp_signature'.setup(cfg) -- no need to specify bufnr if you don't use toggle_key
---require'lsp_signature'.on_attach(cfg, bufnr) -- no need to specify bufnr if you don't use toggle_key
-
-
+require'lsp_signature'.on_attach(cfg, bufnr) -- no need to specify bufnr if you don't use toggle_key
 
 
