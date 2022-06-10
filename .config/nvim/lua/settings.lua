@@ -17,9 +17,6 @@ vim.cmd('colorscheme onenord')
 --vim.cmd('colorscheme nord')
 
 
-
-
-
 --transparent background
 vim.cmd('hi Normal guibg=NONE ctermbg=NONE')
 
