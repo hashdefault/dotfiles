@@ -37,4 +37,10 @@ vim.cmd("let g:airline_symbols.linenr = ' :'")
 vim.cmd("let g:airline_symbols.maxlinenr = '☰ '")
 vim.cmd("let g:airline_symbols.dirty='⚡'")
 
+vim.cmd('let g:airline#extensions#whitespace#enabled = 0')
+
+
 vim.g.airline_theme = 'deus'
+
+
+
