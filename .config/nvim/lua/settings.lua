@@ -6,6 +6,9 @@ vim.opt.smarttab = true
 vim.opt.softtabstop=4
 vim.opt.encoding='UTF-8'
 vim.opt.syntax = 'enable' 
+vim.opt.termguicolors = true
+vim.opt.relativenumber = true
+
 
 vim.api.nvim_set_keymap('n','<c-t>',':NERDTreeToggle<cr>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n','<c-f>',':NERDTreeFocus<cr>', { noremap = true, silent = true })

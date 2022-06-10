@@ -7,11 +7,13 @@ end
 
 return require('packer').startup(function(use)
 	use {'wbthomason/packer.nvim', opt = true }
+	use { 'nvim-telescope/telescope.nvim', requires = { {'nvim-lua/plenary.nvim'} } }
 	use {'EdenEast/nightfox.nvim' }
 	use {'williamboman/nvim-lsp-installer' }
 	use {'hrsh7th/nvim-compe' }
 	use {'rmehri01/onenord.nvim', { branch = 'main' } }
 	use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+	use {'windwp/nvim-ts-autotag' }
 	use {'neovim/nvim-lspconfig' }
 	use {'ray-x/lsp_signature.nvim' }
 	use {'ryanoasis/vim-devicons' }
