@@ -11,8 +11,8 @@ $ sudo update-alternatives --config x-terminal-emulator
 
 ```
 #command to set the default shell
-$ type -a zsh ## find path to ksh  
-$ chsh -s /bin/zsh ## change bash to ksh   
+$ type -a zsh   
+$ chsh -s /bin/zsh    
 ```
 
 ## Install Tmux Plugin Manager
