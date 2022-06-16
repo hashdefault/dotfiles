@@ -81,10 +81,11 @@ $ p10k configure
 ## Disable FN Lock from  Keychron k2v2 keyboard 
 
 ```
-$ echo 0 | sudo tee /sys/module/hid_apple/parameters/fnmode     // command to disable fn lock keys on keychron k2v2 keyboard
-$ sudo update-rc.d scriptname.sh defaults       // set to run the script on startup
+# command to disable fn lock key on keychron k2v2 keyboard
+$ echo 0 | sudo tee /sys/module/hid_apple/parameters/fnmode     
 ```
 ### OR (if you want to make it permanent)
 ```
+# command to disable fn lock key on keychron k2v2 keyboard
 $ echo 'options hid_apple fnmode=0' | /etc/modprobe.d/hid_apple.conf
 ```
