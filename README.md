@@ -4,12 +4,15 @@ My dotfiles to **zsh** , **NeoVim** and **tmux**. And other initial configs...
 ## Initial configs shell and terminal
 
 ```
-$ sudo update-alternatives --config x-terminal-emulator         // command to set the default terminal
+# command to set the default terminal  
+$ sudo update-alternatives --config x-terminal-emulator  
 ```
 
+
 ```
-$ type -a zsh ## find path to ksh ##  // command to set the default shell
-$ chsh -s /bin/zsh ## change bash to ksh ##             // command to set the default shell
+#command to set the default shell
+$ type -a zsh ## find path to ksh  
+$ chsh -s /bin/zsh ## change bash to ksh   
 ```
 
 ## Install Tmux Plugin Manager
