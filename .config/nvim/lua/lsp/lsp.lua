@@ -19,7 +19,6 @@ lspconfig.dockerls.setup {}
 lspconfig.bashls.setup {}
 lspconfig.eslint.setup {}
 lspconfig.tsserver.setup {}
-lspconfig.stylelint_lsp.setup {}
 lspconfig.html.setup {}
 lspconfig.cmake.setup {}
 

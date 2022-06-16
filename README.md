@@ -1,6 +1,16 @@
 # Dotfiles 
-my dotfiles to **zsh** , **NeoVim** and **tmux**
+My dotfiles to **zsh** , **NeoVim** and **tmux**. And other initial configs...
 
+## Initial configs shell and terminal
+
+```
+$ sudo update-alternatives --config x-terminal-emulator         // command to set the default terminal
+```
+
+```
+$ type -a zsh ## find path to ksh ##  // command to set the default shell
+$ chsh -s /bin/zsh ## change bash to ksh ##             // command to set the default shell
+```
 
 ## Install Tmux Plugin Manager
 
@@ -61,3 +71,17 @@ $ p10k configure
 **Second**  
 ```Set ZSH_THEME="powerlevel10k/powerlevel10k" in ~/.zshrc.```
 
+
+
+
+
+## Disable FN Lock from  Keychron k2v2 keyboard 
+
+```
+$ echo 0 | sudo tee /sys/module/hid_apple/parameters/fnmode     // command to disable fn lock keys on keychron k2v2 keyboard
+$ sudo update-rc.d scriptname.sh defaults       // set to run the script on startup
+```
+### OR (if you want to make it permanent)
+```
+$ echo 'options hid_apple fnmode=0' | /etc/modprobe.d/hid_apple.conf
+```
