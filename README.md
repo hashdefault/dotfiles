@@ -88,4 +88,6 @@ $ echo 0 | sudo tee /sys/module/hid_apple/parameters/fnmode
 ```
 # command to disable fn lock key on keychron k2v2 keyboard
 $ echo 'options hid_apple fnmode=0' | /etc/modprobe.d/hid_apple.conf
+$ sudo update-initramfs -u 
+$ reboot
 ```
