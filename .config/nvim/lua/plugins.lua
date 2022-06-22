@@ -16,12 +16,12 @@ return require('packer').startup(function(use)
 	use {'windwp/nvim-ts-autotag' }
 	use {'neovim/nvim-lspconfig' }
 	use {'ray-x/lsp_signature.nvim' }
-	use {'ryanoasis/vim-devicons' }
+	use {'kyazdani42/nvim-web-devicons'}
 	use {'junegunn/fzf', { run = { '-> fzf#install()' } } }
 	use {'junegunn/fzf.vim' }
 	use {'vim-airline/vim-airline' }
 	use {'vim-airline/vim-airline-themes' }
-	use {'preservim/nerdtree' }
+	use {'kyazdani42/nvim-tree.lua'}
 	use {'flazz/vim-colorschemes' }
 	use {'sainnhe/everforest' }
 	use {'arcticicestudio/nord-vim' }
