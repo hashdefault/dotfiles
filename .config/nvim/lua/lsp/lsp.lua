@@ -11,17 +11,22 @@ require("nvim-lsp-installer").setup({
 })
 
 local lspconfig = require('lspconfig')
---setting up all LSP needed
-lspconfig.sumneko_lua.setup {}
-lspconfig.pyright.setup {}
-lspconfig.phpactor.setup {}
-lspconfig.dockerls.setup {}
-lspconfig.bashls.setup {}
-lspconfig.tsserver.setup {}
-lspconfig.html.setup {}
-lspconfig.cmake.setup {}
-lspconfig.vuels.setup {}
 
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+
+--setting up all LSP needed
+lspconfig.sumneko_lua.setup {capabilities = capabilities }
+lspconfig.pyright.setup {capabilities = capabilities }
+lspconfig.phpactor.setup {capabilities = capabilities }
+lspconfig.dockerls.setup {capabilities = capabilities }
+lspconfig.bashls.setup {capabilities = capabilities }
+--lspconfig.eslint.setup {capabilities = capabilities }
+lspconfig.tsserver.setup {capabilities = capabilities }
+--lspconfig.stylelint_lsp.setup {capabilities = capabilities }
+lspconfig.html.setup {capabilities = capabilities }
+lspconfig.cmake.setup {capabilities = capabilities }
+lspconfig.vuels.setup {capabilities = capabilities }
 
 vim.diagnostic.config({
 	virtual_text = true,
@@ -75,7 +80,7 @@ local cfg = {
 		border = "rounded"   -- double, rounded, single, shadow, none
 	},
 
-	always_trigger = false, -- sometime show signature on new line or in middle of parameter can be confusing, set it to false for #58
+	always_trigger = true, -- sometime show signature on new line or in middle of parameter can be confusing, set it to false for #58
 
 	auto_close_after = nil, -- autoclose signature float win after x sec, disabled if nil.
 	extra_trigger_chars = {}, -- Array of extra characters that will trigger signature completion, e.g., {"(", ","}
