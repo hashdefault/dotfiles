@@ -4,3 +4,4 @@ require('nvim-treesitter.configs').setup {
   highlight = { enable = true },
   indent = { enable = true }
 }
+require "nvim-treesitter.parsers".get_parser_configs().markdown = nil

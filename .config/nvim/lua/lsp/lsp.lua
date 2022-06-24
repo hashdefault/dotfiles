@@ -11,7 +11,6 @@ require("nvim-lsp-installer").setup({
 })
 
 local lspconfig = require('lspconfig')
-<<<<<<< HEAD
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
@@ -19,7 +18,7 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protoco
 --setting up all LSP needed
 lspconfig.sumneko_lua.setup {capabilities = capabilities }
 lspconfig.pyright.setup {capabilities = capabilities }
-lspconfig.phpactor.setup {capabilities = capabilities }
+lspconfig.intelephense.setup {capabilities = capabilities }
 lspconfig.dockerls.setup {capabilities = capabilities }
 lspconfig.bashls.setup {capabilities = capabilities }
 --lspconfig.eslint.setup {capabilities = capabilities }

@@ -1,5 +1,4 @@
 local vim = vim
-
 vim.opt.number=true
 vim.opt.autoindent=true
 vim.opt.tabstop=4
@@ -24,7 +23,4 @@ vim.cmd('colorscheme onenord')
 
 --transparent background
 vim.cmd('hi Normal guibg=NONE ctermbg=NONE')
-
-
-
 
