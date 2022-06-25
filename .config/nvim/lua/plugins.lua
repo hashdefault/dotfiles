@@ -25,7 +25,8 @@ return require('packer').startup(function(use)
 	use {'saadparwaiz1/cmp_luasnip' }
 	use {'onsails/lspkind.nvim' }
 	use {'nvim-lualine/lualine.nvim'}
-	use {'ray-x/lsp_signature.nvim' }
+	use { 'glepnir/lspsaga.nvim', { branch = 'main' } }
+	--use {'ray-x/lsp_signature.nvim' }
 	use {'kyazdani42/nvim-web-devicons'}
 	use {'junegunn/fzf', { run = { '-> fzf#install()' } } }
 	use {'junegunn/fzf.vim' }
