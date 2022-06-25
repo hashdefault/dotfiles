@@ -25,8 +25,8 @@ return require('packer').startup(function(use)
 	use {'saadparwaiz1/cmp_luasnip' }
 	use {'onsails/lspkind.nvim' }
 	use {'nvim-lualine/lualine.nvim'}
-	use { 'glepnir/lspsaga.nvim', { branch = 'main' } }
-	--use {'ray-x/lsp_signature.nvim' }
+	use {'antoinemadec/FixCursorHold.nvim'}
+	use {'ray-x/lsp_signature.nvim' }
 	use {'kyazdani42/nvim-web-devicons'}
 	use {'junegunn/fzf', { run = { '-> fzf#install()' } } }
 	use {'junegunn/fzf.vim' }
@@ -42,6 +42,16 @@ return require('packer').startup(function(use)
 	--if packer_bootstrap then
 	--	require('packer').sync()
 	--end
+	--
+	--
+	--call all files
+	require 'plugin.treesitter-config'
+	require 'plugin.lualine-config'
+	require 'plugin.telescope-config'
+	require 'plugin.nvimtree-config'
+	require 'plugin.nvimcmp-config'
+	require 'plugin.autopair-config'
+	require 'plugin.null-ls-config'
 end)
 
 

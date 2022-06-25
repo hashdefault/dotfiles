@@ -24,3 +24,20 @@ vim.cmd('colorscheme onenord')
 
 --transparent background
 vim.cmd('hi Normal guibg=NONE ctermbg=NONE ')
+vim.g.cursorhold_updatetime = '100'
+
+
+vim.cmd('highlight DiagnosticWarn  guifg=#fcc203')
+vim.cmd('highlight DiagnosticFloatingWarn guifg=#fcc203')
+vim.cmd('highlight DiagnosticSignWarn  guisp=#fcc203 guifg=#fcc203')
+vim.cmd('highlight DiagnosticVirtualTextWarn  guifg=#fcc203')
+vim.cmd('highlight WarningMsg  guifg=#fcc203')
+vim.cmd('highlight LspDiagnosticsDefaultWarning  guifg=#fcc203')
+vim.cmd('highlight LspDiagnosticsUnderlineWarning  guisp=#fcc203 guifg=NONE')
+vim.cmd('highlight lualine_b_diagnostics_warn_normal guifg=#fcc203 guibg=#3F4758')
+vim.cmd('highlight lualine_b_diagnostics_warn_insert guifg=#fcc203 guibg=#3F4758')
+vim.cmd('highlight lualine_b_diagnostics_warn_visual guifg=#fcc203 guibg=#3F4758')
+vim.cmd('highlight lualine_b_diagnostics_warn_replace guifg=#fcc203 guibg=#3F4758')
+vim.cmd('highlight lualine_b_diagnostics_warn_command guifg=#fcc203 guibg=#3F4758')
+vim.cmd('highlight lualine_b_diagnostics_warn_terminal guifg=#fcc203 guibg=#3F4758')
+vim.cmd('highlight lualine_b_diagnostics_warn_inactive guifg=#fcc203 guibg=None')

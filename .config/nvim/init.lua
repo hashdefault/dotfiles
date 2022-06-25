@@ -1,12 +1,8 @@
 
 require 'plugins'
 require 'lsp.lsp'
-require 'plugin.treesitter-config'
-require 'plugin.lualine-config'
-require 'plugin.telescope-config'
-require 'plugin.nvimtree-config'
-require 'plugin.nvimcmp-config'
-require 'plugin.autopair-config'
-require 'plugin.lspsaga-init'
-require 'plugin.lsp-saga-config'
 require 'settings'
+
+
+
+
