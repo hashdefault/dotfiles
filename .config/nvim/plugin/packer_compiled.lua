@@ -69,6 +69,16 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  LuaSnip = {
+    loaded = true,
+    path = "/home/gabriel-bueno/.local/share/nvim/site/pack/packer/start/LuaSnip",
+    url = "https://github.com/L3MON4D3/LuaSnip"
+  },
+  ["bufferline.nvim"] = {
+    loaded = true,
+    path = "/home/gabriel-bueno/.local/share/nvim/site/pack/packer/start/bufferline.nvim",
+    url = "https://github.com/akinsho/bufferline.nvim"
+  },
   ["cmp-buffer"] = {
     loaded = true,
     path = "/home/gabriel-bueno/.local/share/nvim/site/pack/packer/start/cmp-buffer",
@@ -89,6 +99,11 @@ _G.packer_plugins = {
     path = "/home/gabriel-bueno/.local/share/nvim/site/pack/packer/start/cmp-path",
     url = "https://github.com/hrsh7th/cmp-path"
   },
+  cmp_luasnip = {
+    loaded = true,
+    path = "/home/gabriel-bueno/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
+    url = "https://github.com/saadparwaiz1/cmp_luasnip"
+  },
   everforest = {
     loaded = true,
     path = "/home/gabriel-bueno/.local/share/nvim/site/pack/packer/start/everforest",
@@ -104,15 +119,15 @@ _G.packer_plugins = {
     path = "/home/gabriel-bueno/.local/share/nvim/site/pack/packer/start/fzf.vim",
     url = "https://github.com/junegunn/fzf.vim"
   },
-  ["lsp_signature.nvim"] = {
-    loaded = true,
-    path = "/home/gabriel-bueno/.local/share/nvim/site/pack/packer/start/lsp_signature.nvim",
-    url = "https://github.com/ray-x/lsp_signature.nvim"
-  },
   ["lspkind.nvim"] = {
     loaded = true,
     path = "/home/gabriel-bueno/.local/share/nvim/site/pack/packer/start/lspkind.nvim",
     url = "https://github.com/onsails/lspkind.nvim"
+  },
+  ["lualine.nvim"] = {
+    loaded = true,
+    path = "/home/gabriel-bueno/.local/share/nvim/site/pack/packer/start/lualine.nvim",
+    url = "https://github.com/nvim-lualine/lualine.nvim"
   },
   ["nightfox.nvim"] = {
     loaded = true,
@@ -123,6 +138,16 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/gabriel-bueno/.local/share/nvim/site/pack/packer/start/nord-vim",
     url = "https://github.com/arcticicestudio/nord-vim"
+  },
+  ["null-ls.nvim"] = {
+    loaded = true,
+    path = "/home/gabriel-bueno/.local/share/nvim/site/pack/packer/start/null-ls.nvim",
+    url = "https://github.com/jose-elias-alvarez/null-ls.nvim"
+  },
+  ["nvim-autopairs"] = {
+    loaded = true,
+    path = "/home/gabriel-bueno/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
+    url = "https://github.com/windwp/nvim-autopairs"
   },
   ["nvim-cmp"] = {
     loaded = true,
@@ -189,16 +214,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/gabriel-bueno/.local/share/nvim/site/pack/packer/start/tmuxline.vim",
     url = "https://github.com/edkolev/tmuxline.vim"
-  },
-  ["vim-airline"] = {
-    loaded = true,
-    path = "/home/gabriel-bueno/.local/share/nvim/site/pack/packer/start/vim-airline",
-    url = "https://github.com/vim-airline/vim-airline"
-  },
-  ["vim-airline-themes"] = {
-    loaded = true,
-    path = "/home/gabriel-bueno/.local/share/nvim/site/pack/packer/start/vim-airline-themes",
-    url = "https://github.com/vim-airline/vim-airline-themes"
   },
   ["vim-colorschemes"] = {
     loaded = true,

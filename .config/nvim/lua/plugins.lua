@@ -7,27 +7,28 @@
 vim.cmd [[packadd packer.nvim]]
 return require('packer').startup(function(use)
 	use {'wbthomason/packer.nvim', opt = true }
-	use { 'nvim-telescope/telescope.nvim', requires = { {'nvim-lua/plenary.nvim'} } }
+	use {'nvim-telescope/telescope.nvim', requires = { {'nvim-lua/plenary.nvim'} } }
 	use {'EdenEast/nightfox.nvim' }
+	use {'windwp/nvim-autopairs' }
+	use {'windwp/nvim-ts-autotag' }
 	use {'williamboman/nvim-lsp-installer' }
+	use {'jose-elias-alvarez/null-ls.nvim', requires = { {'nvim-lua/plenary.nvim'} }}
 	use {'rmehri01/onenord.nvim', { branch = 'main' } }
 	use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-	use {'windwp/nvim-ts-autotag' }
 	use {'neovim/nvim-lspconfig' }
-	use { 'L3MON4D3/LuaSnip' }
+	use {'L3MON4D3/LuaSnip' }
 	use {'hrsh7th/nvim-cmp' }
-	use { 'hrsh7th/cmp-nvim-lsp' }
-	use { 'hrsh7th/cmp-buffer' }
-	use { 'hrsh7th/cmp-path' }
-	use { 'hrsh7th/cmp-cmdline' }
-	use { 'saadparwaiz1/cmp_luasnip' }
-	use { 'onsails/lspkind.nvim' }
+	use {'hrsh7th/cmp-nvim-lsp' }
+	use {'hrsh7th/cmp-buffer' }
+	use {'hrsh7th/cmp-path' }
+	use {'hrsh7th/cmp-cmdline' }
+	use {'saadparwaiz1/cmp_luasnip' }
+	use {'onsails/lspkind.nvim' }
+	use {'nvim-lualine/lualine.nvim'}
 	use {'ray-x/lsp_signature.nvim' }
 	use {'kyazdani42/nvim-web-devicons'}
 	use {'junegunn/fzf', { run = { '-> fzf#install()' } } }
 	use {'junegunn/fzf.vim' }
-	use {'vim-airline/vim-airline' }
-	use {'vim-airline/vim-airline-themes' }
 	use {'kyazdani42/nvim-tree.lua'}
 	use {'flazz/vim-colorschemes' }
 	use {'sainnhe/everforest' }
@@ -41,5 +42,19 @@ return require('packer').startup(function(use)
 	--	require('packer').sync()
 	--end
 end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

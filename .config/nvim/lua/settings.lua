@@ -9,6 +9,7 @@ vim.opt.encoding='UTF-8'
 vim.opt.syntax = 'enable'
 vim.opt.termguicolors = true
 vim.opt.relativenumber = true
+vim.opt.cursorline = true
 vim.wo.wrap = false
 
 vim.api.nvim_set_keymap('n','<c-t>',':NvimTreeToggle<cr>', { noremap = true, silent = true })
@@ -22,5 +23,4 @@ vim.cmd('colorscheme onenord')
 
 
 --transparent background
-vim.cmd('hi Normal guibg=NONE ctermbg=NONE')
-
+vim.cmd('hi Normal guibg=NONE ctermbg=NONE ')

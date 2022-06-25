@@ -18,12 +18,11 @@ require('telescope').setup{
 	pickers = {
 		live_grep = {
 			grep_open_files=true,
-			prompt_prefix= '🔍 '
+			prompt_prefix= '🔭 '
 		},
 		find_files = {
-			prompt_prefix= '🔍 '
+			prompt_prefix= '🔭 '
 		},
-
 		-- Default configuration for builtin pickers goes here:
 		-- picker_name = {
 		--   picker_config_key = value,

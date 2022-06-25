@@ -1,9 +1,11 @@
 
 require 'plugins'
-require 'settings'
 require 'lsp.lsp'
 require 'plugin.treesitter-config'
-require 'plugin.airline-config'
+require 'plugin.lualine-config'
 require 'plugin.telescope-config'
 require 'plugin.nvimtree-config'
 require 'plugin.nvimcmp-config'
+require 'plugin.autopair-config'
+require 'plugin.ls-null-config'
+require 'settings'
