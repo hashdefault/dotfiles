@@ -1,7 +1,7 @@
-require('telescope').setup{
+require("telescope").setup({
 	defaults = {
 		layout_config = {
-			vertical = { width = 0.5 }
+			vertical = { width = 0.5 },
 			-- other layout configuration here
 		},
 		-- Default configuration for telescope goes here:
@@ -11,17 +11,17 @@ require('telescope').setup{
 				-- map actions.which_key to <C-h> (default: <C-/>)
 				-- actions.which_key shows the mappings for your picker,
 				-- e.g. git_{create, delete, ...}_branch for the git_branches picker
-				["<C-h>"] = "which_key"
-			}
-		}
+				["<C-h>"] = "which_key",
+			},
+		},
 	},
 	pickers = {
 		live_grep = {
-			grep_open_files=true,
-			prompt_prefix= '🔭 '
+			grep_open_files = true,
+			prompt_prefix = "🔭 ",
 		},
 		find_files = {
-			prompt_prefix= '🔭 '
+			prompt_prefix = "🔭 ",
 		},
 		-- Default configuration for builtin pickers goes here:
 		-- picker_name = {
@@ -37,14 +37,5 @@ require('telescope').setup{
 		--   extension_config_key = value,
 		-- }
 		-- please take a look at the readme of the extension you want to configure
-	}
-}
-
-
-
---Find files using Telescope command-line sugar.
-vim.api.nvim_set_keymap('n', '<leader>ff' ,':Telescope find_files<cr>', {noremap = true } )
-vim.api.nvim_set_keymap('n','<leader>fg' ,':Telescope live_grep<cr>', { noremap = true } )
-vim.api.nvim_set_keymap('n','<leader>fb', ':Telescope buffers<cr>', {noremap = true } )
-vim.api.nvim_set_keymap('n', '<leader>fh', ':Telescope help_tags<cr>', {noremap =true} )
-
+	},
+})
