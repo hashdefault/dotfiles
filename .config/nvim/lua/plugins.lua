@@ -29,6 +29,8 @@ return require("packer").startup(function(use)
 	use({ "ray-x/cmp-treesitter" })
 	use({ "hrsh7th/cmp-nvim-lua" })
 	use({ "jose-elias-alvarez/null-ls.nvim", requires = { { "nvim-lua/plenary.nvim" } } })
+	use({ "SirVer/ultisnips" })
+	use({ "quangnguyen30192/cmp-nvim-ultisnips" })
 
 	--Finders
 	use({ "junegunn/fzf", { run = { "-> fzf#install()" } } })

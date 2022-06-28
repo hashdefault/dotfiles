@@ -40,11 +40,18 @@ local completion = null_ls.builtins.completion
 null_ls.setup({
 	sources = {
 		null_ls.builtins.diagnostics.php,
-		null_ls.builtins.diagnostics.eslint,
-		formatting.prettier.with({ extra_args = { "--tab-width 4", "--use-tabs" } }),
+		formatting.prettier.with({
+			filetypes = { "vue" },
+			extra_args = {
+
+				"--tab-width 4",
+				"--use-tabs",
+				"--no-semi",
+				"--print-width 200",
+			},
+		}),
 		formatting.stylua,
 		formatting.black,
-		--formatting.eslint,
 		--formatting.phpcbf,
 		null_ls.builtins.diagnostics.shellcheck,
 		formatting.codespell.with({ filetypes = { "markdown" } }),
