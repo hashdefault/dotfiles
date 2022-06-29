@@ -1,5 +1,5 @@
 # Dotfiles 
-My dotfiles to **zsh** , **NeoVim** and **tmux**. And other initial configs...
+My dotfiles to **zsh**  and **tmux**. And other initial configs...
 
 ## Initial configs shell and terminal
 
