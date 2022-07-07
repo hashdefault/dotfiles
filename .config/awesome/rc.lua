@@ -880,6 +880,6 @@ end)
 print(beautiful.border_focus)
 beautiful.useless_gap = 4
 
-awful.spawn.with_shell("picom")
+awful.spawn.with_shell("picom --experimental-backends")
 awful.spawn.with_shell("nitrogen --restore")
 -- }}}
