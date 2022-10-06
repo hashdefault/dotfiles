@@ -179,6 +179,12 @@
   <keyboard>
     <chainQuitKey>C-g</chainQuitKey>
     <!-- Keybindings for desktop switching -->
+    <keybind key="W-Return">
+      <action name="Execute">
+	      <command>terminator</command>
+      </action>
+    </keybind>
+ 
     <keybind key="C-A-Left">
       <action name="GoToDesktop">
         <to>left</to>
@@ -251,7 +257,7 @@
       <action name="ToggleShowDesktop"/>
     </keybind>
     <!-- Keybindings for windows -->
-    <keybind key="A-F4">
+    <keybind key="W-c">
       <action name="Close"/>
     </keybind>
     <keybind key="A-Escape">
