@@ -1,6 +1,5 @@
 xset b off &
 nitrogen --restore &
+~/.config/polybar/launch.sh --docky &
 sleep 1s && plank -n dock1 &
-sleep 2s && plank -n dock2 &
 picom --experimental-backends &
-sh ~/.config/polybar/forest/launch.sh &

@@ -42,7 +42,7 @@
                   'Active' - where the active window is -->
   </placement>
   <theme>
-    <name>Nord-Openbox-theme</name>
+    <name>KvArcDark</name>
     <titleLayout>NLIMC</titleLayout>
     <!--
       available characters are NDSLIMC, each can occur at most once.
@@ -179,46 +179,42 @@
   <keyboard>
     <chainQuitKey>C-g</chainQuitKey>
     <!-- Keybindings for desktop switching -->
-
-	<keybind key="W-Down">
-  <action name="UnmaximizeFull"/>
-  <action name="MoveResizeTo">
-    <x>10%</x>
-    <y>5%</y>
-    <height>85%</height>
-    <width>60%</width>
-  </action>
-</keybind>
-
-
-	<keybind key="W-Up">
-  <action name="UnmaximizeFull"/>
-  <action name="MoveResizeTo">
-    <x>0</x>
-    <y>0</y>
-    <height>100%</height>
-    <width>100%</width>
-  </action>
-</keybind>
-
-	<keybind key="W-Right">
-  <action name="UnmaximizeFull"/>
-  <action name="MoveResizeTo">
-    <x>50%</x>
-    <y>0</y>
-    <height>100%</height>
-    <width>50%</width>
-  </action>
-</keybind>
-	<keybind key="W-Left">
-  <action name="UnmaximizeFull"/>
-  <action name="MoveResizeTo">
-    <x>0</x>
-    <y>0</y>
-    <height>100%</height>
-    <width>50%</width>
-  </action>
-</keybind>
+    <keybind key="W-Down">
+      <action name="UnmaximizeFull"/>
+      <action name="MoveResizeTo">
+        <x>10%</x>
+        <y>5%</y>
+        <height>85%</height>
+        <width>60%</width>
+      </action>
+    </keybind>
+    <keybind key="W-Up">
+      <action name="UnmaximizeFull"/>
+      <action name="MoveResizeTo">
+        <x>0</x>
+        <y>0</y>
+        <height>100%</height>
+        <width>100%</width>
+      </action>
+    </keybind>
+    <keybind key="W-Right">
+      <action name="UnmaximizeFull"/>
+      <action name="MoveResizeTo">
+        <x>50%</x>
+        <y>0</y>
+        <height>100%</height>
+        <width>50%</width>
+      </action>
+    </keybind>
+    <keybind key="W-Left">
+      <action name="UnmaximizeFull"/>
+      <action name="MoveResizeTo">
+        <x>0</x>
+        <y>0</y>
+        <height>100%</height>
+        <width>50%</width>
+      </action>
+    </keybind>
     <keybind key="W-Return">
       <action name="Execute">
         <command>terminator</command>
@@ -229,7 +225,18 @@
         <command>flameshot gui</command>
       </action>
     </keybind>
- 
+		    <keybind key="XF86AudioLowerVolume">
+
+     <action name="Execute">
+					        <command>amixer sset Master,0 1-</command>
+								</action>
+      </keybind>
+    <keybind key="XF86AudioRaiseVolume">
+
+     <action name="Execute">
+					        <command>amixer sset Master,0 1+</command>
+								</action>
+      </keybind>
     <keybind key="C-A-Left">
       <action name="GoToDesktop">
         <to>left</to>
