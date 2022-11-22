@@ -2,6 +2,6 @@ xset b off &
 nitrogen --restore &
 sleep 1s && plank -n dock1 &
 sleep 2s && plank -n dock2 &
-picom --experimental-backends &
+picom &
 sh ~/.config/polybar/forest/launch.sh &
 setxkbmap us altgr-intl &
