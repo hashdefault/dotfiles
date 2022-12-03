@@ -42,7 +42,7 @@
                   'Active' - where the active window is -->
   </placement>
   <theme>
-    <name>KvArcDark</name>
+    <name>Nord-Openbox-theme</name>
     <titleLayout>NLIMC</titleLayout>
     <!--
       available characters are NDSLIMC, each can occur at most once.
@@ -217,7 +217,9 @@
     </keybind>
     <keybind key="W-Return">
       <action name="Execute">
-        <command>terminator</command>
+        <x>10%</x>
+        <y>5%</y>
+        <command>alacritty</command>
       </action>
     </keybind>
     <keybind key="Print">
@@ -225,18 +227,16 @@
         <command>flameshot gui</command>
       </action>
     </keybind>
-		    <keybind key="XF86AudioLowerVolume">
-
-     <action name="Execute">
-					        <command>amixer sset Master,0 1-</command>
-								</action>
-      </keybind>
+    <keybind key="XF86AudioLowerVolume">
+      <action name="Execute">
+        <command>amixer sset Master,0 1-</command>
+      </action>
+    </keybind>
     <keybind key="XF86AudioRaiseVolume">
-
-     <action name="Execute">
-					        <command>amixer sset Master,0 1+</command>
-								</action>
-      </keybind>
+      <action name="Execute">
+        <command>amixer sset Master,0 1+</command>
+      </action>
+    </keybind>
     <keybind key="C-A-Left">
       <action name="GoToDesktop">
         <to>left</to>
