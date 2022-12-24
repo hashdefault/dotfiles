@@ -42,7 +42,7 @@
                   'Active' - where the active window is -->
   </placement>
   <theme>
-    <name>Nord-Openbox-theme</name>
+    <name>Raven-Cyan</name>
     <titleLayout>NLIMC</titleLayout>
     <!--
       available characters are NDSLIMC, each can occur at most once.
@@ -57,12 +57,12 @@
     <keepBorder>yes</keepBorder>
     <animateIconify>yes</animateIconify>
     <font place="ActiveWindow">
-      <name>sans</name>
+      <name>Sans</name>
       <size>8</size>
       <!-- font size in points -->
-      <weight>bold</weight>
+      <weight>Bold</weight>
       <!-- 'bold' or 'normal' -->
-      <slant>normal</slant>
+      <slant>Normal</slant>
       <!-- 'italic' or 'normal' -->
     </font>
     <font place="InactiveWindow">
@@ -75,12 +75,12 @@
       <!-- 'italic' or 'normal' -->
     </font>
     <font place="MenuHeader">
-      <name>sans</name>
+      <name>Sans</name>
       <size>9</size>
       <!-- font size in points -->
-      <weight>normal</weight>
+      <weight>Normal</weight>
       <!-- 'bold' or 'normal' -->
-      <slant>normal</slant>
+      <slant>Normal</slant>
       <!-- 'italic' or 'normal' -->
     </font>
     <font place="MenuItem">
@@ -213,6 +213,12 @@
         <y>0</y>
         <height>100%</height>
         <width>50%</width>
+      </action>
+    </keybind>
+		
+    <keybind key="W-r">
+      <action name="Execute">
+        <command>gmrun</command>
       </action>
     </keybind>
     <keybind key="W-Return">
