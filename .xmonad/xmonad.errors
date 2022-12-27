@@ -1,1 +1,6 @@
 $ ghc --make xmonad.hs -i -ilib -fforce-recomp -main-is main -dynamic -v0 -outputdir /home/gabrielbueno/.xmonad/build-x86_64-linux -o /home/gabrielbueno/.xmonad/xmonad-x86_64-linux
+
+xmonad.hs:528:71: error: parse error on input ‘]’
+    |
+528 |             , ("M-S-q", addName "Quit XMonad" $ spawn , io exitSuccess])
+    |                                                                       ^
