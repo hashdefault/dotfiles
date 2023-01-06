@@ -118,6 +118,7 @@ source $ZSH/oh-my-zsh.sh
 
 alias ls='exa --icons'
 alias la='exa -la --icons'
+alias cat=bat
 
 eval "$(starship init zsh)"
 
