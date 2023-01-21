@@ -4,6 +4,8 @@
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -81,7 +83,7 @@ export GPG_TTY=$(tty)
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
-plugins=(git docker docker-compose zsh-autosuggestions zsh-interactive-cd tmux virtualenv npm pip)
+plugins=(git docker docker-compose zsh-interactive-cd tmux virtualenv npm pip)
 
 source $ZSH/oh-my-zsh.sh
 
