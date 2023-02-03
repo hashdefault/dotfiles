@@ -1,10 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 
 # If you come from bash you might have to change your $PATH.
@@ -91,6 +84,8 @@ export GPG_TTY=$(tty)
 
 plugins=(git docker docker-compose zsh-interactive-cd tmux virtualenv npm pip)
 
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -129,6 +124,7 @@ alias ls='exa --icons'
 alias la='exa -la --icons'
 alias cat='bat'
 alias grep='rg'
+alias mkdir='mkdir -pv'
 
 eval "$(starship init zsh)"
 
