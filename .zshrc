@@ -124,9 +124,11 @@ source $ZSH/oh-my-zsh.sh
 #[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 
+#Alias
 alias ls='exa --icons'
 alias la='exa -la --icons'
-alias cat=bat
+alias cat='bat'
+alias grep='rg'
 
 eval "$(starship init zsh)"
 
