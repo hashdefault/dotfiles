@@ -1,22 +1,22 @@
 Config { 
    -- appearance
-     font =         "xft:Ubuntu:size=10:bold:antialias=true:hinting=true"
-   , bgColor =      "#222222"
-   , fgColor =      "#646464"
-   , position =     Top
+     font =         "xft:Ubuntu:weight=bold:pixelsize=11:antialias=true:hinting=true"
+		 , additionalFonts = [ "xft:Mononoki:pixelsize=11:antialias=true:hinting=true"
+												 , "xft:Font Awesome 6 Free Solid:pixelsize=12"
+												 , "xft:Font Awesome 6 Brands:pixelsize=12"
+												 ]
+	 , bgColor      = "#2E3440"
+	 , fgColor      = "#D8DEE9"
    , border =       BottomB
    , borderColor =  "#646464"
 
    -- layout
-   , sepChar =  "%"   -- delineator between plugin names and straight text
-   , alignSep = "}{"  -- separator between left-right alignment
-   , template = "%battery% | %multicpu% | %coretemp% | %memory% | %dynnetwork% }{ %RJTT% | %date% || %kbd% "
-
-   -- general behavior
+      -- general behavior
+	 , position = TopSize L 100 24
    , lowerOnStart =     True    -- send to bottom of window stack on start
    , hideOnStart =      False   -- start with window unmapped (hidden)
    , allDesktops =      True    -- show on all desktops
-   , overrideRedirect = True    -- set the Override Redirect flag (Xlib)
+   , overrideRedirect =	True    -- set the Override Redirect flag (Xlib)
    , pickBroadest =     False   -- choose widest display (multi-monitor)
    , persistent =       True    -- enable/disable hiding (True = disabled)
 
@@ -34,72 +34,36 @@ Config {
    --   The --template option controls how the plugin is displayed. Text
    --   color can be set by enclosing in <fc></fc> tags. For more details
    --   see http://projects.haskell.org/xmobar/#system-monitor-plugins.
-   , commands = 
+       , commands = [
+                        -- Echos a "penguin" icon in front of the kernel output.
+                      Run Com "echo" ["<fn=3>\xf17c</fn>"] "penguin" 3600
+                    , Run Com "uname" ["-s", "-r"] "kernel" 20
+                        -- Cpu usage in percent
+                    , Run Cpu ["-t", "<fn=2>\xf108</fn>  cpu: (<total>%)","-H","50","--high","red"] 20
+                        -- Ram used number and percent
+                    , Run Memory ["-t", "<fn=2>\xf233</fn>  mem: <used>M (<usedratio>%)"] 20
+                        -- Disk space free
+                    , Run DiskU [("/", "<fn=2>\xf0c7</fn>  hdd: <free> free")] [] 60
+                        -- Echos an "up arrow" icon in front of the uptime output.
+                    , Run Com "echo" ["<fn=2>\xf0aa</fn>"] "uparrow" 3600
+                        -- Uptime
+                    , Run Uptime ["-t", "uptime: <days>d <hours>h"] 360
+                        -- Echos a "bell" icon in front of the pacman updates.
+                    , Run Com "echo" ["<fn=2>\xf0f3</fn>"] "bell" 3600
+                        -- Check for pacman updates (script found in .local/bin)
+                    , Run Com ".config/xmobar/pacupdate.sh" [] "pacupdate" 36000
+                        -- Echos a "battery" icon in front of the pacman updates.
+                    , Run Com "echo" ["<fn=2>\xf242</fn>"] "baticon" 3600
+                        -- Battery
+                    , Run BatteryP ["BAT0"] ["-t", "<acstatus><watts> (<left>%)"] 360
+                        -- Time and date
+                    , Run Date "<fn=2>\xf017</fn>  %b %d %Y - (%H:%M) " "date" 50
+										
+										, Run StdinReader
+                    ]
+	 , sepChar =  "%"   -- delineator between plugin names and straight text
+   , alignSep = "}{"  -- separator between left-right alignment
+	 , template = " %StdinReader%  }{ <box type=Bottom width=2 mb=2 color=#8FBCBB><fc=#8FBCBB>%penguin%  %kernel%</fc></box>    <box type=Bottom width=2 mb=2 color=#A3BE8C><fc=#A3BE8C><action=`alacritty -e htop`>%cpu%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#81A1C1><fc=#81A1C1><action=`alacritty -e htop`>%memory%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#EBCB8B><fc=#EBCB8B>%disku%</fc></box>    <box type=Bottom width=2 mb=2 color=#B48EAD><fc=#B48EAD>%uparrow%  %uptime%</fc></box>    <box type=Bottom width=2 mb=2 color=#88C0D0><fc=#88C0D0>%bell%  <action=`alacritty -e sudo pacman -Syu`>%pacupdate%</action></fc></box>   <box type=Bottom width=2 mb=2 color=#BF616A><fc=#BF616A>%baticon%  %battery%</fc></box>    <box type=Bottom width=2 mb=2 color=#83a598><fc=#83a598>%date%</fc></box>  "
 
-        -- weather monitor
-        [ Run Weather "RJTT" [ "--template", "<skyCondition> | <fc=#4682B4><tempC></fc>°C | <fc=#4682B4><rh></fc>% | <fc=#4682B4><pressure></fc>hPa"
-                             ] 36000
 
-        -- network activity monitor (dynamic interface resolution)
-        , Run DynNetwork     [ "--template" , "<dev>: <tx>kB/s|<rx>kB/s"
-                             , "--Low"      , "1000"       -- units: B/s
-                             , "--High"     , "5000"       -- units: B/s
-                             , "--low"      , "darkgreen"
-                             , "--normal"   , "darkorange"
-                             , "--high"     , "darkred"
-                             ] 10
-
-        -- cpu activity monitor
-        , Run MultiCpu       [ "--template" , "Cpu: <total0>%|<total1>%"
-                             , "--Low"      , "50"         -- units: %
-                             , "--High"     , "85"         -- units: %
-                             , "--low"      , "darkgreen"
-                             , "--normal"   , "darkorange"
-                             , "--high"     , "darkred"
-                             ] 10
-
-        -- cpu core temperature monitor
-        , Run CoreTemp       [ "--template" , "Temp: <core0>°C|<core1>°C"
-                             , "--Low"      , "70"        -- units: °C
-                             , "--High"     , "80"        -- units: °C
-                             , "--low"      , "darkgreen"
-                             , "--normal"   , "darkorange"
-                             , "--high"     , "darkred"
-                             ] 50
-                          
-        -- memory usage monitor
-        , Run Memory         [ "--template" ,"Mem: <usedratio>%"
-                             , "--Low"      , "20"        -- units: %
-                             , "--High"     , "90"        -- units: %
-                             , "--low"      , "darkgreen"
-                             , "--normal"   , "darkorange"
-                             , "--high"     , "darkred"
-                             ] 10
-
-        -- battery monitor
-        , Run Battery        [ "--template" , "Batt: <acstatus>"
-                             , "--Low"      , "10"        -- units: %
-                             , "--High"     , "80"        -- units: %
-                             , "--low"      , "darkred"
-                             , "--normal"   , "darkorange"
-                             , "--high"     , "darkgreen"
-
-                             , "--" -- battery specific options
-                                       -- discharging status
-                                       , "-o"	, "<left>% (<timeleft>)"
-                                       -- AC "on" status
-                                       , "-O"	, "<fc=#dAA520>Charging</fc>"
-                                       -- charged status
-                                       , "-i"	, "<fc=#006000>Charged</fc>"
-                             ] 50
-
-        -- time and date indicator 
-        --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
-        , Run Date           "<fc=#ABABAB>%F (%a) %T</fc>" "date" 10
-
-        -- keyboard layout indicator
-        , Run Kbd            [ ("us(dvorak)" , "<fc=#00008B>DV</fc>")
-                             , ("us"         , "<fc=#8B0000>US</fc>")
-                             ]
-        ]
    }

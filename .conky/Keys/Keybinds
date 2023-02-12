@@ -1,0 +1,68 @@
+# **********************************************************************
+# "CPU Panel (8-core)" theme for Conky by Tony George (teejee2008@gmail.com)
+#
+# Webpage: http://teejeetech.blogspot.in/
+# **********************************************************************
+
+
+background no
+double_buffer yes
+
+alignment top_right
+
+#cpu_avg_samples 2
+#default_color white
+#default_outline_color white
+#default_shade_color white
+draw_outline no
+draw_shades no
+draw_borders no
+
+gap_x 20
+gap_y 20
+net_avg_samples 2
+no_buffers yes
+out_to_console no
+out_to_stderr no
+extra_newline no
+
+own_window yes
+own_window_type override
+own_window_transparent yes
+own_window_colour white
+own_window_argb_visual no
+own_window_argb_value 0
+own_window_hints undecorated,sticky,skip_taskbar,skip_pager
+
+
+#minimum_size 170 0
+#stippled_borders 0
+update_interval 2
+uppercase no
+use_spacer no
+
+show_graph_scale no
+show_graph_range no
+
+use_xft yes
+xftalpha 0.6
+
+xftfont InputMono:size=11
+color0 white
+color1 13162d
+
+TEXT
+${color 000000}${font InputMono:italic:size=15:weight=bold}Keybinds${color}${font}
+ ${color 13162d}${font weight=bold}Terminal:${font} ModKey + Return${color}
+ ${color 13162d}${font weight=bold}Brave Browser:${font} ModKey + B${color}
+ ${color 13162d}${font weight=bold}Close window:${font} ModKey + C${color}
+ ${color 13162d}${font weight=bold}Quit/Logoff:${font} ModKey + Shift + Q${color}
+ ${color 13162d}${font weight=bold}Restart:${font} ModKey + Q${color}
+ ${color 13162d}${font weight=bold}dmenu:${font} ModKey + R${color}
+ ${color 13162d}${font weight=bold}Resize:${font} ModKey + L (pushes to right)${color}
+ ${color 13162d}${font weight=bold}Resize:${font} ModKey + H (pushes to left) ${color}
+ ${color 13162d}${font weight=bold}Change window:${font} ModKey + J  (go down)${color}
+ ${color 13162d}${font weight=bold}Change window:${font} ModKey + K (go up)${color}
+ ${color 13162d}${font weight=bold}Change workspaces:${font} ModKey + 1,2,3...${color}
+ ${color 13162d}${font weight=bold}Move window to workspaces:${font} ModKey + Shift + 1,2,3...${color}
+

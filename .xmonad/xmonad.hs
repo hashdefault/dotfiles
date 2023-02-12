@@ -1,6 +1,5 @@
 --
 -- xmonad example config file.
---
 -- A template showing all available configuration hooks,
 -- and how to override the defaults in your own xmonad.hs conf file.
 --
@@ -10,9 +9,12 @@
 import           Data.Monoid
 import           System.Exit
 import           XMonad
+import           XMonad.Hooks.ManageDocks
 import           XMonad.Layout.Gaps
+import           XMonad.Layout.IndependentScreens
 import           XMonad.Layout.Spacing
-import XMonad.Hooks.ManageDocks
+import           XMonad.Util.EZConfig           ( additionalKeys )
+import           XMonad.Util.Run
 
 
 import qualified Data.Map                      as M
@@ -49,13 +51,13 @@ myModMask = mod4Mask
 --
 -- A tagging example:
 --
--- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
+myWorkspaces = ["web", "irc", "code"] ++ map show [4 .. 9]
 --
-myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+--myWorkspaces = ["www", "dev", "media", "std", "5", "6", "7", "8", "9"]
 
 -- Border colors for unfocused and focused windows, respectively.
 --
-myNormalBorderColor = "#bbbbbb"
+myNormalBorderColor = "#aaaaaa"
 myFocusedBorderColor = "#dddddd"
 
 ------------------------------------------------------------------------
@@ -201,7 +203,8 @@ myLayout =
   spacing 5
     $   gaps [(U, 22), (R, 18), (L, 18), (D, 15)]
     $   Tall 1 (3 / 100) (1 / 2)
-    ||| Full 
+    ||| Full
+
 
 
  where
@@ -235,6 +238,7 @@ myLayout =
 myManageHook = composeAll
   [ className =? "MPlayer" --> doFloat
   , className =? "Gimp" --> doFloat
+  , className =? "Gmrun" --> doFloat
   , resource =? "desktop_window" --> doIgnore
   , resource =? "kdesktop" --> doIgnore
   ]
@@ -267,9 +271,11 @@ myLogHook = return ()
 --
 -- By default, do nothing.
 myStartupHook = do
+  xmproc0 <- spawnPipe "xmobar -x 0 $HOME/.config/xmobar/xmobarrc"
+  xmproc1 <- spawnPipe "xmobar -x 1 $HOME/.config/xmobar/xmobarrc"
   spawn "nitrogen --restore"
   spawn "picom"
-	xmproc0 <- spawnPipe "xmobar -x 1 $HOME/.config/xmobar/nord-xmobarrc"
+  spawn "conky -c ~/.conky/Keys/Keybinds "
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
@@ -300,11 +306,11 @@ defaults = def {
                , mouseBindings      = myMouseBindings
 
       -- hooks, layouts
-               , layoutHook         = myLayout
-               , manageHook         = myManageHook
+               , startupHook        = myStartupHook
+               , manageHook         = manageDocks
+               , layoutHook         = avoidStruts $ myLayout
                , handleEventHook    = myEventHook
                , logHook            = myLogHook
-               , startupHook        = myStartupHook
                }
 
 -- | Finally, a copy of the default bindings in simple textual tabular format.
