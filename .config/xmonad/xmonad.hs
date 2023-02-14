@@ -128,7 +128,7 @@ myStartupHook = do
   spawnOnce "notify-log $HOME/.log/notify.log"
 
   spawn ("sleep 2 && conky -c $HOME/.config/conky/xmonad/" ++ colorScheme ++ "-01.conkyrc")
-  spawn ("sleep 2 && trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 " ++ colorTrayer ++ " --height 22")
+  --spawn ("sleep 2 && trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 " ++ colorTrayer ++ " --height 22")
 
   --spawnOnce "xargs xwallpaper --stretch < ~/.cache/wall"
   -- spawnOnce "~/.fehbg &"  -- set last saved feh wallpaper
@@ -286,7 +286,7 @@ gsSystem =
   ]
 
 gsUtilities =
-  , ("Nitrogen", "nitrogen")
+  [ ("Nitrogen", "nitrogen")
   , ("Vim", (myTerminal ++ " -e vim"))
   ]
 
