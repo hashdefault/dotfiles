@@ -42,7 +42,7 @@ exec --no-startup-id killall conky; conky -c ~/.conky/Keys/Keybinds
 #exec --no-startup-id xrandr --output HDMI-1 --mode 1360x768 --pos 0x0 --rotate normal --output DP-1  --mode  1440x900 --pos 1360x0 --rotate normal
 
 #home
-exec --no-startup-id xrandr --output eDP-1  --mode 1366x768 --pos 1920x0  --rotate normal --output HDMI-1  --mode  1920x1080  --pos 0x0 --rotate normal
+exec --no-startup-id xrandr --output eDP1  --mode 1366x768 --pos 1920x0  --rotate normal --output HDMI1  --mode  1920x1080  --pos 0x0 --rotate normal
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
