@@ -35,7 +35,6 @@ run nitrogen --restore
 (conky -c $HOME/.xmonad/scripts/system-overview) &
 
 #starting utility applications at boot time
-run variety &
 run albert &
 run nm-applet &
 run pamac-tray &

@@ -112,9 +112,7 @@ myManageHook =
     , "Archlinux-tweak-tool.py"
     , "Arcolinux-welcome-app.py"
     , "Galculator"
-    , "feh"
     , "mpv"
-    , "Xfce4-terminal"
     ]
   myTFloats = ["Downloads", "Save As..."]
   myRFloats = []
@@ -134,7 +132,7 @@ myManageHook =
 
 
 myLayout =
-  spacingRaw True (Border 0 5 5 5) True (Border 5 5 5 5) True
+  spacingRaw True (Border 0 8 8 8) True (Border 8 8 8 8) True
     $   avoidStruts
     $   mkToggle (NBFULL ?? NOBORDERS ?? EOT)
     $   tiled
@@ -178,7 +176,11 @@ myKeys conf@(XConfig { XMonad.modMask = modMask }) =
        [ ((modMask, xK_c), kill)
        , ((modMask, xK_f), sendMessage $ Toggle NBFULL)
        , ((modMask, xK_h), spawn $ "alacritty 'htop task manager' -e htop")
-       , ((modMask, xK_r), spawn $ "rofi -show drun")
+       --, ((modMask, xK_r), spawn $ "rofi -show drun")
+       , ( (modMask, xK_r)
+         , spawn
+           $ "dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'"
+         )
        , ((modMask, xK_v), spawn $ "pavucontrol")
        , ((modMask, xK_y), spawn $ "polybar-msg cmd toggle")
        , ((modMask, xK_x), spawn $ "archlinux-logout")
@@ -201,11 +203,7 @@ myKeys conf@(XConfig { XMonad.modMask = modMask }) =
 
   -- SUPER + SHIFT KEYS
        , ((modMask .|. shiftMask, xK_Return), spawn $ "thunar")
-       , ( (modMask .|. shiftMask, xK_d)
-         , spawn
-           $ "dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'"
-         )
-  --, ((modMask, xK_d ), spawn $ "~/.xmonad/launcher/launcher.sh")
+         --, ((modMask, xK_d ), spawn $ "~/.xmonad/launcher/launcher.sh")
        , ( (modMask .|. shiftMask, xK_r)
          , spawn $ "xmonad --recompile && xmonad --restart"
          )
