@@ -10,6 +10,7 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
+set $mod2 Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -39,10 +40,10 @@ exec --no-startup-id albert
 exec --no-startup-id killall conky; conky -c ~/.conky/Keys/Keybinds
 
 #agiliza 
-#exec --no-startup-id xrandr --output HDMI-1 --mode 1360x768 --pos 0x0 --rotate normal --output DP-1  --mode  1440x900 --pos 1360x0 --rotate normal
+exec --no-startup-id xrandr --output HDMI-1 --mode 1360x768 --pos 0x0 --rotate normal --output DP-1  --mode  1440x900 --pos 1360x0 --rotate normal
 
 #home
-exec --no-startup-id xrandr --output eDP1  --mode 1366x768 --pos 1920x0  --rotate normal --output HDMI1  --mode  1920x1080  --pos 0x0 --rotate normal
+#exec --no-startup-id xrandr --output eDP1  --mode 1366x768 --pos 1920x0  --rotate normal --output HDMI1  --mode  1920x1080  --pos 0x0 --rotate normal
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -58,11 +59,20 @@ floating_modifier $mod
 # or left-clicking anywhere into the window while holding the floating modifier.
 tiling_drag modifier titlebar
 
-# start a terminal
+# Super Keys
 bindsym $mod+Return exec alacritty
 bindsym $mod+b exec brave
-bindsym $mod+r exec --no-startup-id dmenu_run
+bindsym $mod+F4 exec gimp
+bindsym $mod+r exec --no-startup-id "dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'"
 bindsym $mod+c kill
+
+
+
+# Super + Shift Keys
+bindsym $mod+Shift+Return exec thunar
+bindsym $mod+Shift+y exec youtube-music
+bindsym $mod+Shift+v exec pavucontrol
+
 
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
@@ -98,12 +108,13 @@ bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
 #bindsym $mod+h split h
+bindsym $mod2+h split h
 
 # split in vertical orientation
-bindsym $mod+v split v
+bindsym $mod2+v split v
 
 # enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
+bindsym $mod2+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
