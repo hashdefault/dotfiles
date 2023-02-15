@@ -18,7 +18,7 @@ function run {
 #xrandr --output HDMI2 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output VIRTUAL1 --off
 xrandr --output eDP1  --mode 1366x768 --pos 1920x0  --rotate normal --output HDMI1  --mode  1920x1080  --pos 0x0 --rotate normal
 
-(sleep 2; run $HOME/.config/polybar/launch.sh) &
+#(sleep 2; run $HOME/.config/polybar/launch.sh) &
 
 #change your keyboard if you need it
 #setxkbmap -layout be
@@ -35,7 +35,6 @@ run nitrogen --restore
 (conky -c $HOME/.xmonad/scripts/system-overview) &
 
 #starting utility applications at boot time
-run variety &
 run albert &
 run nm-applet &
 run pamac-tray &

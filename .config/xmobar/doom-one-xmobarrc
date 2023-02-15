@@ -50,7 +50,7 @@ Config { font            = "xft:Ubuntu:weight=bold:pixelsize=11:antialias=true:h
                         -- Echos a "bell" icon in front of the pacman updates.
                     , Run Com "echo" ["<fn=2>\xf0f3</fn>"] "bell" 3600
                         -- Check for pacman updates 
-                    , Run Com "pacupdate.sh" [] "pacupdate" 36000
+                    , Run Com ".config/xmobar/pacupdate" [] "pacupdate" 36000
                         -- Echos a "battery" icon in front of the pacman updates.
                     , Run Com "echo" ["<fn=2>\xf242</fn>"] "baticon" 3600
                         -- Battery
