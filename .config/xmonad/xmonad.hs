@@ -77,7 +77,7 @@ import qualified XMonad.StackSet               as W
 import           Colors.DoomOne
 
 myStartupHook = do
-  spawn "$HOME/.xmonad/scripts/autostart.sh"
+  spawn "$HOME/.config/xmonad/scripts/autostart.sh"
   setWMName "LG3D"
 
 -- colours

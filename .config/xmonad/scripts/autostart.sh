@@ -41,7 +41,7 @@ run pamac-tray &
 run volumeicon &
 numlockx on &
 blueberry-tray &
-picom &
+run picom &
 
 #starting user applications at boot time
 #nitrogen --restore &
