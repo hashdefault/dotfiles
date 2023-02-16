@@ -7,6 +7,8 @@ import           Data.Maybe                     ( fromJust )
 import           Data.Maybe                     ( isJust )
 import           XMonad
 import           XMonad.Actions.CycleWS
+import           XMonad.Actions.GridSelect
+import           XMonad.Actions.MouseResize
 import           XMonad.Actions.SpawnOn
 import           XMonad.Config.Azerty
 import           XMonad.Config.Desktop
@@ -27,10 +29,38 @@ import           XMonad.Hooks.ManageHelpers     ( doCenterFloat
                                                 , isFullscreen
                                                 )
 import           XMonad.Hooks.SetWMName
+
+import           XMonad.Hooks.StatusBar
+import           XMonad.Hooks.StatusBar.PP
 import           XMonad.Hooks.UrgencyHook
+import           XMonad.Hooks.WindowSwallowing
+import           XMonad.Hooks.WorkspaceHistory
 import           XMonad.Util.EZConfig           ( additionalKeys
                                                 , additionalMouseBindings
                                                 )
+
+
+
+import           XMonad.Layout.Accordion
+import           XMonad.Layout.GridVariants     ( Grid(Grid) )
+-- Layouts modifiers
+import           XMonad.Layout.LayoutModifier
+import           XMonad.Layout.LimitWindows     ( decreaseLimit
+                                                , increaseLimit
+                                                , limitWindows
+                                                )
+--import XMonad.Layout.MultiToggle (mkToggle, single, EOT(EOT), (??))
+--import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, MIRROR, NOBORDERS))
+import           XMonad.Layout.Renamed
+import           XMonad.Layout.Simplest
+import           XMonad.Layout.SimplestFloat
+import           XMonad.Layout.SubLayouts
+--import qualified XMonad.Layout.MultiToggle as MT (Toggle(..))
+import qualified XMonad.Layout.ToggleLayouts   as T
+                                                ( ToggleLayout(Toggle)
+                                                , toggleLayouts
+                                                )
+
 
 import           XMonad.Layout.Cross            ( simpleCross )
 import           XMonad.Layout.Fullscreen       ( fullscreenFull )
@@ -40,9 +70,15 @@ import           XMonad.Layout.MultiToggle
 import           XMonad.Layout.MultiToggle.Instances
 import           XMonad.Layout.NoBorders
 import           XMonad.Layout.ResizableTile
+import           XMonad.Layout.ShowWName
 import           XMonad.Layout.Spacing
 import           XMonad.Layout.Spiral           ( spiral )
+import           XMonad.Layout.Tabbed
 import           XMonad.Layout.ThreeColumns
+import           XMonad.Layout.WindowArranger   ( WindowArrangerMsg(..)
+                                                , windowArrange
+                                                )
+import           XMonad.Layout.WindowNavigation
 
 
 import           XMonad.Hooks.DynamicLog        ( PP(..)
@@ -81,16 +117,19 @@ myStartupHook = do
   setWMName "LG3D"
 
 -- colours
-normBord = "#4c566a"
-focdBord = "#5e81ac"
-fore = "#DEE3E0"
-back = "#282c34"
-winType = "#c678dd"
+--normBord = "#4c566a"
+--focdBord = "#5e81ac"
+--fore = "#DEE3E0"
+--back = "#282c34"
+--winType = "#c678dd"
 
 --mod4Mask= super key
 --mod1Mask= alt key
 --controlMask= ctrl key
 --shiftMask= shift key
+
+myFont :: String
+myFont = "xft:Hack Nerd Font Mono:regular:size=9:antialias=true:hinting=true"
 
 myBrowser = "brave"
 myModMask = mod4Mask
@@ -192,24 +231,133 @@ myManageHook =
     -- my9Shifts = []
     -- my10Shifts = ["discord"]
 
+--Makes setting the spacingRaw simpler to write. The spacingRaw module adds a configurable amount of space around windows.
+mySpacing
+  :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
+mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
 
+-- Below is a variation of the above except no borders are applied
+-- if fewer than two windows. So a single window has no gaps.
+mySpacing'
+  :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
+mySpacing' i = spacingRaw True (Border i i i i) True (Border i i i i) True
+
+-- Defining a bunch of layouts, many that I don't use.
+-- limitWindows n sets maximum number of windows displayed for layout.
+-- mySpacing n sets the gap size around the windows.
+tall =
+  renamed [Replace "tall"]
+    $ limitWindows 5
+    $ smartBorders
+    $ windowNavigation
+    $ addTabs shrinkText myTabTheme
+    $ subLayout [] (smartBorders Simplest)
+    $ mySpacing 8
+    $ ResizableTall 1 (3 / 100) (1 / 2) []
+monocle =
+  renamed [Replace "monocle"]
+    $ smartBorders
+    $ windowNavigation
+    $ addTabs shrinkText myTabTheme
+    $ subLayout [] (smartBorders Simplest)
+    $ Full
+floats = renamed [Replace "floats"] $ smartBorders $ simplestFloat
+grid =
+  renamed [Replace "grid"]
+    $ limitWindows 9
+    $ smartBorders
+    $ windowNavigation
+    $ addTabs shrinkText myTabTheme
+    $ subLayout [] (smartBorders Simplest)
+    $ mySpacing 8
+    $ mkToggle (single MIRROR)
+    $ Grid (16 / 10)
+spirals =
+  renamed [Replace "spirals"]
+    $ limitWindows 9
+    $ smartBorders
+    $ windowNavigation
+    $ addTabs shrinkText myTabTheme
+    $ subLayout [] (smartBorders Simplest)
+    $ mySpacing' 8
+    $ spiral (6 / 7)
+threeCol =
+  renamed [Replace "threeCol"]
+    $ limitWindows 7
+    $ smartBorders
+    $ windowNavigation
+    $ addTabs shrinkText myTabTheme
+    $ subLayout [] (smartBorders Simplest)
+    $ ThreeCol 1 (3 / 100) (1 / 2)
+threeRow =
+  renamed [Replace "threeRow"]
+    $ limitWindows 7
+    $ smartBorders
+    $ windowNavigation
+    $ addTabs shrinkText myTabTheme
+    $ subLayout [] (smartBorders Simplest)
+            -- Mirror takes a layout and rotates it by 90 degrees.
+            -- So we are applying Mirror to the ThreeCol layout.
+    $ Mirror
+    $ ThreeCol 1 (3 / 100) (1 / 2)
+tabs =
+  renamed [Replace "tabs"]
+            -- I cannot add spacing to this layout because it will
+            -- add spacing between window and tabs which looks bad.
+                           $ tabbed shrinkText myTabTheme
+tallAccordion = renamed [Replace "tallAccordion"] $ Accordion
+wideAccordion = renamed [Replace "wideAccordion"] $ Mirror Accordion
+
+-- setting colors for tabs layout and tabs sublayout.
+myTabTheme = def { fontName            = myFont
+                 , activeColor         = color15
+                 , inactiveColor       = color08
+                 , activeBorderColor   = color15
+                 , inactiveBorderColor = colorBack
+                 , activeTextColor     = colorBack
+                 , inactiveTextColor   = color16
+                 }
+
+-- Theme for showWName which prints current workspace when you change workspaces.
+myShowWNameTheme :: SWNConfig
+myShowWNameTheme = def { swn_font    = "xft:Ubuntu:bold:size=60"
+                       , swn_fade    = 1.0
+                       , swn_bgcolor = "#1c1f24"
+                       , swn_color   = "#ffffff"
+                       }
 
 
 myLayout =
-  spacingRaw True (Border 0 8 8 8) True (Border 8 8 8 8) True
-    $   avoidStruts
-    $   mkToggle (NBFULL ?? NOBORDERS ?? EOT)
-    $   tiled
-    ||| Mirror tiled
-    ||| spiral (6 / 7)
-    ||| ThreeColMid 1 (3 / 100) (1 / 2)
-    ||| Full
- where
-  tiled       = Tall nmaster delta tiled_ratio
-  nmaster     = 1
-  delta       = 3 / 100
-  tiled_ratio = 1 / 2
+  avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts floats $ mkToggle
+    (NBFULL ?? NOBORDERS ?? EOT)
+    myDefaultLayout
+--myLayout =
+--  spacingRaw True (Border 0 8 8 8) True (Border 8 8 8 8) True
+--    $   avoidStruts
+--    $   mkToggle (NBFULL ?? NOBORDERS ?? EOT)
+--    $   tiled
+--    ||| Mirror tiled
+--    ||| spiral (6 / 7)
+--    ||| ThreeColMid 1 (3 / 100) (1 / 2)
+--    ||| Full
+-- where
+--  tiled       = Tall nmaster delta tiled_ratio
+--  nmaster     = 1
+--  delta       = 3 / 100
+--  tiled_ratio = 1 / 2
 
+ where
+  myDefaultLayout =
+    withBorder myBorderWidth tall
+      ||| noBorders monocle
+      ||| floats
+      ||| noBorders tabs
+      ||| grid
+      ||| spirals
+      ||| threeCol
+      ||| threeRow
+      ||| tallAccordion
+      ||| wideAccordion
 
 myMouseBindings (XConfig { XMonad.modMask = modMask }) =
   M.fromList
@@ -467,17 +615,18 @@ main = do
 --Belgian Azerty users use this line
           --myBaseConfig { keys = belgianKeys <+> keys belgianConfig }
     { startupHook        = myStartupHook
-    , layoutHook         = gaps [(U, 35), (D, 10), (R, 10), (L, 10)]
-                           $   myLayout
-                           ||| layoutHook myBaseConfig
+--    , layoutHook         = gaps [(U, 35), (D, 10), (R, 10), (L, 10)]
+--                           $   myLayout
+--                           ||| layoutHook myBaseConfig
+    , layoutHook         = showWName' myShowWNameTheme $ myLayout
     , manageHook = manageSpawn <+> myManageHook <+> manageHook myBaseConfig
     , modMask            = myModMask
     , borderWidth        = myBorderWidth
     , handleEventHook    = handleEventHook myBaseConfig
     , focusFollowsMouse  = myFocusFollowsMouse
     , workspaces         = myWorkspaces
-    , focusedBorderColor = focdBord
-    , normalBorderColor  = normBord
+    , focusedBorderColor = color09
+    , normalBorderColor  = color05
     , keys               = myKeys
     , mouseBindings      = myMouseBindings
     , logHook            =
