@@ -113,7 +113,7 @@ import qualified XMonad.StackSet               as W
 import           Colors.DoomOne
 
 myStartupHook = do
-  spawn "$HOME/.config/xmonad/scripts/autostart.sh"
+  spawn "$HOME/.xmonad/scripts/autostart.sh"
   setWMName "LG3D"
 
 -- colours
@@ -172,10 +172,10 @@ myWorkspaces =
   , " ftp "
   , " docs "
   , " adm "
-  , " model "
+  , " chat "
   , " music "
+  , " model "
   , " enjoy "
-  , " no "
   ]
 
 --myWorkspaces    = ["I","II","III","IV","V","VI","VII","VIII","IX","X"]
