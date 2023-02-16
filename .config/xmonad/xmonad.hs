@@ -6,10 +6,24 @@ import qualified Codec.Binary.UTF8.String      as UTF8
 import           Data.Maybe                     ( fromJust )
 import           Data.Maybe                     ( isJust )
 import           XMonad
+
 import           XMonad.Actions.CycleWS
 import           XMonad.Actions.GridSelect
 import           XMonad.Actions.MouseResize
+import           XMonad.Actions.Promote
+import           XMonad.Actions.RotSlaves       ( rotAllDown
+                                                , rotSlavesDown
+                                                )
+import qualified XMonad.Actions.Search         as S
 import           XMonad.Actions.SpawnOn
+import           XMonad.Actions.WindowGo        ( runOrRaise )
+import           XMonad.Actions.WithAll         ( killAll
+                                                , sinkAll
+                                                )
+
+
+
+
 import           XMonad.Config.Azerty
 import           XMonad.Config.Desktop
 import           XMonad.Hooks.DynamicLog
@@ -131,11 +145,19 @@ myStartupHook = do
 myFont :: String
 myFont = "xft:Hack Nerd Font Mono:regular:size=9:antialias=true:hinting=true"
 
+myBorderWidth :: Dimension
+myBorderWidth = 2           -- Sets border width for windows
+
+myNormColor :: String       -- Border color of normal windows
+myNormColor = color15   -- This variable is imported from Colors.THEME
+
+myFocusColor :: String      -- Border color of focused windows
+myFocusColor = colorBack    -- This variable is imported from Colors.THEME
+
 myBrowser = "brave"
 myModMask = mod4Mask
 encodeCChar = map fromIntegral . B.unpack
 myFocusFollowsMouse = True
-myBorderWidth = 2
 
 windowCount :: X (Maybe String)
 windowCount =
@@ -625,8 +647,8 @@ main = do
     , handleEventHook    = handleEventHook myBaseConfig
     , focusFollowsMouse  = myFocusFollowsMouse
     , workspaces         = myWorkspaces
-    , focusedBorderColor = color09
-    , normalBorderColor  = color05
+    , focusedBorderColor = myNormColor
+    , normalBorderColor  = myFocusColor
     , keys               = myKeys
     , mouseBindings      = myMouseBindings
     , logHook            =
