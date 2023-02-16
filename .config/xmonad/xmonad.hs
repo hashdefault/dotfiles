@@ -421,7 +421,6 @@ myKeys conf@(XConfig { XMonad.modMask = modMask }) =
          ++ colorBack
          ++ "' -fn 'HackRegular:bold:pixelsize=14' "
          )
-       , ((modMask, xK_v), spawn $ "pavucontrol")
        , ((modMask, xK_x), spawn $ "archlinux-logout")
        , ((modMask, xK_Escape), spawn $ "xkill")
        , ((modMask, xK_Return), spawn $ "alacritty")
@@ -450,6 +449,7 @@ myKeys conf@(XConfig { XMonad.modMask = modMask }) =
          )
        , ((modMask .|. shiftMask, xK_q), io (exitWith ExitSuccess))
        , ((modMask .|. shiftMask, xK_y), spawn $ "youtube-music")
+       , ((modMask .|. shiftMask, xK_v), spawn $ "pavucontrol")
 -- , ((modMask .|. shiftMask , xK_x ), io (exitWith ExitSuccess))
        , ((modMask .|. shiftMask, xK_c), spawn $ "conky-toggle")
        , ( (modMask .|. shiftMask, xK_h)
@@ -466,7 +466,6 @@ myKeys conf@(XConfig { XMonad.modMask = modMask }) =
        , ((controlMask .|. mod1Mask, xK_n), spawn $ "nitrogen")
        , ((controlMask .|. mod1Mask, xK_k), spawn $ "archlinux-logout")
        , ((controlMask .|. mod1Mask, xK_p), spawn $ "pamac-manager")
-       , ((controlMask .|. mod1Mask, xK_u), spawn $ "pavucontrol")
        , ((controlMask .|. mod1Mask, xK_Return), spawn $ "alacritty")
 
   -- ALT + ... KEYS
