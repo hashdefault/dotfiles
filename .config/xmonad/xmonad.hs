@@ -127,7 +127,7 @@ import qualified XMonad.StackSet               as W
 import           Colors.DoomOne
 
 myStartupHook = do
-  spawn "$HOME/.xmonad/scripts/autostart.sh"
+  spawn "$HOME/.config/xmonad/scripts/autostart.sh"
   setWMName "LG3D"
 
 -- colours
@@ -409,14 +409,19 @@ myKeys conf@(XConfig { XMonad.modMask = modMask }) =
   -- SUPER + FUNCTION KEYS
        [ ((modMask, xK_c), kill)
        , ((modMask, xK_f), sendMessage $ Toggle NBFULL)
-       , ((modMask, xK_h), spawn $ "alacritty 'htop task manager' -e htop")
-       --, ((modMask, xK_r), spawn $ "rofi -show drun")
        , ( (modMask, xK_r)
          , spawn
-           $ "dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'"
+         $  "dmenu_run -p 'exec:' -i -nb '"
+         ++ colorBack
+         ++ "' -nf '"
+         ++ color16
+         ++ "' -sb '"
+         ++ color05
+         ++ "' -sf '"
+         ++ colorBack
+         ++ "' -fn 'HackRegular:bold:pixelsize=14' "
          )
        , ((modMask, xK_v), spawn $ "pavucontrol")
-       , ((modMask, xK_y), spawn $ "polybar-msg cmd toggle")
        , ((modMask, xK_x), spawn $ "archlinux-logout")
        , ((modMask, xK_Escape), spawn $ "xkill")
        , ((modMask, xK_Return), spawn $ "alacritty")
@@ -426,11 +431,13 @@ myKeys conf@(XConfig { XMonad.modMask = modMask }) =
        , ((modMask, xK_F6), spawn $ "vlc --video-on-top")
        , ((modMask, xK_F7), spawn $ "virtualbox")
        , ((modMask, xK_F9), spawn $ "evolution")
-       , ( (modMask, xK_F11)
-         , spawn
-           $ "rofi -theme-str 'window {width: 100%;height: 100%;}' -show drun"
-         )
-       , ((modMask, xK_F12), spawn $ "rofi-theme-selector")
+
+  -- Move focus to the next window.
+       , ((modMask, xK_j), windows W.focusDown)
+
+  -- Move focus to the previous window.
+       , ((modMask, xK_k), windows W.focusUp)
+
 
   -- FUNCTION KEYS
        , ((0, xK_F12), spawn $ "alacritty")
@@ -445,6 +452,10 @@ myKeys conf@(XConfig { XMonad.modMask = modMask }) =
        , ((modMask .|. shiftMask, xK_y), spawn $ "youtube-music")
 -- , ((modMask .|. shiftMask , xK_x ), io (exitWith ExitSuccess))
        , ((modMask .|. shiftMask, xK_c), spawn $ "conky-toggle")
+       , ( (modMask .|. shiftMask, xK_h)
+         , spawn $ "alacritty 'htop task manager' -e htop"
+         )
+
 
 
   -- CONTROL + ALT KEYS
@@ -452,33 +463,16 @@ myKeys conf@(XConfig { XMonad.modMask = modMask }) =
        , ((controlMask .|. mod1Mask, xK_Prior), spawn $ "conky-rotate -p")
        , ((controlMask .|. mod1Mask, xK_e), spawn $ "archlinux-tweak-tool")
        , ((controlMask .|. mod1Mask, xK_f), spawn $ "firefox")
-       , ((controlMask .|. mod1Mask, xK_i), spawn $ "nitrogen")
+       , ((controlMask .|. mod1Mask, xK_n), spawn $ "nitrogen")
        , ((controlMask .|. mod1Mask, xK_k), spawn $ "archlinux-logout")
-       , ((controlMask .|. mod1Mask, xK_m), spawn $ "xfce4-settings-manager")
        , ((controlMask .|. mod1Mask, xK_p), spawn $ "pamac-manager")
-       , ((controlMask .|. mod1Mask, xK_r), spawn $ "rofi-theme-selector")
-       , ((controlMask .|. mod1Mask, xK_s), spawn $ "spotify")
        , ((controlMask .|. mod1Mask, xK_u), spawn $ "pavucontrol")
        , ((controlMask .|. mod1Mask, xK_Return), spawn $ "alacritty")
 
   -- ALT + ... KEYS
-       , ((mod1Mask, xK_f), spawn $ "variety -f")
-       , ((mod1Mask, xK_n), spawn $ "variety -n")
-       , ((mod1Mask, xK_p), spawn $ "variety -p")
        , ((mod1Mask, xK_r), spawn $ "xmonad --restart")
-       , ((mod1Mask, xK_t), spawn $ "variety -t")
-       , ((mod1Mask, xK_Up), spawn $ "variety --pause")
-       , ((mod1Mask, xK_Down), spawn $ "variety --resume")
-       , ((mod1Mask, xK_Left), spawn $ "variety -p")
-       , ((mod1Mask, xK_Right), spawn $ "variety -n")
-
-
 
   --SCREENSHOTS
-
-  --, ((0, xK_Print), spawn $ "scrot 'ArcoLinux-%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f $$(xdg-user-dir PICTURES)'")
-  --, ((controlMask, xK_Print), spawn $ "xfce4-screenshooter" )
-  --, ((controlMask .|. shiftMask , xK_Print ), spawn $ "gnome-screenshot -i")
        , ((0, xK_Print), spawn $ "flameshot gui")
 
   --MULTIMEDIA KEYS
@@ -536,13 +530,6 @@ myKeys conf@(XConfig { XMonad.modMask = modMask }) =
 
   --  Reset the layouts on the current workspace to default.
        , ((modMask .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf)
-
-  -- Move focus to the next window.
-       , ((modMask, xK_j), windows W.focusDown)
-
-  -- Move focus to the previous window.
-       , ((modMask, xK_k), windows W.focusUp)
-
   -- Move focus to the master window.
        , ((modMask .|. shiftMask, xK_m), windows W.focusMaster)
 
@@ -557,6 +544,13 @@ myKeys conf@(XConfig { XMonad.modMask = modMask }) =
 
   -- Swap the focused window with the previous window.
        , ((controlMask .|. modMask, xK_Up), windows W.swapUp)
+
+  -- Shrink the master area.
+       , ((controlMask .|. shiftMask, xK_j), sendMessage MirrorShrink)
+
+  -- Expand the master area.
+       , ((controlMask .|. shiftMask, xK_k), sendMessage MirrorExpand)
+
 
   -- Shrink the master area.
        , ((controlMask .|. shiftMask, xK_h), sendMessage Shrink)
@@ -584,12 +578,6 @@ myKeys conf@(XConfig { XMonad.modMask = modMask }) =
        | (i, k) <- zip
          (XMonad.workspaces conf)
          [xK_1, xK_2, xK_3, xK_4, xK_5, xK_6, xK_7, xK_8, xK_9, xK_0]
-
---French Azerty users use this line
--- | (i, k) <- zip (XMonad.workspaces conf) [xK_ampersand, xK_eacute, xK_quotedbl, xK_apostrophe, xK_parenleft, xK_minus, xK_egrave, xK_underscore, xK_ccedilla , xK_agrave]
-
---Belgian Azerty users use this line
---   | (i, k) <- zip (XMonad.workspaces conf) [xK_ampersand, xK_eacute, xK_quotedbl, xK_apostrophe, xK_parenleft, xK_section, xK_egrave, xK_exclam, xK_ccedilla, xK_agrave]
        , (f, m) <-
          [ (W.greedyView                    , 0)
          , (W.shift                         , shiftMask)
@@ -628,18 +616,8 @@ main = do
     [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
 
 
-  xmonad . ewmh $
---Keyboard layouts
---qwerty users use this line
-                  myBaseConfig
---French Azerty users use this line
-          --myBaseConfig { keys = azertyKeys <+> keys azertyConfig }
---Belgian Azerty users use this line
-          --myBaseConfig { keys = belgianKeys <+> keys belgianConfig }
+  xmonad . ewmh $ myBaseConfig
     { startupHook        = myStartupHook
---    , layoutHook         = gaps [(U, 35), (D, 10), (R, 10), (L, 10)]
---                           $   myLayout
---                           ||| layoutHook myBaseConfig
     , layoutHook         = showWName' myShowWNameTheme $ myLayout
     , manageHook = manageSpawn <+> myManageHook <+> manageHook myBaseConfig
     , modMask            = myModMask
