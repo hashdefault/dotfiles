@@ -37,7 +37,7 @@ exec_always picom
 exec --no-startup-id nm-applet
 exec --no-startup-id nitrogen --restore
 exec --no-startup-id albert
-exec --no-startup-id killall conky; conky -c ~/.conky/Keys/Keybinds
+exec --no-startup-id killall conky; conky -c ~/.config/i3/system_overview
 
 #agiliza 
 exec --no-startup-id xrandr --output HDMI-1 --mode 1360x768 --pos 0x0 --rotate normal --output DP-1  --mode  1440x900 --pos 1360x0 --rotate normal
