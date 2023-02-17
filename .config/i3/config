@@ -149,6 +149,13 @@ gaps outer 5
 ################# i3-radius #######################
 smart_borders on
 smart_borders no_gaps
+border_width 2
+
+new_window pixel 1
+
+client.focused      #2c7db7 #2c7db7 #2c7db7 #2c7db7
+client.unfocused    #606060 #606060 #606060 #606060
+client.urgent       #2c7db7 #2c7db7 #2c7db7 #2c7db7
 
 # focus the child container
 #bindsym $mod+d focus child
