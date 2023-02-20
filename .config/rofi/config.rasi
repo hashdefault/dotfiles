@@ -1,0 +1,25 @@
+configuration {
+    line-margin: 10;
+
+    display-ssh:    "";
+    display-run:    "";
+    display-drun:   "";
+    display-window: "";
+    display-combi:  "";
+    show-icons:     true;
+		terminal: "alacritty";
+}
+
+//@theme "~/.config/rofi/nord.rasi"
+//@theme "catppuccin-mocha"
+
+
+listview {
+	lines: 8;
+	columns: 1;
+}
+
+window {
+	width: 30%;
+}
+@theme "/home/gabriel/.local/share/rofi/themes/squared-everforest.rasi"

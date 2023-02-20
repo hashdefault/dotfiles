@@ -409,19 +409,8 @@ myKeys conf@(XConfig { XMonad.modMask = modMask }) =
   -- SUPER + FUNCTION KEYS
        [ ((modMask, xK_c), kill)
        , ((modMask, xK_f), sendMessage $ Toggle NBFULL)
-       , ( (modMask, xK_r)
-         , spawn
-         $  "dmenu_run -p 'exec:' -i -nb '"
-         ++ colorBack
-         ++ "' -nf '"
-         ++ color16
-         ++ "' -sb '"
-         ++ color05
-         ++ "' -sf '"
-         ++ colorBack
-         ++ "' -fn 'HackRegular:bold:pixelsize=14' "
-         )
        , ((modMask, xK_x), spawn $ "archlinux-logout")
+       , ((modMask, xK_r), spawn $ "rofi -show drun")
        , ((modMask, xK_Escape), spawn $ "xkill")
        , ((modMask, xK_Return), spawn $ "alacritty")
        , ((modMask, xK_b), spawn $ myBrowser)
@@ -456,6 +445,9 @@ myKeys conf@(XConfig { XMonad.modMask = modMask }) =
          , spawn $ "alacritty 'htop task manager' -e htop"
          )
 
+-- SUPER + ALT KEYS
+       , ((modMask .|. mod1Mask, xK_r), spawn $ "rofi -show run")
+       , ((modMask .|. mod1Mask, xK_p), spawn $ "rofi-theme-selector")
 
 
   -- CONTROL + ALT KEYS
@@ -467,6 +459,18 @@ myKeys conf@(XConfig { XMonad.modMask = modMask }) =
        , ((controlMask .|. mod1Mask, xK_k), spawn $ "archlinux-logout")
        , ((controlMask .|. mod1Mask, xK_p), spawn $ "pamac-manager")
        , ((controlMask .|. mod1Mask, xK_Return), spawn $ "alacritty")
+       , ( (controlMask .|. shiftMask, xK_r)
+         , spawn
+         $  "dmenu_run -p 'exec:' -i -nb '"
+         ++ colorBack
+         ++ "' -nf '"
+         ++ color16
+         ++ "' -sb '"
+         ++ color05
+         ++ "' -sf '"
+         ++ colorBack
+         ++ "' -fn 'HackRegular:bold:pixelsize=14' "
+         )
 
   -- ALT + ... KEYS
        , ((mod1Mask, xK_r), spawn $ "xmonad --restart")
