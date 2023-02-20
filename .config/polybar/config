@@ -123,11 +123,14 @@ ws-icon-default = " "
 ;   <label-state> (default) - gets replaced with <label-(focused|unfocused|visible|urgent)>
 ;   <label-mode> (default)
 format = <label-state> <label-focused>
+format-underline = #FFFFFF
+
 
 label-mode = %mode%
 label-mode-padding = 1
-label-mode-foreground = #000000
+label-mode-foreground = #dddddd
 label-mode-background = #FFBB00
+label-mode-underline = #FFBB00
 
 ; Available tokens:
 ;   %name%
@@ -136,9 +139,12 @@ label-mode-background = #FFBB00
 ;   %output%
 ; Default: %icon%  %name%
 ; focused = Active workspace on focused monitor
-label-focused = %icon% %name%
-label-focused-foreground = ${colors.foreground}
 label-focused-padding = 1
+label-focused = %{T2}%icon% %name%%{T-}
+label-focused-foreground = #FFFFFF
+
+
+
 
 ; Available tokens:
 ;   %name%
@@ -148,10 +154,12 @@ label-focused-padding = 1
 ; unfocused = Inactive workspace on any monitor
 label-unfocused = %icon% %name%
 label-unfocused-padding = 1
+label-unfocused-foreground = #D8DEE9
 
 ; visible = Active workspace on unfocused monitor
 label-visible = %icon% %name%
 label-visible-padding = 1
+label-visible-foreground = #D8DEE9
 
 ; Available tokens:
 ;   %name%
@@ -161,6 +169,7 @@ label-visible-padding = 1
 ; urgent = Workspace with urgency hint set
 label-urgent = %icon% %name%
 label-urgent-padding = 1
+label-urgent-foreground = #D8DEE9
 
 
 
@@ -176,9 +185,10 @@ background = #2E3440
 foreground = #D8DEE9
 
 font-0 = "Hack Nerd Font:size=10:antialias=true:autohint=true"
-font-1 = "Font Awesome 5 Free:size=12:antialias=true:autohint=true"
-font-2 = "Noto Sans:size=10;0"
-font-3 = "Noto Sans Mono:size=10;0"
+font-1 = "Hack Nerd Font:size=10:weight=bold;antialias=true:autohint=true"
+font-2 = "FontAwesome:size=12:antialias=true:autohint=true"
+font-3 = "Noto Sans:size=10;0"
+font-4 = "Noto Sans Mono:size=10;0"
 enable-ipc = true
 
 ; Add your desired modules here
