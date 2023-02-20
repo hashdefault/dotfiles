@@ -149,7 +149,6 @@ gaps outer 5
 ################# i3-radius #######################
 smart_borders on
 smart_borders no_gaps
-border_width 2
 
 new_window pixel 1
 
