@@ -18,10 +18,11 @@ function run {
 #xrandr --output HDMI2 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output VIRTUAL1 --off
 
 #home
-#xrandr --output eDP1  --mode 1366x768 --pos 1920x0  --rotate normal --output HDMI1  --mode  1920x1080  --pos 0x0 --rotate normal
+exec --no-startup-id  xrandr --output HDMI-1 --primary
+xrandr --output eDP1  --mode 1366x768 --pos 1920x0  --rotate normal --output HDMI1  --mode  1920x1080  --pos 0x0 --rotate normal
 
 #agiliza
-xrandr --output HDMI-1 --mode 1360x768 --pos 0x0 --rotate normal --output DP-1  --mode  1440x900 --pos 1360x0 --rotate normal
+#xrandr --output HDMI-1 --mode 1360x768 --pos 0x0 --rotate normal --output DP-1  --mode  1440x900 --pos 1360x0 --rotate normal
 
 #(sleep 2; run $HOME/.config/polybar/launch.sh) &
 
@@ -37,10 +38,9 @@ xsetroot -cursor_name left_ptr &
 #Some ways to set your wallpaper besides variety or nitrogen
 run nitrogen --restore
 #start the conky to learn the shortcuts
-(conky -c $HOME/.config/xmonad/scripts/system-overview) &
+killall conky; (conky -c $HOME/.config/xmonad/scripts/system-overview) &
 
 #starting utility applications at boot time
-run albert &
 run nm-applet &
 run pamac-tray &
 run volumeicon &

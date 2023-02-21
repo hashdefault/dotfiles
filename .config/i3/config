@@ -34,7 +34,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec_always picom  &
-exec_always ~/.config/polybar/launch.sh &
+exec_always killall polybar; ~/.config/polybar/launch.sh &
 exec_always --no-startup-id autotiling
 exec --no-startup-id nm-applet &
 exec --no-startup-id nitrogen --restore &
@@ -44,6 +44,7 @@ exec --no-startup-id killall conky; conky -c ~/.config/i3/system-overview
 #exec --no-startup-id xrandr --output HDMI-1 --mode 1360x768 --pos 0x0 --rotate normal --output DP-1  --mode  1440x900 --pos 1360x0 --rotate normal &
 
 #home
+exec --no-startup-id	xrandr --output HDMI-1 --primary
 exec --no-startup-id  xrandr --output eDP1  --mode 1366x768 --pos 1920x0  --rotate normal --output HDMI1  --mode  1920x1080  --pos 0x0 --rotate normal &
 
 # Use pactl to adjust volume in PulseAudio.
@@ -173,13 +174,12 @@ default_border pixel
 set $ws1 "dev"
 set $ws2 "web"
 set $ws3 "search"
-set $ws4 "ftp"
-set $ws5 "docs"
-set $ws6 "adm"
-set $ws7 "chat"
-set $ws8 "music"
-set $ws9 "model"
-set $ws10 "enjoy"
+set $ws4 "chat"
+set $ws5 "ftp"
+set $ws6 "docs"
+set $ws7 "music"
+set $ws8 "gfx"
+set $ws9 "enjoy"
 
 # switch to workspace
 bindsym $mod+1 workspace  $ws1

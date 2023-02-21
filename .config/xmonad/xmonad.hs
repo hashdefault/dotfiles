@@ -191,12 +191,11 @@ myWorkspaces =
   [ " dev "
   , " web "
   , " search "
+  , " chat "
   , " ftp "
   , " docs "
-  , " adm "
-  , " chat "
   , " music "
-  , " model "
+  , " gfx "
   , " enjoy "
   ]
 
