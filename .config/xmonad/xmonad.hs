@@ -458,7 +458,11 @@ myKeys conf@(XConfig { XMonad.modMask = modMask }) =
        , ((controlMask .|. mod1Mask, xK_k), spawn $ "archlinux-logout")
        , ((controlMask .|. mod1Mask, xK_p), spawn $ "pamac-manager")
        , ((controlMask .|. mod1Mask, xK_Return), spawn $ "alacritty")
-       , ( (controlMask .|. shiftMask, xK_r)
+
+
+        -- ALT + ... KEYS
+       , ((mod1Mask, xK_r), spawn $ "xmonad --restart")
+       , ( (mod1Mask .|. shiftMask, xK_r)
          , spawn
          $  "dmenu_run -p 'exec:' -i -nb '"
          ++ colorBack
@@ -471,8 +475,7 @@ myKeys conf@(XConfig { XMonad.modMask = modMask }) =
          ++ "' -fn 'HackRegular:bold:pixelsize=14' "
          )
 
-  -- ALT + ... KEYS
-       , ((mod1Mask, xK_r), spawn $ "xmonad --restart")
+
 
   --SCREENSHOTS
        , ((0, xK_Print), spawn $ "flameshot gui")

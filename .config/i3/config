@@ -76,7 +76,7 @@ bindsym $mod+$mod2+r exec --no-startup-id "rofi -show run"
 
 bindsym $mod+c kill
 
-bindsym Ctrl+Shift+r exec --no-startup-id "dmenu_run -p 'exec:' -i -nb '#2E3440' -nf '#E5E9F0' -sb '#5E81AC' -sf '#E5E9F0' -fn 'SourceCodeProRegular:pixelsize=14'"
+bindsym $mod2+Shift+r exec --no-startup-id "dmenu_run -p 'exec:' -i -nb '#2E3440' -nf '#E5E9F0' -sb '#5E81AC' -sf '#E5E9F0' -fn 'SourceCodeProRegular:pixelsize=14'"
 
 
 bindsym Print exec flameshot gui
