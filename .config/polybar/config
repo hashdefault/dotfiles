@@ -130,13 +130,12 @@ fuzzy-match = false
 ws-icon-0 = dev; 
 ws-icon-1 = web; 
 ws-icon-2 = search; 
-ws-icon-3 = ftp; 
-ws-icon-4 = docs; 
-ws-icon-5 = adm; 
-ws-icon-6 = chat; 
-ws-icon-7 = music; 
-ws-icon-8 = model;  
-ws-icon-9 = enjoy; 
+ws-icon-3 = chat; 
+ws-icon-4 = ftp; 
+ws-icon-5 = docs; 
+ws-icon-6 = music; 
+ws-icon-7 = model;  
+ws-icon-8 = enjoy; 
 ws-icon-default = " "
 
 ; Available tags:
@@ -193,6 +192,31 @@ label-urgent-foreground = ${colors.workspaces}
 
 
 
+[bar/mainbar-openbox]
+monitor = ${env:MONITOR}
+width = 100%
+height = 27
+padding-left = 1
+padding-right = 1
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+font-0 = "JetBrains Nerd Font:size=9:weight=bold;antialias=true:autohint=true"
+font-1 = "JetBrains Nerd Font:size=9:weight=bold;antialias=true:autohint=true"
+font-2 = "FontAwesome:size=12:antialias=true:autohint=true"
+font-3 = "Noto Sans:size=10;0"
+font-4 = "Noto Sans Mono:size=10;0"
+enable-ipc = true
+
+; Add your desired modules here
+modules-left = xworkspaces xwindow 
+modules-right = kernel cpu memory pacman-updates  volume date
+
+module-margin-left = 4
+module-margin-right = 4
+
+
 
 [bar/mainbar-i3]
 monitor = ${env:MONITOR}
@@ -227,10 +251,22 @@ label-maxlen = 50
 [module/xworkspaces]
 type = internal/xworkspaces
 
-label-focused = %icon%
-label-occupied = %icon%
-label-urgent = %icon%
-label-empty = %icon%
+label-focused = %icon% %name%
+label-occupied = %icon% %name%
+label-urgent = %icon% %name%
+label-empty = %icon% %name%
+
+icon-1 = " "
+icon-2 = " "
+icon-3 = " "
+icon-4 = " "
+icon-5 = " "
+icon-6 = " "
+icon-7 = " "
+icon-8 = " "
+icon-9 = " "
+
+
 
 pin-workspaces = true
 enable-click = true
@@ -242,6 +278,35 @@ click-right = bspc desktop -f %i%
 sticky_count = true
 strip_wsnumbers = true
 strip_workspace_numbers = true
+
+label-focused-padding = 1
+label-focused-foreground = ${colors.workspace-active}
+
+
+
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+; unfocused = Inactive workspace on any monitor
+label-occupied-padding = 1
+label-occupied-foreground = ${colors.workspaces}
+
+; visible = Active workspace on unfocused monitor
+label-empty-padding = 1
+label-empty-foreground = ${colors.workspaces}
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+; urgent = Workspace with urgency hint set
+label-urgent-padding = 1
+label-urgent-foreground = ${colors.workspaces}
+
 
 
 [module/kernel]

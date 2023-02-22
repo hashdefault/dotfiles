@@ -1,7 +1,7 @@
 xset b off &
+xrandr --output eDP1  --mode 1366x768 --pos 1920x0  --rotate normal --output HDMI1  --mode  1920x1080  --pos 0x0 --rotate normal &
 nitrogen --restore &
-sleep 1s && plank -n dock1 &
-sleep 2s && plank -n dock2 &
+cairo-dock &
 picom &
-sh ~/.config/polybar/launch.sh --forest
+killall polybar; ~/.config/polybar/launch.sh &
 setxkbmap us altgr-intl &
