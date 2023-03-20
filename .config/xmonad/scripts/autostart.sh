@@ -18,8 +18,8 @@ function run {
 #xrandr --output HDMI2 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output VIRTUAL1 --off
 
 #home
-xrandr --no-startup-id  xrandr --output HDMI-1 --primary
-xrandr --output eDP1  --mode 1366x768 --pos 1920x0  --rotate normal --output HDMI1  --mode  1920x1080  --pos 0x0 --rotate normal
+xrandr --no-startup-id  xrandr --output DP-0 --primary
+xrandr --output eDP-0  --mode 1920x1080 --pos 1920x300  --rotate normal --output HDMI1  --mode  2560x1080  --pos 0x0 --rotate normal
 
 #agiliza
 #xrandr --output HDMI-1 --mode 1360x768 --pos 0x0 --rotate normal --output DP-1  --mode  1440x900 --pos 1360x0 --rotate normal
