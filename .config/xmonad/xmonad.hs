@@ -430,7 +430,7 @@ myKeys conf@(XConfig { XMonad.modMask = modMask }) =
        , ((0, xK_F12), spawn $ "alacritty")
 
   -- SUPER + SHIFT KEYS
-       , ((modMask .|. shiftMask, xK_Return), spawn $ "thunar")
+       , ((modMask .|. shiftMask, xK_Return), spawn $ "nemo")
          --, ((modMask, xK_d ), spawn $ "~/.xmonad/launcher/launcher.sh")
        , ( (modMask .|. shiftMask, xK_r)
          , spawn $ "xmonad --recompile && xmonad --restart"
