@@ -341,7 +341,7 @@ myTabTheme = def { fontName            = myFont
 
 -- Theme for showWName which prints current workspace when you change workspaces.
 myShowWNameTheme :: SWNConfig
-myShowWNameTheme = def { swn_font    = "xft:Ubuntu:bold:size=60"
+myShowWNameTheme = def { swn_font    = "xft:Ubuntu:bold:size=50"
                        , swn_fade    = 1.0
                        , swn_bgcolor = "#1c1f24"
                        , swn_color   = "#ffffff"
@@ -656,7 +656,7 @@ main = do
           -- Hidden workspaces (no windows)
         , ppHiddenNoWindows = xmobarColor color05 "" . clickable
           -- Title of active window
-        , ppTitle           = xmobarColor color16 "" . shorten 60
+        , ppTitle           = xmobarColor color16 "" . shorten 25
           -- Separator character
         , ppSep             = "<fc=" ++ color09 ++ "> <fn=1>|</fn> </fc>"
           -- Urgent workspace

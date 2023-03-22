@@ -1,25 +1,5 @@
-configuration {
-    line-margin: 10;
-
-    display-ssh:    "";
-    display-run:    "";
-    display-drun:   "";
-    display-window: "";
-    display-combi:  "";
-    show-icons:     true;
-		terminal: "alacritty";
+//@theme "/home/gabe/.local/share/rofi/themes/catppuccin-frappe.rasi"
+@theme "/home/gabe/.local/share/rofi/themes/nord.rasi"
+window{
+	height: 360px;
 }
-
-//@theme "~/.config/rofi/nord.rasi"
-//@theme "catppuccin-mocha"
-
-
-listview {
-	lines: 8;
-	columns: 1;
-}
-
-window {
-	width: 30%;
-}
-@theme "/home/gabriel/.local/share/rofi/themes/squared-everforest.rasi"

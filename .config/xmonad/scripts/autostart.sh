@@ -18,8 +18,10 @@ function run {
 #xrandr --output HDMI2 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output VIRTUAL1 --off
 
 #home
-xrandr --no-startup-id  xrandr --output DP-0 --primary
-xrandr --output DP-0 --mode 1920x1080 --pos 1920x300 --rotate normal --output HDMI-0 --mode  2560x1080  --pos 0x0 --rotate left
+xrandr --no-startup-id  xrandr --output DP-0 --primary 
+xrandr --output  HDMI-0 --mode  2560x1080 --pos 0x0 --rotate left 
+xrandr --output DP-0 --mode 1920x1080 --rotate normal --right-of HDMI-0
+
 
 #agiliza
 #xrandr --output HDMI-1 --mode 1360x768 --pos 0x0 --rotate normal --output DP-1  --mode  1440x900 --pos 1360x0 --rotate normal
@@ -30,7 +32,8 @@ xrandr --output DP-0 --mode 1920x1080 --pos 1920x300 --rotate normal --output HD
 #setxkbmap -layout be
 
 #cursor active at boot
-xsetroot -cursor_name left_ptr &
+xsetroot -cursor_name left_ptr -cursor_size 2
+
 
 #start ArcoLinux Welcome App
 #run dex $HOME/.config/autostart/arcolinux-welcome-app.desktop

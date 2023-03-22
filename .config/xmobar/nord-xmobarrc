@@ -10,8 +10,8 @@
    -- pacman (Arch Linux)
    -- trayer
 
-Config { font            = "xft:Ubuntu:weight=bold:pixelsize=11:antialias=true:hinting=true"
-       , additionalFonts = [ "xft:Mononoki:pixelsize=11:antialias=true:hinting=true"
+Config { font            = "xft:Ubuntu:weight=bold:pixelsize=12:antialias=true:hinting=true"
+       , additionalFonts = [ "xft:Mononoki:pixelsize=12:antialias=true:hinting=true"
                            , "xft:Font Awesome 6 Free Solid:pixelsize=12"
                            , "xft:Font Awesome 6 Brands:pixelsize=12"
                            ]
@@ -27,7 +27,7 @@ Config { font            = "xft:Ubuntu:weight=bold:pixelsize=11:antialias=true:h
        , hideOnStart  = False
        , allDesktops  = True
        , persistent   = True
-       , iconRoot     = ".xmonad/xpm/"  -- default: "."
+   --    , iconRoot     = ".xmonad/xpm/"  -- default: "."
        , commands = [
                         -- Echos a "penguin" icon in front of the kernel output.
                       Run Com "echo" ["<fn=3>\xf17c</fn>"] "penguin" 3600
