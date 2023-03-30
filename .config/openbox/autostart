@@ -1,5 +1,6 @@
 xset b off &
-xrandr --output HDMI1  --mode  1920x1080  --pos 0x0 --rotate normal --output eDP1  --mode 1366x768 --pos 1920x100  --rotate normal  &
+xsetroot -cursor_name left_ptr -cursor_size 2 &
+xrandr --output DP-0  --mode  1920x1080  --pos 0x0 --rotate normal --output DP-0  --mode 1920x1080  --rotate normal --right-of HDMI-0  &
 plank -n dock1 &
 plank -n dock2 &
 nitrogen --restore &

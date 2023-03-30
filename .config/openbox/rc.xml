@@ -42,7 +42,7 @@
                   'Active' - where the active window is -->
 	</placement>
 	<theme>
-		<name>KvSimplicityDark</name>
+		<name>M0nst4-sky</name>
 		<titleLayout>NLIMCD</titleLayout>
 		<!--
       available characters are NDSLIMC, each can occur at most once.
@@ -240,76 +240,61 @@
 				<command>openbox --exit</command>
 			</action>
 		</keybind>
-
-
 		<keybind key="W-b">
 			<action name="Execute">
 				<command>brave</command>
 			</action>
 		</keybind>
-
-
 		<keybind key="W-Shift-Return">
 			<action name="Execute">
-				<command>pcmanfm</command>
+				<command>nemo</command>
 			</action>
 		</keybind>
-
 		<keybind key="W-1">
 			<action name="GoToDesktop">
 				<to>1</to>
 			</action>
 		</keybind>
-
 		<keybind key="W-2">
 			<action name="GoToDesktop">
 				<to>2</to>
 			</action>
 		</keybind>
-
 		<keybind key="W-3">
 			<action name="GoToDesktop">
 				<to>3</to>
 			</action>
 		</keybind>
-
 		<keybind key="W-4">
 			<action name="GoToDesktop">
 				<to>4</to>
 			</action>
 		</keybind>
-
 		<keybind key="W-5">
 			<action name="GoToDesktop">
 				<to>5</to>
 			</action>
 		</keybind>
-
 		<keybind key="W-6">
 			<action name="GoToDesktop">
 				<to>6</to>
 			</action>
 		</keybind>
-
 		<keybind key="W-7">
 			<action name="GoToDesktop">
 				<to>7</to>
 			</action>
 		</keybind>
-
 		<keybind key="W-8">
 			<action name="GoToDesktop">
 				<to>8</to>
 			</action>
 		</keybind>
-
 		<keybind key="W-9">
 			<action name="GoToDesktop">
 				<to>9</to>
 			</action>
 		</keybind>
-
-
 		<keybind key="W-Shift-n">
 			<action name="Execute">
 				<command>nitrogen</command>
@@ -329,12 +314,12 @@
 		</keybind>
 		<keybind key="XF86AudioLowerVolume">
 			<action name="Execute">
-				<command>amixer sset Master,0 1-</command>
+				<command>amixer sset 'Master' 2%-</command>
 			</action>
 		</keybind>
 		<keybind key="XF86AudioRaiseVolume">
 			<action name="Execute">
-				<command>amixer sset Master,0 1+</command>
+				<command>amixer sset 'Master' 2%+</command>
 			</action>
 		</keybind>
 		<keybind key="C-A-Left">

@@ -211,7 +211,7 @@ enable-ipc = true
 
 ; Add your desired modules here
 modules-left = xworkspaces xwindow 
-modules-right = kernel cpu memory pacman-updates  volume date
+modules-right = kernel cpu memory pacman-updates  pulseaudio date
 
 module-margin-left = 4
 module-margin-right = 4
@@ -255,6 +255,7 @@ label-focused = %icon% %name%
 label-occupied = %icon% %name%
 label-urgent = %icon% %name%
 label-empty = %icon% %name%
+label-monito = %icon% %name%
 
 icon-1 = " "
 icon-2 = " "
@@ -339,7 +340,7 @@ format-foreground = #D08770
 [module/pacman-updates]
 type = custom/script
 interval = 3600
-exec = checkupdates | wc -l
+exec = ~/.config/polybar/scripts/checkupdates.sh
 label = %output% updates
 format = <label>
 module-margin-left = 3
@@ -426,30 +427,49 @@ format-foreground = #EBCB8B
 
 
 
-[module/volume]
-;https://github.com/jaagr/polybar/wiki/Module:-volume
-type = internal/volume
-format-volume = "<label-volume>  <bar-volume>"
+[module/pulseaudio]
+type = internal/pulseaudio
 
-label-volume = " "
-label-muted = "  "
+; Sink to be used, if it exists (find using `pacmd list-sinks`, name field)
+; If not, uses default sink
+; sink = alsa_output.pci-0000_12_00.3.analog-stereo
 
-bar-volume-width = 6
-bar-volume-foreground-0 = #40ad4b
-bar-volume-foreground-1 = #40ad4b
-bar-volume-foreground-2 = #40ad4b
-bar-volume-foreground-3 = #40ad4b
-bar-volume-foreground-4 = #e85d04
-bar-volume-foreground-5 = #d00000
-bar-volume-gradient = false
-bar-volume-indicator = 
-bar-volume-indicator-font = 1
-bar-volume-fill = 
-bar-volume-fill-font = 1
-bar-volume-empty = 
-bar-volume-empty-font =1
-format-muted-background = ${colors.background}
-format-muted-prefix-foreground = #dddddd
+; Use PA_VOLUME_UI_MAX (~153%) if true, or PA_VOLUME_NORM (100%) if false
+; Default: true
+use-ui-max = false
 
+; Interval for volume increase/decrease (in percent points)
+; Default: 5
+interval = 5
+; Available tags:
+;   <label-volume> (default)
+;   <ramp-volume>
+;   <bar-volume>
+format-volume = <ramp-volume> <label-volume>
 
+; Available tags:
+;   <label-muted> (default)
+;   <ramp-volume>
+;   <bar-volume>
+format-muted = <label-muted>
+
+; Available tokens:
+;   %percentage% (default)
+;   %decibels%
+label-volume = %percentage%%
+
+; Available tokens:
+;   %percentage% (default)
+;   %decibels%
+label-muted = 🔇 muted
+label-muted-foreground = #666
+
+; Only applies if <ramp-volume> is used
+ramp-volume-0 = " "
+ramp-volume-1 = " "
+ramp-volume-2 = " "
+
+; Right and Middle click
+click-right = pavucontrol
+; click-middle = 
 

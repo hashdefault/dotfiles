@@ -40,7 +40,7 @@ case $desktop in
     openbox|/usr/share/xsessions/openbox)
     if type "xrandr" > /dev/null; then
       for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
-				sleep 2
+				sleep 1
         MONITOR=$m polybar --reload mainbar-openbox -c ~/.config/polybar/config &
       done
     else
