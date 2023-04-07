@@ -22,15 +22,15 @@ theme.fg_normal = "#ffffff"
 theme.fg_focus = "#A77AC4"
 theme.fg_urgent = "#b74822"
 theme.bg_normal = "#282a36"
-theme.bg_focus = "#FF79C6"
+theme.bg_focus = "#46d9ff"
 theme.bg_urgent = "#3F3F3F"
 theme.taglist_fg_focus = "#282a36"
 theme.tasklist_bg_focus = "#000000"
 theme.tasklist_fg_focus = "#A77AC4"
 theme.border_width = 2
 theme.border_normal = "#282a36"
-theme.border_focus = "#F07178"
-theme.border_marked = "#CC9393"
+theme.border_focus = "#7770ef"
+theme.border_marked = "#af92cc"
 theme.titlebar_bg_focus = "#3F3F3F"
 theme.titlebar_bg_normal = "#3F3F3F"
 theme.titlebar_bg_focus = theme.bg_focus
@@ -399,81 +399,81 @@ function theme.at_screen_connect(s)
 			-- using separators
 			--arrow(theme.bg_normal, "#343434"),
 			-- wibox.container.background(wibox.container.margin(wibox.widget { mailicon, mail and mail.widget, layout = wibox.layout.align.horizontal }, 4, 7), "#343434"),
-			arrow("alpha", "#7197E7"),
+			arrow("alpha", "#51afef"),
 			wibox.container.background(
 				wibox.container.margin(
 					wibox.widget({ mpdicon, theme.mpd.widget, layout = wibox.layout.align.horizontal }),
 					3,
 					6
 				),
-				"#7197E7"
+				"#51afef"
 			),
-			arrow("#7197E7", "#A77AC4"),
+			arrow("#51afef", "#7f4faf"),
 			wibox.container.background(
 				wibox.container.margin(
 					wibox.widget({ volicon, theme.volume.widget, layout = wibox.layout.align.horizontal }),
 					2,
 					3
 				),
-				"#A77AC4"
+				"#7f4faf"
 			),
-			arrow("#A77AC4", "#7197E7"),
+			arrow("#7f4faf", "#51afef"),
 			wibox.container.background(
 				wibox.container.margin(
 					wibox.widget({ memicon, mem.widget, layout = wibox.layout.align.horizontal }),
 					2,
 					3
 				),
-				"#7197E7"
+				"#51afef"
 			),
-			arrow("#7197E7", "#A77AC4"),
+			arrow("#51afef", "#7f4faf"),
 			wibox.container.background(
 				wibox.container.margin(
 					wibox.widget({ cpuicon, cpu.widget, layout = wibox.layout.align.horizontal }),
 					3,
 					4
 				),
-				"#A77AC4"
+				"#7f4faf"
 			),
-			arrow("#A77AC4", "#7197E7"),
+			arrow("#7f4faf", "#51afef"),
 			wibox.container.background(
 				wibox.container.margin(
 					wibox.widget({ tempicon, temp.widget, layout = wibox.layout.align.horizontal }),
 					4,
 					4
 				),
-				"#7197E7"
+				"#51afef"
 			),
-			arrow("#7197E7", "#A77AC4"),
+			arrow("#51afef", "#7f4faf"),
 			wibox.container.background(
 				wibox.container.margin(
 					wibox.widget({ weathericon, theme.weather.widget, layout = wibox.layout.align.horizontal }),
 					3,
 					3
 				),
-				"#A77AC4"
+				"#7f4faf"
 			),
-			arrow("#A77AC4", "#7197E7"),
+			arrow("#7f4faf", "#51afef"),
 			wibox.container.background(
 				wibox.container.margin(
 					wibox.widget({ baticon, bat.widget, layout = wibox.layout.align.horizontal }),
 					3,
 					3
 				),
-				"#7197E7"
+				"#51afef"
 			),
-			arrow("#7197E7", "#A77AC4"),
+			arrow("#51afef", "#7f4faf"),
 			wibox.container.background(
 				wibox.container.margin(
 					wibox.widget({ nil, neticon, net.widget, layout = wibox.layout.align.horizontal }),
 					3,
 					3
 				),
-				"#A77AC4"
+				"#7f4faf"
 			),
-			arrow("#A77AC4", "#7197E7"),
-			wibox.container.background(wibox.container.margin(clock, 4, 8), "#7197E7"),
-			arrow("#7197E7", "alpha"),
+			arrow("#7f4faf", "#51afef"),
+			wibox.container.background(wibox.container.margin(clock, 4, 8), "#51afef"),
+			arrow("#51afef", "alpha"),
 			--]]
 			s.mylayoutbox,
 		},

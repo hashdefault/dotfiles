@@ -244,9 +244,25 @@ globalkeys = my_table.join(
 	awful.key({ modkey, "Shift" }, "y", function()
 		awful.spawn("youtube-music")
 	end, { description = "Launch youtube music", group = "awesome" }),
+	awful.key({ "Print" }, "", function()
+		awful.spawn("flameshot gui")
+	end, { description = "print screen ", group = "awesome" }),
 	awful.key({ modkey }, "b", function()
 		awful.spawn("brave")
 	end, { description = "Launch browser", group = "awesome" }),
+
+	awful.key({ modkey }, "r", function()
+		awful.spawn.with_shell("rofi -show drun")
+	end, { description = "launcher apps", group = "awesome" }),
+	awful.key({ modkey, altkey }, "p", function()
+		awful.spawn.with_shell("rofi-theme-selector")
+	end, { description = "rofi theme selector", group = "awesome" }),
+
+	awful.key({ altkey, "Shift" }, "r", function()
+		awful.spawn.with_shell(
+			"dmenu_run -p 'exec:' -i -nb '#282c34' -nf '#dfdfdf' -sb '#51afef' -sf '#282c34' -fn 'HackRegular:bold:pixelsize=14' "
+		)
+	end, { description = "launcher dmenu", group = "awesome" }),
 	awful.key({ modkey, "Shift" }, "r", awesome.restart, { description = "Reload awesome", group = "awesome" }),
 	awful.key({ modkey, "Shift" }, "q", function()
 		awful.spawn.with_shell("dm-logout")
@@ -273,7 +289,6 @@ globalkeys = my_table.join(
 	awful.key({ modkey }, "Left", awful.tag.viewprev, { description = "view previous", group = "tag" }),
 	awful.key({ modkey }, "Right", awful.tag.viewnext, { description = "view next", group = "tag" }),
 	awful.key({ altkey }, "Escape", awful.tag.history.restore, { description = "go back", group = "tag" }),
-
 	-- Tag browsing ALT+TAB (ALT+SHIFT+TAB)
 	awful.key({ altkey }, "Tab", awful.tag.viewnext, { description = "view next", group = "tag" }),
 	awful.key({ altkey, "Shift" }, "Tab", awful.tag.viewprev, { description = "view previous", group = "tag" }),
