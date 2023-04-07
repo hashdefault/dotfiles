@@ -73,7 +73,7 @@ local altkey = "Mod1"
 local ctrlkey = "Control"
 local terminal = "alacritty"
 local browser = "brave"
-local editor = os.getenv("EDITOR") or "vim"
+local editor = os.getenv("EDITOR") or "nvim"
 local colorscheme = "DoomOne"
 local mediaplayer = "mpv"
 local soundplayer = "ffplay -nodisp -autoexit " -- The program that will play system sounds
@@ -471,27 +471,41 @@ globalkeys = my_table.join(
 
 	-- ALSA volume control
 	--awful.key({ ctrlkey }, "Up",
-	awful.key({}, "XF86AudioRaiseVolume", function()
-		os.execute(string.format("amixer -q set %s 1%%+", beautiful.volume.channel))
-		beautiful.volume.update()
-	end),
-	--awful.key({ ctrlkey }, "Down",
+	--	awful.key({}, "XF86AudioRaiseVolume", function()
+	--		os.execute(string.format("amixer -q set %s 1%%+", beautiful.volume.channel))
+	--		beautiful.volume.update()
+	--	end),
+	--	--awful.key({ ctrlkey }, "Down",
+	--	awful.key({}, "XF86AudioLowerVolume", function()
+	--		os.execute(string.format("amixer -q set %s 1%%-", beautiful.volume.channel))
+	--		beautiful.volume.update()
+	--	end),
+	--	awful.key({}, "XF86AudioMute", function()
+	--		os.execute(string.format("amixer -q set %s toggle", beautiful.volume.togglechannel or beautiful.volume.channel))
+	--		beautiful.volume.update()
+	--	end),
+
+	-- Volume Keys
 	awful.key({}, "XF86AudioLowerVolume", function()
-		os.execute(string.format("amixer -q set %s 1%%-", beautiful.volume.channel))
-		beautiful.volume.update()
+		awful.util.spawn("amixer -q -D pulse sset Master 5%-", false)
+	end),
+	awful.key({}, "XF86AudioRaiseVolume", function()
+		awful.util.spawn("amixer -q -D pulse sset Master 5%+", false)
 	end),
 	awful.key({}, "XF86AudioMute", function()
-		os.execute(string.format("amixer -q set %s toggle", beautiful.volume.togglechannel or beautiful.volume.channel))
-		beautiful.volume.update()
+		awful.util.spawn("amixer -D pulse set Master 1+ toggle", false)
 	end),
-	awful.key({ ctrlkey, "Shift" }, "m", function()
-		os.execute(string.format("amixer -q set %s 100%%", beautiful.volume.channel))
-		beautiful.volume.update()
+	-- Media Keys
+	awful.key({}, "XF86AudioPlay", function()
+		awful.util.spawn("playerctl play-pause", false)
 	end),
-	awful.key({ ctrlkey, "Shift" }, "0", function()
-		os.execute(string.format("amixer -q set %s 0%%", beautiful.volume.channel))
-		beautiful.volume.update()
+	awful.key({}, "XF86AudioNext", function()
+		awful.util.spawn("playerctl next", false)
 	end),
+	awful.key({}, "XF86AudioPrev", function()
+		awful.util.spawn("playerctl previous", false)
+	end),
+
 	-- Copy clipboard to primary (gtk to terminals)
 	awful.key({ modkey }, "v", function()
 		awful.spawn.with_shell("xsel -b | xsel")
