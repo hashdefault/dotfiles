@@ -241,6 +241,9 @@ globalkeys = my_table.join(
 	awful.key({ altkey, "Control" }, "f", function()
 		awful.spawn("firefox")
 	end, { description = "Launch firefox", group = "awesome" }),
+	awful.key({ modkey, "Shift" }, "y", function()
+		awful.spawn("youtube-music")
+	end, { description = "Launch youtube music", group = "awesome" }),
 	awful.key({ modkey }, "b", function()
 		awful.spawn("brave")
 	end, { description = "Launch browser", group = "awesome" }),
