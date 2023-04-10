@@ -799,13 +799,13 @@ client.connect_signal("unfocus", function(c)
 end)
 
 awful.spawn.with_shell("lxsession")
-awful.spawn.with_shell("nitrogen --restore")
 awful.spawn.with_shell([[
 xrandr --no-startup-id  xrandr --output DP-0 --primary
 xrandr --output  HDMI-0 --mode  2560x1080 --pos 0x0 --rotate left
 xrandr --output DP-0 --mode 1920x1080 --rotate normal --right-of HDMI-0
 	]])
 awful.spawn.with_shell("picom")
+awful.spawn.with_shell("nitrogen --restore")
 awful.spawn.with_shell("nm-applet")
 awful.spawn.with_shell("killall conky")
 awful.spawn.with_shell("killall volumeicon; volumeicon")
