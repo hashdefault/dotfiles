@@ -1,4 +1,5 @@
 local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
+
 local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, table, tostring, tonumber, type
 
 -- Standard awesome library
@@ -470,31 +471,31 @@ globalkeys = my_table.join(
 	end, { description = "-10%", group = "hotkeys" }),
 
 	-- ALSA volume control
-	--awful.key({ ctrlkey }, "Up",
-	--	awful.key({}, "XF86AudioRaiseVolume", function()
-	--		os.execute(string.format("amixer -q set %s 1%%+", beautiful.volume.channel))
-	--		beautiful.volume.update()
-	--	end),
-	--	--awful.key({ ctrlkey }, "Down",
-	--	awful.key({}, "XF86AudioLowerVolume", function()
-	--		os.execute(string.format("amixer -q set %s 1%%-", beautiful.volume.channel))
-	--		beautiful.volume.update()
-	--	end),
-	--	awful.key({}, "XF86AudioMute", function()
-	--		os.execute(string.format("amixer -q set %s toggle", beautiful.volume.togglechannel or beautiful.volume.channel))
-	--		beautiful.volume.update()
-	--	end),
+	awful.key({}, "XF86AudioRaiseVolume", function()
+		os.execute(string.format("amixer -q -D pulse set %s 5%%+", beautiful.volume.channel))
+		beautiful.volume.update()
+	end, { description = "+5%", group = "hotkeys" }),
+	awful.key({}, "XF86AudioLowerVolume", function()
+		os.execute(string.format("amixer -q -D pulse set %s 5%%-", beautiful.volume.channel))
+		beautiful.volume.update()
+	end, { description = "-5%", group = "hotkeys" }),
+	awful.key({}, "XF86AudioMute", function()
+		os.execute(
+			string.format("amixer -D pulse set %s toggle", beautiful.volume.togglechannel or beautiful.volume.channel)
+		)
+		beautiful.volume.update()
+	end),
 
 	-- Volume Keys
-	awful.key({}, "XF86AudioLowerVolume", function()
-		awful.util.spawn("amixer -q -D pulse sset Master 5%-", false)
-	end),
-	awful.key({}, "XF86AudioRaiseVolume", function()
-		awful.util.spawn("amixer -q -D pulse sset Master 5%+", false)
-	end),
-	awful.key({}, "XF86AudioMute", function()
-		awful.util.spawn("amixer -D pulse set Master 1+ toggle", false)
-	end),
+	--	awful.key({}, "XF86AudioLowerVolume", function()
+	--		awful.util.spawn("amixer -q -D pulse sset Master 5%-", false)
+	--	end),
+	--	awful.key({}, "XF86AudioRaiseVolume", function()
+	--		awful.util.spawn("amixer -q -D pulse sset Master 5%+", false)
+	--	end),
+	--	awful.key({}, "XF86AudioMute", function()
+	--		awful.util.spawn("amixer -D pulse set Master 1+ toggle", false)
+	--	end),
 	-- Media Keys
 	awful.key({}, "XF86AudioPlay", function()
 		awful.util.spawn("playerctl play-pause", false)
@@ -805,7 +806,8 @@ xrandr --output DP-0 --mode 1920x1080 --rotate normal --right-of HDMI-0
 	]])
 awful.spawn.with_shell("lxsession")
 awful.spawn.with_shell("picom")
+awful.spawn.with_shell("nitrogen --restore")
 awful.spawn.with_shell("nm-applet")
 awful.spawn.with_shell("killall conky")
 awful.spawn.with_shell("killall volumeicon; volumeicon")
-awful.spawn.with_shell("nitrogen --restore")
+awful.spawn.with_shell("setxkbmap us altgr-intl")
