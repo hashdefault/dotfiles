@@ -232,9 +232,6 @@ root.buttons(my_table.join(
 ))
 
 globalkeys = my_table.join(
-
-	-- {{{ Personal keybindings
-
 	-- Awesome keybindings
 	awful.key({ modkey }, "Return", function()
 		awful.spawn(terminal)
@@ -245,7 +242,7 @@ globalkeys = my_table.join(
 	awful.key({ modkey, "Shift" }, "y", function()
 		awful.spawn("youtube-music")
 	end, { description = "Launch youtube music", group = "awesome" }),
-	awful.key({ "Print" }, "", function()
+	awful.key({}, "Print", function()
 		awful.spawn("flameshot gui")
 	end, { description = "print screen ", group = "awesome" }),
 	awful.key({ modkey }, "b", function()
@@ -258,7 +255,6 @@ globalkeys = my_table.join(
 	awful.key({ modkey, altkey }, "p", function()
 		awful.spawn.with_shell("rofi-theme-selector")
 	end, { description = "rofi theme selector", group = "awesome" }),
-
 	awful.key({ altkey, "Shift" }, "r", function()
 		awful.spawn.with_shell(
 			"dmenu_run -p 'exec:' -i -nb '#282c34' -nf '#dfdfdf' -sb '#51afef' -sf '#282c34' -fn 'HackRegular:bold:pixelsize=14' "
@@ -266,7 +262,7 @@ globalkeys = my_table.join(
 	end, { description = "launcher dmenu", group = "awesome" }),
 	awful.key({ modkey, "Shift" }, "r", awesome.restart, { description = "Reload awesome", group = "awesome" }),
 	awful.key({ modkey, "Shift" }, "q", function()
-		awful.spawn.with_shell("dm-logout")
+		awesome.quit()
 	end, { description = "Quit awesome", group = "awesome" }),
 	awful.key({ modkey }, "s", hotkeys_popup.show_help, { description = "Show help", group = "awesome" }),
 	awful.key({ modkey, "Shift" }, "w", function()
@@ -799,13 +795,10 @@ client.connect_signal("unfocus", function(c)
 	c.border_color = beautiful.border_normal
 end)
 
-awful.spawn.with_shell([[
-xrandr --no-startup-id  xrandr --output DP-0 --primary
-xrandr --output  HDMI-0 --mode  2560x1080 --pos 0x0 --rotate left
-xrandr --output DP-0 --mode 1920x1080 --rotate normal --right-of HDMI-0
-	]])
+awful.spawn.with_shell("xrandr --output DP-0 --mode 1920x1080 --rotate normal --right-of HDMI-0")
 awful.spawn.with_shell("lxsession")
 awful.spawn.with_shell("picom")
+awful.spawn.with_shell("xsetroot -cursor_name left_ptr -cursor_size 2")
 awful.spawn.with_shell("nitrogen --restore")
 awful.spawn.with_shell("nm-applet")
 awful.spawn.with_shell("killall conky")

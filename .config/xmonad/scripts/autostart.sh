@@ -26,7 +26,7 @@ xrandr --output DP-0 --mode 1920x1080 --rotate normal --right-of HDMI-0
 #agiliza
 #xrandr --output HDMI-1 --mode 1360x768 --pos 0x0 --rotate normal --output DP-1  --mode  1440x900 --pos 1360x0 --rotate normal
 
-#(sleep 2; run $HOME/.config/polybar/launch.sh) &
+(sleep 2; run $HOME/.config/polybar/launch.sh) &
 
 #change your keyboard if you need it
 #setxkbmap -layout be
