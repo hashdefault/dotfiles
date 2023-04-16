@@ -122,8 +122,9 @@ source $ZSH/oh-my-zsh.sh
 #Alias
 alias ls='exa --icons'
 alias la='exa -la --icons'
-alias cat='bat'
 alias grep='rg'
+alias vim='nvim'
+alias lg='lazygit'
 alias mkdir='mkdir -pv'
 alias dockerphp8='docker container stop php7_mariadb php7_phpmyadmin php7_apache && docker container start php8_mariadb php8_phpmyadmin php8_apache'
 alias dockerphp7='docker container stop php8_mariadb php8_phpmyadmin php8_apache && docker container start php7_mariadb php7_phpmyadmin php7_apache'
@@ -131,4 +132,6 @@ alias dockerphp7='docker container stop php8_mariadb php8_phpmyadmin php8_apache
 eval "$(starship init zsh)"
 
 
-[ -f "/home/gabriel/.ghcup/env" ] && source "/home/gabriel/.ghcup/env" # ghcup-env
+#[ -f "/home/gabriel/.ghcup/env" ] && source "/home/gabriel/.ghcup/env" # ghcup-env
+
+[ -f "/home/gabe/.ghcup/env" ] && source "/home/gabe/.ghcup/env" # ghcup-env
