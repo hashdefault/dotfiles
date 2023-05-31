@@ -18,13 +18,15 @@ function run {
 #xrandr --output HDMI2 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output VIRTUAL1 --off
 
 #home
-xrandr --no-startup-id  xrandr --output DP-0 --primary 
-xrandr --output  HDMI-0 --mode  2560x1080 --pos 0x0 --rotate left 
-xrandr --output DP-0 --mode 1920x1080 --rotate normal --right-of HDMI-0
+#xrandr --no-startup-id  xrandr --output DP-0 --primary 
+#xrandr --output  HDMI-0 --mode  2560x1080 --pos 0x0 --rotate left --gamma 1:0.8:0.6
+#xrandr --output DP-0 --mode 1920x1080 --rotate normal --left-of HDMI-0 --gamma 1:0.8:0.6
 
 
 #agiliza
-#xrandr --output HDMI-1 --mode 1360x768 --pos 0x0 --rotate normal --output DP-1  --mode  1440x900 --pos 1360x0 --rotate normal
+xrandr --output HDMI-1 --mode 1920x1080 --pos 0x0 --rotate normal --gamma 1:0.8:0.6
+xrandr --output DP-1 --mode 1920x1080 --rotate normal --left-of HDMI-1 --gamma 1:0.8:0.6
+
 
 (sleep 2; run $HOME/.config/polybar/launch.sh) &
 
@@ -33,6 +35,8 @@ xrandr --output DP-0 --mode 1920x1080 --rotate normal --right-of HDMI-0
 
 #cursor active at boot
 xsetroot -cursor_name left_ptr -cursor_size 2
+
+redshift -c ~/.config/redshift.conf
 
 
 #start ArcoLinux Welcome App
