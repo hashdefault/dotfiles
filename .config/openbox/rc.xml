@@ -42,7 +42,7 @@
                   'Active' - where the active window is -->
 	</placement>
 	<theme>
-		<name>M0nst4-sky</name>
+		<name>Mire_v2_blue</name>
 		<titleLayout>NLIMCD</titleLayout>
 		<!--
       available characters are NDSLIMC, each can occur at most once.
@@ -158,7 +158,7 @@
      Many programs reserve space automatically, but you can use this in other
      cases. -->
 	<margins>
-		<top>0</top>
+		<top>20</top>
 		<bottom>0</bottom>
 		<left>0</left>
 		<right>0</right>
@@ -247,7 +247,7 @@
 		</keybind>
 		<keybind key="W-Shift-Return">
 			<action name="Execute">
-				<command>nemo</command>
+				<command>pcmanfm</command>
 			</action>
 		</keybind>
 		<keybind key="W-1">
@@ -314,12 +314,27 @@
 		</keybind>
 		<keybind key="XF86AudioLowerVolume">
 			<action name="Execute">
-				<command>amixer sset 'Master' 2%-</command>
+				<command>amixer sset Master,0 1-</command>
 			</action>
 		</keybind>
 		<keybind key="XF86AudioRaiseVolume">
 			<action name="Execute">
-				<command>amixer sset 'Master' 2%+</command>
+				<command>amixer sset Master,0 1+</command>
+			</action>
+		</keybind>
+		<keybind key="XF86AudioPlay">
+			<action name="Execute">
+				<command>playerctl play-pause</command>
+			</action>
+		</keybind>
+		<keybind key="XF86AudioPrev">
+			<action name="Execute">
+				<command>playerctl previous</command>
+			</action>
+		</keybind>
+		<keybind key="XF86AudioNext">
+			<action name="Execute">
+				<command>playerctl next</command>
 			</action>
 		</keybind>
 		<keybind key="C-A-Left">
