@@ -408,16 +408,16 @@ function theme.at_screen_connect(s)
 				),
 				"#51afef"
 			),
-			arrow("#51afef", "#7f4faf"),
+			arrow("#51afef", "#707070"),
 			wibox.container.background(
 				wibox.container.margin(
 					wibox.widget({ volicon, theme.volume.widget, layout = wibox.layout.align.horizontal }),
 					2,
 					3
 				),
-				"#7f4faf"
+				"#707070"
 			),
-			arrow("#7f4faf", "#51afef"),
+			arrow("#707070", "#51afef"),
 			wibox.container.background(
 				wibox.container.margin(
 					wibox.widget({ memicon, mem.widget, layout = wibox.layout.align.horizontal }),
@@ -426,16 +426,16 @@ function theme.at_screen_connect(s)
 				),
 				"#51afef"
 			),
-			arrow("#51afef", "#7f4faf"),
+			arrow("#51afef", "#707070"),
 			wibox.container.background(
 				wibox.container.margin(
 					wibox.widget({ cpuicon, cpu.widget, layout = wibox.layout.align.horizontal }),
 					3,
 					4
 				),
-				"#7f4faf"
+				"#707070"
 			),
-			arrow("#7f4faf", "#51afef"),
+			arrow("#707070", "#51afef"),
 			wibox.container.background(
 				wibox.container.margin(
 					wibox.widget({ tempicon, temp.widget, layout = wibox.layout.align.horizontal }),
@@ -444,16 +444,16 @@ function theme.at_screen_connect(s)
 				),
 				"#51afef"
 			),
-			arrow("#51afef", "#7f4faf"),
+			arrow("#51afef", "#707070"),
 			wibox.container.background(
 				wibox.container.margin(
 					wibox.widget({ weathericon, theme.weather.widget, layout = wibox.layout.align.horizontal }),
 					3,
 					3
 				),
-				"#7f4faf"
+				"#707070"
 			),
-			arrow("#7f4faf", "#51afef"),
+			arrow("#707070", "#51afef"),
 			wibox.container.background(
 				wibox.container.margin(
 					wibox.widget({ baticon, bat.widget, layout = wibox.layout.align.horizontal }),
@@ -462,16 +462,16 @@ function theme.at_screen_connect(s)
 				),
 				"#51afef"
 			),
-			arrow("#51afef", "#7f4faf"),
+			arrow("#51afef", "#707070"),
 			wibox.container.background(
 				wibox.container.margin(
 					wibox.widget({ nil, neticon, net.widget, layout = wibox.layout.align.horizontal }),
 					3,
 					3
 				),
-				"#7f4faf"
+				"#707070"
 			),
-			arrow("#7f4faf", "#51afef"),
+			arrow("#707070", "#51afef"),
 			wibox.container.background(wibox.container.margin(clock, 4, 8), "#51afef"),
 			arrow("#51afef", "alpha"),
 			--]]
