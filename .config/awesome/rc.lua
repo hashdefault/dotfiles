@@ -61,11 +61,12 @@ end
 run_once({ "unclutter -root" }) -- entries must be comma-separated
 
 local themes = {
-	"powerarrow", -- 1
+	"powerarrow_blue", -- 1
+	"powerarrow_catppuccin",
 }
 
 -- choose your theme here
-local chosen_theme = themes[1]
+local chosen_theme = themes[2]
 local theme_path = string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme)
 beautiful.init(theme_path)
 
@@ -799,16 +800,11 @@ client.connect_signal("unfocus", function(c)
 	c.border_color = beautiful.border_normal
 end)
 
-awful.spawn.with_shell("")
+awful.spawn.with_shell("lxsession")
+awful.spawn.with_shell("picom")
+awful.spawn.with_shell("nitrogen --restore")
+awful.spawn.with_shell("nm-applet")
+--awful.spawn.with_shell("redshift -O 4000")
 awful.spawn.with_shell("killall conky")
 awful.spawn.with_shell("killall volumeicon; volumeicon")
 awful.spawn.with_shell("setxkbmap us altgr-intl")
-awful.spawn.with_shell("lxsession")
-awful.spawn.with_shell("volumeicon")
-awful.spawn.with_shell("pamac-tray")
-awful.spawn.with_shell("nm-applet")
-awful.spawn.with_shell("xrandr --output DP-1 --mode 1920x1080 --pos 1920x0 --rotate normal")
-awful.spawn.with_shell("xrandr --output HDMI-1  --mode  2560x1080 --rotate left --left-of DP-1")
-awful.spawn.with_shell("xsetroot -cursor_name left_ptr -cursor_size 2")
-awful.spawn.with_shell("picom")
-awful.spawn.with_shell("nitrogen --restore")
