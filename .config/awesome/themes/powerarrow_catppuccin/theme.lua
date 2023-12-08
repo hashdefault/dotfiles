@@ -41,10 +41,10 @@ theme.dir = os.getenv("HOME") .. "/.config/awesome/themes/powerarrow_catppuccin"
 --local Surface2 = "#acb0be"
 --local Surface1 = "#bcc0cc"
 --local Surface0 = "#ccd0da"
---local Base = "#eff1f5"
 --local Mantle = "#e6e9ef"
 --local Crust = "#dce0e8"
 
+local BaseWhite = "#eff1f5"
 local Rosewater = "#f2d5cf"
 local Flamingo = "#eebebe"
 local Pink = "#f4b8e4"
@@ -160,15 +160,16 @@ local separators = lain.util.separators
 
 -- Textclock
 local clockicon = wibox.widget.imagebox(theme.widget_clock)
-local clock = awful.widget.watch("date +'%a %d %b %R'", 60, function(widget, stdout)
-	widget:set_markup(" " .. markup.font(theme.font, stdout))
-end)
+local mytextclock = wibox.widget.textclock(
+	markup(Crust, " %a") .. markup(BaseWhite, " %d ") .. markup(Crust, "%b ") .. markup(BaseWhite, "%I:%M ")
+)
+mytextclock.font = theme.font
 
 -- Calendar
-theme.cal = lain.widget.cal({
-	attach_to = { clock },
+theme.cal = lain.widget.calendar({
+	attach_to = { mytextclock },
 	notification_preset = {
-		font = "JetBrains Mono 11",
+		font = "Droid Sans Mono 12",
 		fg = theme.fg_normal,
 		bg = theme.bg_normal,
 	},
@@ -529,7 +530,7 @@ function theme.at_screen_connect(s)
 				Sapphire
 			),
 			arrow(Sapphire, Lavender),
-			wibox.container.background(wibox.container.margin(clock, 4, 8), Lavender),
+			wibox.container.background(wibox.container.margin(mytextclock, 4, 8), Lavender),
 			arrow(Lavender, "alpha"),
 			--]]
 			s.mylayoutbox,
