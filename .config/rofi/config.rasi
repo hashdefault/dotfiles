@@ -1,5 +1,18 @@
-//@theme "/home/gabe/.local/share/rofi/themes/catppuccin-frappe.rasi"
-@theme "/home/gabe/.local/share/rofi/themes/nord.rasi"
-window{
-	height: 360px;
+configuration{
+    modi: "run,drun,window";
+    icon-theme: "Oranchelo";
+    show-icons: true;
+    terminal: "alacritty";
+    drun-display-format: "{icon} {name}";
+    location: 0;
+    disable-history: false;
+    hide-scrollbar: true;
+    display-drun: "   Apps ";
+    display-run: "   Run ";
+    display-filebrowser: " 🗁  File Browser";
+    display-Network: " 󰤨  Network";
+    sidebar-mode: true;
 }
+
+@theme "catppuccin-macchiato"
+
