@@ -6,7 +6,7 @@ install_fundamental_update() {
 	echo "DONE"
 
 	echo "Installing required packages..."
-	sudo pacman -S git openssh firefox fish kitty curl docker docker-compose nodejs npm
+	sudo pacman -S git openssh firefox fish kitty curl docker docker-compose nodejs npm libcurl-devel re2c bison sqlite libxml-devel gd-devel g++ oniguruma libpq-devel libzip-devel
 
 	curl -sS https://starship.rs/install.sh | sh
 	echo "DONE"
