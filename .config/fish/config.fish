@@ -21,5 +21,7 @@ alias cat='bat'
 alias mkdir='mkdir -pv'
 alias dockerphp8='docker container stop php7_mariadb php7_phpmyadmin php7_apache && docker container start php8_mariadb php8_phpmyadmin php8_apache'
 alias dockerphp7='docker container stop php8_mariadb php8_phpmyadmin php8_apache && docker container start php7_mariadb php7_phpmyadmin php7_apache'
+alias vpnon='sudo systemctl start zerotier-one.service'
+alias vpnoff='sudo systemctl stop zerotier-one.service'
 
 starship init fish | source
