@@ -66,7 +66,7 @@ import           Colors.DoomOne
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
-myTerminal      = "kitty"
+myTerminal      = "ghostty"
 
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
@@ -154,14 +154,14 @@ ewwclose = spawn "exec ~/bin/eww close-all"
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- launch a terminal
-    [ ((modm , xK_Return), spawn $ XMonad.terminal conf)
+    [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
 
     -- lock screen
     , ((modm,               xK_F1    ), spawn "betterlockscreen -l")
 
     -- launch rofi and dashboard
     , ((modm,               xK_r     ), spawn "rofi -show drun -modi run,drun,window ")
-    , ((modm,               xK_p     ), spawn "dmenu_run -i -fn 'JetbrainsMono:10' -nb '#1e1e1e' -sf '#fff' -sb '#5bb1d3' -nf '#5bb1d3' ")
+    , ((modm,               xK_p     ), spawn "dmenu_run -i -fn 'JetbrainsMono:11' -nb '#1e1e1e' -sf '#fff' -sb '#5bb1d3' -nf '#5bb1d3' ")
 
     -- launch eww sidebar
     , ((modm,               xK_s     ), sidebarlaunch)
