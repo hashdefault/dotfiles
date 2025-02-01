@@ -9,8 +9,8 @@ end
 
 alias pacsyu='sudo pacman -Syu' # update only standard pkgs
 alias pacsyyu='sudo pacman -Syyu' # Refresh pkglist & update standard pkgs
-alias parsua='paru -Sua --noconfirm' # update only AUR pkgs (paru)
-alias parsyu='paru -Syu --noconfirm' # update standard pkgs and AUR pkgs (paru)
+alias parsua='yay -Sua --noconfirm' # update only AUR pkgs (paru)
+alias parsyu='yay -Syu --noconfirm' # update standard pkgs and AUR pkgs (paru)
 alias unlock='sudo rm /var/lib/pacman/db.lck' # remove pacman lock
 alias cleanup='sudo pacman -Rns $(pacman -Qtdq)' # remove orphaned packages (DANGEROUS!)
 
@@ -26,7 +26,7 @@ alias mkdir='mkdir -pv'
 alias dockerphp8='docker container stop php7_mariadb php7_phpmyadmin php7_apache && docker container start php8_mariadb php8_phpmyadmin php8_apache'
 alias dockerphp7='docker container stop php8_mariadb php8_phpmyadmin php8_apache && docker container start php7_mariadb php7_phpmyadmin php7_apache'
 
-docker container stop $(docker ps -aq)
+#docker container stop $(docker ps -aq)
 
 starship init fish | source
 
