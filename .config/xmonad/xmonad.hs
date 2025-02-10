@@ -104,7 +104,7 @@ import Data.Maybe (maybeToList)
       -- SolarizedLight
       -- TomorrowNight
 
-import           Colors.TomorrowNight
+import           Colors.DoomOne
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
@@ -287,17 +287,15 @@ myShowWNameTheme = def
 
 
 
-
-
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
 --
 clipboardy :: MonadIO m => m () -- Don't question it 
 clipboardy = spawn "rofi -modi \"\63053 :greenclip print\" -show \"\63053 \" -run-command '{cmd}' -theme ~/.config/rofi/launcher/style.rasi"
 
---centerlaunch = spawn "exec ~/bin/eww open-many blur_full weather profile quote search_full disturb-icon vpn-icon home_dir screenshot power_full reboot_full lock_full logout_full suspend_full"
-sidebarlaunch = spawn "exec ~/bin/eww open-many weather_side time_side smol_calendar player_side sys_side sliders_side"
-ewwclose = spawn "exec ~/bin/eww close-all"
+--centerlaunch = spawn "exec ~/.local/bin/eww open-many blur_full weather profile quote search_full disturb-icon vpn-icon home_dir screenshot power_full reboot_full lock_full logout_full suspend_full"
+sidebarlaunch = spawn "exec ~/.local/bin/eww open-many weather_side time_side smol_calendar player_side sys_side sliders_side"
+ewwclose = spawn "exec ~/.local/bin/eww close-all"
 --maimcopy = spawn "maim -s | xclip -selection clipboard -t image/png && notify-send \"Screenshot\" \"Copied to Clipboard\" -i flameshot"
 --maimsave = spawn "maim -s ~/Desktop/$(date +%Y-%m-%d_%H-%M-%S).png && notify-send \"Screenshot\" \"Saved to Desktop\" -i flameshot"
 rofi_launcher = spawn "rofi -no-lazy-grab -show drun -modi run,drun,window -theme $HOME/.config/rofi/launcher/style -drun-icon-theme \"Oranchelo\" "
@@ -335,11 +333,11 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((0,                    xK_Print), spawn "flameshot gui")
 
     -- My Stuff
-    , ((modm,               xK_z     ), spawn "exec ~/bin/inhibit_activate")
-    , ((modm .|. shiftMask, xK_z     ), spawn "exec ~/bin/inhibit_deactivate")
+    , ((modm,               xK_z     ), spawn "exec ~/.local/bin/inhibit_activate")
+    , ((modm .|. shiftMask, xK_z     ), spawn "exec ~/.local/bin/inhibit_deactivate")
     , ((modm .|. shiftMask, xK_a     ), clipboardy)
     -- Turn do not disturb on and off
-    , ((modm,               xK_d     ), spawn "exec ~/bin/do_not_disturb.sh")
+    , ((modm,               xK_d     ), spawn "exec ~/.local/bin/do_not_disturb.sh")
 
     -- close focused window
     , ((modm .|. shiftMask, xK_c     ), kill)
@@ -412,7 +410,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- , ((modm              , xK_b     ), sendMessage ToggleStruts)
 
     -- Quit xmonad
-    , ((modm .|. shiftMask, xK_q     ), spawn "~/bin/powermenu.sh")
+    , ((modm .|. shiftMask, xK_q     ), spawn "~/.local/bin/powermenu.sh")
 
     -- Restart xmonad
     , ((modm              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
@@ -515,7 +513,7 @@ myManageHook = fullscreenManageHook <+> manageDocks <+> composeAll
 ------------------------------------------------------------------------
 -- Event handling
 
--- * EwmhDesktops users should change this to ewmhDesktopsEventHook
+-- * ewmhDesktops users should change this to ewmhDesktopsEventHook
 --
 -- Defines a custom handler function for X Events. The function should
 -- return (All True) if the default handler is to be run afterwards. To
@@ -541,17 +539,17 @@ myEventHook = mempty
 -- By default, do nothing.
 
 myStartupHook = do
-  spawnOnce "exec ~/bin/eww daemon"
+  spawnOnce "exec ~/.local/bin/eww daemon"
   spawn "xsetroot -cursor_name left_ptr"
-  spawn "exec ~/bin/lock.sh"
-  spawnOnce "nitrogen --restore"
-  spawnOnce "picom --experimental-backends"
+  spawn "exec ~/.local/bin/lock.sh"
+  spawn "xrandr --auto --output HDMI-0 --mode 1920x1080 --left-of DP-0 && xrandr --auto --output DP-0 --mode 1920x1080"
+  spawnOnce "picom "
   spawnOnce "greenclip daemon"
-  spawn " xset r rate 200 40"
-  spawn " redshift -x; redshift -O 4300 "
-  spawn " setxkbmap us altgr-intl "
-  spawn ("sleep 2 && trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 " ++ colorTrayer ++ " --height 22")
-  spawnOnce "dunst"
+  spawnOnce " xset r rate 200 40"
+  spawn "nitrogen --restore"
+  spawnOnce " redshift -x; redshift -O 4300 "
+  spawnOnce " setxkbmap us altgr-intl "
+  spawn ("sleep 2 && trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 " ++ colorTrayer ++ " --height 26")
 
 main = do
   xmproc0 <- spawnPipe

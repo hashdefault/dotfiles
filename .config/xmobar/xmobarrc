@@ -12,7 +12,7 @@ Config {
 
    -- layout
       -- general behavior
-	 , position = TopSize L 100 24
+	 , position = TopSize L 100 28
    , lowerOnStart =     True    -- send to bottom of window stack on start
    , hideOnStart =      False   -- start with window unmapped (hidden)
    , allDesktops =      True    -- show on all desktops
