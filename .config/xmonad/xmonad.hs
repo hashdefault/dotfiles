@@ -10,14 +10,38 @@ import XMonad
 import           System.Directory
 import           System.Exit
 import           System.IO
+import XMonad.Layout.ShowWName
+import XMonad.Layout.Renamed
+import XMonad.Layout.Simplest
+import XMonad.Layout.SimplestFloat
+import XMonad.Layout.Tabbed
+import XMonad.Layout.LayoutModifier
+import XMonad.Layout.MultiToggle (mkToggle, single, EOT(EOT), (??))
+import XMonad.Layout.LimitWindows (limitWindows, increaseLimit, decreaseLimit)
+import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, MIRROR, NOBORDERS))
+import XMonad.Layout.GridVariants (Grid(Grid))
+import XMonad.Layout.Spiral
+import XMonad.Layout.Accordion
+import XMonad.Layout.ThreeColumns
+
 import XMonad.Layout.Fullscreen
     ( fullscreenEventHook, fullscreenManageHook, fullscreenSupport, fullscreenFull )
+import qualified XMonad.StackSet as W
 import qualified Codec.Binary.UTF8.String      as UTF8
 import qualified XMonad.Actions.Search         as S
+import XMonad.Layout.Spacing
+import XMonad.Layout.ResizableTile
+
+
+import XMonad.Layout.SubLayouts
+
 
 import           XMonad.Actions.SpawnOn
 import           Data.Maybe                     ( fromJust )
 import           Data.Maybe                     ( isJust )
+import XMonad.Actions.GridSelect
+import XMonad.Actions.MouseResize
+
 import Data.Monoid ()
 import System.Exit ()
 import XMonad.Util.SpawnOnce ( spawnOnce )
@@ -58,15 +82,33 @@ import           XMonad.Hooks.DynamicLog        ( PP(..)
                                                 , xmobarColor
                                                 , xmobarPP
                                                 )
+import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(Toggle))
+import XMonad.Layout.WindowArranger (windowArrange, WindowArrangerMsg(..))
+import XMonad.Layout.WindowNavigation
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 import Data.Maybe (maybeToList)
-import           Colors.DoomOne
+
+
+   -- ColorScheme module (SET ONLY ONE!)
+      -- Possible choice are:
+      -- DoomOne
+      -- Dracula
+      -- GruvboxDark
+      -- MonokaiPro
+      -- Nord
+      -- OceanicNext
+      -- Palenight
+      -- SolarizedDark
+      -- SolarizedLight
+      -- TomorrowNight
+
+import           Colors.TomorrowNight
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
-myTerminal      = "ghostty"
+myTerminal      = "kitty"
 
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
@@ -118,8 +160,13 @@ clickable ws =
   "<action=xdotool key super+" ++ show i ++ ">" ++ ws ++ "</action>"
   where i = fromJust $ M.lookup ws myWorkspaceIndices
 -- Border colors for unfocused and focused windows, respectively.
-myNormalBorderColor  = "#3b4252"
-myFocusedBorderColor = "#5cc4ed"
+
+myNormalBorderColor :: String       -- Border color of normal windows
+myNormalBorderColor   = colorBack   -- This variable is imported from Colors.THEME
+
+myFocusedBorderColor :: String      -- Border color of focused windows
+myFocusedBorderColor  = color15     -- This variable is imported from Colors.THEME
+
 
 addNETSupported :: Atom -> X ()
 addNETSupported x   = withDisplay $ \dpy -> do
@@ -137,6 +184,111 @@ addEWMHFullscreen   = do
     wfs <- getAtom "_NET_WM_STATE_FULLSCREEN"
     mapM_ addNETSupported [wms, wfs]
 
+
+
+--Makes setting the spacingRaw simpler to write. The spacingRaw module adds a configurable amount of space around windows.
+mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
+mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
+
+-- Below is a variation of the above except no borders are applied
+-- if fewer than two windows. So a single window has no gaps.
+mySpacing' :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
+mySpacing' i = spacingRaw True (Border i i i i) True (Border i i i i) True
+
+
+-- Defining a bunch of layouts, many that I don't use.
+-- limitWindows n sets maximum number of windows displayed for layout.
+-- mySpacing n sets the gap size around the windows.
+tall     = renamed [Replace "tall"]
+           $ limitWindows 5
+           $ smartBorders
+           $ windowNavigation
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ mySpacing 8
+           $ ResizableTall 1 (3/100) (1/2) []
+monocle  = renamed [Replace "monocle"]
+           $ smartBorders
+           $ windowNavigation
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ Full
+floats   = renamed [Replace "floats"]
+           $ smartBorders
+           $ simplestFloat
+grid     = renamed [Replace "grid"]
+           $ limitWindows 9
+           $ smartBorders
+           $ windowNavigation
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ mySpacing 8
+           $ mkToggle (single MIRROR)
+           $ Grid (16/10)
+spirals  = renamed [Replace "spirals"]
+           $ limitWindows 9
+           $ smartBorders
+           $ windowNavigation
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ mySpacing' 8
+           $ spiral (6/7)
+threeCol = renamed [Replace "threeCol"]
+           $ limitWindows 7
+           $ smartBorders
+           $ windowNavigation
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ ThreeCol 1 (3/100) (1/2)
+threeRow = renamed [Replace "threeRow"]
+           $ limitWindows 7
+           $ smartBorders
+           $ windowNavigation
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           -- Mirror takes a layout and rotates it by 90 degrees.
+           -- So we are applying Mirror to the ThreeCol layout.
+           $ Mirror
+           $ ThreeCol 1 (3/100) (1/2)
+tabs     = renamed [Replace "tabs"]
+           -- I cannot add spacing to this layout because it will
+           -- add spacing between window and tabs which looks bad.
+           $ tabbed shrinkText myTabTheme
+tallAccordion  = renamed [Replace "tallAccordion"]
+           $ Accordion
+wideAccordion  = renamed [Replace "wideAccordion"]
+           $ Mirror Accordion
+
+
+myFont :: String
+myFont = "xft:JetbrainsMono Nerd Font:regular:size=9:antialias=true:hinting=true"
+
+-- setting colors for tabs layout and tabs sublayout.
+myTabTheme = def { fontName            = myFont
+                 , activeColor         = color15
+                 , inactiveColor       = color08
+                 , activeBorderColor   = color15
+                 , inactiveBorderColor = colorBack
+                 , activeTextColor     = colorBack
+                 , inactiveTextColor   = color16
+                 }
+
+
+
+
+-- Theme for showWName which prints current workspace when you change workspaces.
+myShowWNameTheme :: SWNConfig
+myShowWNameTheme = def
+  { swn_font              = "xft:Ubuntu:bold:size=60"
+  , swn_fade              = 0.8
+  , swn_bgcolor           = "#1c1f24"
+  , swn_color             = "#ffffff"
+  }
+
+
+
+
+
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
 --
@@ -148,7 +300,7 @@ sidebarlaunch = spawn "exec ~/bin/eww open-many weather_side time_side smol_cale
 ewwclose = spawn "exec ~/bin/eww close-all"
 --maimcopy = spawn "maim -s | xclip -selection clipboard -t image/png && notify-send \"Screenshot\" \"Copied to Clipboard\" -i flameshot"
 --maimsave = spawn "maim -s ~/Desktop/$(date +%Y-%m-%d_%H-%M-%S).png && notify-send \"Screenshot\" \"Saved to Desktop\" -i flameshot"
---rofi_launcher = spawn "rofi -no-lazy-grab -show drun -modi run,drun,window -theme $HOME/.config/rofi/launcher/style -drun-icon-theme \"candy-icons\" "
+rofi_launcher = spawn "rofi -no-lazy-grab -show drun -modi run,drun,window -theme $HOME/.config/rofi/launcher/style -drun-icon-theme \"Oranchelo\" "
 
 
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
@@ -160,7 +312,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_F1    ), spawn "betterlockscreen -l")
 
     -- launch rofi and dashboard
-    , ((modm,               xK_r     ), spawn "rofi -show drun -modi run,drun,window ")
+    , ((modm,               xK_r     ), rofi_launcher)
     , ((modm,               xK_p     ), spawn "dmenu_run -i -fn 'JetbrainsMono:11' -nb '#1e1e1e' -sf '#fff' -sb '#5bb1d3' -nf '#5bb1d3' ")
 
     -- launch eww sidebar
@@ -194,19 +346,19 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- GAPS!!!
     , ((modm .|. controlMask, xK_g), sendMessage $ ToggleGaps)               -- toggle all gaps
-    , ((modm .|. shiftMask, xK_g), sendMessage $ setGaps [(L,30), (R,30), (U,40), (D,60)]) -- reset the GapSpec
+    , ((modm .|. shiftMask, xK_g), sendMessage $ setGaps [(L,20), (R,20), (U,20), (D,40)]) -- reset the GapSpec
     
-    , ((modm .|. controlMask, xK_t), sendMessage $ IncGap 10 L)              -- increment the left-hand gap
-    , ((modm .|. shiftMask, xK_t     ), sendMessage $ DecGap 10 L)           -- decrement the left-hand gap
+    , ((modm .|. controlMask, xK_t), sendMessage $ IncGap 5 L)              -- increment the left-hand gap
+    , ((modm .|. shiftMask, xK_t     ), sendMessage $ DecGap 5 L)           -- decrement the left-hand gap
     
-    , ((modm .|. controlMask, xK_y), sendMessage $ IncGap 10 U)              -- increment the top gap
-    , ((modm .|. shiftMask, xK_y     ), sendMessage $ DecGap 10 U)           -- decrement the top gap
+    , ((modm .|. controlMask, xK_y), sendMessage $ IncGap 5 U)              -- increment the top gap
+    , ((modm .|. shiftMask, xK_y     ), sendMessage $ DecGap 5 U)           -- decrement the top gap
     
-    , ((modm .|. controlMask, xK_u), sendMessage $ IncGap 10 D)              -- increment the bottom gap
-    , ((modm .|. shiftMask, xK_u     ), sendMessage $ DecGap 10 D)           -- decrement the bottom gap
+    , ((modm .|. controlMask, xK_u), sendMessage $ IncGap 5 D)              -- increment the bottom gap
+    , ((modm .|. shiftMask, xK_u     ), sendMessage $ DecGap 5 D)           -- decrement the bottom gap
 
-    , ((modm .|. controlMask, xK_i), sendMessage $ IncGap 10 R)              -- increment the right-hand gap
-    , ((modm .|. shiftMask, xK_i     ), sendMessage $ DecGap 10 R)           -- decrement the right-hand gap
+    , ((modm .|. controlMask, xK_i), sendMessage $ IncGap 5 R)              -- increment the right-hand gap
+    , ((modm .|. shiftMask, xK_i     ), sendMessage $ DecGap 5 R)           -- decrement the right-hand gap
 
      -- Rotate through the available layout algorithms
     , ((modm,               xK_space ), sendMessage NextLayout)
@@ -318,20 +470,23 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 -- The available layouts.  Note that each layout is separated by |||,
 -- which denotes layout choice.
 --
-myLayout = avoidStruts(tiled ||| Mirror tiled ||| Full)
+-- The layout hook
+myLayout = avoidStruts
+               $ mouseResize
+               $ windowArrange
+               $ T.toggleLayouts floats
+               $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
   where
-     -- default tiling algorithm partitions the screen into two panes
-     tiled   = Tall nmaster delta ratio
-
-     -- The default number of windows in the master pane
-     nmaster = 1
-
-     -- Default proportion of screen occupied by master pane
-     ratio   = 1/2
-
-     -- Percent of screen to increment by when resizing panes
-     delta   = 3/100
-
+    myDefaultLayout = withBorder myBorderWidth tall
+                                           ||| noBorders monocle
+                                           ||| floats
+                                           ||| noBorders tabs
+                                           ||| grid
+                                           ||| spirals
+                                           ||| threeCol
+                                           ||| threeRow
+                                           ||| tallAccordion
+                                           ||| wideAccordion
 ------------------------------------------------------------------------
 -- Window rules:
 
@@ -347,6 +502,8 @@ myLayout = avoidStruts(tiled ||| Mirror tiled ||| Full)
 -- To match on the WM_NAME, you can use 'title' in the same way that
 -- 'className' and 'resource' are used below.
 --
+
+
 myManageHook = fullscreenManageHook <+> manageDocks <+> composeAll
     [ className =? "MPlayer"        --> doFloat
     , className =? "Gimp"           --> doFloat
@@ -387,12 +544,13 @@ myStartupHook = do
   spawnOnce "exec ~/bin/eww daemon"
   spawn "xsetroot -cursor_name left_ptr"
   spawn "exec ~/bin/lock.sh"
-  spawnOnce "feh --bg-scale ~/Pictures/wallpapers/Sunset-Forrest.png"
+  spawnOnce "nitrogen --restore"
   spawnOnce "picom --experimental-backends"
   spawnOnce "greenclip daemon"
   spawn " xset r rate 200 40"
   spawn " redshift -x; redshift -O 4300 "
   spawn " setxkbmap us altgr-intl "
+  spawn ("sleep 2 && trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 " ++ colorTrayer ++ " --height 22")
   spawnOnce "dunst"
 
 main = do
@@ -432,7 +590,7 @@ defaults xmproc0 xmproc1 = def {
 
       -- hooks, layouts
         manageHook = myManageHook, 
-        layoutHook = gaps [(L,20), (R,20), (U,40), (D,20)] $ spacingRaw True (Border 5 5 5 5) True (Border 5 5 5 5) True $ smartBorders $ myLayout,
+        layoutHook = showWName' myShowWNameTheme $  smartBorders $ myLayout ,
         handleEventHook    = myEventHook,
         startupHook        = myStartupHook >> addEWMHFullscreen,
         logHook =
