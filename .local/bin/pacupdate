@@ -1,5 +1,3 @@
 #!/bin/bash
 
-cupd=$(checkupdates | wc -l)
-echo "$cupd updates "
-
+echo "$(checkupdates | wc -l) updates "
