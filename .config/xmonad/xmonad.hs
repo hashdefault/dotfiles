@@ -41,6 +41,7 @@ import           Data.Maybe                     ( fromJust )
 import           Data.Maybe                     ( isJust )
 import XMonad.Actions.GridSelect
 import XMonad.Actions.MouseResize
+import XMonad.Actions.Volume
 
 import Data.Monoid ()
 import System.Exit ()
@@ -311,7 +312,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- launch rofi and dashboard
     , ((modm,               xK_r     ), rofi_launcher)
-    , ((modm,               xK_p     ), spawn "dmenu_run -i -fn 'JetbrainsMono:11' -nb '#1e1e1e' -sf '#fff' -sb '#5bb1d3' -nf '#5bb1d3' ")
+    , ((modm,               xK_p     ), spawn "dmenu_run -i -fn 'JetbrainsMono:bold' -nb '#1e1e1e' -sf '#fff' -sb '#5bb1d3' -nf '#5bb1d3' ")
 
     -- launch eww sidebar
     , ((modm,               xK_s     ), sidebarlaunch)
@@ -321,8 +322,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((0,                    xF86XK_AudioPlay), spawn "playerctl play-pause")
     , ((0,                    xF86XK_AudioPrev), spawn "playerctl previous")
     , ((0,                    xF86XK_AudioNext), spawn "playerctl next")
-    , ((0,                    xF86XK_AudioRaiseVolume), spawn "amixer -q -D pulse sset 'Master' 5%+")
-    , ((0,                    xF86XK_AudioLowerVolume), spawn "amixer -q -D pulse sset 'Master' 5%-")
+    , ((0,                    xF86XK_AudioRaiseVolume), spawn "amixer set Master 5%+ unmute && exec ~/.local/bin/volume")
+    , ((0,                    xF86XK_AudioLowerVolume), spawn "amixer set Master 5%- unmute && exec ~/.local/bin/volume")
     , ((0,                    xF86XK_AudioMute), spawn "amixer -D pulse sset 'Master' toggle")
 
     -- Brightness keys
@@ -545,10 +546,12 @@ myStartupHook = do
   spawn "xrandr --auto --output HDMI-0 --mode 1920x1080 --left-of DP-0 && xrandr --auto --output DP-0 --mode 1920x1080"
   spawnOnce "picom "
   spawnOnce "greenclip daemon"
-  spawnOnce " xset r rate 200 40"
+  spawn " xset r rate 200 40"
+  spawn " setxkbmap us altgr-intl "
   spawn "nitrogen --restore"
   spawnOnce " redshift -x; redshift -O 4300 "
-  spawnOnce " setxkbmap us altgr-intl "
+  spawnOnce " pasystray "
+  spawnOnce "pkill dunst && dunst -config ~/.config/dunst/dunstrc &"
   spawn ("sleep 2 && trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 " ++ colorTrayer ++ " --height 26")
 
 main = do
