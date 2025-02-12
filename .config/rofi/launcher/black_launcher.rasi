@@ -1,15 +1,14 @@
-/* colors -Authored by Axarva lol */
 
 * {
-  al:      #00000000;
-  bg:      #010101ff;
-  se:      #ffd5cdff;
-  fg:      #eeeeeeff;
-  ac:      #ea907aff;
-  red:     #EC7875ff;
-  green:   #61C766ff;
-  yellow:  #FDD835ff;
-  blue:    #42A5F5ff;
-  purple:  #BA68C8ff;
-  cyan:    #4DD0E1ff;
+  al:      #000000;
+  bg:      #1c1f24;
+  se:      #ffd5cd;
+  fg:      #eeeeee;
+  ac:      #da8848;
+  red:     #ff6c6b;
+  green:   #98be65;
+  yellow:  #ecbe7b;
+  blue:    #42A5F5;
+  purple:  #a9a1e1;
+  cyan:    #46d9ff;
 }
