@@ -1,1 +1,86 @@
-/home/gabriel/.config/waybar/configs/[TOP] Default
+{
+    "layer": "top",
+    "position": "top",
+    "height" : 28,
+    "modules-left": ["hyprland/workspaces", "mpd" ],
+    "modules-center": ["hyprland/window"],
+    "modules-right": [ "cpu", "memory","wireplumber", "clock", "tray"],
+	  "hyprland/workspaces": {
+    "format": "{icon} ",
+    "format-icons": {
+      "1": "code ",
+      "2": "www 󰖟",
+      "3": "search 󰍉",
+      "4": "talk ",
+      "5": "sounds 󰎆",
+      "6": "ftp 󱁥",
+      "7": "doc ",
+      "8": "gfx 󱋆",
+      "9": "go ",
+    },
+    "persistent-workspaces": {
+      "*": [1,2,3,4,5,6,7,8,9],
+    }
+  },
+ "mpd": {
+    "format": "{artist} - {title}",
+    "format-notes": "No music playing",
+    "format-playing": "{icon} {artist} - {title}",
+    "icon": "",
+    "icon-playing": "",
+    "icon-paused": "",
+    "max-length": 50,
+    "scroll-up": "mpc seek +10",
+    "scroll-down": "mpc seek -10",
+    "click-left": "mpc toggle",
+    "click-right": "mpc stop"
+  },
+  "cpu": {
+    "interval": 1,
+    "format": "{icon0}{icon1}{icon2}{icon3} {usage:>2}% 󰍛 ",
+    "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
+  },
+  "memory" : {
+    "format": "{used} of {total}GiB  ",
+  },
+	"battery": {
+		"format": "{capacity}% {icon}",
+		"format-icons": ["", "", "", "", ""]
+	},
+  "wireplumber": {
+    "format": "    {volume}%",
+    "format-muted": " muted",
+    "on-scroll-up": "amixer -D pulse sset Master 5%+",
+    "on-scroll-down": "amixer -D pulse sset Master 5%-",
+    "on-click": "amixer set Master toggle"
+  },
+  "clock": {
+    "format": "{:%A, %B %d, %Y (%R)}   ",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode"          : "month",
+      "mode-mon-col"  : 3,
+      "weeks-pos"     : "right",
+      "on-scroll"     : 1,
+      "on-click-right": "mode",
+      "format": {
+        "months":     "<span color='#ffead3'><b>{}</b></span>",
+        "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+        "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+        "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+        "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode",
+      "on-click-forward": "tz_up",
+      "on-click-backward": "tz_down",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
+  },
+  "tray": {
+    "icon-size": 21,
+    "spacing": 10
+  }
+}
