@@ -75,7 +75,7 @@ button:hover {
 }
 
 #workspaces button {
-  padding: 0 3px;
+  padding: 0 5px;
   background-color: transparent;
   color: #dfdfdf;
   border-radius: 10px;
@@ -88,12 +88,14 @@ button:hover {
 
 #workspaces button.active {
   font-weight: bold;
-  color: #c678dd;
+  color: #46d9ff;
+  background-color: rgb(80, 80, 80);
+
 }
 
-#workspaces button.focused {
-  background-color: #64727D;
-}
+/*#workspaces button.visible {
+  background-color: transparent;
+} */
 
 #workspaces button.urgent {
   background-color: #eb4d4b;
@@ -113,6 +115,7 @@ button:hover {
 #network,
 #pulseaudio,
 #custom-playerctl,
+#custom-weather,
 #wireplumber,
 #custom-media,
 #tray,
@@ -122,22 +125,29 @@ button:hover {
 #power-profiles-daemon,
 #mpd {
   padding: 0 8px;
-  margin: 1px 3px;
+  margin: 1px 5px;
   color: #dfdfdf;
   border-radius: 10px;
+}
+
+#custom-weather {
+  background-color: #3071db;
+  min-width: 100px;
+  font-weight: bold;
+
 }
 
 #custom-playerctl {
   background-color: #66cc99;
   color: #2a5c45;
   min-width: 100px;
-  font-weight:normal;
+  font-weight: normal;
 
 }
 
 #window,
 #workspaces {
-  margin: 0 4px;
+  margin: 0 5px;
 }
 
 /* If workspaces is the leftmost module, omit left margin */
@@ -208,12 +218,12 @@ label:focus {
 }
 
 #cpu {
-  background-color: #98be65;
+  background-color: #da8548;
   color: #dfdfdf;
 }
 
 #memory {
-  background-color: #a9a1e1;
+  background-color: #ff6c6b;
   color: #dfdfdf;
 }
 

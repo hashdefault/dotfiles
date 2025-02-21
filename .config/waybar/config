@@ -4,12 +4,11 @@
     "height" : 26,
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["hyprland/window",  "custom/playerctl"],
-    "modules-right": [ "cpu", "memory","wireplumber", "clock", "tray"],
+    "modules-right": [ "custom/weather", "cpu", "memory","wireplumber", "clock", "tray"],
     "hyprland/window": {
     "format": "{title}",
     },
 	  "hyprland/workspaces": {
-
     "format": "{icon} ",
     "format-icons": {
       "1": "code ",
@@ -17,8 +16,8 @@
       "3": "search 󰍉",
       "4": "talk ",
       "5": "sounds 󰎆",
-      "6": "ftp 󱁥",
-      "7": "doc ",
+      "6": "doc ",
+      "7": "ftp 󱁥",
       "8": "gfx 󱋆",
       "9": "go ",
     },
@@ -26,20 +25,25 @@
       "*": [1,2,3,4,5,6,7,8,9],
     }
   },
-"custom/playerctl": {
-    "format": "<span>  {}</span>",
-    "return-type": "json",
-    "max-length": 35,
-    "exec": "playerctl -a metadata --format '{\"text\": \"{{artist}} ~ {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
-    "on-click-middle": "playerctl play-pause",
-    "on-click": "playerctl previous",
-    "on-click-right": "playerctl next",
-    "scroll-step": 5.0,
-    "on-scroll-up": "amixer -D pulse sset Master 5%+",
-    "on-scroll-down": "amixer -D pulse sset Master 5%-",
-    "smooth-scrolling-threshold": 1,
-},
-
+  "custom/weather": {
+    "format": "{}",
+    "exec": "~/.local/bin/getweather",
+    "interval": 1800,
+    "max-length": 35
+  },
+  "custom/playerctl": {
+      "format": "<span>  {}</span>",
+      "return-type": "json",
+      "max-length": 35,
+      "exec": "playerctl -a metadata --format '{\"text\": \"{{artist}} ~ {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
+      "on-click-middle": "playerctl play-pause",
+      "on-click": "playerctl previous",
+      "on-click-right": "playerctl next",
+      "scroll-step": 5.0,
+      "on-scroll-up": "amixer -D pulse sset Master 5%+",
+      "on-scroll-down": "amixer -D pulse sset Master 5%-",
+      "smooth-scrolling-threshold": 1,
+  },
   "cpu": {
     "interval": 1,
     "format": "{icon0}{icon1}{icon2}{icon3} {usage:>2}% 󰍛 ",
