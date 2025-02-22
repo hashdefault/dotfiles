@@ -3,25 +3,19 @@
 # Create a temporary file for the screenshot
 tmpfile=$(mktemp --suffix=.png)
 
+
+# Take a snapshot of the clipboard before taking the screenshot
+initial_clipboard=$(wl-paste --list-types)
+
 # Take the screenshot
-grim -g "$(slurp)" "$tmpfile"
+grim -g "$(slurp)" "$tmpfile" && swappy -f "$tmpfile" 
 
-# Open in Swappy in the background & store its PID
-swappy -f "$tmpfile" &
-SWAPPY_PID=$!
+sleep 1
 
-# Cleanup function: Copy to clipboard and notify
-cleanup_screenshot() {
-  kill "$SWAPPY_PID" 2>/dev/null # Kill Swappy if running
-  wl-copy <"$tmpfile"
-  notify-send "Screenshot copied to clipboard  "
-  rm -f "$tmpfile"
-  exit 0
-}
-# Trap CTRL+C to trigger cleanup
-trap cleanup SIGINT
+# Check if the clipboard types have changed
+current_clipboard=$(wl-paste --list-types)
 
-# Wait for Swappy to close normally
-wait "$SWAPPY_PID"
-
-cleanup_screenshot
+# If the clipboard now contains an image and it's different from the initial state
+if echo "$current_clipboard" | grep -q "image/" && [ "$initial_clipboard" != "$current_clipboard" ]; then
+    notify-send "Screenshot Copied to the clipboard "
+fi

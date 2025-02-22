@@ -141,6 +141,7 @@ button:hover {
   background-color: #66cc99;
   color: #2a5c45;
   min-width: 100px;
+  margin-left: 20px;
   font-weight: normal;
 
 }
