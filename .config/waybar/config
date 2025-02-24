@@ -68,19 +68,18 @@
     "interval": 1,
     "format": "  {:%H:%M}",
     "format-alt": " {:%H:%M:%S     %Y, %d %B, %A}",
-    "tooltip-format": "<span size='medium' weight='heavy'>{calendar}</span>",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "calendar": {
       "mode"          : "month",
       "mode-mon-col"  : 3,
-      "weeks-pos"     : "right",
       "on-scroll"     : 1,
       "on-click-right": "mode",
       "format": {
-        "months":     "<span color='#ffead3'>{}</span>",
-        "days":       "<span color='#ecc6d9'>{}</span>",
-        "weeks":      "<span color='#99ffdd'>W{}</span>",
-        "weekdays":   "<span color='#ffcc66'>{}</span>",
-        "today":      "<span color='#ff6699'>{}</span>"
+        "months":     "<span size='14pt' color='#ffead3'>{}</span>",
+        "days":       "<span size='14pt' color='#dfdfdf'>{}</span>",
+        "weeks":      "<span size='14pt' color='#ff6699'>W{}</span>",
+        "weekdays":   "<span size='14pt' color='#e8cb3c'>{}</span>",
+        "today":      "<u><b><span size='14pt' color='#70cc10'>{}</span></b></u>"
       }
     },
     "actions": {
