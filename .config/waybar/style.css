@@ -24,7 +24,7 @@
 */
 * {
   /* `otf-font-awesome` is required to be installed for icons */
-  font-family: FontAwesome, Ubuntu, sans-serif;
+  font-family: FontAwesome, Ubuntu Mono, sans-serif;
   font-size: 12px;
   font-weight: bold;
 }
@@ -141,7 +141,6 @@ button:hover {
   background-color: #66cc99;
   color: #2a5c45;
   min-width: 100px;
-  margin-left: 20px;
   font-weight: normal;
 
 }
