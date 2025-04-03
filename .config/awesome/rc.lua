@@ -805,6 +805,7 @@ end)
 
 awful.spawn("lxsession")
 awful.spawn("picom")
+awful.spawn("variety")
 awful.spawn("nm-applet")
 awful.spawn.with_shell("xset r rate 200 40")
 awful.spawn.with_shell("~/.local/bin/lock.sh")
