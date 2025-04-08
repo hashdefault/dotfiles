@@ -73,7 +73,7 @@ beautiful.init(theme_path)
 local modkey = "Mod4"
 local altkey = "Mod1"
 local ctrlkey = "Control"
-local terminal = "alacritty"
+local terminal = "ghostty"
 local browser = "brave"
 local editor = os.getenv("EDITOR") or "nvim"
 local colorscheme = "DoomOne"
@@ -83,7 +83,7 @@ local soundplayer = "ffplay -nodisp -autoexit " -- The program that will play sy
 -- awesome variables
 awful.util.terminal = terminal
 --awful.util.tagnames = {  " ", " ", " ", " ", " ", " ", " ", " ", " ", " "  }
-awful.util.tagnames = { " DEV ", " WEB ", " SEARCH ", " CHAT ", " FTP ", " DOCS ", " MUSIC ", " GFX ", " ENJOY " }
+awful.util.tagnames = { " CODE ", " WWW ", " SEARCH ", " TALK "," SOUNDS ", " DOCS ", " FTP ", " GFX ", " FUN " }
 awful.layout.suit.tile.left.mirror = true
 awful.layout.layouts = {
 	awful.layout.suit.tile,
@@ -237,7 +237,7 @@ globalkeys = my_table.join(
 	-- {{{ Personal keybindings
 
 	-- Awesome keybindings
-	awful.key({ modkey }, "Return", function()
+	awful.key({ modkey, "Shift" }, "Return", function()
 		awful.spawn(terminal)
 	end, { description = "Launch terminal", group = "awesome" }),
 	awful.key({ altkey, "Control" }, "f", function()
@@ -247,7 +247,7 @@ globalkeys = my_table.join(
 		awful.spawn("youtube-music")
 	end, { description = "Launch youtube music", group = "awesome" }),
 	awful.key({}, "Print", function()
-		awful.spawn("flameshot gui")
+		awful.spawn.with_shell(os.getenv("HOME") .. "~/.local/bin/screenshot.sh")
 	end, { description = "print screen ", group = "awesome" }),
 	awful.key({ modkey }, "b", function()
 		awful.spawn("brave")
@@ -267,8 +267,11 @@ globalkeys = my_table.join(
 	end, { description = "launcher dmenu", group = "awesome" }),
 	awful.key({ modkey, "Shift" }, "r", awesome.restart, { description = "Reload awesome", group = "awesome" }),
 	awful.key({ modkey, "Shift" }, "q", function()
-		awful.spawn.with_shell("dm-logout")
+		awful.spawn.with_shell("~/.local/bin/powermenu.sh")
 	end, { description = "Quit awesome", group = "awesome" }),
+	--awful.key({ modkey, "Shift" }, "q", function()
+	--	awful.spawn.with_shell("dm-logout")
+	--end, { description = "Quit awesome", group = "awesome" }),
 	awful.key({ modkey }, "s", hotkeys_popup.show_help, { description = "Show help", group = "awesome" }),
 	awful.key({ modkey, "Shift" }, "w", function()
 		awful.util.mymainmenu:show()
@@ -283,7 +286,7 @@ globalkeys = my_table.join(
 	end, { description = "Show/hide wibox (bar)", group = "awesome" }),
 
 	-- Run launcher
-	awful.key({ modkey, "Shift" }, "Return", function()
+	awful.key({ modkey }, "e", function()
 		awful.util.spawn("nemo")
 	end, { description = "Run launcher", group = "hotkeys" }),
 
@@ -529,7 +532,7 @@ clientkeys = my_table.join(
 		c.fullscreen = not c.fullscreen
 		c:raise()
 	end, { description = "toggle fullscreen", group = "client" }),
-	awful.key({ modkey }, "c", function(c)
+	awful.key({ modkey, "Shift" }, "c", function(c)
 		c:kill()
 	end, { description = "close", group = "hotkeys" }),
 	awful.key({ modkey }, "t", awful.client.floating.toggle, { description = "toggle floating", group = "client" }),
@@ -800,11 +803,11 @@ client.connect_signal("unfocus", function(c)
 	c.border_color = beautiful.border_normal
 end)
 
-awful.spawn.with_shell("lxsession")
-awful.spawn.with_shell("picom")
-awful.spawn.with_shell("nitrogen --restore")
-awful.spawn.with_shell("nm-applet")
---awful.spawn.with_shell("redshift -O 4000")
-awful.spawn.with_shell("killall conky")
-awful.spawn.with_shell("killall volumeicon; volumeicon")
+awful.spawn("lxsession")
+awful.spawn("picom")
+awful.spawn("variety")
+awful.spawn("nm-applet")
+awful.spawn.with_shell("xset r rate 200 40")
+awful.spawn.with_shell("~/.local/bin/lock.sh")
+awful.spawn.with_shell("redshift -x; redshift -O 4000")
 awful.spawn.with_shell("setxkbmap us altgr-intl")
