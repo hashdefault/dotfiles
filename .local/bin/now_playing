@@ -4,7 +4,7 @@
 status=$(playerctl status 2>/dev/null)
 
 if [[ "$status" != "Playing" && "$status" != "Paused" ]]; then
-    echo " 󰝛 Nothing playing "
+    echo " 󰝛   Nothing playing "
     exit 0
 fi
 
