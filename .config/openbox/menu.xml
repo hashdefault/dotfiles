@@ -2,5 +2,162 @@
 <openbox_menu xmlns="https://openbox.org/"
  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="https://openbox.org/">
-    <menu id="root-menu" label="obmenu-generator" execute="/usr/bin/obmenu-generator -i" />
+  <menu id="root-menu" label="Applications">
+    <item label="File Manager" icon="/home/lucas/.cache/obmenu-generator/icons/0181050fc89d486936a2e1400e18f4f5.png"><action name="Execute"><command><![CDATA[xdg-open .]]></command></action></item>
+    <item label="Terminal" icon="/home/lucas/.cache/obmenu-generator/icons/c542f82ce3cec744dc0884cf6d6a5bde.png"><action name="Execute"><command><![CDATA[xterm]]></command></action></item>
+    <item label="Web Browser" icon="/home/lucas/.cache/obmenu-generator/icons/41e3a2503d39b5c7790cf5b69c23f079.png"><action name="Execute"><command><![CDATA[xdg-open http://]]></command></action></item>
+    <item label="Run command" icon="/home/lucas/.cache/obmenu-generator/icons/93ce9adb66567046b6ff42287be57b33.png"><action name="Execute"><command><![CDATA[gmrun]]></command></action></item>
+  <separator label="Categories"/>
+  <menu id="0.623141735400171" icon="/home/lucas/.cache/obmenu-generator/icons/bba66ba0b9d8c2083ac4bf6c966b8756.png" label="Accessories">
+    <item label="About Xfce" icon="/home/lucas/.cache/obmenu-generator/icons/2777892b95f4d349e0983bf07ccf5cb4.png"><action name="Execute"><command><![CDATA[xfce4-about]]></command></action></item>
+    <item label="Arch Linux Tweak Tool" icon="/home/lucas/.cache/obmenu-generator/icons/2356199c267cc585487b92740fd68979.png"><action name="Execute"><command><![CDATA[/usr/bin/archlinux-tweak-tool]]></command></action></item>
+    <item label="ArcoLinux Betterlockscreen" icon="/home/lucas/.cache/obmenu-generator/icons/7fee8badf152dc1b0708e95f933f0336.png"><action name="Execute"><command><![CDATA[/usr/local/bin/arcolinux-betterlockscreen]]></command></action></item>
+    <item label="Bitwarden" icon="/home/lucas/.cache/obmenu-generator/icons/87100e2075b8b9d6cee26fb1d6acb39c.png"><action name="Execute"><command><![CDATA[bitwarden-desktop]]></command></action></item>
+    <item label="Font Manager" icon="/home/lucas/.cache/obmenu-generator/icons/6d9faada49b3e9c228937222e363b592.png"><action name="Execute"><command><![CDATA[font-manager]]></command></action></item>
+    <item label="Font Viewer" icon="/home/lucas/.cache/obmenu-generator/icons/6d9faada49b3e9c228937222e363b592.png"><action name="Execute"><command><![CDATA[/usr/lib/font-manager/font-viewer]]></command></action></item>
+    <item label="Galculator" icon="/home/lucas/.cache/obmenu-generator/icons/ae9569992c78d4e92615a12ebf029f58.png"><action name="Execute"><command><![CDATA[galculator]]></command></action></item>
+    <item label="Hubstaff" icon="/home/lucas/.cache/obmenu-generator/icons/0cc0d7d9334a66e4fd91177bd4bd3240.png"><action name="Execute"><command><![CDATA[/usr/bin/perl -e 'chdir($ARGV[0]) && exec($ARGV[1])' \/home\/lucas\/Hubstaff \"\/home\/lucas\/Hubstaff\/HubstaffClient\.bin\.x86_64\"]]></command></action></item>
+    <item label="Neovim" icon="/home/lucas/.cache/obmenu-generator/icons/4e35f833cf39a99b5881e64df32ca3ea.png"><action name="Execute"><command><![CDATA[xterm -e 'nvim']]></command></action></item>
+    <item label="nitrogen" icon="/home/lucas/.cache/obmenu-generator/icons/af3137ac4f06e64d20d874fc26552de4.png"><action name="Execute"><command><![CDATA[nitrogen]]></command></action></item>
+    <item label="Picom" icon="/home/lucas/.cache/obmenu-generator/icons/c1a3f73a856355890793daa80d4d08dc.png"><action name="Execute"><command><![CDATA[picom]]></command></action></item>
+    <item label="Redshift" icon="/home/lucas/.cache/obmenu-generator/icons/39edcda9312013342e163ba13f579ae0.png"><action name="Execute"><command><![CDATA[redshift-gtk]]></command></action></item>
+    <item label="Tweaks" icon="/home/lucas/.cache/obmenu-generator/icons/e1a021188d96a99827f2539286e4ec46.png"><action name="Execute"><command><![CDATA[gnome-tweaks]]></command></action></item>
+    <item label="Variety" icon="/home/lucas/.cache/obmenu-generator/icons/25fdaa184106cda2d9304635ab7a0f95.png"><action name="Execute"><command><![CDATA[variety]]></command></action></item>
+  </menu>
+  <menu id="0.787958650707395" icon="/home/lucas/.cache/obmenu-generator/icons/93470b82fc0ef6daeb4b1de29b4f25e5.png" label="Development">
+    <item label="CMake" icon="/home/lucas/.cache/obmenu-generator/icons/7555ddfd1ef1dcded5567cd479d76225.png"><action name="Execute"><command><![CDATA[cmake-gui]]></command></action></item>
+    <item label="Code - OSS" icon="/home/lucas/.cache/obmenu-generator/icons/091b20b559a2d51191097aec9363c33e.png"><action name="Execute"><command><![CDATA[code-oss]]></command></action></item>
+    <item label="Electron 34" icon="/home/lucas/.cache/obmenu-generator/icons/321332a3098745618b46377bd6c4e8c7.png"><action name="Execute"><command><![CDATA[electron34]]></command></action></item>
+  </menu>
+  <menu id="0.155934961318177" icon="/home/lucas/.cache/obmenu-generator/icons/88c3557c2b47b1fbac78c474fb14b9f0.png" label="Education">
+    <item label="LibreOffice Math" icon="/home/lucas/.cache/obmenu-generator/icons/699f94de91dae521fbedf34c4a1c98ee.png"><action name="Execute"><command><![CDATA[libreoffice --math]]></command></action></item>
+  </menu>
+  <menu id="0.938952307306813" icon="/home/lucas/.cache/obmenu-generator/icons/a1a3e1888440705e5328b52d0a376b53.png" label="Games">
+    <item label="Baldur's Gate 3" icon="/home/lucas/.cache/obmenu-generator/icons/08150e98aa44a4566580b69257e8000c.png"><action name="Execute"><command><![CDATA[steam steam://rungameid/1086940]]></command></action></item>
+    <item label="Conan Exiles" icon="/home/lucas/.cache/obmenu-generator/icons/8af7ceebef084597d3bee972dbde76f8.png"><action name="Execute"><command><![CDATA[steam steam://rungameid/440900]]></command></action></item>
+    <item label="Crime Boss: Rockay City" icon="/home/lucas/.cache/obmenu-generator/icons/5a3ced7e39c4b858b702637cbdf1e720.png"><action name="Execute"><command><![CDATA[steam steam://rungameid/2933080]]></command></action></item>
+    <item label="Dead Island Definitive Edition" icon="/home/lucas/.cache/obmenu-generator/icons/fd6c75b8c63d636b3d7eb2e4c1ad73f0.png"><action name="Execute"><command><![CDATA[steam steam://rungameid/383150]]></command></action></item>
+    <item label="Divinity: Original Sin 2" icon="/home/lucas/.cache/obmenu-generator/icons/e8a77644a634c6fb9f16c50a5933a400.png"><action name="Execute"><command><![CDATA[steam steam://rungameid/435150]]></command></action></item>
+    <item label="Goverlay" icon="/home/lucas/.cache/obmenu-generator/icons/feeed8721379ef7a0c82aa87eeb42485.png"><action name="Execute"><command><![CDATA[goverlay]]></command></action></item>
+    <item label="HITMAN World of Assassination" icon="/home/lucas/.cache/obmenu-generator/icons/fcd576a19d0bf73c0273eea8a1afe695.png"><action name="Execute"><command><![CDATA[steam steam://rungameid/1659040]]></command></action></item>
+    <item label="Left 4 Dead 2" icon="/home/lucas/.cache/obmenu-generator/icons/43e89430726b24225e0988131d134220.png"><action name="Execute"><command><![CDATA[steam steam://rungameid/550]]></command></action></item>
+    <item label="Middle-earth™: Shadow of War™" icon="/home/lucas/.cache/obmenu-generator/icons/3c10e2cfffce1d414055bdc9da189758.png"><action name="Execute"><command><![CDATA[steam steam://rungameid/356190]]></command></action></item>
+    <item label="My dream setup" icon="/home/lucas/.cache/obmenu-generator/icons/9f7f0ab8a5f001b3707adad2ff79a481.png"><action name="Execute"><command><![CDATA[steam steam://rungameid/2200780]]></command></action></item>
+    <item label="Proton 9.0" icon="/home/lucas/.cache/obmenu-generator/icons/21a5adb92d26ef16ca478f3bb2e53ffb.png"><action name="Execute"><command><![CDATA[steam steam://rungameid/2805730]]></command></action></item>
+    <item label="Proton EasyAntiCheat Runtime" icon="/home/lucas/.cache/obmenu-generator/icons/21a5adb92d26ef16ca478f3bb2e53ffb.png"><action name="Execute"><command><![CDATA[steam steam://rungameid/1826330]]></command></action></item>
+    <item label="Proton Experimental" icon="/home/lucas/.cache/obmenu-generator/icons/21a5adb92d26ef16ca478f3bb2e53ffb.png"><action name="Execute"><command><![CDATA[steam steam://rungameid/1493710]]></command></action></item>
+    <item label="Sniper Elite 5" icon="/home/lucas/.cache/obmenu-generator/icons/14cb9b13d6cee8bc2899f810c3e88196.png"><action name="Execute"><command><![CDATA[steam steam://rungameid/1029690]]></command></action></item>
+    <item label="Steam Linux Runtime 1.0 (scout)" icon="/home/lucas/.cache/obmenu-generator/icons/21a5adb92d26ef16ca478f3bb2e53ffb.png"><action name="Execute"><command><![CDATA[steam steam://rungameid/1070560]]></command></action></item>
+    <item label="Steam Linux Runtime 2.0 (soldier)" icon="/home/lucas/.cache/obmenu-generator/icons/21a5adb92d26ef16ca478f3bb2e53ffb.png"><action name="Execute"><command><![CDATA[steam steam://rungameid/1391110]]></command></action></item>
+    <item label="Steam Linux Runtime 3.0 (sniper)" icon="/home/lucas/.cache/obmenu-generator/icons/21a5adb92d26ef16ca478f3bb2e53ffb.png"><action name="Execute"><command><![CDATA[steam steam://rungameid/1628350]]></command></action></item>
+    <item label="Steam" icon="/home/lucas/.cache/obmenu-generator/icons/21a5adb92d26ef16ca478f3bb2e53ffb.png"><action name="Execute"><command><![CDATA[/usr/bin/steam]]></command></action></item>
+    <item label="Zombie Army 4: Dead War" icon="/home/lucas/.cache/obmenu-generator/icons/cb1a30ff9d25a80714b0257cd1d939fc.png"><action name="Execute"><command><![CDATA[steam steam://rungameid/694280]]></command></action></item>
+  </menu>
+  <menu id="0.386755370430439" icon="/home/lucas/.cache/obmenu-generator/icons/418ef4d87fc652bf424b38dd5e2c1483.png" label="Graphics">
+    <item label="Flameshot" icon="/home/lucas/.cache/obmenu-generator/icons/fac444e8019475a4a96b498507533966.png"><action name="Execute"><command><![CDATA[/usr/bin/flameshot]]></command></action></item>
+    <item label="GNU Image Manipulation Program" icon="/home/lucas/.cache/obmenu-generator/icons/5b17070a8930654987109272b511a5cc.png"><action name="Execute"><command><![CDATA[gimp-3.0]]></command></action></item>
+    <item label="Inkscape" icon="/home/lucas/.cache/obmenu-generator/icons/adc46134561fc478d164eed865a641f0.png"><action name="Execute"><command><![CDATA[inkscape]]></command></action></item>
+    <item label="LibreOffice Draw" icon="/home/lucas/.cache/obmenu-generator/icons/7b9a9e48512b045c5eb350754503d1c4.png"><action name="Execute"><command><![CDATA[libreoffice --draw]]></command></action></item>
+    <item label="Shotwell" icon="/home/lucas/.cache/obmenu-generator/icons/859eb89e5c6c1ef7e7d051f8ce8bfc31.png"><action name="Execute"><command><![CDATA[shotwell]]></command></action></item>
+  </menu>
+  <menu id="0.787266641840674" icon="/home/lucas/.cache/obmenu-generator/icons/352510d529b860d79961534bcd389b64.png" label="Multimedia">
+    <item label="Echomixer" icon="/home/lucas/.cache/obmenu-generator/icons/6a120f411201425f6ee6e2c9eaf0b246.png"><action name="Execute"><command><![CDATA[echomixer]]></command></action></item>
+    <item label="Envy24 Control" icon="/home/lucas/.cache/obmenu-generator/icons/b0ca80e75b434bbe9a42ec21b89a4619.png"><action name="Execute"><command><![CDATA[envy24control]]></command></action></item>
+    <item label="HDAJackRetask"><action name="Execute"><command><![CDATA[hdajackretask]]></command></action></item>
+    <item label="HDSPConf" icon="/home/lucas/.cache/obmenu-generator/icons/d51168f8776fd6bb71de6d206eeca0f5.png"><action name="Execute"><command><![CDATA[hdspconf]]></command></action></item>
+    <item label="HDSPMixer" icon="/home/lucas/.cache/obmenu-generator/icons/dc8098bd228382c267bcc1b143439633.png"><action name="Execute"><command><![CDATA[hdspmixer]]></command></action></item>
+    <item label="Hwmixvolume" icon="/home/lucas/.cache/obmenu-generator/icons/47b1d17933e488937dbf363143f4485b.png"><action name="Execute"><command><![CDATA[hwmixvolume]]></command></action></item>
+    <item label="PulseAudio System Tray" icon="/home/lucas/.cache/obmenu-generator/icons/2827fddc68d00286c2036423acded9cc.png"><action name="Execute"><command><![CDATA[pasystray]]></command></action></item>
+    <item label="Qt V4L2 test Utility" icon="/home/lucas/.cache/obmenu-generator/icons/971aec95bccca8bc39fe62ea9c52e1c8.png"><action name="Execute"><command><![CDATA[qv4l2]]></command></action></item>
+    <item label="Qt V4L2 video capture utility" icon="/home/lucas/.cache/obmenu-generator/icons/5e14f40d34422ee7f13654c93ceb074e.png"><action name="Execute"><command><![CDATA[qvidcap]]></command></action></item>
+    <item label="Spotify" icon="/home/lucas/.cache/obmenu-generator/icons/e64f053c3cc49fdaafcfdc1155db191d.png"><action name="Execute"><command><![CDATA[spotify --uri=%u]]></command></action></item>
+    <item label="VLC media player" icon="/home/lucas/.cache/obmenu-generator/icons/dab7ff9bb355383227c41c5158e73003.png"><action name="Execute"><command><![CDATA[/usr/bin/vlc --started-from-file]]></command></action></item>
+    <item label="Volume Control" icon="/home/lucas/.cache/obmenu-generator/icons/d1d226ccbbe39406597f48539d2af41b.png"><action name="Execute"><command><![CDATA[pavucontrol]]></command></action></item>
+    <item label="Volume Icon" icon="/home/lucas/.cache/obmenu-generator/icons/d1d226ccbbe39406597f48539d2af41b.png"><action name="Execute"><command><![CDATA[volumeicon]]></command></action></item>
+  </menu>
+  <menu id="0.0718404291168007" icon="/home/lucas/.cache/obmenu-generator/icons/41e3a2503d39b5c7790cf5b69c23f079.png" label="Network">
+    <item label="AnyDesk" icon="/home/lucas/.cache/obmenu-generator/icons/4b8b741244abea0ee4bd59f85dda228c.png"><action name="Execute"><command><![CDATA[env GDK_BACKEND=x11 /usr/bin/anydesk]]></command></action></item>
+    <item label="Avahi SSH Server Browser" icon="/home/lucas/.cache/obmenu-generator/icons/b05cb2f6afa45f408e01c422d4fbbbc6.png"><action name="Execute"><command><![CDATA[/usr/bin/bssh]]></command></action></item>
+    <item label="Avahi VNC Server Browser" icon="/home/lucas/.cache/obmenu-generator/icons/b05cb2f6afa45f408e01c422d4fbbbc6.png"><action name="Execute"><command><![CDATA[/usr/bin/bvnc]]></command></action></item>
+    <item label="Brave" icon="/home/lucas/.cache/obmenu-generator/icons/bcafbc34784e3bcc026750baf00196b6.png"><action name="Execute"><command><![CDATA[brave]]></command></action></item>
+    <item label="FileZilla" icon="/home/lucas/.cache/obmenu-generator/icons/dae57f148070fcc22ff866adb39ecaa7.png"><action name="Execute"><command><![CDATA[filezilla]]></command></action></item>
+    <item label="Firefox" icon="/home/lucas/.cache/obmenu-generator/icons/b5c3d315eb9a4ce36ab17300f893f1b0.png"><action name="Execute"><command><![CDATA[/usr/lib/firefox/firefox]]></command></action></item>
+    <item label="Steam" icon="/home/lucas/.cache/obmenu-generator/icons/21a5adb92d26ef16ca478f3bb2e53ffb.png"><action name="Execute"><command><![CDATA[/usr/bin/steam]]></command></action></item>
+    <item label="Transmission" icon="/home/lucas/.cache/obmenu-generator/icons/968a9e3843a75447b5a0c623a6adde8c.png"><action name="Execute"><command><![CDATA[transmission-gtk]]></command></action></item>
+  </menu>
+  <menu id="0.536177905084593" icon="/home/lucas/.cache/obmenu-generator/icons/fa1c7050a68f1ed26604ec2c615be020.png" label="Office">
+    <item label="LibreOffice Base" icon="/home/lucas/.cache/obmenu-generator/icons/b16819b1f64de685542b518f2b454aaa.png"><action name="Execute"><command><![CDATA[libreoffice --base]]></command></action></item>
+    <item label="LibreOffice Calc" icon="/home/lucas/.cache/obmenu-generator/icons/a35253ad3f4f518ee9a067d331cec9cf.png"><action name="Execute"><command><![CDATA[libreoffice --calc]]></command></action></item>
+    <item label="LibreOffice Draw" icon="/home/lucas/.cache/obmenu-generator/icons/7b9a9e48512b045c5eb350754503d1c4.png"><action name="Execute"><command><![CDATA[libreoffice --draw]]></command></action></item>
+    <item label="LibreOffice Impress" icon="/home/lucas/.cache/obmenu-generator/icons/1e6a739ca236c3b97aa39f5447db22f4.png"><action name="Execute"><command><![CDATA[libreoffice --impress]]></command></action></item>
+    <item label="LibreOffice Math" icon="/home/lucas/.cache/obmenu-generator/icons/699f94de91dae521fbedf34c4a1c98ee.png"><action name="Execute"><command><![CDATA[libreoffice --math]]></command></action></item>
+    <item label="LibreOffice Writer" icon="/home/lucas/.cache/obmenu-generator/icons/606460bbe9720c44d2083a561a4f8353.png"><action name="Execute"><command><![CDATA[libreoffice --writer]]></command></action></item>
+    <item label="LibreOffice" icon="/home/lucas/.cache/obmenu-generator/icons/739241626ccf7a3e9fe116fd7cab14af.png"><action name="Execute"><command><![CDATA[libreoffice]]></command></action></item>
+    <item label="Orage Calendar" icon="/home/lucas/.cache/obmenu-generator/icons/c544af5a1e6a595cf9f19ea242107a26.png"><action name="Execute"><command><![CDATA[orage]]></command></action></item>
+  </menu>
+  <menu id="0.126345893359403" icon="/home/lucas/.cache/obmenu-generator/icons/1c87ebb74c92af151a71c86aa0bc420f.png" label="Other">
+    <item label="Rofi Theme Selector" icon="/home/lucas/.cache/obmenu-generator/icons/28fe34df9b7bab09ab2ece9362b42cba.png"><action name="Execute"><command><![CDATA[rofi-theme-selector]]></command></action></item>
+    <item label="Rofi" icon="/home/lucas/.cache/obmenu-generator/icons/28fe34df9b7bab09ab2ece9362b42cba.png"><action name="Execute"><command><![CDATA[rofi -show]]></command></action></item>
+  </menu>
+  <menu id="0.364876248466999" icon="/home/lucas/.cache/obmenu-generator/icons/4b701359c01500e4eccf6cf437016812.png" label="Settings">
+    <item label="Advanced Network Configuration" icon="/home/lucas/.cache/obmenu-generator/icons/11126e00f5f91a8154400edf386d7f69.png"><action name="Execute"><command><![CDATA[nm-connection-editor]]></command></action></item>
+    <item label="ARandR" icon="/home/lucas/.cache/obmenu-generator/icons/c57f620140e64f59dab25b7f531faa41.png"><action name="Execute"><command><![CDATA[arandr]]></command></action></item>
+    <item label="Arch Linux Tweak Tool" icon="/home/lucas/.cache/obmenu-generator/icons/2356199c267cc585487b92740fd68979.png"><action name="Execute"><command><![CDATA[/usr/bin/archlinux-tweak-tool]]></command></action></item>
+    <item label="ArcoLinux Betterlockscreen" icon="/home/lucas/.cache/obmenu-generator/icons/7fee8badf152dc1b0708e95f933f0336.png"><action name="Execute"><command><![CDATA[/usr/local/bin/arcolinux-betterlockscreen]]></command></action></item>
+    <item label="Bluetooth Adapters" icon="/home/lucas/.cache/obmenu-generator/icons/fe0b77578d63e19ef7a9115bddaeed7f.png"><action name="Execute"><command><![CDATA[blueman-adapters]]></command></action></item>
+    <item label="Bluetooth Manager" icon="/home/lucas/.cache/obmenu-generator/icons/fe0b77578d63e19ef7a9115bddaeed7f.png"><action name="Execute"><command><![CDATA[blueman-manager]]></command></action></item>
+    <item label="Customize Look and Feel" icon="/home/lucas/.cache/obmenu-generator/icons/37b2d20c31e99d7cf350780a795c238c.png"><action name="Execute"><command><![CDATA[lxappearance]]></command></action></item>
+    <item label="Default applications for LXSession" icon="/home/lucas/.cache/obmenu-generator/icons/93ce9adb66567046b6ff42287be57b33.png"><action name="Execute"><command><![CDATA[lxsession-default-apps]]></command></action></item>
+    <item label="Desktop Session Settings" icon="/home/lucas/.cache/obmenu-generator/icons/93ce9adb66567046b6ff42287be57b33.png"><action name="Execute"><command><![CDATA[lxsession-edit]]></command></action></item>
+    <item label="Grub Customizer" icon="/home/lucas/.cache/obmenu-generator/icons/e6220b9813cc87d52f22958e935b0541.png"><action name="Execute"><command><![CDATA[grub-customizer]]></command></action></item>
+    <item label="Monitor Settings" icon="/home/lucas/.cache/obmenu-generator/icons/c57f620140e64f59dab25b7f531faa41.png"><action name="Execute"><command><![CDATA[lxrandr]]></command></action></item>
+    <item label="NVIDIA X Server Settings" icon="/home/lucas/.cache/obmenu-generator/icons/45ddba580c5c9ddeda26273c715a416d.png"><action name="Execute"><command><![CDATA[/usr/bin/nvidia-settings]]></command></action></item>
+    <item label="Openbox Configuration Manager" icon="/home/lucas/.cache/obmenu-generator/icons/74b63e6f3d937ebe7376f12dad137f10.png"><action name="Execute"><command><![CDATA[obconf]]></command></action></item>
+    <item label="Openbox Menu Editor" icon="/home/lucas/.cache/obmenu-generator/icons/c6056e5d386856f8d9e09b092d3277aa.png"><action name="Execute"><command><![CDATA[obmenu3]]></command></action></item>
+    <item label="Orage preferences" icon="/home/lucas/.cache/obmenu-generator/icons/c544af5a1e6a595cf9f19ea242107a26.png"><action name="Execute"><command><![CDATA[orage -p]]></command></action></item>
+    <item label="Tint2 Settings" icon="/home/lucas/.cache/obmenu-generator/icons/37519de20b0acacda2410dd2bb595f75.png"><action name="Execute"><command><![CDATA[tint2conf]]></command></action></item>
+    <item label="Volume Control" icon="/home/lucas/.cache/obmenu-generator/icons/d1d226ccbbe39406597f48539d2af41b.png"><action name="Execute"><command><![CDATA[pavucontrol]]></command></action></item>
+  </menu>
+  <menu id="0.690791562681436" icon="/home/lucas/.cache/obmenu-generator/icons/86d897c1e0b10dc754ed588463e3503c.png" label="System">
+    <item label="Alacritty" icon="/home/lucas/.cache/obmenu-generator/icons/eea45097c72caa191ffc1fa7f01b6631.png"><action name="Execute"><command><![CDATA[alacritty]]></command></action></item>
+    <item label="Avahi Zeroconf Browser" icon="/home/lucas/.cache/obmenu-generator/icons/b05cb2f6afa45f408e01c422d4fbbbc6.png"><action name="Execute"><command><![CDATA[/usr/bin/avahi-discover]]></command></action></item>
+    <item label="fish" icon="/home/lucas/.cache/obmenu-generator/icons/3fd26cc24cb2b5f3d5a0d4f6872087d8.png"><action name="Execute"><command><![CDATA[xterm -e 'fish']]></command></action></item>
+    <item label="Ghostty" icon="/home/lucas/.cache/obmenu-generator/icons/5524a950119ccb815728c6853be47da6.png"><action name="Execute"><command><![CDATA[ghostty]]></command></action></item>
+    <item label="GParted" icon="/home/lucas/.cache/obmenu-generator/icons/2277149a7b02d2f660869d34b7d62962.png"><action name="Execute"><command><![CDATA[/usr/bin/gparted]]></command></action></item>
+    <item label="Grub Customizer" icon="/home/lucas/.cache/obmenu-generator/icons/e6220b9813cc87d52f22958e935b0541.png"><action name="Execute"><command><![CDATA[grub-customizer]]></command></action></item>
+    <item label="Htop" icon="/home/lucas/.cache/obmenu-generator/icons/bba66ba0b9d8c2083ac4bf6c966b8756.png"><action name="Execute"><command><![CDATA[xterm -e 'htop']]></command></action></item>
+    <item label="kitty" icon="/home/lucas/.cache/obmenu-generator/icons/5dc863538e3f0a77b21129e777181784.png"><action name="Execute"><command><![CDATA[kitty]]></command></action></item>
+    <item label="MultiWriter" icon="/home/lucas/.cache/obmenu-generator/icons/ab8774325b5975ed93d3e755efc6aa98.png"><action name="Execute"><command><![CDATA[gnome-multi-writer]]></command></action></item>
+    <item label="Oracle VirtualBox" icon="/home/lucas/.cache/obmenu-generator/icons/63ee1666f6da0ce1818e1d5dd4ef1d7e.png"><action name="Execute"><command><![CDATA[VirtualBox]]></command></action></item>
+    <item label="Tint2" icon="/home/lucas/.cache/obmenu-generator/icons/37519de20b0acacda2410dd2bb595f75.png"><action name="Execute"><command><![CDATA[tint2]]></command></action></item>
+    <item label="UXTerm" icon="/home/lucas/.cache/obmenu-generator/icons/5dc863538e3f0a77b21129e777181784.png"><action name="Execute"><command><![CDATA[uxterm]]></command></action></item>
+    <item label="XTerm" icon="/home/lucas/.cache/obmenu-generator/icons/5dc863538e3f0a77b21129e777181784.png"><action name="Execute"><command><![CDATA[xterm]]></command></action></item>
+  </menu>
+  <separator/>
+  <menu id="0.686703935721631" icon="/home/lucas/.cache/obmenu-generator/icons/801320bae93d98aad7517e1fc23740ba.png" label="Advanced Settings">
+    <item label="Conky RC" icon="/home/lucas/.cache/obmenu-generator/icons/4af276986a34c3249b53cbbe25f5c8a1.png"><action name="Execute"><command><![CDATA[geany ~/.conkyrc]]></command></action></item>
+    <item label="Tint2 Panel" icon="/home/lucas/.cache/obmenu-generator/icons/4af276986a34c3249b53cbbe25f5c8a1.png"><action name="Execute"><command><![CDATA[geany ~/.config/tint2/tint2rc]]></command></action></item>
+  <menu id="0.646678632388092" icon="/home/lucas/.cache/obmenu-generator/icons/9a0df7e49bd18c367b5428498a47a239.png" label="Obmenu-Generator">
+    <item label="Menu Schema" icon="/home/lucas/.cache/obmenu-generator/icons/4af276986a34c3249b53cbbe25f5c8a1.png"><action name="Execute"><command><![CDATA[geany ~/.config/obmenu-generator/schema.pl]]></command></action></item>
+    <item label="Menu Config" icon="/home/lucas/.cache/obmenu-generator/icons/4af276986a34c3249b53cbbe25f5c8a1.png"><action name="Execute"><command><![CDATA[geany ~/.config/obmenu-generator/config.pl]]></command></action></item>
+  <separator/>
+    <item label="Generate a static menu" icon="/home/lucas/.cache/obmenu-generator/icons/9a0df7e49bd18c367b5428498a47a239.png"><action name="Execute"><command><![CDATA[obmenu-generator -s -c]]></command></action></item>
+    <item label="Generate a static menu with icons" icon="/home/lucas/.cache/obmenu-generator/icons/9a0df7e49bd18c367b5428498a47a239.png"><action name="Execute"><command><![CDATA[obmenu-generator -s -i -c]]></command></action></item>
+  <separator/>
+    <item label="Generate a dynamic menu" icon="/home/lucas/.cache/obmenu-generator/icons/9a0df7e49bd18c367b5428498a47a239.png"><action name="Execute"><command><![CDATA[obmenu-generator -p]]></command></action></item>
+    <item label="Generate a dynamic menu with icons" icon="/home/lucas/.cache/obmenu-generator/icons/9a0df7e49bd18c367b5428498a47a239.png"><action name="Execute"><command><![CDATA[obmenu-generator -p -i]]></command></action></item>
+  <separator/>
+    <item label="Refresh cache" icon="/home/lucas/.cache/obmenu-generator/icons/74d40f8a94849d3a855ce27a0cf32368.png"><action name="Execute"><command><![CDATA[obmenu-generator -d]]></command></action></item>
+  </menu>
+  <menu id="0.84269789288534" icon="/home/lucas/.cache/obmenu-generator/icons/5591eb690d183a2b72f81d5d0e0eb50b.png" label="Openbox">
+    <item label="Openbox Autostart" icon="/home/lucas/.cache/obmenu-generator/icons/4af276986a34c3249b53cbbe25f5c8a1.png"><action name="Execute"><command><![CDATA[geany ~/.config/openbox/autostart]]></command></action></item>
+    <item label="Openbox RC" icon="/home/lucas/.cache/obmenu-generator/icons/4af276986a34c3249b53cbbe25f5c8a1.png"><action name="Execute"><command><![CDATA[geany ~/.config/openbox/rc.xml]]></command></action></item>
+    <item label="Openbox Menu" icon="/home/lucas/.cache/obmenu-generator/icons/4af276986a34c3249b53cbbe25f5c8a1.png"><action name="Execute"><command><![CDATA[geany ~/.config/openbox/menu.xml]]></command></action></item>
+    <item label="Reconfigure Openbox" icon="/home/lucas/.cache/obmenu-generator/icons/5591eb690d183a2b72f81d5d0e0eb50b.png"><action name="Execute"><command><![CDATA[openbox --reconfigure]]></command></action></item>
+  </menu>
+  </menu>
+  <separator/>
+    <item label="Lock" icon="/home/lucas/.cache/obmenu-generator/icons/9dbf93bf0472c9982f76ff0342c38a04.png"><action name="Execute"><command><![CDATA[xscreensaver-command -lock]]></command></action></item>
+    <item label="Exit" icon="/home/lucas/.cache/obmenu-generator/icons/fae00764e64adfb56a4f78f9bbb6103f.png"><action name="Exit"/></item>
+  </menu>
 </openbox_menu>

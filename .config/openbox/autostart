@@ -1,10 +1,13 @@
 xset b off &
-xrandr --output DP-1 --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI-1  --mode  1920x1080 --pos 1920x0 --rotate normal &
-xrandr --output HDMI-1 --gamma 1.0:0.88:0.56 --brightness 0.95 &
-xrandr --output DP-1 --gamma 1.0:0.88:0.56 --brightness 0.95 &
-plank -n dock1 &
-plank -n dock2 &
-nitrogen --restore &
-picom &
-killall polybar; ~/.config/polybar/launch.sh &
+tint2 -c ~/.config/tint2/tint2rc &
+tint2 -c ~/.config/tint2/workspaces.tint2rc &
+tint2 -c ~/.config/tint2/stats.tint2rc &
+tint2 -c ~/.config/tint2/music.tint2rc &
+
+redshift -x; redshift -O 4200 &
+
+~/.local/bin/lock.sh &
+variety &
+picom --experimental-backends &
 setxkbmap us altgr-intl &
+xset r rate 200 40 &
