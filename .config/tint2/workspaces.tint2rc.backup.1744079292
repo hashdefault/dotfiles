@@ -1,0 +1,55 @@
+#-------------------------------------
+# Panel
+panel_items = WCL
+panel_position = top center horizontal
+panel_size = 100% 30
+panel_margin = 0 0
+panel_padding = 4 0
+panel_background_id = 0
+wm_menu = 0
+panel_layer = top
+panel_monitor = all
+panel_shrink = 0
+autohide = 0
+strut_policy = follow_size
+panel_window_name = tint2-desktop-bar
+
+#-------------------------------------
+# Backgrounds
+rounded = 0
+border_width = 0
+background_color = #1e1e1e 100
+border_color = #000000 0
+
+#-------------------------------------
+# Clock (optional)
+time1_format = %a %d %b  %H:%M
+time1_font = sans 10
+clock_font_color = #ffffff 100
+clock_padding = 8 2
+clock_background_id = 0
+
+#-------------------------------------
+# Launcher (optional)
+launcher_padding = 6 0 6
+launcher_background_id = 0
+launcher_icon_theme = Papirus
+launcher_icon_size = 20
+launcher_item_app = ~/.local/share/applications/firefox.desktop
+launcher_item_app = ~/.local/share/applications/thunar.desktop
+
+#-------------------------------------
+# Workspace switcher
+ws_list = 1
+show_desktop_icon = 0
+taskbar_padding = 4 2 4
+taskbar_background_id = 0
+task_icon = 0
+
+# Empty
+empty_workspace_background_id = 0
+empty_workspace_font_color = #444444 100
+
+# Urgent
+urgent_workspace_background_id = 0
+urgent_workspace_font_color = #ff0000 100

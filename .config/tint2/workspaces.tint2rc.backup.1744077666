@@ -1,0 +1,3 @@
+panel_position = top center horizontal
+panel_size = 100% 30
+panel_items = W  # Workspaces
