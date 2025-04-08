@@ -1,13 +1,32 @@
+#!/bin/bash
+
+# Disable system beep
 xset b off &
+
+# Start multiple tint2 panels with different configs
 tint2 -c ~/.config/tint2/tint2rc &
 tint2 -c ~/.config/tint2/workspaces.tint2rc &
 tint2 -c ~/.config/tint2/stats.tint2rc &
 tint2 -c ~/.config/tint2/music.tint2rc &
 
-redshift -x; redshift -O 4200 &
+# Start compositor
+picom &
 
+# Custom lock screen script
 ~/.local/bin/lock.sh &
+
+# Wallpaper manager
 variety &
-picom --experimental-backends &
-setxkbmap us altgr-intl &
-xset r rate 200 40 &
+
+# Redshift for color temperature (disable previous settings, then set new)
+redshift -x
+redshift -O 4000 &
+
+
+# Keyboard layout
+setxkbmap us altgr-intl
+
+# Keyboard repeat rate
+xset r rate 200 40
+
+

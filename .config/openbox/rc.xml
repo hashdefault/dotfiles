@@ -15,7 +15,7 @@
     <focusLast>yes</focusLast>
     <!-- focus the last used window when changing desktops, instead of the one
        under the mouse pointer. when followMouse is enabled -->
-    <underMouse>no</underMouse>
+    <underMouse>yes</underMouse>
     <!-- move focus under the mouse, even when the mouse is not moving -->
     <focusDelay>200</focusDelay>
     <!-- when followMouse is enabled, the mouse must be inside the window for
@@ -42,7 +42,7 @@
                   'Active' - where the active window is -->
   </placement>
   <theme>
-    <name>Raven-Cyan</name>
+    <name>Arcbox</name>
     <titleLayout>NLIMCD</titleLayout>
     <!--
       available characters are NDSLIMC, each can occur at most once.
@@ -183,6 +183,11 @@
   </dock>
   <keyboard>
     <chainQuitKey>C-g</chainQuitKey>
+    <keybind key="W-o">
+      <action name="MoveResizeTo">
+        <monitor>1</monitor>
+      </action>
+    </keybind>
     <!-- Keybindings for desktop switching -->
     <keybind key="W-Down">
       <action name="UnmaximizeFull"/>
@@ -233,11 +238,6 @@
     <keybind key="W-Shift-q">
       <action name="Execute">
         <command>openbox --exit</command>
-      </action>
-    </keybind>
-    <keybind key="W-b">
-      <action name="Execute">
-        <command>brave</command>
       </action>
     </keybind>
     <keybind key="W-1">
@@ -349,6 +349,51 @@
       <action name="GoToDesktop">
         <to>down</to>
         <wrap>no</wrap>
+      </action>
+    </keybind>
+    <keybind key="W-S-1">
+      <action name="SendToDesktop">
+        <to>1</to>
+      </action>
+    </keybind>
+    <keybind key="W-S-2">
+      <action name="SendToDesktop">
+        <to>2</to>
+      </action>
+    </keybind>
+    <keybind key="W-S-3">
+      <action name="SendToDesktop">
+        <to>3</to>
+      </action>
+    </keybind>
+    <keybind key="W-S-4">
+      <action name="SendToDesktop">
+        <to>4</to>
+      </action>
+    </keybind>
+    <keybind key="W-S-5">
+      <action name="SendToDesktop">
+        <to>5</to>
+      </action>
+    </keybind>
+    <keybind key="W-S-6">
+      <action name="SendToDesktop">
+        <to>6</to>
+      </action>
+    </keybind>
+    <keybind key="W-S-7">
+      <action name="SendToDesktop">
+        <to>7</to>
+      </action>
+    </keybind>
+    <keybind key="W-S-8">
+      <action name="SendToDesktop">
+        <to>8</to>
+      </action>
+    </keybind>
+    <keybind key="W-S-9">
+      <action name="SendToDesktop">
+        <to>9</to>
       </action>
     </keybind>
     <keybind key="S-A-Left">
