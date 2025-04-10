@@ -2,11 +2,10 @@
 
 # Put in your api and stuff link here
 # If you dunno, head to openweathermap.org, and make and account
-#(completely free I swear, and then get your API Key and  your City ID)
-# I wish I was smart enough to do it like Elena, but this is the top I could do lol
 KEY="your_api_key"
-ID="Maringá,BR"
-UNIT="metric" #Options are 'metric' and 'imperial'
+UNIT="metric"  #Options are 'metric' and 'imperial'
+LAT='-23.4166' # Maringá,PR
+LON='-51.9365' # Maringá,PR
 weather=$(curl -sf "http://api.openweathermap.org/data/2.5/weather?APPID=$KEY&q=$ID&units=$UNIT")
 
 if [ -n "$weather" ]; then
