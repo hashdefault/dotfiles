@@ -1,14 +1,27 @@
+
 font-family = "JetBrains Mono Nerd Font"
+font-style = "Medium"
+font-style-bold = "Bold"
+font-style-italic = "Italic"
+font-style-bold-italic = "Bold Italic"
 font-size = 13
-background = 222
-background-opacity = 0.8
-background-blur = 10
-shell-integration = fish
-shell-integration-features = no-cursor
-cursor-style = block
-cursor-style-blink = true
+
+
 window-padding-x = 4
 window-padding-y = 4
-#theme = "nord"
+cursor-style = block
+background-opacity = 0.8
+shell-integration = fish
+shell-integration-features = no-cursor
+cursor-style-blink = false
+background = #111
 theme = "DoomOne"
+
+#typed
+palette = "4=#00DDFF"
+
+#typing
+palette = "6=#8BE9FD"
+
 #theme = "Andromeda"
+#theme = "nord"
