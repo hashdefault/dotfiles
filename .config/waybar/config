@@ -1,7 +1,8 @@
 {
     "layer": "top",
     "position": "top",
-    "height" : 26,
+    "height" : 30,
+    "margin": 5,
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["hyprland/window",  "custom/playerctl"],
     "modules-right": [ "custom/weather", "cpu", "memory","wireplumber", "clock", "tray"],
@@ -30,6 +31,17 @@
     "format": "{}",
     "exec": "~/.local/bin/getweather",
     "interval": 1800,
+    "max-length": 35
+  },
+  "custom/cava": {
+    "format": "{}",
+    "tooltip": true,
+    "escape": true,
+    "return-type": "json",
+    "exec": "~/.config/waybar/modules-scripts/cava.sh",
+    "on-click": "playerctl play-pause",
+    "on-scroll-up": "playerctl previous",
+    "on-scroll-down": "playerctl next",
     "max-length": 35
   },
   "custom/playerctl": {
