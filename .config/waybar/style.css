@@ -24,13 +24,13 @@
 */
 * {
   /* `otf-font-awesome` is required to be installed for icons */
-  font-family: FontAwesome, Ubuntu Mono, sans-serif;
-  font-size: 12px;
+  font-family: FontAwesome, mononoki, sans-serif;
+  font-size: 11px;
   font-weight: bold;
 }
 
 window#waybar {
-  background-color: rgba(43, 48, 59, 1);
+  background-color: rgb(40, 40, 40);
   color: #dfdfdf;
   transition-property: background-color;
   transition-duration: .5s;
@@ -76,11 +76,11 @@ button:hover {
 
 #workspaces button {
   padding: 0 5px;
-  margin: 1px 2px;
+  margin: 0px 1px;
   background-color: transparent;
   color: #dfdfdf;
   border-radius: 5px;
-  border: 2px solid #46d9ff;
+  /* border: 2px solid #a9a1e1; */
 }
 
 #workspaces button:hover {
@@ -90,9 +90,8 @@ button:hover {
 
 #workspaces button.active {
   font-weight: bold;
-  color: #46d9ff;
-  background-color: rgb(80, 80, 80);
-
+  color: #a9a1e1;
+  background-color: rgb(40, 40, 40);
 }
 
 /*#workspaces button.visible {
@@ -128,7 +127,7 @@ button:hover {
 #power-profiles-daemon,
 #mpd {
   padding: 0 8px;
-  margin: 1px 5px;
+  margin: 1px 3px;
   color: #dfdfdf;
   border-radius: 5px;
 }
@@ -162,7 +161,7 @@ button:hover {
 
 #window,
 #workspaces {
-  margin: 0 5px;
+  margin: 1 5px;
 }
 
 /* If workspaces is the leftmost module, omit left margin */
