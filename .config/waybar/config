@@ -13,16 +13,18 @@
     "format": "{icon} ",
     "move-to-monitor": true,
     "format-icons": {
-      "1": "code ",
-      "2": "www 󰖟",
-      "3": "search 󰍉",
-      "4": "talk ",
-      "5": "sounds 󰎆",
-      "6": "doc ",
-      "7": "gfx 󱋆",
+      "1": "code",
+      "2": "web",
+      "3": "search",
+      "4": "talk",
+      "5": "media",
+      "6": "doc",
+      "7": "gfx",
+      "8": "ops",
+      "9": "misc",
     },
     "persistent-workspaces": {
-      "*": [1,2,3,4,5,6,7],
+      "*": [1,2,3,4,5,6,7,8,9],
     }
   },
   "custom/weather": {
