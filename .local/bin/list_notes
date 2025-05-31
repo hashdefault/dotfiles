@@ -29,19 +29,33 @@ main() {
   while true; do
     selection=$(select_note "$dir_path")
 
-    # Exit if no selection
+    # Exit if nothing selected
     [ -z "$selection" ] && exit
 
     filepath="$dir_path/$selection"
-    filetype=$(file --brief "$filepath")
 
+    # If it's a directory, dive in
     if [ -d "$filepath" ]; then
-      # If directory, dive into it
       dir_path="$filepath"
-    elif [[ "$filetype" == "Unicode text"* || "$filetype" == "ASCII text"* ]]; then
-      break  # valid file
-    else
-      notify-send "  Not a text file. Try another."
+      continue
+    fi
+
+    # If it's a file, check its type
+    if [ -f "$filepath" ]; then
+      filetype=$(file --brief "$filepath")
+      if [[ "$filetype" == "Unicode text"* || "$filetype" == "ASCII text"* ]]; then
+        break
+      else
+        notify-send "  Not a text file. Try another."
+        continue
+      fi
+    fi
+
+    # If it doesn't exist, offer to create it
+    rofi_confirm=$(echo -e "Yes\nNo" | rofi -theme "$rofi_theme" -dmenu -p "󱓧  '$selection' doesn't exist. Create it?")
+    if [ "$rofi_confirm" == "Yes" ]; then
+      touch "$filepath"
+      break
     fi
   done
 
@@ -49,4 +63,3 @@ main() {
 }
 
 main
-
