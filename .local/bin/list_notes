@@ -1,28 +1,52 @@
 #!/bin/bash
 
 dir_path="$HOME/Nextcloud/Notes"
-list_notes=$(ls -a -1 $dir_path | rofi -modi "󱓧 :" -show "󱓧 " -theme $HOME/.config/rofi/launcher/style -drun-icon-theme "Oranchelo" -dmenu -l 10 -show-icons -i -p "󱓧  Select notes or create one:")
-while [ true ]; do
+rofi_theme="$HOME/.config/rofi/launcher/style"
+prompt_icon="󱓧"
+icon_theme="Oranchelo"
 
-  read -rsn1 key # Read 1 character silently
-  if [[ $key == $'\e' ]]; then
-    break
-  fi
+select_note() {
+  ls -a1 "$1" | rofi \
+    -modi "$prompt_icon :" \
+    -show "$prompt_icon" \
+    -theme "$rofi_theme" \
+    -drun-icon-theme "$icon_theme" \
+    -dmenu \
+    -l 10 \
+    -show-icons \
+    -i \
+    -p "$prompt_icon  Select notes or create one:"
+}
 
-  filetype_selected="$(file --brief ${dir_path}/${list_notes})"
-  if [ "$filetype_selected" == "directory" ]; then
-    pkill rofi
-    list_notes="${list_notes}/"$(ls -a -1 "$dir_path/$list_notes" | rofi -theme $HOME/.config/rofi/launcher/style -dmenu -show-icons -i -p '󱓧  Select notes or create one:')
-  elif [[ "$filetype_selected" != *"Unicode text"* && $filetype_selected != "ASCII text" ]]; then
-    notify-send "  Incorrect selection, try another file"
-    pkill rofi
-    list_notes=$(ls -a -1 "$dir_path" | rofi -show "󱓧 " -theme $HOME/.config/rofi/launcher/style -drun-icon-theme "Oranchelo" -dmenu -show-icons -i -p 'Select notes or create one:')
-  else
-    break
-  fi
-done
+launch_editor() {
+  ghostty \
+    --shell-integration='fish' \
+    --working-directory="$dir_path" \
+    --command="nvim \"$1\""
+}
 
-ghostty \
-  --shell-integration='fish' \
-  --working-directory="$dir_path" \
-  --command="nvim \"$dir_path/$list_notes\""
+main() {
+  while true; do
+    selection=$(select_note "$dir_path")
+
+    # Exit if no selection
+    [ -z "$selection" ] && exit
+
+    filepath="$dir_path/$selection"
+    filetype=$(file --brief "$filepath")
+
+    if [ -d "$filepath" ]; then
+      # If directory, dive into it
+      dir_path="$filepath"
+    elif [[ "$filetype" == "Unicode text"* || "$filetype" == "ASCII text"* ]]; then
+      break  # valid file
+    else
+      notify-send "  Not a text file. Try another."
+    fi
+  done
+
+  launch_editor "$filepath"
+}
+
+main
+
