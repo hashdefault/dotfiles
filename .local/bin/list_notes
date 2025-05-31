@@ -6,7 +6,7 @@ prompt_icon="󱓧"
 icon_theme="Oranchelo"
 
 select_note() {
-  ls -a1 "$1" | rofi \
+  ls -ap1 "$1" | rofi \
     -modi "$prompt_icon :" \
     -show "$prompt_icon" \
     -theme "$rofi_theme" \
