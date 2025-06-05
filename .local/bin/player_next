@@ -1,8 +1,10 @@
 #!/bin/bash
 
-# Check if anything is playing
-status=$(playerctl status 2>/dev/null)
+playerctl next
 
+sleep 1
+
+status=$(playerctl status 2>/dev/null)
 if [[ "$status" != "Playing" && "$status" != "Paused" ]]; then
   exit 0
 fi
@@ -13,7 +15,7 @@ artUrl=$(playerctl metadata mpris:artUrl | sed 's/file:\/\// /' 2>/dev/null)
 album=$(playerctl metadata album 2>/dev/null)
 title=$(playerctl metadata title 2>/dev/null)
 
-# Output
-echo "  $artist ~ $title "
-notify-send -i $artUrl "  Music Player " "$artist ~ $title 
+if [[ $artist && $album && $title ]]; then
+  notify-send -i $artUrl "  Music Player Playing" "$artist ~ $title 
 Album: $album"
+fi

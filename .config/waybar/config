@@ -45,13 +45,12 @@
     "max-length": 35
   },
   "custom/playerctl": {
-      "format": "<span>  {}</span>",
-      "return-type": "json",
+      "format": "{}",
       "max-length": 35,
-      "exec": "playerctl -a metadata --format '{\"text\": \"{{artist}} ~ {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
-      "on-click-middle": "playerctl play-pause",
-      "on-click": "playerctl previous",
-      "on-click-right": "playerctl next",
+      "exec": "~/.local/bin/now_playing",
+      "on-click-middle": "~/.local/bin/play_pause_sound",
+      "on-click": "~/.local/bin/player_previous",
+      "on-click-right": "~/.local/bin/player_next",
       "scroll-step": 5.0,
       "on-scroll-up": "amixer -D pulse sset Master 5%+",
       "on-scroll-down": "amixer -D pulse sset Master 5%-",
