@@ -1,27 +1,5 @@
-/*
-* {
-  --color-back: #282c34;
-  --color-fore: #bbc2cf;
-  --color-01: #1c1f24;
-  --color-02: #ff6c6b;
-  --color-03: #98be65;
-  --color-04: #da8548;
-  --color-05: #51afef;
-  --color-06: #c678dd;
-  --color-07: #5699af;
-  --color-08: #202328;
-  --color-09: #5b6268;
-  --color-10: #da8548;
-  --color-11: #4db5bd;
-  --color-12: #ecbe7b;
-  --color-13: #3071db;
-  --color-14: #a9a1e1;
-  --color-15: #46d9ff;
-  --color-16: #dfdfdf;
+@import url('../../.cache/wal/colors-waybar.css');
 
-}
-
-*/
 * {
   /* `otf-font-awesome` is required to be installed for icons */
   font-family: Ubuntu Nerd Font, Font Awesome, sans-serif;
@@ -30,8 +8,8 @@
 }
 
 window#waybar {
-  background-color: rgb(40, 40, 40);
-  color: #dfdfdf;
+  background-color: @background;
+  color: @foreground;
   transition-property: background-color;
   transition-duration: .5s;
   border-radius: 5px;
@@ -41,14 +19,6 @@ window#waybar.hidden {
   opacity: 0.2;
 }
 
-/*
-window#waybar.empty {
-    background-color: transparent;
-}
-window#waybar.solo {
-    background-color: #FFFFFF;
-}
-*/
 
 window#waybar.termite {
   background-color: #3F3F3F;
@@ -78,20 +48,20 @@ button:hover {
   padding: 0 5px;
   margin: 0px 1px;
   background-color: transparent;
-  color: #dfdfdf;
+  color: @foreground;
   border-radius: 5px;
   /* border: 2px solid #a9a1e1; */
 }
 
 #workspaces button:hover {
-  background-color: rgba(91, 98, 104, 0.8);
-  color: white;
+  background-color: rgba(100, 100, 100, 0.5);
+  color: @foreground;
 }
 
 #workspaces button.active {
   font-weight: bold;
-  color: #a9a1e1;
-  background-color: rgb(40, 40, 40);
+  color: @color1;
+  background-color: @background;
 }
 
 /*#workspaces button.visible {
@@ -128,7 +98,7 @@ button:hover {
 #mpd {
   padding: 0 8px;
   margin: 1px 3px;
-  color: #dfdfdf;
+  color: @foreground;
   border-radius: 5px;
 }
 
@@ -145,7 +115,7 @@ button:hover {
 }
 
 #custom-weather {
-  border: 2px solid #3071db;
+  border: 2px solid @color1;
   min-width: 100px;
   font-weight: bold;
 
@@ -161,7 +131,7 @@ button:hover {
 
 #window,
 #workspaces {
-  margin: 1 5px;
+  margin: 1px 5px;
 }
 
 /* If workspaces is the leftmost module, omit left margin */
@@ -175,25 +145,25 @@ button:hover {
 }
 
 #clock {
-  border: 2px solid #5699af;
-  color: #dfdfdf;
+  border: 2px solid @color13;
+  color: @foreground;
 }
 
 #battery {
-  background-color: #dfdfdf;
-  color: #1c1f24;
+  background-color: @color3;
+  color: @foreground;
 }
 
 #battery.charging,
 #battery.plugged {
-  color: #dfdfdf;
-  background-color: #26A65B;
+  color: @foreground;
+  background-color: @color4;
 }
 
 @keyframes blink {
   to {
-    background-color: #dfdfdf;
-    color: #1c1f24;
+    background-color: @background;
+    color: @foreground;
   }
 }
 
@@ -228,29 +198,29 @@ button:hover {
 }
 
 label:focus {
-  background-color: #1c1f24;
+  background-color: @color11;
 }
 
 #cpu {
-  border: 2px solid #da8548;
-  color: #dfdfdf;
+  border: 2px solid @color2;
+  color: @foreground;
 }
 
 #memory {
-  border: 2px solid #ff6c6b;
-  color: #dfdfdf;
+  border: 2px solid @color3;
+  color: @foreground;
 }
 
 #disk {
-  border: 2px solid #964B00;
+  border: 2px solid @color8;
 }
 
 #backlight {
-  border: 2px solid #90b1b1;
+  border: 2px solid @color9;
 }
 
 #network {
-  border: 2px solid #51afef;
+  border: 2px solid @color10;
 }
 
 #network.disconnected {
@@ -268,7 +238,7 @@ label:focus {
 }
 
 #wireplumber {
-  border: 2px solid #fff0f5;
+  border: 2px solid @color4;
   color: #dfdfdf;
 }
 

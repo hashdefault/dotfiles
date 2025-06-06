@@ -11,6 +11,6 @@ while true; do
   if echo $RESPONSE | grep -iq "Error"; then
     continue
   fi
-  wal -i $wallpaper_path
+  wal -Rqi $wallpaper_path
   sleep "$INTERVAL"
 done
