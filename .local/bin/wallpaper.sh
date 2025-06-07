@@ -7,10 +7,10 @@ WALLPAPERS_DIR="$HOME/Pictures/wallpapers"
 while true; do
 
   wallpaper_path=$(find "$WALLPAPERS_DIR" -type f \( -iname "*.jpeg" -o -iname "*.jpg" -o -iname "*.png" -o -iname "*.svg" \) | shuf -n1)
-  RESPONSE=$(swww img $wallpaper_path --transition-fps 60 --transition-type wipe 2>&1)
-  if echo $RESPONSE | grep -iq "Error"; then
-    continue
-  fi
-  wal -Rqi $wallpaper_path
+  swww img $wallpaper_path --transition-fps 60 --transition-type wipe 2>&1
+
+  sleep 2
+  wal -qi $wallpaper_path
+
   sleep "$INTERVAL"
 done
