@@ -76,12 +76,19 @@
     "on-scroll-down": "amixer -D pulse sset Master 5%-",
     "on-click": "amixer set Master toggle"
   },
-
+  "custom/calendar": {
+    "format": "  {}",
+    "interval": 1,
+    "on-click": "~/.local/bin/clock_full",
+    "on-left-click": "~/.local/bin/eww close calendar",
+    "on-double-click": "~/.local/bin/eww open calendar_full",
+    "exec": "~/.local/bin/clock",
+    },
   "clock": {
     "interval": 1,
     "format": "  {:%H:%M}",
     "format-alt": " {:%H:%M:%S     %Y, %d %B, %A}",
-    "tooltip-format": "<span>{calendar}</span>",
+    "tooltip-format": "<small><tt>{calendar}</tt></small>",
     "calendar": {
       "mode"          : "month",
       "mode-mon-col"  : 3,
