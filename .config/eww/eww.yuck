@@ -4,7 +4,17 @@
            (box :class "calendar" 
               (calendar :show-details "true")
     )))
-   ;; Date vars
+      (defwidget weather [] 
+      (box :orientation "v" :space-evenly "false" 
+        (box :orientation "h" :space-evenly "false" 
+          (box :class "weather-icon" :style "color: ${weather-hex}" {weather-icon})
+          (box :class "temperature" "${temperature}  "))
+        (box :orientation "v" :space-evenly "false" 
+          (box :class "weather-stat" {weather-stat})
+          ;;(box :class "weather-quote-head" {weather-quote})
+          )))
+
+    ;; Date vars
     (defpoll number_day :interval "5h"  "date \"+%d\"")
     (defpoll month :interval "10h"  "date \"+%b\"")
     (defpoll min :interval "10s"  "date \"+%M\"")
@@ -12,6 +22,15 @@
     (defpoll day :interval "15h"  "~/.config/eww/scripts/getday")
     (defpoll month_full :interval "15h"  "date \"+%B\"")
     (defpoll year_full :interval "15h"  "date \"+%Y\"")
+
+    ;; Weather vars
+    (defpoll weather-icon :interval "20m"  "cat /tmp/getico")
+    (defpoll temperature :interval "20m"  "cat /tmp/gettemp")
+    (defpoll weather-hex :interval "20m"  "cat /tmp/gethex")
+    (defpoll weather-stat :interval "20m"  "cat /tmp/forecast_5days")
+    (defpoll weather-stat-side :interval "20m"  "echo 'sider'")
+    ;;(defpoll weather-quote :interval "20m"  "~/.local/bin/getweather")
+    ;;(defpoll weather-quote2 :interval "20m"  "echo 'quot2'")
 
     ;; Main Stuff
     (defwindow calendar_full 
@@ -22,5 +41,13 @@
                              :anchor "top right"
                              )
          (calendar_full))
+    (defwindow weather 
+          :monitor 0
+			    :geometry (geometry :x "150px" 
+                               :width "510px"
+                               :anchor "top right"
+                               )
+			     				(weather))
+
 
 

@@ -1,0 +1,122 @@
+#!/bin/bash
+
+# Put in your api and stuff link here
+# If you dunno, head to openweathermap.org, and make and account
+#(completely free I swear, and then get your API Key and  your City ID)
+# I wish I was smart enough to do it like Elena, but this is the top I could do lol
+KEY="32ea04252b660e0d50aa88dba2361142"
+UNIT="metric" #Options are 'metric' and 'imperial'
+LAT='-23.4166'
+LON='-51.9365'
+
+declare -A weather_icons
+
+weather_icons["01d"]="  "
+weather_icons["01n"]="  "
+weather_icons["02d"]="  "
+weather_icons["02n"]="  "
+weather_icons["03d"]="  "
+weather_icons["03n"]="  "
+weather_icons["04d"]="  "
+weather_icons["04n"]="  "
+weather_icons["09d"]=" "
+weather_icons["09n"]=" "
+weather_icons["10d"]=" "
+weather_icons["10n"]=" "
+weather_icons["11d"]=" "
+weather_icons["11n"]=" "
+weather_icons["13d"]=" "
+weather_icons["13n"]=" "
+weather_icons["40d"]=" "
+weather_icons["40n"]=" "
+weather_icons["50d"]=" "
+weather_icons["50n"]=" "
+
+curl -sf "https://api.openweathermap.org/data/2.5/forecast?lat=$LAT&lon=$LON&units=$UNIT&appid=$KEY" -o /tmp/forecast_call.json
+
+echo "" >/tmp/forecast_5days
+
+declare -A months
+months['01']='January'
+months['02']='February'
+months['03']='March'
+months['04']='April'
+months['05']='May'
+months['06']='June'
+months['07']='July'
+months['08']='August'
+months['09']='September'
+months['10']='October'
+months['11']='November'
+months['12']='December'
+
+olddate=''
+jq -c '.list[]' /tmp/forecast_call.json | while read -r three_hour_list; do
+  temp_main=$(echo "$three_hour_list" | jq -r '.main.temp')
+  temp_max=$(echo "$three_hour_list" | jq -r '.main.temp_max')
+  temp_min=$(echo "$three_hour_list" | jq -r '.main.temp_min')
+
+  icon=$(echo "$three_hour_list" | jq -r '.weather[0].icon')
+  datetime=$(echo "$three_hour_list" | jq -r '.dt_txt')
+  date=$(echo "$datetime" | cut -d ' ' -f 1)
+  hour=$(echo "$datetime" | cut -d ' ' -f 2)
+  month=$(echo "$datetime" | cut -d ' ' -f 1 | cut -d '-' -f 2)
+  day=$(echo "$datetime" | cut -d ' ' -f 1 | cut -d '-' -f 3)
+
+  if [ "$date" != "$olddate" ]; then
+    echo "             ${months[$month]}, $day" >>/tmp/forecast_5days
+  fi
+  echo " ${weather_icons[$icon]}   $hour     $temp_min° C     $temp_max° C " >>/tmp/forecast_5days
+  olddate=$date
+done
+
+##Big long if statement of doom
+#if [ "$weather_icon_code" == "50d" ]; then
+#  #weather_hex="#84afdb"
+#elif [ "$weather_icon_code" == "50n" ]; then
+#  #weather_hex="#84afdb"
+#elif [ "$weather_icon_code" == "01d" ]; then
+#  #weather_hex="#ffd86b"
+#elif [ "$weather_icon_code" == "01n" ]; then
+#  #weather_hex="#fcdcf6"
+#elif [ "$weather_icon_code" == "02d" ]; then
+#  #weather_hex="#adadff"
+#elif [ "$weather_icon_code" == "02n" ]; then
+#  #weather_hex="#adadff"
+#elif [ "$weather_icon_code" == "03d" ]; then
+#  #weather_hex="#adadff"
+#elif [ "$weather_icon_code" == "03n" ]; then
+#  #weather_hex="#adadff"
+#elif [ "$weather_icon_code" == "04d" ]; then
+#  #weather_hex="#adadff"
+#elif [ "$weather_icon_code" == "04n" ]; then
+#  #weather_hex="#adadff"
+#elif [ "$weather_icon_code" == "09d" ]; then
+#  #weather_hex="#6b95ff"
+#elif [ "$weather_icon_code" == "09n" ]; then
+#  #weather_hex="#6b95ff"
+#elif [ "$weather_icon_code" == "10d" ]; then
+#  #weather_hex="#6b95ff"
+#elif [ "$weather_icon_code" == "10n" ]; then
+#  #weather_hex="#6b95ff"
+#elif [ "$weather_icon_code" == "11d" ]; then
+#  #weather_hex="#ffeb57"
+#elif [ "$weather_icon_code" == "11n" ]; then
+#  #weather_hex="#ffeb57"
+#elif [ "$weather_icon_code" == "13d" ]; then
+#  #weather_hex="#e3e6fc"
+#elif [ "$weather_icon_code" == "13n" ]; then
+#  #weather_hex="#e3e6fc"
+#elif [ "$weather_icon_code" == "40d" ]; then
+#  #weather_hex="#84afdb"
+#elif [ "$weather_icon_code" == "40n" ]; then
+#  #weather_hex="#84afdb"
+#else
+#  weather_icon="  "
+#  #weather_hex="#adadff"
+#fi
+##echo "$weather_icon $weather_description $weather_temp °C"
+###echo "$weather_hex"
+##else
+##  echo "Weather Unavailable   "
+##fi
