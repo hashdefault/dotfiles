@@ -32,7 +32,7 @@ weather_icons["40n"]=" "
 weather_icons["50d"]=" "
 weather_icons["50n"]=" "
 
-curl -sf "https://api.openweathermap.org/data/2.5/forecast?lat=$LAT&lon=$LON&units=$UNIT&appid=$KEY" -o /tmp/forecast_call.json
+curl -sf "https://api.openweathermap.org/data/2.5/forecast/daily?lat=$LAT&lon=$LON&cnt=4&units=$UNIT&appid=$KEY" -o /tmp/forecast_call.json
 
 echo "" >/tmp/forecast_5days
 
@@ -50,24 +50,23 @@ months['10']='October'
 months['11']='November'
 months['12']='December'
 
-olddate=''
+day=1
 jq -c '.list[]' /tmp/forecast_call.json | while read -r three_hour_list; do
   temp_main=$(echo "$three_hour_list" | jq -r '.main.temp')
   temp_max=$(echo "$three_hour_list" | jq -r '.main.temp_max')
   temp_min=$(echo "$three_hour_list" | jq -r '.main.temp_min')
 
   icon=$(echo "$three_hour_list" | jq -r '.weather[0].icon')
-  datetime=$(echo "$three_hour_list" | jq -r '.dt_txt')
-  date=$(echo "$datetime" | cut -d ' ' -f 1)
-  hour=$(echo "$datetime" | cut -d ' ' -f 2)
-  month=$(echo "$datetime" | cut -d ' ' -f 1 | cut -d '-' -f 2)
-  day=$(echo "$datetime" | cut -d ' ' -f 1 | cut -d '-' -f 3)
+  #datetime=$(echo "$three_hour_list" | jq -r '.dt_txt')
+  #date=$(echo "$datetime" | cut -d ' ' -f 1)
+  #prec=$(echo "$three_hour_list" | jq -r '.pop.list' | cut -d ' ' -f 2) * 100
+  #month=$(echo "$datetime" | cut -d ' ' -f 1 | cut -d '-' -f 2)
+  #day=$(echo "$datetime" | cut -d ' ' -f 1 | cut -d '-' -f 3)
 
   if [ "$date" != "$olddate" ]; then
     echo "             ${months[$month]}, $day" >>/tmp/forecast_5days
   fi
-  echo " ${weather_icons[$icon]}   $hour     $temp_min° C     $temp_max° C " >>/tmp/forecast_5days
-  olddate=$date
+  echo "  $temp_min° C     $temp_max° C " >>/tmp/forecast_5days
 done
 
 ##Big long if statement of doom
