@@ -86,6 +86,7 @@ button:hover {
 #network,
 #pulseaudio,
 #custom-playerctl,
+#custom-calendar,
 #custom-cava,
 #custom-weather,
 #wireplumber,
@@ -144,6 +145,7 @@ button:hover {
   margin-right: 0;
 }
 
+#custom-calendar,
 #clock {
   border: 2px solid @color13;
   color: @foreground;

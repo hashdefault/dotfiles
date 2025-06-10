@@ -5,7 +5,7 @@
     "margin": 5,
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["hyprland/window","",  "custom/playerctl"],
-    "modules-right": ["custom/weather", "cpu", "memory","wireplumber", "clock", "tray"],
+    "modules-right": ["custom/weather", "cpu", "memory","wireplumber", "custom/calendar", "tray"],
     "hyprland/window": {
       "format": "{title}",
     },
@@ -80,9 +80,7 @@
   "custom/calendar": {
     "format": "  {}",
     "interval": 1,
-    "on-click": "~/.local/bin/clock_full",
-    "on-left-click": "~/.local/bin/eww close calendar",
-    "on-double-click": "~/.local/bin/eww open calendar_full",
+    "on-click": "~/.local/bin/eww open --toggle calendar_full --screen $(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')",
     "exec": "~/.local/bin/clock",
     },
   "clock": {
