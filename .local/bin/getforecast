@@ -94,8 +94,8 @@ declare -A weather_colors
 
 weather_colors["0"]="#ffd86b"
 weather_colors["1"]="#ffd86b"
-weather_colors["2"]="#fcdcf6"
-weather_colors["3"]="#fcdcf6"
+weather_colors["2"]="#90ede6"
+weather_colors["3"]="#90ede6"
 weather_colors["45"]="#adadff"
 weather_colors["48"]="#adadff"
 #weather_colors["45"]=" "
@@ -142,8 +142,7 @@ for key in $(jq -c '.daily.time | keys | .[]' /tmp/forecast_call.json); do
 
   echo "󰖌 $prec%" >"/tmp/forecast_${day}day_prec"
   echo "$weekday" >"/tmp/getweatherweekday${day}"
-  echo "${weather_colors[$icon]}" >"/tmp/forecast_${day}day_prec_color"
-  echo "$temp_min/$temp_max °C" >"/tmp/forecast_${day}day_temp"
+  echo "$temp_min°/$temp_max°" >"/tmp/forecast_${day}day_temp"
   echo "${weather_icons[$icon]}" >"/tmp/forecast_${day}day_icon"
   echo "${weather_colors[$icon]}" >"/tmp/forecast_${day}day_icon_color"
   echo "$desc" >"/tmp/forecast_${day}day_desc"

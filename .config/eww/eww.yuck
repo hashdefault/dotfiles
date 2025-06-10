@@ -1,46 +1,51 @@
-   (defwidget calendar_full [] 
-        (box :orientation "v" :halign "center" :space-evenly "false" 
-           (box :class "calendar_title" "     ${day}, ${number_day} ${month_full} ${year_full}")
-           (box :class "calendar" 
-              (calendar :show-details "true")
-    )))
-      (defwidget weather [] 
+(defwidget calendar_full [] 
+     (box :orientation "v" :halign "center" :space-evenly "false" 
+        (box :class "calendar_title" "     ${day}, ${number_day} ${month_full} ${year_full}")
+        (box :class "calendar" 
+           (calendar :show-details "true")
+)))
+(defwidget weather [] 
+  (box :orientation "v" :space-evenly "false" 
+    (box :orientation "h" :space-evenly "false" 
+      (box :class "weather-icon" {weather-icon})
+      (box :class "weather-desc" {weather-desc})
+      (box :class "temperature" "${temperature}  "))
+    (box :orientation "h" :space-evenly "false" 
       (box :orientation "v" :space-evenly "false" 
-        (box :orientation "h" :space-evenly "false" 
-          (box :class "weather-icon" :style "color: ${weather-hex}" {weather-icon})
-          (box :class "temperature" "${temperature}  "))
-        (box :orientation "h" :space-evenly "false" 
-          (box :orientation "v" :space-evenly "false" 
-            (box :class "weather-icon-1" :style "color: ${weather-icon-color-1}" {weather-icon-1})
-            (box :class "weather-temp-1" :style "color: ${weather-temp-color-1}" {weather-temp-1})
-            (box :class "weather-prec-1" :style "color: ${weather-prec-color-1}" {weather-prec-1})
-            (box :class "weather-desc-1" :style "color: ${weather-desc-color-1}" {weather-desc-1})
-          )
-          (box :orientation "v" :space-evenly "false" 
-            (box :class "weather-icon-2" :style "color: ${weather-icon-color-2}" {weather-icon-2})
-            (box :class "weather-temp-2" :style "color: ${weather-temp-color-2}" {weather-temp-2})
-            (box :class "weather-prec-2" :style "color: ${weather-prec-color-2}" {weather-prec-2})
-            (box :class "weather-desc-2" :style "color: ${weather-desc-color-2}" {weather-desc-2})
-          )
-          (box :orientation "v" :space-evenly "false" 
-            (box :class "weather-icon-3" :style "color: ${weather-icon-color-3}" {weather-icon-3})
-            (box :class "weather-temp-3" :style "color: ${weather-temp-color-3}" {weather-temp-3})
-            (box :class "weather-prec-3" :style "color: ${weather-prec-color-3}" {weather-prec-3})
-            (box :class "weather-desc-3" :style "color: ${weather-desc-color-3}" {weather-desc-3})
-          )
-          (box :orientation "v" :space-evenly "false" 
-            (box :class "weather-icon-4" :style "color: ${weather-icon-color-4}" {weather-icon-4})
-            (box :class "weather-temp-4" :style "color: ${weather-temp-color-4}" {weather-temp-4})
-            (box :class "weather-prec-4" :style "color: ${weather-prec-color-4}" {weather-prec-4})
-            (box :class "weather-desc-4" :style "color: ${weather-desc-color-4}" {weather-desc-4})
-          )
-          (box :orientation "v" :space-evenly "false" 
-            (box :class "weather-icon-5" :style "color: ${weather-icon-color-5}" {weather-icon-5})
-            (box :class "weather-temp-5" :style "color: ${weather-temp-color-5}" {weather-temp-5})
-            (box :class "weather-prec-5" :style "color: ${weather-prec-color-5}" {weather-prec-5})
-            (box :class "weather-desc-5" :style "color: ${weather-desc-color-5}" {weather-desc-5})
-          )
-        ))
+        (box :class "weather-week-1" {weather-week-1})
+        (box :class "weather-icon-1" :style "color: ${weather-icon-color-1}" {weather-icon-1})
+        (box :class "weather-temp-1"  {weather-temp-1})
+        (box :class "weather-prec-1"  {weather-prec-1})
+        (box :class "weather-desc-1"  {weather-desc-1})
+      )
+      (box :orientation "v" :space-evenly "false" 
+        (box :class "weather-week-2" {weather-week-2})
+        (box :class "weather-icon-2" :style "color: ${weather-icon-color-2}" {weather-icon-2})
+        (box :class "weather-temp-2" {weather-temp-2})
+        (box :class "weather-prec-2" {weather-prec-2})
+        (box :class "weather-desc-2" {weather-desc-2})
+      )
+      (box :orientation "v" :space-evenly "false" 
+        (box :class "weather-week-3" {weather-week-3})
+        (box :class "weather-icon-3" :style "color: ${weather-icon-color-3}" {weather-icon-3})
+        (box :class "weather-temp-3" {weather-temp-3})
+        (box :class "weather-prec-3" {weather-prec-3})
+        (box :class "weather-desc-3" {weather-desc-3})
+      )
+      (box :orientation "v" :space-evenly "false" 
+        (box :class "weather-week-4" {weather-week-4})
+        (box :class "weather-icon-4" :style "color: ${weather-icon-color-4}" {weather-icon-4})
+        (box :class "weather-temp-4" {weather-temp-4})
+        (box :class "weather-prec-4" {weather-prec-4})
+        (box :class "weather-desc-4" {weather-desc-4})
+      )
+      (box :orientation "v" :space-evenly "false" 
+        (box :class "weather-week-5" {weather-week-5})
+        (box :class "weather-icon-5" :style "color: ${weather-icon-color-5}" {weather-icon-5})
+        (box :class "weather-temp-5" {weather-temp-5})
+        (box :class "weather-prec-5" {weather-prec-5})
+        (box :class "weather-desc-5" {weather-desc-5})
+      ))))
     ;; Date vars
     (defpoll number_day :interval "5h"  "date \"+%d\"")
     (defpoll month :interval "10h"  "date \"+%b\"")
@@ -51,9 +56,11 @@
     (defpoll year_full :interval "15h"  "date \"+%Y\"")
 
     ;; Weather vars
-    (defpoll weather-icon :interval "20m"  "cat /tmp/getico")
-    (defpoll temperature :interval "20m"  "cat /tmp/gettemp")
-    (defpoll weather-hex :interval "20m"  "cat /tmp/gethex")
+    (defpoll weather-icon :interval "20m"  "cat /tmp/getweathertodayicon")
+    (defpoll temperature :interval "20m"  "cat /tmp/getweathertodaytemp")
+    (defpoll weather-hex :interval "20m"  "cat /tmp/getweathertodayhex")
+    (defpoll weather-desc :interval "20m"  "cat /tmp/getweathertodaydesc")
+
     (defpoll weather-icon-color-1 :interval "20m"  "cat /tmp/forecast_1day_icon_color")
     (defpoll weather-icon-color-2 :interval "20m"  "cat /tmp/forecast_2day_icon_color")
     (defpoll weather-icon-color-3 :interval "20m"  "cat /tmp/forecast_3day_icon_color")
@@ -65,38 +72,29 @@
     (defpoll weather-icon-4 :interval "20m"  "cat /tmp/forecast_4day_icon")
     (defpoll weather-icon-5 :interval "20m"  "cat /tmp/forecast_5day_icon")
  
-    (defpoll weather-temp-color-1 :interval "20m"  "cat /tmp/forecast_1day_temp_color")
-    (defpoll weather-temp-color-2 :interval "20m"  "cat /tmp/forecast_2day_temp_color")
-    (defpoll weather-temp-color-3 :interval "20m"  "cat /tmp/forecast_3day_temp_color")
-    (defpoll weather-temp-color-4 :interval "20m"  "cat /tmp/forecast_4day_temp_color")
-    (defpoll weather-temp-color-5 :interval "20m"  "cat /tmp/forecast_5day_temp_color")
     (defpoll weather-temp-1 :interval "20m"  "cat /tmp/forecast_1day_temp")
     (defpoll weather-temp-2 :interval "20m"  "cat /tmp/forecast_2day_temp")
     (defpoll weather-temp-3 :interval "20m"  "cat /tmp/forecast_3day_temp")
     (defpoll weather-temp-4 :interval "20m"  "cat /tmp/forecast_4day_temp")
     (defpoll weather-temp-5 :interval "20m"  "cat /tmp/forecast_5day_temp")
 
-    (defpoll weather-prec-color-1 :interval "20m"  "cat /tmp/forecast_1day_prec_color")
-    (defpoll weather-prec-color-2 :interval "20m"  "cat /tmp/forecast_2day_prec_color")
-    (defpoll weather-prec-color-3 :interval "20m"  "cat /tmp/forecast_3day_prec_color")
-    (defpoll weather-prec-color-4 :interval "20m"  "cat /tmp/forecast_4day_prec_color")
-    (defpoll weather-prec-color-5 :interval "20m"  "cat /tmp/forecast_5day_prec_color")
     (defpoll weather-prec-1 :interval "20m"  "cat /tmp/forecast_1day_prec")
     (defpoll weather-prec-2 :interval "20m"  "cat /tmp/forecast_2day_prec")
     (defpoll weather-prec-3 :interval "20m"  "cat /tmp/forecast_3day_prec")
     (defpoll weather-prec-4 :interval "20m"  "cat /tmp/forecast_4day_prec")
     (defpoll weather-prec-5 :interval "20m"  "cat /tmp/forecast_5day_prec")
 
-    (defpoll weather-desc-color-1 :interval "20m"  "cat /tmp/forecast_1day_desc_color")
-    (defpoll weather-desc-color-2 :interval "20m"  "cat /tmp/forecast_2day_desc_color")
-    (defpoll weather-desc-color-3 :interval "20m"  "cat /tmp/forecast_3day_desc_color")
-    (defpoll weather-desc-color-4 :interval "20m"  "cat /tmp/forecast_4day_desc_color")
-    (defpoll weather-desc-color-5 :interval "20m"  "cat /tmp/forecast_5day_desc_color")
     (defpoll weather-desc-1 :interval "20m"  "cat /tmp/forecast_1day_desc")
     (defpoll weather-desc-2 :interval "20m"  "cat /tmp/forecast_2day_desc")
     (defpoll weather-desc-3 :interval "20m"  "cat /tmp/forecast_3day_desc")
     (defpoll weather-desc-4 :interval "20m"  "cat /tmp/forecast_4day_desc")
     (defpoll weather-desc-5 :interval "20m"  "cat /tmp/forecast_5day_desc")
+
+    (defpoll weather-week-1 :interval "20m"  "cat /tmp/getweatherweekday1")
+    (defpoll weather-week-2 :interval "20m"  "cat /tmp/getweatherweekday2")
+    (defpoll weather-week-3 :interval "20m"  "cat /tmp/getweatherweekday3")
+    (defpoll weather-week-4 :interval "20m"  "cat /tmp/getweatherweekday4")
+    (defpoll weather-week-5 :interval "20m"  "cat /tmp/getweatherweekday5")
 
     ;; Main Stuff
     (defwindow calendar_full 
@@ -108,12 +106,9 @@
                              )
          (calendar_full))
     (defwindow weather 
-          :monitor 0
+          :monitor 1
 			    :geometry (geometry :x "150px" 
-                               :width "510px"
+                               :width "500px"
                                :anchor "top right"
                                )
 			     				(weather))
-
-
-
