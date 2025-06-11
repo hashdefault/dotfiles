@@ -1,14 +1,8 @@
-* {
-  all: unset;
-}
-
 window {
   background-color: #121212;
   color: #ffd5cd;
   font-family: 'Ubuntu Nerd Font';
 }
-
-
 
 button {
   all: unset;
@@ -187,50 +181,24 @@ calendar.highlight {
 
 }
 
-.l1,
-.l2,
-.l3,
-.l4,
-.l5,
-.l6 {
-  font-size: 25px;
-  font-weight: 600;
-}
-
-.home-dir {
-  margin: 10px;
-}
-
-.l1:hover,
-.l3:hover,
-.l4:hover,
-.l6:hover {
-  color: #D35D6E;
-}
-
-.l1,
-.l6 {
-  color: #84afdb;
-}
-
-.l2,
-.l5 {
-  color: #ffd5cd;
-}
-
-.l3,
-.l4 {
-  color: #c47eb7;
-}
-
-.l5:hover,
-.l2:hover {
-  color: #D35D6E;
-}
-
 .screenshot-icon {
   color: #ffd5cd;
   font-size: 60px;
   margin-right: 5px;
   font-family: 'Ubuntu Nerd Font';
+}
+
+.night-light {
+  trough {
+    padding: 3px;
+    border-radius: 5px;
+
+    slider {
+      background-color: rgb(20, 40, 60);
+      border-radius: 10px;
+    }
+
+  }
+
+  padding: 0px 50px;
 }
