@@ -106,7 +106,9 @@ calendar.highlight {
 
 }
 
-
+.weather-icon {
+  margin: 30px -20px 0px 60px;
+}
 
 .weather {
   border: 5px solid rgb(100, 170, 210);
@@ -127,12 +129,6 @@ calendar.highlight {
   color: #bbb;
 }
 
-.weather-icon {
-  font-size: 55px;
-  margin: 20px 0px 30px 95px;
-  font-family: 'Ubuntu Nerd Font';
-  color: #d0ddf2;
-}
 
 .weather-prec-1,
 .weather-prec-2,

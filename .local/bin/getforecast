@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# Put in your api and stuff link here
-# If you dunno, head to openweathermap.org, and make and account
-#(completely free I swear, and then get your API Key and  your City ID)
-# I wish I was smart enough to do it like Elena, but this is the top I could do lol
-KEY="60ef916f5fec2a35d4d47fe458167df9"
-UNIT="metric" #Options are 'metric' and 'imperial'
 LAT='-23.4166'
 LON='-51.9365'
 
@@ -59,81 +53,46 @@ declare -A weather_icons
 #96 | 99) desc="Thunderstorm with hail" ;;
 #*) desc="Unknown" ;;
 #esac
-weather_icons["0"]=" "
-weather_icons["1"]=" "
-weather_icons["2"]=" "
-weather_icons["3"]=" "
-weather_icons["45"]=" "
-weather_icons["48"]=" "
-weather_icons["51"]=" "
-weather_icons["53"]=" "
-weather_icons["55"]=" "
-weather_icons["56"]=" "
-weather_icons["57"]=" "
-weather_icons["61"]=" "
-weather_icons["63"]=" "
-weather_icons["65"]=" "
-weather_icons["66"]="❄ "
-weather_icons["67"]="❄ "
-weather_icons["71"]="🌨"
-weather_icons["73"]="🌨"
-weather_icons["75"]="🌨"
-weather_icons["77"]=" "
-weather_icons["80"]=" "
-weather_icons["81"]=" "
-weather_icons["82"]=" "
-weather_icons["85"]=" "
-weather_icons["86"]=" "
-weather_icons["95"]=" "
-weather_icons["96"]=" "
-weather_icons["99"]=" "
-#weather_icons["13d"]=" "
+weather_icons["0"]=$HOME/.local/share/icons/weather-icons/static/clear-day.svg
+weather_icons["1"]=$HOME/.local/share/icons/weather-icons/static/cloudy-2-day.svg
+weather_icons["2"]=$HOME/.local/share/icons/weather-icons/static/cloudy-3-day.svg
+weather_icons["3"]=$HOME/.local/share/icons/weather-icons/static/cloudy.svg
+weather_icons["45"]=$HOME/.local/share/icons/weather-icons/static/fog.svg
+weather_icons["48"]=$HOME/.local/share/icons/weather-icons/static/fog.svg
+weather_icons["51"]=$HOME/.local/share/icons/weather-icons/static/rainy-1.svg
+weather_icons["53"]=$HOME/.local/share/icons/weather-icons/static/rainy-1.svg
+weather_icons["55"]=$HOME/.local/share/icons/weather-icons/static/rainy-1.svg
+weather_icons["56"]=$HOME/.local/share/icons/weather-icons/static/rain-and-sleet-mix.svg
+weather_icons["57"]=$HOME/.local/share/icons/weather-icons/static/rain-and-sleet-mix.svg
+weather_icons["61"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons["63"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons["65"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons["66"]=$HOME/.local/share/icons/weather-icons/static/rain-and-snow-mix.svg
+weather_icons["67"]=$HOME/.local/share/icons/weather-icons/static/rain-and-snow-mix.svg
+weather_icons["71"]=$HOME/.local/share/icons/weather-icons/static/snowy-3.svg
+weather_icons["73"]=$HOME/.local/share/icons/weather-icons/static/snowy-3.svg
+weather_icons["75"]=$HOME/.local/share/icons/weather-icons/static/snowy-3.svg
+weather_icons["77"]=$HOME/.local/share/icons/weather-icons/static/snow-and-sleet-mix.svg
+weather_icons["80"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons["81"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons["82"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons["85"]=$HOME/.local/share/icons/weather-icons/static/snowy-3.svg
+weather_icons["86"]=$HOME/.local/share/icons/weather-icons/static/snowy-3.svg
+weather_icons["95"]=$HOME/.local/share/icons/weather-icons/static/thunderstorms.svg
+weather_icons["96"]=$HOME/.local/share/icons/weather-icons/static/thunderstorms.svg
+weather_icons["99"]=$HOME/.local/share/icons/weather-icons/static/thunderstorms.svg
 
-declare -A weather_colors
-
-weather_colors["0"]="#ffd86b"
-weather_colors["1"]="#ffd86b"
-weather_colors["2"]="#90ede6"
-weather_colors["3"]="#90ede6"
-weather_colors["45"]="#adadff"
-weather_colors["48"]="#adadff"
-#weather_colors["45"]=" "
-#weather_colors["48"]=" "
-weather_colors["51"]="#6b95ff"
-weather_colors["53"]="#6b95ff"
-weather_colors["55"]="#6b95ff"
-weather_colors["56"]="#6b95ff"
-weather_colors["57"]="#6b95ff"
-weather_colors["61"]="#6b95ff"
-weather_colors["63"]="#6b95ff"
-weather_colors["66"]="#6b95ff"
-weather_colors["67"]="#6b95ff"
-weather_colors["71"]="#84afdb"
-weather_colors["73"]="#84afdb"
-weather_colors["75"]="#84afdb"
-weather_colors["77"]="#84afdb"
-weather_colors["80"]="#365bed"
-weather_colors["81"]="#365bed"
-weather_colors["82"]="#365bed"
-weather_colors["85"]="#84afdb"
-weather_colors["86"]="#84afdb"
-weather_colors["95"]="#365bed"
-weather_colors["96"]="#365bed"
-weather_colors["99"]="#365bed"
-#weather_colors["13d"]=" "
-
-#curl -sf "https://api.openweathermap.org/data/3.0/onecall/?lat=$LAT&lon=$LON&exclude=hourly,minutely,alerts&units=$UNIT&appid=$KEY" -o /tmp/forecast_call.json
-curl -sf "https://api.open-meteo.com/v1/forecast?latitude=-23.4253&longitude=-51.9386&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_probability_max&timezone=America%2FSao_Paulo" -o /tmp/forecast_call.json
+curl -sf "https://api.open-meteo.com/v1/forecast?latitude=$LAT&longitude=$LON&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_probability_max&timezone=America%2FSao_Paulo" -o /tmp/forecast_call.json
 
 day=1
-index=0
 for key in $(jq -c '.daily.time | keys | .[]' /tmp/forecast_call.json); do
-  temp_max=$(jq -r ".daily.temperature_2m_max[$key]" /tmp/forecast_call.json | cut -d '.' -f 1)
-  temp_min=$(jq -r ".daily.temperature_2m_min[$key]" /tmp/forecast_call.json | cut -d '.' -f 1)
 
-  icon=$(jq -r ".daily.weather_code[$key]" /tmp/forecast_call.json)
-  prec=$(jq -r ".daily.precipitation_probability_max[$key]" /tmp/forecast_call.json)
-  weather_code=$(jq -r ".daily.weather_code[$key]" /tmp/forecast_call.json)
+  temp_max=$(jq -r ".daily.temperature_2m_max[$day]" /tmp/forecast_call.json | cut -d '.' -f 1)
+  temp_min=$(jq -r ".daily.temperature_2m_min[$day]" /tmp/forecast_call.json | cut -d '.' -f 1)
+
+  icon=$(jq -r ".daily.weather_code[$day]" /tmp/forecast_call.json)
+  prec=$(jq -r ".daily.precipitation_probability_max[$day]" /tmp/forecast_call.json)
+  weather_code=$(jq -r ".daily.weather_code[$day]" /tmp/forecast_call.json)
   desc=$(echo "${weather_desc[$weather_code]}" | sed 's/\b\(.\)/\u\1/g')
 
   datetime=$(jq -r ".daily.time[$key]" /tmp/forecast_call.json)
@@ -141,10 +100,7 @@ for key in $(jq -c '.daily.time | keys | .[]' /tmp/forecast_call.json); do
 
   echo "󰖌 $prec%" >"/tmp/forecast_${day}day_prec"
   echo "$weekday" >"/tmp/getweatherweekday${day}"
-  echo "$temp_min°/$temp_max°" >"/tmp/forecast_${day}day_temp"
-  echo "${weather_icons[$icon]}" >"/tmp/forecast_${day}day_icon"
-  echo "${weather_colors[$icon]}" >"/tmp/forecast_${day}day_icon_color"
-  echo "$desc" >"/tmp/forecast_${day}day_desc"
+  echo "$temp_min°$temp_max°" >"/tmp/forecast_${day}day_temp"
+  cat ${weather_icons[$icon]} >"/tmp/forecast_${day}day_icon"
   day=$((day + 1))
-  index=$((index + 1))
 done

@@ -1,9 +1,31 @@
 #!/bin/bash
 
-# Go to openweathermap.org, and create an account
-KEY="your_api_key" 
-ID="city_name,BR" #city_name,US/city_name,UK
+KEY="your_api_key"
+ID="Maringá,BR"
 UNIT="metric" #Options are 'metric' and 'imperial'
+
+declare -A weather_icons_svg
+
+weather_icons_svg["01d"]=$HOME/.local/share/icons/weather-icons/static/clear-day.svg
+weather_icons_svg["01n"]=$HOME/.local/share/icons/weather-icons/static/clear-night.svg
+weather_icons_svg["02d"]=$HOME/.local/share/icons/weather-icons/static/clear-day.svg
+weather_icons_svg["02n"]=$HOME/.local/share/icons/weather-icons/static/clear-night.svg
+weather_icons_svg["03d"]=$HOME/.local/share/icons/weather-icons/static/cloudy.svg
+weather_icons_svg["03n"]=$HOME/.local/share/icons/weather-icons/static/cloudy.svg
+weather_icons_svg["04d"]=$HOME/.local/share/icons/weather-icons/static/cloudy.svg
+weather_icons_svg["04n"]=$HOME/.local/share/icons/weather-icons/static/cloudy.svg
+weather_icons_svg["09d"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons_svg["09n"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons_svg["10d"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons_svg["10n"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons_svg["11d"]=$HOME/.local/share/icons/weather-icons/static/thunderstorms.svg
+weather_icons_svg["11n"]=$HOME/.local/share/icons/weather-icons/static/thunderstorms.svg
+weather_icons_svg["13d"]=$HOME/.local/share/icons/weather-icons/static/frost.svg
+weather_icons_svg["13n"]=$HOME/.local/share/icons/weather-icons/static/frost.svg
+weather_icons_svg["40d"]=$HOME/.local/share/icons/weather-icons/static/fog-day.svg
+weather_icons_svg["40n"]=$HOME/.local/share/icons/weather-icons/static/fog-night.svg
+weather_icons_svg["50d"]=$HOME/.local/share/icons/weather-icons/static/fog-day.svg
+weather_icons_svg["50n"]=$HOME/.local/share/icons/weather-icons/static/fog-night.svg
 
 declare -A weather_icons
 
@@ -28,29 +50,6 @@ weather_icons["40n"]=" "
 weather_icons["50d"]=" "
 weather_icons["50n"]=" "
 
-declare -A weather_colors
-
-weather_colors["01d"]="#ffd86b"
-weather_colors["01n"]="#fcdcf6"
-weather_colors["02d"]="#adadff"
-weather_colors["02n"]="#adadff"
-weather_colors["03d"]="#adadff"
-weather_colors["03n"]="#adadff"
-weather_colors["04d"]="#adadff"
-weather_colors["04n"]="#adadff"
-weather_colors["09d"]="#6b95ff"
-weather_colors["09n"]="#6b95ff"
-weather_colors["10d"]="#6b95ff"
-weather_colors["10n"]="#6b95ff"
-weather_colors["11d"]="#ffeb57"
-weather_colors["11n"]="#ffeb57"
-weather_colors["13d"]="#e3e6fc"
-weather_colors["13n"]="#e3e6fc"
-weather_colors["40d"]="#84afdb"
-weather_colors["40n"]="#84afdb"
-weather_colors["50d"]="#84afdb"
-weather_colors["50n"]="#84afdb"
-
 weather=$(curl -sf "http://api.openweathermap.org/data/2.5/weather?APPID=$KEY&q=$ID&units=$UNIT")
 
 if [ -n "$weather" ]; then
@@ -60,10 +59,10 @@ if [ -n "$weather" ]; then
   weather_description=$(echo "$weather" | jq -r ".weather[].description" | head -1 | sed -e "s/\b\(.\)/\u\1/g")
 
   echo "${weather_icons[$weather_icon_code]} $weather_description $weather_temp °C"
-  echo "${weather_icons[$weather_icon_code]}" >/tmp/getweathertodayicon
+  cat "${weather_icons_svg[$weather_icon_code]}" >/tmp/getweathertodayicon
   echo "$weather_temp °C" >/tmp/getweathertodaytemp
   echo "$weather_description" >/tmp/getweathertodaydesc
-  echo "${weather_colors[$weather_icon_code]}" >/tmp/getweathertodayhex
+  echo "" >/tmp/getweathertodayhex
 else
-  echo "Weather Unavailable  "
+  echo "Weather Unavailable  "
 fi
