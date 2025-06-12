@@ -188,7 +188,61 @@ calendar.highlight {
   font-family: 'Ubuntu Nerd Font';
 }
 
-.nightlight {
+.sidemenu {
+  .greeter {
+    margin-top:10px;
+    padding:0px 20px;
+    font-size: 30px;
+  }
+  .greeter-user {
+    padding:0px 20px;
+    font-size: 30px;
+    font-weight:bold;
+    color:rgb(200,200,170);
+    margin-bottom:10px;
+  }
+  .quote {
+    font-size: 18px;
+    font-family:  serif;
+    font-style:italic;
+    color:rgb(190,230,230);
+    border-bottom: 1px solid rgba(190,230,230,0.6);
+    margin:30px;
+    font-weight:500;
+    padding:0px 0px 40px 0px;
+  }
+
+
+  .box-profile {
+    all: unset;
+    padding: 10px;
+  }
+
+  .profile-label {
+    padding: 5px 10px;
+    font-size: 20px;
+    margin: 0;
+  }
+
+
+  .power-menu-side {
+    font-size: 30px;
+    padding: 10px;
+
+    button {
+      border: 3px solid rgb(100, 180, 180);
+      margin: 5px;
+      border-radius: 10px;
+    }
+
+    button:hover {
+      background-color: rgb(60, 60, 60);
+      transition: background .2s ease-in-out;
+    }
+
+
+  }
+
   border-radius: 15px;
 
   scale.night-light.disabled {
@@ -224,54 +278,49 @@ calendar.highlight {
       }
 
     }
-
-  }
-
-}
-
-
-
-box.box-nightlight-buttons {
-  padding: 10px;
-
-  .seperator {
-    font-size: 2px;
-    margin-top: 10px;
   }
 
   .box-label {
-    margin-left: 15px;
+    margin-left: 10px;
+    margin-top: 25px;
 
     .nightlight-label {
-      all: unset;
       font-size: 16px;
       color: #d0ddf2;
-      margin-top: 15px;
     }
   }
 
-  .button-nightlight-arrow {
 
-    border-top-right-radius: 25px;
-    border-bottom-right-radius: 25px;
-  }
+  box.box-nightlight-buttons {
+    padding: 10px;
 
-  .button-nightlight {
+    .seperator {
+      font-size: 2px;
+      margin-top: 10px;
+    }
 
-    border-top-left-radius: 25px;
-    border-bottom-left-radius: 25px;
-  }
 
-  .button-nightlight,
-  .button-nightlight-arrow {
-    margin: 15px 0px 5px 0px;
-    font-size: 20px;
-    padding: 0px 10px;
-    background-color: rgb(70, 70, 70);
-  }
+    .button-nightlight-arrow {
+      border-top-right-radius: 25px;
+      border-bottom-right-radius: 25px;
+    }
 
-  .button-nightlight.active,
-  .button-nightlight-arrow.active {
-    background-color: rgb(100, 180, 180);
+    .button-nightlight {
+      border-top-left-radius: 25px;
+      border-bottom-left-radius: 25px;
+    }
+
+    .button-nightlight,
+    .button-nightlight-arrow {
+      margin: 15px 0px 5px 0px;
+      font-size: 20px;
+      padding: 12px 12px;
+      background-color: rgb(70, 70, 70);
+    }
+
+    .button-nightlight.active,
+    .button-nightlight-arrow.active {
+      background-color: rgb(100, 180, 180);
+    }
   }
 }

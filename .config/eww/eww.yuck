@@ -4,25 +4,55 @@
         (box :class "calendar" 
            (calendar :show-details "true")
 )))
-(defwidget nightlight [] 
-     (box :class "box-nightlight" :orientation "v" 
-      (box :space-evenly "false" :class  "box-nightlight-buttons" :orientation "h" 
+(defwidget sidemenu [] 
+  (box :space-evenly "false" :class "box-sidemenu" :orientation "v" 
+    (box :space-evenly "false" :orientation "v" 
+       (label :class "greeter"  :wrap true :text "${greeter}" )
+       (label :class "greeter-user"  :wrap true :text "${username}" )
+    )
+    (box :space-evenly "false" :class "box-profile" :orientation "h" 
+        (image :class "profile-img" :path "/home/lucas/.local/share/images/avatar.png" :image-width 130)
+        (box  :class  "profile-desc" :orientation "v" 
+          (label   :class "profile-label"  :text "user  ${username}")
+          (label   :class "profile-label"  :text "host  ${host}")
+        )
+    )
+    (box :space-evenly "false" :orientation "h" 
+       (label :class "quote"  :wrap true :text text_quote )
+    )
+    (box :space-evenly "false" :orientation "h" 
+     (box :space-evenly "false" :class  "box-nightlight-buttons" :orientation "h" 
        (button :class {nightlight_active ?  "button-nightlight active":"button-nightlight"} :onclick "~/.local/bin/nightlight --toggle" {nightlight_active ? "󰛨 " : "󰹏 " })
        (label :class "seperator"  :text "|")
        (button :class {nightlight_active ?  "button-nightlight-arrow active":"button-nightlight-arrow"} :onclick "~/.local/bin/nightlight --toggle" ""  )
-       (box :class "box-label" :space-evenly "false" :orientation "v" 
-        (label :class "nightlight-label" :text "Night Light")
-        (scale 
-            :orientation "h"
-            :class {nightlight_active ?  "night-light":"night-light disabled"}
-            :min 0
-            :max 100
-            :value 1
-            :timeout "2000ms"
-            :onchange "~/.local/bin/nightlight {}")
-       )
-      )
      )
+     (box :class "box-label" :space-evenly "false" :orientation "v" 
+       (label :class "nightlight-label" :text "Night Light")
+       (scale 
+          :orientation "h"
+          :class {nightlight_active ?  "night-light":"night-light disabled"}
+          :min 0
+          :max 100
+          :value 10
+          :timeout "2000ms"
+          :onchange "~/.local/bin/nightlight {}")
+      )
+    )
+  (box :class "power-menu-side" :orientation "h"  
+        (eventbox :tooltip "Shutdown" :class "hover-power-side-btn" :timeout "20ms" :cursor "pointer" 
+          (button :class "power-side-button" :onclick "shutdown 0 1" "⏻"  )
+        )
+        (eventbox :tooltip "Reboot" :class "hover-power-side-btn" :timeout "20ms" :cursor "pointer" 
+          (button :class "reboot-side-button" :onclick "reboot" "")
+        )
+        (eventbox :tooltip "Logout" :class "hover-power-side-btn" :timeout "20ms" :cursor "pointer" 
+          (button :class "logout-side-button" :onclick "hyprctl dispatch exit" "")
+        )
+        (eventbox :tooltip "Suspend" :class "hover-power-side-btn" :timeout "20ms" :cursor "pointer" 
+          (button :class "suspend-button-side" :onclick "systemctl suspend" "󰤄")
+        )
+    )
+  )
 )
 (defwidget powermenu [] 
     (box :orientation "v" :space-evenly "false" 
@@ -85,6 +115,18 @@
         (box :class "weather-desc-5" {weather-desc-5})
       ))))
 
+    
+    ;; Profile vars
+    (defpoll greeter  :interval "1000s" "~/.local/bin/greeter"  )
+    (defpoll icon_greeter  :interval "1000s" "" )
+    (defpoll username :interval "10s" "whoami")
+    (defpoll host :interval "10s" "hostname")
+    (defpoll text_quote  :interval "1800s" "~/.local/bin/getquote")
+
+
+
+
+    ;; Night Light vars
     (defpoll nightlight_active :interval "500ms" "[ $(pidof hyprsunset) ] && echo true || echo false")
 
     ;; Date vars
@@ -154,10 +196,10 @@
                                :anchor "top right"
                                )
 			     				(powermenu))
-    (defwindow nightlight 
+    (defwindow sidemenu
 			    :geometry (geometry  :x "10px" 
                                :width "250px"
-                               :height "50px"
+                               :height "250px"
                                :anchor "top left"
                                )
-			     				(nightlight))
+			     				(sidemenu))
