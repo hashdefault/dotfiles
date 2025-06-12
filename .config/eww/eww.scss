@@ -188,14 +188,38 @@ calendar.highlight {
   font-family: 'Ubuntu Nerd Font';
 }
 
-.night-light {
+.nightlight {
+  border-radius: 15px;
+}
+
+.nightlight-label {
+  all: unset;
+  font-size: 15px;
+  font-weight: 500;
+  color: #d0ddf2;
+}
+
+scale.night-light {
+  all: unset;
+  margin-bottom:20px;
+
   trough {
-    padding: 3px;
-    border-radius: 5px;
+    padding: 0px;
+    border-radius: 10px;
+    background-color: rgb(100, 100, 90);
 
     slider {
-      background-color: rgb(20, 40, 60);
+      all: unset;
+      background-color: rgb(200, 200, 200);
+    }
+
+
+    highlight {
+      all: unset;
+      padding: 5px;
       border-radius: 10px;
+      background-color: rgb(220, 220, 200);
+
     }
 
   }

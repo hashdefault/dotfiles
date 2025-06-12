@@ -1,0 +1,21 @@
+#!/bin/bash
+nightlight() {
+  x=$1
+
+  if (($(echo "$x <= 0" | bc -l))); then
+    exit 1
+  fi
+
+  temperature=$(awk -v x="$x" 'BEGIN {
+  a = 0.00013
+  b = 0.2
+  y = a * (x ^ b)
+  result = 1 / y
+  print result
+}')
+  if pgrep -x hyprsunset >/dev/null; then
+    killall hyprsunset
+  fi
+  hyprsunset -t "$temperature" &
+}
+nightlight "$1"

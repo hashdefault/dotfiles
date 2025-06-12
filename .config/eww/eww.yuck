@@ -5,15 +5,15 @@
            (calendar :show-details "true")
 )))
 (defwidget nightlight [] 
-     (box :class "box-nightlight" :orientation "h" 
+     (box :class "box-nightlight" :orientation "v" 
+        (label :class "nightlight-label" :text "Night Light")
         (scale 
             :orientation "h"
             :class "night-light"
-            :min 3000
-            :max 6000
-            :round-digits 0
-            :timeout "300ms"
-            :onchange "hyprsunset -t {} "
+            :min 0
+            :max 100
+            :value 20
+            :onchange "~/.local/bin/nightlight {}"
         )
   )
 )
@@ -147,7 +147,7 @@
     (defwindow nightlight 
 			    :geometry (geometry  :x "10px" 
                                :width "250px"
-                               :height "80px"
+                               :height "50px"
                                :anchor "top left"
                                )
 			     				(nightlight))
