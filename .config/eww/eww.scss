@@ -190,39 +190,88 @@ calendar.highlight {
 
 .nightlight {
   border-radius: 15px;
-}
 
-.nightlight-label {
-  all: unset;
-  font-size: 15px;
-  font-weight: 500;
-  color: #d0ddf2;
-}
+  scale.night-light.disabled {
+    opacity: 0;
+  }
 
-scale.night-light {
-  all: unset;
-  margin-bottom:20px;
+  scale.night-light {
+    transition: opacity 0.3s ease-in-out;
+    opacity: 1;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    min-width: 100px;
 
-  trough {
-    padding: 0px;
-    border-radius: 10px;
-    background-color: rgb(100, 100, 90);
-
-    slider {
-      all: unset;
-      background-color: rgb(200, 200, 200);
-    }
-
-
-    highlight {
-      all: unset;
-      padding: 5px;
+    trough {
+      padding: 0px;
       border-radius: 10px;
-      background-color: rgb(220, 220, 200);
+      background-color: rgb(100, 100, 90);
+
+      slider {
+        all: unset;
+        background-color: rgb(200, 200, 200);
+      }
+
+
+
+
+      highlight {
+        all: unset;
+        padding: 5px;
+        border-radius: 10px;
+        background-color: rgb(220, 220, 200);
+
+      }
 
     }
 
   }
 
-  padding: 0px 50px;
+}
+
+
+
+box.box-nightlight-buttons {
+  padding: 10px;
+
+  .seperator {
+    font-size: 2px;
+    margin-top: 10px;
+  }
+
+  .box-label {
+    margin-left: 15px;
+
+    .nightlight-label {
+      all: unset;
+      font-size: 16px;
+      color: #d0ddf2;
+      margin-top: 15px;
+    }
+  }
+
+  .button-nightlight-arrow {
+
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+  }
+
+  .button-nightlight {
+
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+  }
+
+  .button-nightlight,
+  .button-nightlight-arrow {
+    margin: 15px 0px 5px 0px;
+    font-size: 20px;
+    padding: 0px 10px;
+    background-color: rgb(70, 70, 70);
+  }
+
+  .button-nightlight.active,
+  .button-nightlight-arrow.active {
+    background-color: rgb(100, 180, 180);
+  }
 }

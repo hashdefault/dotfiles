@@ -6,16 +6,23 @@
 )))
 (defwidget nightlight [] 
      (box :class "box-nightlight" :orientation "v" 
+      (box :space-evenly "false" :class  "box-nightlight-buttons" :orientation "h" 
+       (button :class {nightlight_active ?  "button-nightlight active":"button-nightlight"} :onclick "~/.local/bin/nightlight --toggle" {nightlight_active ? "󰛨 " : "󰹏 " })
+       (label :class "seperator"  :text "|")
+       (button :class {nightlight_active ?  "button-nightlight-arrow active":"button-nightlight-arrow"} :onclick "~/.local/bin/nightlight --toggle" ""  )
+       (box :class "box-label" :space-evenly "false" :orientation "v" 
         (label :class "nightlight-label" :text "Night Light")
         (scale 
             :orientation "h"
-            :class "night-light"
+            :class {nightlight_active ?  "night-light":"night-light disabled"}
             :min 0
             :max 100
-            :value 20
-            :onchange "~/.local/bin/nightlight {}"
-        )
-  )
+            :value 1
+            :timeout "2000ms"
+            :onchange "~/.local/bin/nightlight {}")
+       )
+      )
+     )
 )
 (defwidget powermenu [] 
     (box :orientation "v" :space-evenly "false" 
@@ -77,6 +84,9 @@
         (box :class "weather-prec-5" {weather-prec-5})
         (box :class "weather-desc-5" {weather-desc-5})
       ))))
+
+    (defpoll nightlight_active :interval "500ms" "[ $(pidof hyprsunset) ] && echo true || echo false")
+
     ;; Date vars
     (defpoll number_day :interval "5h"  "date \"+%d\"")
     (defpoll month :interval "10h"  "date \"+%b\"")
