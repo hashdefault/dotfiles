@@ -8,57 +8,66 @@
   (box :space-evenly "false" :class "box-sidemenu" :orientation "v" 
     (box :space-evenly "false" :orientation "v" 
        (label :class "greeter"  :wrap true :text "${greeter}" )
-       (label :class "greeter-user"  :wrap true :text "${username}" )
-    )
+       (label :class "greeter-user"  :wrap true :text "${username}" ))
     (box :space-evenly "false" :class "box-profile" :orientation "h" 
         (image :class "profile-img" :path "/home/lucas/.local/share/images/avatar.png" :image-width 130)
         (box  :class  "profile-desc" :orientation "v" 
           (label   :class "profile-label"  :text "user  ${username}")
           (label   :class "profile-label"  :text "host  ${host}")
-        )
+        ))
+    (box :space-evenly "false" :orientation "h" 
+       (label :class "quote"  :wrap true :text text_quote ))
+    (box :space-evenly "false" :class "notifications-menu-side" :orientation "v"  
+      (label :space-evenly "false" :text "Notifications" :class "notification-title")
+          (literal :content notification )
     )
     (box :space-evenly "false" :orientation "h" 
-       (label :class "quote"  :wrap true :text text_quote )
-    )
-    (box :space-evenly "false" :orientation "h" 
-     (box :space-evenly "false" :class  "box-nightlight-buttons" :orientation "h" 
-       (button :class {nightlight_active ?  "button-nightlight active":"button-nightlight"} :onclick "~/.local/bin/nightlight --toggle" {nightlight_active ? "󰛨 " : "󰹏 " })
-       (label :class "seperator"  :text "|")
-       (button :class {nightlight_active ?  "button-nightlight-arrow active":"button-nightlight-arrow"} :onclick "~/.local/bin/nightlight --toggle" ""  )
-     )
-     (box :class "box-label" :space-evenly "false" :orientation "v" 
-       (label :class "nightlight-label" :text "Night Light")
-       (scale 
-          :orientation "h"
-          :class {nightlight_active ?  "night-light":"night-light disabled"}
-          :min 0
-          :max 100
-          :value 10
-          :timeout "2000ms"
-          :onchange "~/.local/bin/nightlight {}")
+      (box :space-evenly "false" :orientation "v" 
+        (box :space-evenly "false" :class  "box-nightlight-buttons" :orientation "h" 
+          (button  :class {nightlight_active ?  "button-nightlight active":"button-nightlight"} :onclick "~/.local/bin/nightlight --toggle" {nightlight_active ? "󰛨" : "󰹏" })
+          (label :class "seperator"  :text "|")
+          (button :class {nightlight_active ?  "button-nightlight-arrow active":"button-nightlight-arrow"} :onclick "~/.local/bin/nightlight --toggle" ""  ))
+        (box :class "box-label"  :orientation "v" 
+          (label :class "nightlight-label"  :text "Night Light")
+          (scale 
+            :orientation "h"
+            :class {nightlight_active ?  "night-light":"night-light disabled"}
+            :min 0
+            :max 100
+            :value 10
+            :timeout "2000ms"
+            :onchange "~/.local/bin/nightlight {}")))
+      (box :space-evenly "false" :orientation "v" 
+          (box :space-evenly "false" :class  "box-wifi-buttons" :orientation "h" 
+            (button  :class {wifi_active ?  "button-wifi active":"button-wifi"} :onclick "~/.local/bin/wifi --toggle" {wifi_active ? "󰖩" : "󰖪" })
+            (label :class "seperator"  :text "|")
+            (button :class {wifi_active ?  "button-wifi-arrow active":"button-wifi-arrow"} :onclick "~/.local/bin/wifi --toggle" ""  ))
+          (box :class "box-label"  :orientation "h" 
+            (label :class "wifi-label" :text "Wifi")))
+      (box :space-evenly "false" :orientation "v" 
+        (box :space-evenly "false" :class  "box-bluetooth-buttons" :orientation "h" 
+          (button  :class {bluetooth_active ?  "button-bluetooth active":"button-bluetooth"} :onclick "~/.local/bin/bluetooth --toggle" {bluetooth_active ? "󰂯" : "󰂲" })
+          (label :class "seperator"  :text "|")
+          (button :class {bluetooth_active ?  "button-bluetooth-arrow active":"button-bluetooth-arrow"} :onclick "~/.local/bin/bluetooth --toggle" ""  ))
+        (box :class "box-label"  :orientation "h" 
+          (label :class "bluetooth-label" :text "Bluetooth")))
       )
-    )
+
   (box :class "power-menu-side" :orientation "h"  
         (eventbox :tooltip "Shutdown" :class "hover-power-side-btn" :timeout "20ms" :cursor "pointer" 
-          (button :class "power-side-button" :onclick "shutdown 0 1" "⏻"  )
-        )
+          (button :class "power-side-button" :onclick "shutdown 0 1" "⏻"  ))
         (eventbox :tooltip "Reboot" :class "hover-power-side-btn" :timeout "20ms" :cursor "pointer" 
-          (button :class "reboot-side-button" :onclick "reboot" "")
-        )
+          (button :class "reboot-side-button" :onclick "reboot" ""))
         (eventbox :tooltip "Logout" :class "hover-power-side-btn" :timeout "20ms" :cursor "pointer" 
-          (button :class "logout-side-button" :onclick "hyprctl dispatch exit" "")
-        )
+          (button :class "logout-side-button" :onclick "hyprctl dispatch exit" ""))
         (eventbox :tooltip "Suspend" :class "hover-power-side-btn" :timeout "20ms" :cursor "pointer" 
-          (button :class "suspend-button-side" :onclick "systemctl suspend" "󰤄")
-        )
-    )
-  )
-)
+          (button :class "suspend-button-side" :onclick "systemctl suspend" "󰤄"))
+    )))
 (defwidget powermenu [] 
     (box :orientation "v" :space-evenly "false" 
         (eventbox :class "hover-power-btn" :timeout "20ms" :cursor "pointer" 
           (button :class "power-button" :onclick "shutdown 0 1" "⏻ "  )
-          )
+        )
         (label :class "power-description" :text "Shutdown" :justify "center")
         (eventbox :class "hover-power-btn" :timeout "20ms" :cursor "pointer" 
         (button :class "reboot-button" :onclick "reboot" " ")
@@ -114,7 +123,6 @@
         (box :class "weather-prec-5" {weather-prec-5})
         (box :class "weather-desc-5" {weather-desc-5})
       ))))
-
     
     ;; Profile vars
     (defpoll greeter  :interval "1000s" "~/.local/bin/greeter"  )
@@ -123,11 +131,16 @@
     (defpoll host :interval "10s" "hostname")
     (defpoll text_quote  :interval "1800s" "~/.local/bin/getquote")
 
+    ;; Notification vars
+    (defpoll  notification  :interval "20s" "~/.local/bin/notify_history")
+    
 
-
-
-    ;; Night Light vars
+    
+    ;; Utils vars
     (defpoll nightlight_active :interval "500ms" "[ $(pidof hyprsunset) ] && echo true || echo false")
+
+    (defpoll bluetooth_active :interval "500ms" "[ $(pidof bluetoothctl ) ] && echo true || echo false")
+    (defpoll wifi_active :interval "500ms" "[ $(pidof wifi ) ] && echo true || echo false")
 
     ;; Date vars
     (defpoll number_day :interval "5h"  "date \"+%d\"")
@@ -177,7 +190,7 @@
     ;; Main Stuff
     (defwindow calendar_full 
 		     :geometry (geometry :x "10px"
-                             :width "300px" 
+                             :width "280px" 
                              :height "100px"
                              :anchor "top right"
                              )

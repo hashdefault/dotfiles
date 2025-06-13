@@ -1,0 +1,28 @@
+#!/bin/bash
+
+literal=''
+while [[ $index -lt 15 ]]; do
+  line=$(dunstctl history | jq -r ".data[0].[$index].message.data")
+  if [[ "$line" != null && -n "$line" ]]; then
+    summary=$(dunstctl history | jq -r ".data[0].[$index].summary.data")
+    appname=$(dunstctl history | jq -r ".data[0].[$index].appname.data")
+    message=$(dunstctl history | jq -r ".data[0].[$index].message.data")
+
+    literal=[[
+        (scroll  :space-evenly "false" :vscroll true
+              (box :orientation "v"
+                (label :text "$summary" :class "notification-title" ) 
+                (label :text "$message" :class "notification-message" ) 
+              (box :orientation "h"
+                  (button :class "notif-action-button" :onclick "" "Action")
+                  (button :class "notif-dismiss-button" :onclick "" "Dismiss")
+                )
+                ) 
+                ) 
+                "$literal" ]]
+
+  fi
+  index=$(($index + 1))
+done
+
+echo $literal
