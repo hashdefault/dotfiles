@@ -1,6 +1,6 @@
 #!/bin/bash
 
-response=$(systemctl is-active bluetooth)
+response=$(systemctl is-active bluetooth && bluetoothctl &)
 
 if [[ "$response" == 'active' ]]; then
   echo true

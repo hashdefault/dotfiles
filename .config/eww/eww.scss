@@ -230,9 +230,10 @@ calendar.highlight {
     margin: 0px 15px;
     font-family: "Hack";
   }
+
   .box-profile {
-    font-weight:bold;
-    margin:5px 20px;
+    font-weight: bold;
+    margin: 5px 20px;
   }
 
 
@@ -468,16 +469,44 @@ calendar.highlight {
     margin-top: 20px;
   }
 
+  .notif-line-icon-screen {
+    background-color: rgb(35,35,35);
+    border-radius:5px;
+  }
+
   .notif-line-icon {
-    background-color: rgb(40, 40, 40, 0.9);
     padding: 20px;
+  }
+
+  .notif-screen-button-delete {
+    padding: 12px;
+    border-radius: 5px;
+    background-color: rgb(230, 100, 100);
+    margin: 3px 45px;
+    color: rgb(250, 250, 220);
+    font-weight: bold;
+  }
+
+  .notif-screen-button-open {
+    padding: 12px;
+    margin: 3px 45px;
+    border-radius: 5px;
+    background-color: rgb(100, 200, 200);
+    color: rgb(250, 250, 220);
+    font-weight: bold;
+
   }
 
 
   .notif-item-header {
-    margin: 5px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+
+
+    background-color: rgba(80, 150, 150, 0.1);
     font-weight: bold;
-    color: rgb(250, 250, 210);
+    color: rgb(250, 250, 220);
+    padding: 3px;
 
     .notif-dismiss-button {
       font-size: 20px;
@@ -485,20 +514,13 @@ calendar.highlight {
       color: rgb(200, 100, 100);
     }
 
-    .notif-dismiss-button-event:hover {
-      .notif-dismiss-button {
-        background-color: rgba(30, 30, 30, 0.5);
-      }
-
-    }
-
   }
 
 
   .notif-item {
     border-radius: 5px;
-    background-color: rgba(80, 150, 150, 0.1);
-    margin-top: 10px;
+    margin: 10px 5px;
+    background-color: rgb(40, 40, 40, 0.9);
   }
 
   .notification-item-title {
@@ -520,8 +542,8 @@ calendar.highlight {
   .notifications-menu-header {
     background-color: rgb(60, 60, 60, 0.5);
     padding: 5px 10px;
-    border-radius: 5px;
     margin: 0px 5px;
+    border-radius:5px;
 
     .clear-history-button {
       font-size: 25px;

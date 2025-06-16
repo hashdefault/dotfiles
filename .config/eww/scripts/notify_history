@@ -5,37 +5,53 @@ index=0
 while [[ $index -lt 15 ]]; do
   line=$(dunstctl history | jq -r ".data[0].[$index].summary.data")
   if [[ "$line" != null && -n "$line" ]]; then
-    summary=$(dunstctl history | jq -r ".data[0].[$index].summary.data")
-    appname=$(dunstctl history | jq -r ".data[0].[$index].appname.data")
-    body=$(dunstctl history | jq -r ".data[0].[$index].body.data")
+    summary=$(dunstctl history | jq -r ".data[0] | reverse | .[$index].summary.data")
+    appname=$(dunstctl history | jq -r ".data[0] | reverse | .[$index].appname.data")
+    body=$(dunstctl history | jq -r ".data[0] | reverse | .[$index].body.data")
     # Read lines into an array
-    notif_id=$(dunstctl history | jq -r ".data[0].[$index].id.data")
-    path_icon=$(dunstctl history | jq -r ".data[0].[$index].icon_path.data")
-
+    notif_id=$(dunstctl history | jq -r ".data[0] | reverse | .[$index].id.data")
+    path_icon=$(dunstctl history | jq -r ".data[0] | reverse | .[$index].icon_path.data")
     lit='(box :orientation "v" :class "notif-item" :space-evenly false 
           (box :orientation "h" :class "notif-item-header"
            (label :text "'"$appname"'" :halign "start")
            (eventbox :halign "end" :cursor "pointer" :class "notif-dismiss-button-event"
              (button  :class "notif-dismiss-button" :onclick "dunstctl history-rm '$notif_id' " "󰅚")
            )
-          ) 
+          ) '
+
+    if [[ $appname == "Screenshot" ]]; then
+      screenshot=$(grep "$notif_id" '/tmp/screenshot_log.txt' | cut -d ";" -f 1)
+
+      lit=$lit'
+          (box :space-evenly false :orientation "v" :valign "center" :halign "center" :class "notif-line-icon-screen"
+            (image :image-width "400" :path "'"$screenshot"'" :class "icon-notif-screenshot" :halign "start" :valign "center")
+            (box :orientation "h" :halign "center" :valign "center" 
+            (button :halign "start" :class "notif-screen-button-open" :onclick "shotwell '$screenshot' &" "Open")
+            (button :halign "end" :class "notif-screen-button-delete" :onclick "dunstctl history-rm '$notif_id' " "Remove"))
+          )
+        )'
+
+    else
+      lit=$lit'
           (box :orientation "h"  :class "notif-line-icon" :space-evenly false
             (image :image-height "40" :path "'"$path_icon"'" :class "icon-notif" :halign "start" :valign "center")
             (box :orientation "v"  :halign "start" 
               (label :halign "start" :text  "'"$summary"'"  :class "notification-item-title" :wrap true )
               (label :wrap true :halign "start" :text  "'"$body"'"  :class "notification-message" )
             )
+
           )
         )'
+
+    fi
     literal="$lit $literal 
     "
 
-    #(box :orientation "h" (button :class "notif-action-button" :onclick "" "Action") (button :class "notif-dismiss-button" :onclick "dunstctl history-rm '$notif_id' " "Dismiss"))
   fi
   index=$(($index + 1))
 done
 
-echo '(box :orientation "v" :class "notification-box-content" :space-evenly false' 
+echo '(box :orientation "v" :class "notification-box-content" :space-evenly false'
 if [[ -z "$literal" ]]; then
   echo ' (label :text "No notifications." :class "no-notif" )'
 else
