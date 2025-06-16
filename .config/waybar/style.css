@@ -8,7 +8,7 @@
 }
 
 window#waybar {
-  background-color: @background;
+  background-color: transparent;
   color: @foreground;
   transition-property: background-color;
   transition-duration: .5s;
@@ -47,7 +47,6 @@ button:hover {
 #workspaces button {
   padding: 0 5px;
   margin: 0px 1px;
-  background-color: transparent;
   color: @foreground;
   border-radius: 5px;
   /* border: 2px solid #a9a1e1; */
@@ -116,6 +115,7 @@ button:hover {
 }
 
 #custom-weather {
+  background-color: @background;
   border: 2px solid @color1;
   min-width: 100px;
   font-weight: bold;
@@ -132,7 +132,10 @@ button:hover {
 
 #window,
 #workspaces {
+  background-color: @background;
+  border-radius: 5px;
   margin: 1px 5px;
+  padding: 0px 5px;
 }
 
 /* If workspaces is the leftmost module, omit left margin */
@@ -149,17 +152,20 @@ button:hover {
 #clock {
   border: 2px solid @color13;
   color: @foreground;
+  background-color: @background;
 }
 
 #battery {
   background-color: @color3;
   color: @foreground;
+  background-color: @background;
 }
 
 #battery.charging,
 #battery.plugged {
   color: @foreground;
   background-color: @color4;
+  background-color: @background;
 }
 
 @keyframes blink {
@@ -178,6 +184,7 @@ button:hover {
   animation-timing-function: steps(12);
   animation-iteration-count: infinite;
   animation-direction: alternate;
+  background-color: @background;
 }
 
 #power-profiles-daemon {
@@ -206,27 +213,33 @@ label:focus {
 #cpu {
   border: 2px solid @color2;
   color: @foreground;
+  background-color: @background;
 }
 
 #memory {
   border: 2px solid @color3;
   color: @foreground;
+  background-color: @background;
 }
 
 #disk {
   border: 2px solid @color8;
+  background-color: @background;
 }
 
 #backlight {
   border: 2px solid @color9;
+  background-color: @background;
 }
 
 #network {
   border: 2px solid @color10;
+  background-color: @background;
 }
 
 #network.disconnected {
   background-color: #ff6c6b;
+  background-color: @background;
 }
 
 #pulseaudio {
@@ -242,6 +255,7 @@ label:focus {
 #wireplumber {
   border: 2px solid @color4;
   color: #dfdfdf;
+  background-color: @background;
 }
 
 #wireplumber.muted {
@@ -252,6 +266,7 @@ label:focus {
   background-color: #66cc99;
   color: #2a5c45;
   min-width: 100px;
+  background-color: @background;
 }
 
 #custom-media.custom-spotify {
@@ -264,6 +279,7 @@ label:focus {
 
 #temperature {
   background-color: #f0932b;
+  background-color: @background;
 }
 
 #temperature.critical {
@@ -273,6 +289,7 @@ label:focus {
 #tray {
   border: 2px solid #5b6268;
   color: #dfdfdf;
+  background-color: @background;
 }
 
 #tray>.passive {

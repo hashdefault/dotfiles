@@ -5,7 +5,7 @@ function nightlight() {
   if [[ $x == '--toggle' ]]; then
     if pgrep -x "hyprsunset" >/dev/null; then
       pkill -x "hyprsunset"
-      dunstify  -i redshift-status-off -a "Nightlight" "Night Light" "OFF"
+      dunstify -i redshift-status-off -a "Nightlight" "Night Light" "OFF"
     else
       hyprsunset &
       dunstify -i redshift-status-on -a "Nightlight" "Night Light" "ON"
@@ -31,5 +31,4 @@ function nightlight() {
 
   hyprsunset -t "$temperature"
 }
-
 nightlight "$1"

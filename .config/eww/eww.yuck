@@ -43,7 +43,7 @@
             :class {nightlight_active ?  "night-light":"night-light disabled"}
             :min 0
             :max 100
-            :value 10
+            :value 5
             :timeout "2000ms"
             :onchange "~/.config/eww/scripts/nightlight {}")))
       (box :space-evenly "false" :orientation "v" 
@@ -153,7 +153,7 @@
     
     ;; Buttons vars
     (defpoll nightlight_active :interval "20ms" "[ $(pidof hyprsunset) ] && echo true || echo false")
-    (defpoll bluetooth_active :interval "20ms" "~/.config/eww/scripts/getbluetooth" )
+    (defpoll bluetooth_active :interval "20ms" "~/.config/eww/scripts/getbluetooth")
     (defpoll wifi_active :interval "20ms" "[ $(pidof wifi ) ] && echo true || echo false")
     (defpoll not_disturb_active :interval "20ms" "dunstctl is-paused")
 

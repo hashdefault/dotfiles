@@ -4,7 +4,7 @@
     "height" : 24,
     "margin": 5,
     "modules-left": ["hyprland/workspaces"],
-    "modules-center": ["hyprland/window","",  "custom/playerctl"],
+    "modules-center": ["hyprland/window",  "custom/playerctl"],
     "modules-right": ["custom/weather", "cpu", "memory","wireplumber", "custom/calendar", "tray"],
     "hyprland/window": {
       "format": "{title}",
@@ -29,9 +29,9 @@
   },
   "custom/weather": {
     "format": "{}",
-    "exec": "~/.local/bin/getweather && ~/.local/bin/getforecast",
+    "exec": "~/.local/bin/getweather && ~/.config/eww/scripts/getforecast",
     "on-click": "~/.local/bin/eww open --toggle weather --screen $(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')",
-    "interval": 1800,
+    "interval": 900,
     "max-length": 35
   },
   "custom/cava": {
