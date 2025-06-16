@@ -12,5 +12,5 @@ if [[ $XDG_SESSION_TYPE == 'x11' ]]; then
 elif [[ $XDG_SESSION_TYPE == 'wayland' ]]; then
   swayidle -w \
     timeout 570 'notify-send "Locker  " "Locking screen in 30 seconds"' \
-    timeout 600 "swaylock --image $WALLPAPER"
+    timeout 600 "hyprlock "
 fi

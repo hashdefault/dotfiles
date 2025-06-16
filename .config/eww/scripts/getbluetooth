@@ -1,9 +1,14 @@
 #!/bin/bash
 
-response=$(systemctl is-active bluetooth && bluetoothctl &)
-
-if [[ "$response" == 'active' ]]; then
-  echo true
-else
+# off
+if [ $(bluetoothctl show | grep "Powered: yes" | wc -c) -eq 0 ]; then
   echo false
+else
+  # on
+  if [ $(echo info | bluetoothctl | grep 'Device' | wc -c) -eq 0 ]; then
+    echo true
+    # connected
+  else
+    echo false
+  fi
 fi

@@ -19,7 +19,7 @@
 
     icon_theme = Papirus, Oranchelo, Adwaita
 
-    icon_path = "/usr/share/icons/Papirus/16x16/status/:/usr/share/icons/Papirus/16x16/devices/:/usr/share/icons/Papirus/16x16/actions/:"/usr/share/icons/Oranchelo/16x16/status/:/usr/share/icons/Oranchelo/16x16/devices/:/usr/share/icons/Oranchelo/16x16/actions/"
+    icon_path = "/usr/share/icons/Papirus/16x16/panel/:/usr/share/icons/Papirus/16x16/status/:/usr/share/icons/Papirus/16x16/devices/:/usr/share/icons/Papirus/16x16/actions/:"/usr/share/icons/Oranchelo/16x16/status/:/usr/share/icons/Oranchelo/16x16/devices/:/usr/share/icons/Oranchelo/16x16/actions/"
 
     # The geometry of the window:
     #   [{width}]x{height}[+/-{x}+/-{y}]

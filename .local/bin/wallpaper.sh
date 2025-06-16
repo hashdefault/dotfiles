@@ -18,6 +18,7 @@ while true; do
   # Only run wal if wallpaper actually changed
   wal -qi "$wallpaper_path"
   LAST_WALLPAPER="$wallpaper_path"
+  cp "$wallpaper_path" /tmp/lockscreen_background
 
   ~/.local/bin/update-ghostty-wal-colors.sh
 

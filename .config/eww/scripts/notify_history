@@ -24,8 +24,8 @@ while [[ $index -lt 15 ]]; do
 
       lit=$lit'
           (box :space-evenly false :orientation "v" :valign "center" :halign "center" :class "notif-line-icon-screen"
-            (image :image-width "400" :path "'"$screenshot"'" :class "icon-notif-screenshot" :halign "start" :valign "center")
-            (box :orientation "h" :halign "center" :valign "center" 
+            (image :image-width "350" :path "'"$screenshot"'" :class "icon-notif-screenshot" :halign "center" :valign "center")
+            (box :orientation "h" :halign "center" :valign "center" :class "buttons-screenshot"  :space-evenly false
             (button :halign "start" :class "notif-screen-button-open" :onclick "shotwell '$screenshot' &" "Open")
             (button :halign "end" :class "notif-screen-button-delete" :onclick "dunstctl history-rm '$notif_id' " "Remove"))
           )
