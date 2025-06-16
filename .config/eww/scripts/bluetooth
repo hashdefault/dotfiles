@@ -1,14 +1,17 @@
 #!/bin/bash
 
 #if there is bluetooth
-bluetooth=$(systemctl is-active bluetooth)
+check_bluetooth=$(systemctl is-active bluetooth)
 
-if [[ "$bluetooth" == "active" ]]; then
-  if bluetoothctl show | grep "Powered: yes"; then
-    bluetoothctl power off
-    notify-send -i bluetooth -a "Bluetooth" "Bluetooth" "Turned OFF"
-  else
-    bluetoothctl power on
-    notify-send -i bluetooth -a "Bluetooth" "Bluetooth" "Turned ON"
+if [[ "$check_bluetooth" == 'active' ]]; then
+  bluetooth=$(bluetoothctl show | grep Powered | grep yes)
+  if [[ "$bluetooth" ]]; then
+    if bluetoothctl show | grep "Powered: yes"; then
+      bluetoothctl power off
+      notify-send -i bluetooth -a "Bluetooth" "Bluetooth" "Turned OFF"
+    else
+      bluetoothctl power on
+      notify-send -i bluetooth -a "Bluetooth" "Bluetooth" "Turned ON"
+    fi
   fi
 fi

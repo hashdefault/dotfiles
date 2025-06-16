@@ -1,0 +1,35 @@
+#!/bin/bash
+
+function nightlight() {
+  x=$1
+  if [[ $x == '--toggle' ]]; then
+    if pgrep -x "hyprsunset" >/dev/null; then
+      pkill -x "hyprsunset"
+      dunstify  -i redshift-status-off -a "Nightlight" "Night Light" "OFF"
+    else
+      hyprsunset &
+      dunstify -i redshift-status-on -a "Nightlight" "Night Light" "ON"
+    fi
+
+  fi
+
+  if (($(echo "$x <= 0" | bc -l))); then
+    exit 1
+  fi
+
+  temperature=$(awk -v x="$x" 'BEGIN {
+  a = 0.00012
+  b = 0.2
+  y = a * (x ^ b)
+  result = 1 / y
+  print result
+}')
+
+  if pgrep -x hyprsunset; then
+    killall hyprsunset
+  fi
+
+  hyprsunset -t "$temperature"
+}
+
+nightlight "$1"

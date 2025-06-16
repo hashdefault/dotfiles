@@ -1,8 +1,14 @@
 #!/bin/bash
 
-response=$(curl -sf http://api.quotable.io/quotes/random?maxLength=60)
-if [[ -n $response ]]; then
-  quote=$(echo "$response" | jq -r '.[0].content')
-  author=$(echo "$response" | jq -r '.[0].author')
-  echo "\"$quote"\"
+filequote=$(cat /tmp/getquote)
+
+if [[ -z "$filequote" ]]; then
+  response=$(curl -sf http://api.quotable.io/quotes/random?maxLength=60)
+  if [[ -n $response ]]; then
+    quote=$(echo "$response" | jq -r '.[0].content')
+    #author=$(echo "$response" | jq -r '.[0].author')
+    echo "$quote" >/tmp/getquote
+  fi
 fi
+
+echo "$filequote"
