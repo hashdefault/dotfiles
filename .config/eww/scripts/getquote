@@ -3,12 +3,11 @@
 filequote=$(cat /tmp/getquote)
 
 if [[ -z "$filequote" ]]; then
-  response=$(curl -sf http://api.quotable.io/quotes/random?maxLength=60)
+  response=$(curl -sf https://zenquotes.io/api/quotes/today)
   if [[ -n $response ]]; then
-    quote=$(echo "$response" | jq -r '.[0].content')
-    #author=$(echo "$response" | jq -r '.[0].author')
+    quote=$(echo "$response" | jq -r '.[0].q')
     echo "$quote" >/tmp/getquote
   fi
 fi
 
-echo "$filequote"
+cat /tmp/getquote
