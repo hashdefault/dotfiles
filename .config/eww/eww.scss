@@ -183,6 +183,7 @@ calendar.highlight {
 .sidemenu {
   border: 4px solid rgb(190, 230, 230);
   padding: 5px;
+  min-width: 430px;
 
   .greeter {
     margin-top: 10px;
@@ -210,15 +211,24 @@ calendar.highlight {
   }
 
 
-  .box-profile {
-    all: unset;
-    padding: 10px;
+  .profile-label-time {
+    color: rgb(190, 230, 230);
+    font-size: 45px;
+    font-family: Hack;
+    margin-left: 20px;
   }
 
-  .profile-label {
-    padding: 5px 10px;
-    font-size: 20px;
-    margin: 0;
+  .profile-desc {
+    color: rgb(190, 230, 230);
+    padding: 5px 0px;
+    font-size: 25px;
+    margin: 0px 15px;
+    font-family: Hack;
+  }
+
+  .profile-img {
+    border: 5px solid rgb(180, 220, 220);
+    border-radius: 50%;
   }
 
 
@@ -227,10 +237,10 @@ calendar.highlight {
     padding: 10px;
 
     button {
-      border: 4px solid rgb(100, 180, 180);
-      margin: 5px;
+      border: 4px solid rgb(180, 220, 220);
+      margin: 5px 15px;
       border-radius: 50%;
-      padding: 11px;
+      padding: 15px;
     }
 
     button:hover {
@@ -399,37 +409,88 @@ calendar.highlight {
 
 
 .notifications-menu-side {
-  padding: 10px;
-  border: 2px solid rgba(170, 220, 220, 0.8);
-  border-radius: 5px;
-  margin: 5px;
-  min-height: 100px;
+  border-bottom: 1px solid rgba(170, 220, 220, 0.8);
+  min-height: 420px;
+  margin:10px;
 
-  .notification-title {
-    font-size: 20px;
+  .notification-box-content {
+    margin: 5px;
+  }
+
+  .notification-scroll {
+    min-height: 380px;
+  }
+
+  .no-notif {
+    font-size: 15px;
+    margin-top: 20px;
+  }
+
+  .notif-line-icon {
+    background-color: rgb(40, 40, 40, 0.9);
+    padding: 20px;
+  }
+
+
+  .notif-item-header {
+    margin: 5px;
+    font-weight: bold;
+    color: rgb(250, 250, 210);
+
+    .notif-dismiss-button {
+      font-size: 20px;
+      background-color: transparent;
+      color: rgb(200, 100, 100);
+    }
+
+    .notif-dismiss-button-event:hover {
+      .notif-dismiss-button {
+        background-color: rgba(30, 30, 30, 0.5);
+      }
+
+    }
+
+  }
+
+  .notif-item {
+    border-radius: 5px;
+    background-color: rgba(80, 150, 150, 0.1);
+    margin-top: 10px;
+  }
+
+  .notification-item-title {
+    font-size: 18px;
     font-weight: bold;
   }
 
 
-  .notif-action-button {
-    margin: 2px 30px;
-    padding: 5px;
-    background-color: rgb(100, 220, 190);
-    color: white;
-    border-radius: 5px;
 
-
+  .notification-message {
+    font-size: 14px;
   }
 
-  .notif-dismiss-button {
-    margin: 2px 30px;
-    padding: 5px;
-    background-color: rgb(100, 100, 100);
-    color: white;
-    border-radius: 5px;
-
+  .icon-notif {
+    padding: 0px 20px;
+    margin-right:20px;
   }
 
+  .notifications-menu-header {
+    background-color: rgb(60, 60, 60, 0.5);
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 0px 5px;
 
+    .clear-history-button {
+      font-size: 25px;
+      color: rgb(200, 200, 200, 0.6);
+      background-color: transparent;
+    }
+  }
+
+  .notification-title {
+    color: rgba(190, 230, 230, 0.9);
+    font-size: 22px;
+    font-weight: bold;
+  }
 
 }

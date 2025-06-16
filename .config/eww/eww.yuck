@@ -7,19 +7,28 @@
 (defwidget sidemenu [] 
   (box :space-evenly "false" :class "box-sidemenu" :orientation "v" 
     (box :space-evenly "false" :orientation "v" 
-       (label :class "greeter"  :wrap true :text "${greeter}" )
-       (label :class "greeter-user"  :wrap true :text "${username}" ))
-    (box :space-evenly "false" :class "box-profile" :orientation "h" 
-        (image :class "profile-img" :path "/home/lucas/.local/share/images/avatar.png" :image-width 130)
-        (box  :class  "profile-desc" :orientation "v" 
-          (label   :class "profile-label"  :text "user  ${username}")
-          (label   :class "profile-label"  :text "host  ${host}")
+       (label  :class "greeter"  :wrap true :text "${greeter}" )
+       (label  :class "greeter-user"  :wrap true :text "${username}" ))
+    (box :space-evenly false :class "box-profile" :orientation "h" 
+        (image  :class "profile-img" :path "/home/lucas/.local/share/images/avatar.png" :image-width 100)
+        (label :halign "end" :valign "center"  :class "profile-label-time"  :text "${hour}:${min}")
+        (box  :valign "center" :class  "profile-desc" :orientation "v"  
+          (label :halign "start"  :class "profile-label-day"  :text "${month_full} ${number_day}  ")
+          (label :halign "start" :class "profile-label-day"  :text "${day}")
         ))
     (box :space-evenly "false" :orientation "h" 
-       (label :class "quote"  :wrap true :text text_quote ))
-    (box :space-evenly "false" :class "notifications-menu-side" :orientation "v"  
-      (label :space-evenly "false" :text "Notifications" :class "notification-title")
-          (literal :content notification )
+       (label :class "quote"  :wrap true :text text_quote )
+    )
+      (box :space-evenly "false" :class "notifications-menu-side" :orientation "v"  
+        (box :class "notifications-menu-header" :orientation "h" :valign "center" 
+          (label :halign "start" :text "Notifications" :class "notification-title")
+          (eventbox  :halign "end" :class "clear-history-button-event" :cursor "pointer"
+            (button :tooltip "Clear all history" :class "clear-history-button" :onclick "dunstctl history-clear" "󰩺")
+          )
+        )
+        (scroll :vscroll true :class "notification-scroll"
+            (literal  :content notification )
+        )
     )
     (box :space-evenly "false" :orientation "h" 
       (box :space-evenly "false" :orientation "v" 
@@ -46,9 +55,9 @@
             (label :class "wifi-label" :text "Wifi")))
       (box :space-evenly "false" :orientation "v" 
         (box :space-evenly "false" :class  "box-bluetooth-buttons" :orientation "h" 
-          (button  :class {bluetooth_active ?  "button-bluetooth active":"button-bluetooth"} :onclick "~/.local/bin/bluetooth --toggle" {bluetooth_active ? "󰂯" : "󰂲" })
+          (button  :class {bluetooth_active ?  "button-bluetooth active" : "button-bluetooth"} :onclick "~/.config/eww/scripts/bluetooth" {bluetooth_active ? "󰂯" : "󰂲" })
           (label :class "seperator"  :text "|")
-          (button :class {bluetooth_active ?  "button-bluetooth-arrow active":"button-bluetooth-arrow"} :onclick "~/.local/bin/bluetooth --toggle" ""  ))
+          (button :class {bluetooth_active ?  "button-bluetooth-arrow active":"button-bluetooth-arrow"} :onclick "~/.config/eww/scripts/bluetooth" ""  ))
         (box :class "box-label"  :orientation "h" 
           (label :class "bluetooth-label" :text "Bluetooth")))
       )
@@ -123,23 +132,22 @@
         (box :class "weather-prec-5" {weather-prec-5})
         (box :class "weather-desc-5" {weather-desc-5})
       ))))
+
     
     ;; Profile vars
     (defpoll greeter  :interval "1000s" "~/.local/bin/greeter"  )
     (defpoll icon_greeter  :interval "1000s" "" )
     (defpoll username :interval "10s" "whoami")
     (defpoll host :interval "10s" "hostname")
-    (defpoll text_quote  :interval "1800s" "~/.local/bin/getquote")
+    (defpoll text_quote  :interval "1800s" "~/.config/eww/scripts/getquote")
 
     ;; Notification vars
-    (defpoll  notification  :interval "20s" "~/.local/bin/notify_history")
-    
-
+    (defpoll  notification  :interval "300ms" "~/.config/eww/scripts/notify_history")
     
     ;; Utils vars
     (defpoll nightlight_active :interval "500ms" "[ $(pidof hyprsunset) ] && echo true || echo false")
 
-    (defpoll bluetooth_active :interval "500ms" "[ $(pidof bluetoothctl ) ] && echo true || echo false")
+    (defpoll bluetooth_active :interval "500ms" "~/.config/eww/scripts/getbluetooth" )
     (defpoll wifi_active :interval "500ms" "[ $(pidof wifi ) ] && echo true || echo false")
 
     ;; Date vars

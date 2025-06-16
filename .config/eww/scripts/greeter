@@ -1,0 +1,19 @@
+#!/bin/bash
+
+datetime=$(date "")
+
+hour=$(date +%H)
+
+if [ "$hour" -ge 5 ] && [ "$hour" -lt 12 ]; then
+  greetings="Morning"
+  icon=""
+elif [ "$hour" -ge 12 ] && [ "$hour" -lt 18 ]; then
+  greetings="Afternoon"
+  icon=""
+else
+  greetings="Evening"
+  icon=""
+fi
+user=$(whoami)
+
+echo "$icon Good $greetings,"

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+response=$(bluetoothctl show | grep Powered | grep yes)
+
+if [[ "$response" ]]; then
+  echo true
+else
+  echo false
+fi

@@ -1,0 +1,44 @@
+#!/bin/bash
+
+literal=''
+index=0
+while [[ $index -lt 15 ]]; do
+  line=$(dunstctl history | jq -r ".data[0].[$index].summary.data")
+  if [[ "$line" != null && -n "$line" ]]; then
+    summary=$(dunstctl history | jq -r ".data[0].[$index].summary.data")
+    appname=$(dunstctl history | jq -r ".data[0].[$index].appname.data")
+    body=$(dunstctl history | jq -r ".data[0].[$index].body.data")
+    # Read lines into an array
+    notif_id=$(dunstctl history | jq -r ".data[0].[$index].id.data")
+    path_icon=$(dunstctl history | jq -r ".data[0].[$index].icon_path.data")
+
+    lit='(box :orientation "v" :class "notif-item" :space-evenly false 
+          (box :orientation "h" :class "notif-item-header"
+           (label :text "'"$appname"'" :halign "start")
+           (eventbox :halign "end" :cursor "pointer" :class "notif-dismiss-button-event"
+             (button  :class "notif-dismiss-button" :onclick "dunstctl history-rm '$notif_id' " "󰅚")
+           )
+          ) 
+          (box :orientation "h"  :class "notif-line-icon" :space-evenly false
+            (image :image-height "40" :path "'"$path_icon"'" :class "icon-notif" :halign "start" :valign "center")
+            (box :orientation "v"  :halign "start" 
+              (label :halign "start" :text  "'"$summary"'"  :class "notification-item-title" :wrap true )
+              (label :wrap true :halign "start" :text  "'"$body"'"  :class "notification-message" )
+            )
+          )
+        )'
+    literal="$lit $literal 
+    "
+
+    #(box :orientation "h" (button :class "notif-action-button" :onclick "" "Action") (button :class "notif-dismiss-button" :onclick "dunstctl history-rm '$notif_id' " "Dismiss"))
+  fi
+  index=$(($index + 1))
+done
+
+echo '(box :orientation "v" :class "notification-box-content" :space-evenly false' 
+if [[ -z "$literal" ]]; then
+  echo ' (label :text "No notifications." :class "no-notif" )'
+else
+  echo "$literal"
+fi
+echo ')'

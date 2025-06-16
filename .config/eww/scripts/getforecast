@@ -1,0 +1,123 @@
+#!/bin/bash
+
+LAT='-23.4166'
+LON='-51.9365'
+DAYS=6 #forecast days
+
+# Declare associative array
+declare -A weather_desc
+
+# Individual codes
+weather_desc["0"]="Clear Sky"
+weather_desc["1"]="Mainly Clear"
+weather_desc["2"]="Partly Cloudy"
+weather_desc["3"]="Overcast"
+weather_desc["5"]="Haze"
+weather_desc["10"]="Mist"
+weather_desc["40"]="Fog"
+weather_desc["41"]="Fog"
+weather_desc["42"]="Fog"
+weather_desc["43"]="Fog"
+weather_desc["44"]="Fog"
+weather_desc["45"]="Fog"
+weather_desc["46"]="Fog"
+weather_desc["47"]="Fog"
+weather_desc["48"]="Fog"
+weather_desc["49"]="Fog"
+weather_desc["51"]="Light Drizzle"
+weather_desc["53"]="Drizzle"
+weather_desc["55"]="Drizzle"
+weather_desc["56"]="Freezing Drizzle"
+weather_desc["57"]="Freezing Drizzle"
+weather_desc["60"]="Light Rain"
+weather_desc["61"]="Light Rain"
+weather_desc["62"]="Light Rain"
+weather_desc["63"]="Rain"
+weather_desc["64"]="Rain"
+weather_desc["65"]="Rain"
+weather_desc["66"]="Rain"
+weather_desc["67"]="Freezing Rain"
+weather_desc["68"]="Freezing Rain"
+weather_desc["69"]="Freezing Rain"
+weather_desc["71"]="Snowfall"
+weather_desc["73"]="Snowfall"
+weather_desc["75"]="Snowfall"
+weather_desc["77"]="Snow Grains"
+weather_desc["80"]="Rain Showers"
+weather_desc["81"]="Rain Showers"
+weather_desc["82"]="Rain Showers"
+weather_desc["85"]="Snow Showers"
+weather_desc["86"]="Snow showers"
+weather_desc["95"]="Thunderstorm"
+weather_desc["96"]="Thunderstorm with Hail"
+weather_desc["99"]="Thunderstorm with Hail"
+
+declare -A weather_icons
+
+weather_icons["0"]=$HOME/.local/share/icons/weather-icons/static/clear-day.svg
+weather_icons["1"]=$HOME/.local/share/icons/weather-icons/static/cloudy-2-day.svg
+weather_icons["2"]=$HOME/.local/share/icons/weather-icons/static/cloudy-3-day.svg
+weather_icons["3"]=$HOME/.local/share/icons/weather-icons/static/cloudy.svg
+weather_icons["5"]=$HOME/.local/share/icons/weather-icons/static/cloudy.svg
+weather_icons["10"]=$HOME/.local/share/icons/weather-icons/static/cloudy.svg
+weather_icons["40"]=$HOME/.local/share/icons/weather-icons/static/fog.svg
+weather_icons["41"]=$HOME/.local/share/icons/weather-icons/static/fog.svg
+weather_icons["42"]=$HOME/.local/share/icons/weather-icons/static/fog.svg
+weather_icons["43"]=$HOME/.local/share/icons/weather-icons/static/fog.svg
+weather_icons["44"]=$HOME/.local/share/icons/weather-icons/static/fog.svg
+weather_icons["45"]=$HOME/.local/share/icons/weather-icons/static/fog.svg
+weather_icons["46"]=$HOME/.local/share/icons/weather-icons/static/fog.svg
+weather_icons["47"]=$HOME/.local/share/icons/weather-icons/static/fog.svg
+weather_icons["48"]=$HOME/.local/share/icons/weather-icons/static/fog.svg
+weather_icons["49"]=$HOME/.local/share/icons/weather-icons/static/fog.svg
+weather_icons["51"]=$HOME/.local/share/icons/weather-icons/static/rainy-1.svg
+weather_icons["53"]=$HOME/.local/share/icons/weather-icons/static/rainy-1.svg
+weather_icons["55"]=$HOME/.local/share/icons/weather-icons/static/rainy-1.svg
+weather_icons["56"]=$HOME/.local/share/icons/weather-icons/static/rain-and-sleet-mix.svg
+weather_icons["57"]=$HOME/.local/share/icons/weather-icons/static/rain-and-sleet-mix.svg
+weather_icons["60"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons["61"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons["62"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons["63"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons["64"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons["65"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons["66"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons["67"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons["68"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons["69"]=$HOME/.local/share/icons/weather-icons/static/rain-and-snow-mix.svg
+weather_icons["71"]=$HOME/.local/share/icons/weather-icons/static/snowy-3.svg
+weather_icons["73"]=$HOME/.local/share/icons/weather-icons/static/snowy-3.svg
+weather_icons["75"]=$HOME/.local/share/icons/weather-icons/static/snowy-3.svg
+weather_icons["77"]=$HOME/.local/share/icons/weather-icons/static/snow-and-sleet-mix.svg
+weather_icons["80"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons["81"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons["82"]=$HOME/.local/share/icons/weather-icons/static/rainy-3.svg
+weather_icons["85"]=$HOME/.local/share/icons/weather-icons/static/snowy-3.svg
+weather_icons["86"]=$HOME/.local/share/icons/weather-icons/static/snowy-3.svg
+weather_icons["95"]=$HOME/.local/share/icons/weather-icons/static/thunderstorms.svg
+weather_icons["96"]=$HOME/.local/share/icons/weather-icons/static/thunderstorms.svg
+weather_icons["99"]=$HOME/.local/share/icons/weather-icons/static/thunderstorms.svg
+
+curl -sf "https://api.open-meteo.com/v1/forecast?latitude=$LAT&longitude=$LON&forecast_days=$DAYS&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_probability_max&timezone=America%2FSao_Paulo" >/tmp/forecast_call.json
+
+day=1
+while [[ "$day" -le 5 ]]; do
+
+  temp_max=$(jq -r ".daily.temperature_2m_max[$day]" /tmp/forecast_call.json | cut -d '.' -f 1)
+  temp_min=$(jq -r ".daily.temperature_2m_min[$day]" /tmp/forecast_call.json | cut -d '.' -f 1)
+
+  icon=$(jq -r ".daily.weather_code[$day]" /tmp/forecast_call.json)
+  prec=$(jq -r ".daily.precipitation_probability_max[$day]" /tmp/forecast_call.json)
+  weather_code=$(jq -r ".daily.weather_code[$day]" /tmp/forecast_call.json)
+  desc=$(echo "${weather_desc[$weather_code]}" | sed 's/\b\(.\)/\u\1/g')
+
+  datetime=$(jq -r ".daily.time[$day]" /tmp/forecast_call.json)
+  weekday=$(date -d "$datetime" '+%A')
+
+  echo "󰖌 $prec%" >"/tmp/forecast_${day}day_prec"
+  echo "$weekday" >"/tmp/getweatherweekday${day}"
+  echo "$temp_min°$temp_max°" >"/tmp/forecast_${day}day_temp"
+  cat ${weather_icons[$icon]} >"/tmp/forecast_${day}day_icon"
+  echo $desc >"/tmp/forecast_${day}day_desc"
+  day=$((day + 1))
+done

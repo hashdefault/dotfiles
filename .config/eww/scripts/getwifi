@@ -1,0 +1,10 @@
+#!/bin/bash
+
+check_wifi=$(nmcli device status | grep wifi)
+if "$check_wifi"; then
+  if "$response" | grep wlan0 | grep "connected" || "$response" | grep wlp2s0 | grep "connected"; then
+    nmcli radio wifi off
+  else
+    nmcli radio wifi on
+  fi
+fi
