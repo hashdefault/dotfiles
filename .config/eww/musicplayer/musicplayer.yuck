@@ -1,0 +1,31 @@
+(defwidget musicplayer
+  (box :class "box-music-player" :valign "center" :halign "center" :orientation "v"
+    (box :class "music-art" :valign "center" :halign "center" :orientation "v"
+      (image :class "music-art-image" :image-width "350")
+    )
+    (box :class "box-music-duration" :valign "center" :halign "center" :orientation "v"
+          (scale 
+            :orientation "h"
+            :class "music-duration-scale"
+            :min 0
+            :max max_time_duration
+            :value current_time_duration
+            :timeout "500ms"
+            :onchange ""
+          )
+    )
+    (box :class "box-music-buttons" :valign "center" :halign "center" :orientation "h"
+      (eventbox :cursor "pointer" 
+        (button :onclick "" :class "music-button-previous-next")
+      )
+      (eventbox :cursor "pointer" 
+        (button :onclick "" :class "music-button-play-pause")
+      )
+      (eventbox :cursor "pointer" 
+        (button :onclick "" :class "music-button-previous-next")
+      )
+    )
+  )
+)
+(defpoll current_time_duration :interval "20ms" "")
+(defpoll max_time_duration :interval "20ms" "")
