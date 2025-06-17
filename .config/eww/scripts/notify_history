@@ -34,7 +34,7 @@ if [[ -n "$checkfile" ]]; then
           )
         )'
 
-    elif [[ $appname == "Spotify" || $appname == "mpc" || $appname == "mpd" ]];then
+    elif [[ $appname == "Spotify" || $appname == "mpc" || $appname == "mpd" ]]; then
       lit=$lit'
           (box :orientation "h"  :class "notif-line-icon" :space-evenly false :halign "start" :valign "center"
             (image :image-width "85" :path "'"$path_icon"'" :class "icon-notif" :halign "start" :valign "center")
@@ -44,8 +44,8 @@ if [[ -n "$checkfile" ]]; then
             )
           )
         )'
-      else
-    lit=$lit'
+    else
+      lit=$lit'
           (box :orientation "h"  :class "notif-line-icon" :space-evenly false :halign "start" :valign "center"
             (image :image-width "85" :path "'"$path_icon"'"  :halign "start" :valign "center")
             (box :orientation "v"  :halign "start" :space-evenly false :valign "center" :spacing 10 :class "box-labels-notif"
@@ -61,55 +61,6 @@ if [[ -n "$checkfile" ]]; then
     line_num=$((line_num + 1))
   done <"$tmplog"
 fi
-
-#while [[ $index -lt 15 ]]; do
-#  line=$(dunstctl history | jq -r ".data[0].[$index].summary.data")
-#  if [[ "$line" != null && -n "$line" ]]; then
-#    summary=$(dunstctl history | jq -r ".data[0] | reverse | .[$index].summary.data")
-#    appname=$(dunstctl history | jq -r ".data[0] | reverse | .[$index].appname.data")
-#    body=$(dunstctl history | jq -r ".data[0] | reverse | .[$index].body.data")
-#    # Read lines into an array
-#    notif_id=$(dunstctl history | jq -r ".data[0] | reverse | .[$index].id.data")
-#    path_icon=$(dunstctl history | jq -r ".data[0] | reverse | .[$index].icon_path.data")
-#    lit='(box :orientation "v" :class "notif-item" :space-evenly false
-#          (box :orientation "h" :class "notif-item-header"
-#           (label :text "'"$appname"'" :halign "start")
-#           (eventbox :halign "end" :cursor "pointer" :class "notif-dismiss-button-event"
-#             (button  :class "notif-dismiss-button" :onclick "dunstctl history-rm '$notif_id' " "󰅚")
-#           )
-#          ) '
-#
-#    if [[ $appname == "Screenshot" ]]; then
-#      screenshot=$(grep "$notif_id" '/tmp/screenshot_log.txt' | cut -d ";" -f 1)
-#
-#      lit=$lit'
-#          (box :space-evenly false :orientation "v" :valign "center" :halign "center" :class "notif-line-icon-screen"
-#            (image :image-width "300" :path "'"$screenshot"'" :class "icon-notif-screenshot" :halign "center" :valign "center")
-#            (box :orientation "h" :halign "center" :valign "center" :class "buttons-screenshot"  :space-evenly false
-#            (button :halign "start" :class "notif-screen-button-open" :onclick "shotwell '$screenshot' &" "Open")
-#            (button :halign "end" :class "notif-screen-button-delete" :onclick "dunstctl history-rm '$notif_id' " "Remove"))
-#          )
-#        )'
-#
-#    else
-#      lit=$lit'
-#          (box :orientation "h"  :class "notif-line-icon" :space-evenly false
-#            (image :image-height "40" :path "'"$path_icon"'" :class "icon-notif" :halign "start" :valign "center")
-#            (box :orientation "v"  :halign "start"
-#              (label :halign "start" :text  "'"$summary"'"  :class "notification-item-title" :wrap true )
-#              (label :wrap true :halign "start" :text  "'"$body"'"  :class "notification-message" )
-#            )
-#
-#          )
-#        )'
-#
-#    fi
-#    literal="$lit $literal
-#    "
-#
-#  fi
-#  index=$(($index + 1))
-#done
 
 echo '(box :orientation "v" :class "notification-box-content" :space-evenly false'
 if [[ -z "$literal" ]]; then

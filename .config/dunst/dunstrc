@@ -252,9 +252,10 @@
 [log_notifs]
     script = ~/.config/dunst/scripts/dunst_logger.sh
 
-[bluetooth-active]
-    appname = Bluetooth
-    icon = /usr/share/icons/Papirus/16x16/panel/bluetooth-active.svg
+[messages]
+  appname = whatsapp-desktop-linux
+  new_icon = ~/.config/dunst/images/chat.svg
+
 
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.

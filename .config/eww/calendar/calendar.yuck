@@ -1,0 +1,24 @@
+(defwidget calendar_full [] 
+     (box :orientation "v" :halign "center" :space-evenly "false" 
+        (box :class "calendar_title" "     ${day}, ${number_day} ${month_full} ${year_full}")
+        (box :class "calendar" 
+           (calendar :show-details "true")
+)))
+
+;; Date vars
+(defpoll number_day :interval "5h"  "date \"+%d\"")
+(defpoll month :interval "10h"  "date \"+%b\"")
+(defpoll min :interval "10s"  "date \"+%M\"")
+(defpoll hour :interval "10s"  "date \"+%H\"")
+(defpoll day :interval "15h"  "~/.config/eww/scripts/getday")
+(defpoll month_full :interval "15h"  "date \"+%B\"")
+(defpoll year_full :interval "15h"  "date \"+%Y\"")
+
+;; Main Stuff
+(defwindow calendar_full 
+     :geometry (geometry :x "10px"
+                         :width "280px" 
+                         :height "100px"
+                         :anchor "top right"
+                         )
+        (calendar_full))

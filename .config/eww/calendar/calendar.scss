@@ -1,0 +1,51 @@
+
+.number_day {
+  padding-top: 10px;
+  font-size: 35px;
+  color: #D35D6E;
+}
+
+.month {
+  font-weight: bold;
+}
+
+.calendar_title {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.calendar_full {
+  border-radius: 15px;
+  font-family: "Ubuntu Nerd Font";
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.calendar_full:first-child {
+  border: 4px solid rgb(190, 230, 230);
+}
+
+.calendar {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+calendar:dir(ltr) {
+  all: unset;
+  padding: 2px;
+}
+
+calendar:selected {
+  color: rgb(100, 230, 120);
+  background-color: rgba(100, 230, 120, 0.1);
+  border-radius: 8px;
+}
+
+calendar:indeterminate {
+  color: rgba(200, 200, 200, 0.6);
+}
+
+calendar.highlight {
+  color: #e8e4a2;
+}

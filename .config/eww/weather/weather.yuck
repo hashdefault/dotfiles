@@ -1,0 +1,88 @@
+(defwidget weather [] 
+  (box :orientation "v" :space-evenly "false" 
+    (box :orientation "h" :space-evenly "false" 
+      (image :class "weather-icon" :path {weather-icon} :image-width 120 )
+      (box :class "weather-desc" {weather-desc})
+      (box :class "temperature" "${temperature}  "))
+    (box :orientation "h" :space-evenly "false" 
+      (box :orientation "v" :space-evenly "false" 
+        (box :class "weather-week-1" {weather-week-1})
+        (image :class "weather-icon-1" :path {weather-icon-1} :image-width 70)
+        (box :class "weather-temp-1"  {weather-temp-1})
+        (box :class "weather-prec-1"  {weather-prec-1})
+        (box :class "weather-desc-1"  {weather-desc-1})
+      )
+      (box :orientation "v" :space-evenly "false" 
+        (box :class "weather-week-2" {weather-week-2})
+        (image :class "weather-icon-2" :path {weather-icon-2} :image-width 70)
+        (box :class "weather-temp-2" {weather-temp-2})
+        (box :class "weather-prec-2" {weather-prec-2})
+        (box :class "weather-desc-2" {weather-desc-2})
+      )
+      (box :orientation "v" :space-evenly "false" 
+        (box :class "weather-week-3" {weather-week-3})
+        (image :class "weather-icon-3" :path {weather-icon-3} :image-width 70)
+        (box :class "weather-temp-3" {weather-temp-3})
+        (box :class "weather-prec-3" {weather-prec-3})
+        (box :class "weather-desc-3" {weather-desc-3})
+      )
+      (box :orientation "v" :space-evenly "false" 
+        (box :class "weather-week-4" {weather-week-4})
+        (image :class "weather-icon-4" :path {weather-icon-4} :image-width 70)
+        (box :class "weather-temp-4" {weather-temp-4})
+        (box :class "weather-prec-4" {weather-prec-4})
+        (box :class "weather-desc-4" {weather-desc-4})
+      )
+      (box :orientation "v" :space-evenly "false" 
+        (box :class "weather-week-5" {weather-week-5})
+        (image :class "weather-icon-5" :path {weather-icon-5} :image-width 70)
+        (box :class "weather-temp-5" {weather-temp-5})
+        (box :class "weather-prec-5" {weather-prec-5})
+        (box :class "weather-desc-5" {weather-desc-5})
+      ))))
+
+
+    ;; Weather vars
+    (defpoll weather-icon :interval "20m"  "echo /tmp/getweathertodayicon")
+    (defpoll temperature :interval "20m"  "cat /tmp/getweathertodaytemp")
+    (defpoll weather-hex :interval "20m"  "cat /tmp/getweathertodayhex")
+    (defpoll weather-desc :interval "20m"  "cat /tmp/getweathertodaydesc")
+
+    (defpoll weather-icon-1 :interval "20m"  "echo /tmp/forecast_1day_icon")
+    (defpoll weather-icon-2 :interval "20m"  "echo /tmp/forecast_2day_icon")
+    (defpoll weather-icon-3 :interval "20m"  "echo /tmp/forecast_3day_icon")
+    (defpoll weather-icon-4 :interval "20m"  "echo /tmp/forecast_4day_icon")
+    (defpoll weather-icon-5 :interval "20m"  "echo /tmp/forecast_5day_icon")
+ 
+    (defpoll weather-temp-1 :interval "20m"  "cat /tmp/forecast_1day_temp")
+    (defpoll weather-temp-2 :interval "20m"  "cat /tmp/forecast_2day_temp")
+    (defpoll weather-temp-3 :interval "20m"  "cat /tmp/forecast_3day_temp")
+    (defpoll weather-temp-4 :interval "20m"  "cat /tmp/forecast_4day_temp")
+    (defpoll weather-temp-5 :interval "20m"  "cat /tmp/forecast_5day_temp")
+
+    (defpoll weather-prec-1 :interval "20m"  "cat /tmp/forecast_1day_prec")
+    (defpoll weather-prec-2 :interval "20m"  "cat /tmp/forecast_2day_prec")
+    (defpoll weather-prec-3 :interval "20m"  "cat /tmp/forecast_3day_prec")
+    (defpoll weather-prec-4 :interval "20m"  "cat /tmp/forecast_4day_prec")
+    (defpoll weather-prec-5 :interval "20m"  "cat /tmp/forecast_5day_prec")
+
+    (defpoll weather-desc-1 :interval "20m"  "cat /tmp/forecast_1day_desc")
+    (defpoll weather-desc-2 :interval "20m"  "cat /tmp/forecast_2day_desc")
+    (defpoll weather-desc-3 :interval "20m"  "cat /tmp/forecast_3day_desc")
+    (defpoll weather-desc-4 :interval "20m"  "cat /tmp/forecast_4day_desc")
+    (defpoll weather-desc-5 :interval "20m"  "cat /tmp/forecast_5day_desc")
+
+    (defpoll weather-week-1 :interval "20m"  "cat /tmp/getweatherweekday1")
+    (defpoll weather-week-2 :interval "20m"  "cat /tmp/getweatherweekday2")
+    (defpoll weather-week-3 :interval "20m"  "cat /tmp/getweatherweekday3")
+    (defpoll weather-week-4 :interval "20m"  "cat /tmp/getweatherweekday4")
+    (defpoll weather-week-5 :interval "20m"  "cat /tmp/getweatherweekday5")
+
+    ;; Main Stuff
+    (defwindow weather 
+			    :geometry (geometry  :x "150px" 
+                               :width "600px"
+                               :height "300px"
+                               :anchor "top right"
+                               )
+			     				(weather))
