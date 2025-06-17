@@ -23,7 +23,7 @@
         (box :class "notifications-menu-header" :orientation "h" :valign "center" 
           (label :halign "start" :text "Notifications" :class "notification-title")
           (eventbox  :halign "end" :class "clear-history-button-event" :cursor "pointer"
-            (button :tooltip "Clear all history" :class "clear-history-button" :onclick "dunstctl history-clear" "󰩺")
+            (button :tooltip "Clear all history" :class "clear-history-button" :onclick "dunstctl history-clear && : > /tmp/dunstlog " "󰩺")
           )
         )
         (scroll :vscroll true :class "notification-scroll"

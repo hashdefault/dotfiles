@@ -296,7 +296,7 @@ calendar.highlight {
   .box-label {
 
     font-size: 15px;
-    font-weight:bold;
+    font-weight: bold;
 
   }
 
@@ -493,10 +493,17 @@ calendar.highlight {
   }
 
   .notif-line-icon {
-    padding: 20px;
+    margin: 10px;
   }
 
+  .icon-notif {
+    border-radius: 5px;
+    border: 5px solid rgb(100, 200, 200, 0.4);
+  }
 
+  .box-labels-notif {
+    padding: 20px;
+  }
 
   .notif-item-header {
     border-top-right-radius: 5px;
@@ -534,10 +541,6 @@ calendar.highlight {
     font-size: 14px;
   }
 
-  .icon-notif {
-    padding: 0px 20px;
-    margin-right: 20px;
-  }
 
   .notifications-menu-header {
     background-color: rgb(60, 60, 60, 0.5);

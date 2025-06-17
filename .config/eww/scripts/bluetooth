@@ -7,9 +7,9 @@ if [[ "$check_bluetooth" == 'active' ]]; then
   bluetooth=$(bluetoothctl show | grep Powered | grep yes)
   if [[ -n "$bluetooth" ]]; then
     bluetoothctl power off
-    notify-send -i bluetooth -a "Bluetooth" "Bluetooth" "Turned OFF"
+    dunstify -i ~/.config/eww/images/bluetooth-off.svg -a "Bluetooth" "Bluetooth" "Turned OFF"
   else
     bluetoothctl power on
-    notify-send -i bluetooth -a "Bluetooth" "Bluetooth" "Turned ON"
+    dunstify -i ~/.config/eww/images/bluetooth.svg -a "Bluetooth" "Bluetooth" "Turned ON"
   fi
 fi

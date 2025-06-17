@@ -59,10 +59,10 @@
     separator_height = 2
 
     # Padding between text and separator.
-    padding = 5
+    padding = 10
 
     # Horizontal padding.
-    horizontal_padding = 5
+    horizontal_padding = 10
 
     # Defines width in pixels of frame around the notification window.
     # Set to 0 to disable.
@@ -168,7 +168,7 @@
     icon_position = left
 
     # Scale larger icons down to this size, set to 0 to disable
-    max_icon_size = 100
+    max_icon_size = 80
 
 
     # Should a notification popped up from history be sticky or timeout
@@ -249,6 +249,13 @@
     # where there are multiple screens with very different dpi values.
     per_monitor_dpi = false
 
+[log_notifs]
+    script = ~/.config/dunst/scripts/dunst_logger.sh
+
+[bluetooth-active]
+    appname = Bluetooth
+    icon = /usr/share/icons/Papirus/16x16/panel/bluetooth-active.svg
+
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
@@ -268,6 +275,7 @@
     background = "#171717"
     timeout = 20
     # Icon for notifications with critical urgency, uncomment to enable
+
 
 # Every section that isn't one of the above is interpreted as a rules to
 # override settings for certain messages.

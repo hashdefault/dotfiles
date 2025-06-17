@@ -5,10 +5,10 @@ function nightlight() {
   if [[ $x == '--toggle' ]]; then
     if pgrep -x "hyprsunset" >/dev/null; then
       pkill -x "hyprsunset"
-      dunstify -i redshift-status-off -a "Nightlight" "Night Light" "OFF"
+      dunstify -i ~/.config/eww/images/lamp-off.svg -a "Night light" "Night Light" "OFF"
     else
       hyprsunset &
-      dunstify -i redshift-status-on -a "Nightlight" "Night Light" "ON"
+      dunstify -i ~/.config/eww/images/lamp.svg -a "Night light" "Night Light" "ON"
     fi
 
   fi
