@@ -1,0 +1,90 @@
+.musicplayer {
+  border-radius: 15px;
+  background-color: #191919;
+}
+
+.music-main-box {
+  background-color: transparent;
+}
+
+.box-music-buttons {
+  background-color: transparent;
+  font-size: 50px;
+  color: rgb(120, 220, 200);
+  margin: 10px;
+
+  eventbox {
+    background-color: transparent;
+  }
+
+  button {
+    background-color: transparent;
+    padding: 10px 15px;
+  }
+
+  .music-button-play-pause {
+    font-size: 60px;
+  }
+}
+
+
+
+.box-music-player {
+  color: white;
+}
+
+.music-art {
+  margin-top: 10px;
+  border: 5px solid rgba(120, 220, 200, 0.9);
+  padding:5px;
+  border-radius: 5px;
+}
+
+.box-music-duration {
+  padding: 10px;
+}
+
+
+.box-music-info {
+  color: #ddd;
+  padding: 15px;
+}
+
+.music-artist {
+  font-size: 20px;
+  margin: 2px 0px;
+}
+
+.music-title {
+  font-size: 15px;
+  padding: 0 50px;
+  margin: 2px 0px;
+}
+
+.current-time-friendly {
+  font-size: 10px;
+  margin: -10px 60px;
+  padding: 0;
+}
+
+scale.music-duration-scale {
+  margin: 10px 50px;
+
+  trough {
+    border-radius: 10px;
+    background-color: rgb(100, 100, 90);
+
+    slider {
+      background-color: rgb(200, 200, 200);
+    }
+
+    highlight {
+      all: unset;
+      padding: 5px;
+      border-radius: 10px;
+      background-color: rgb(120, 220, 200);
+
+    }
+
+  }
+}

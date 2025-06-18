@@ -17,8 +17,10 @@
 ;; Main Stuff
 (defwindow calendar_full 
      :geometry (geometry :x "10px"
+
                          :width "280px" 
                          :height "100px"
                          :anchor "top right"
                          )
         (calendar_full))
+

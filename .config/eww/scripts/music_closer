@@ -1,0 +1,7 @@
+#!/bin/bash
+
+status="$(playerctl status)"
+if [[ -z "$status" ]]; then
+  echo 'oi'
+  $(~/.local/bin/eww close musicplayer)
+fi

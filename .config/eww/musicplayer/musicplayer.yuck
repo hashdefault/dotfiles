@@ -1,31 +1,53 @@
-(defwidget musicplayer
-  (box :class "box-music-player" :valign "center" :halign "center" :orientation "v"
-    (box :class "music-art" :valign "center" :halign "center" :orientation "v"
-      (image :class "music-art-image" :image-width "350")
+(defwidget musicplayer []
+  (box :orientation "v" :space-evenly false :class "music-main-box"
+  (box :space-evenly false :class "box-music-player" :valign "center" :halign "center" :orientation "v"
+      (box :class "music-art" :valign "center" :halign "center" :orientation "v"
+        (image :class "music-art-image" :path artMusic :image-width "130")
+      )
+      (box :space-evenly false :class "box-music-info" :valign "center" :halign "center" :orientation "v"
+        (label :text music_artist :class "music-artist")
+        (label :text "${music_title} ~ ${music_album}" :class "music-title" :wrap true)
     )
-    (box :class "box-music-duration" :valign "center" :halign "center" :orientation "v"
-          (scale 
-            :orientation "h"
-            :class "music-duration-scale"
-            :min 0
-            :max max_time_duration
-            :value current_time_duration
-            :timeout "500ms"
-            :onchange ""
-          )
-    )
+      (box :space-evenly false :class "box-music-duration" :valign "center" :halign "center" :orientation "v")
+        (label :halign "start" :text current_time_duration_friendly :class "current-time-friendly")
+            (scale 
+              :orientation "h"
+              :draw-value false
+              :class "music-duration-scale"
+              :min 0
+              :max max_time_duration
+              :value current_time_duration
+              :onchange "~/.config/eww/scripts/music_set_position {}" 
+              )
+      )
     (box :class "box-music-buttons" :valign "center" :halign "center" :orientation "h"
       (eventbox :cursor "pointer" 
-        (button :onclick "" :class "music-button-previous-next")
+        (button :tooltip "previous" :onclick "playerctl previous" :class "music-button-previous-next" "󰒮")
       )
       (eventbox :cursor "pointer" 
-        (button :onclick "" :class "music-button-play-pause")
+        (button :tooltip "play/pause" :onclick "playerctl play-pause" :class "music-button-play-pause"  {player_status == "Playing" ? "" : ""   } )
       )
       (eventbox :cursor "pointer" 
-        (button :onclick "" :class "music-button-previous-next")
+        (button :tooltip "next" :onclick "playerctl next" :class "music-button-previous-next" "󰒭")
       )
     )
   )
 )
-(defpoll current_time_duration :interval "20ms" "")
-(defpoll max_time_duration :interval "20ms" "")
+
+(defpoll current_time_duration_friendly :interval "20ms" "~/.config/eww/scripts/music_position_friendly")
+(defpoll current_time_duration :interval "20ms" "~/.config/eww/scripts/music_current_position")
+(defpoll artMusic :interval "20ms" "playerctl metadata mpris:artUrl | sed 's|file://||' ")
+(defpoll max_time_duration :interval "20ms" "playerctl metadata mpris:length")
+(defpoll music_title :interval "20ms" "playerctl metadata xesam:title")
+(defpoll music_artist :interval "20ms" "playerctl metadata xesam:artist")
+(defpoll music_album :interval "20ms" "playerctl metadata xesam:album")
+(defpoll player_status :interval "20ms" "playerctl status")
+(defpoll close :interval "20ms" "~/.config/eww/scripts/music_closer")
+
+(defwindow  musicplayer
+	    :geometry (geometry 
+                           :width "400px"
+                           :height "300px"
+                           :anchor "top center"
+                           )
+	     				(musicplayer))
