@@ -1,27 +1,23 @@
-powermenu {
+.powermenu {
   border-radius: 15px;
   background-color: rgb(30, 30, 30);
-  border: 4px solid rgb(190, 230, 230);
+  padding: 10px;
 }
 
-
-.reboot-description,
-.logout-description,
-.suspend-description,
-.power-description {
-  margin-bottom: 25px;
-  margin-left: 15px;
-  margin-right: 15px;
+.hover-power-btn:hover {
+  color: rgb(100, 200, 200);
 }
 
 .reboot-button,
 .logout-button,
 .suspend-button,
 .power-button {
-  font-size: 40px;
-  padding-left: 10px;
-  margin-top: 20px;
-  margin-left: 15px;
-  margin-right: 15px;
+  font-size: 30px;
+  margin-top: 5px;
 }
 
+.reboot-button,
+.logout-button,
+.suspend-button {
+  margin-top: 20px;
+}

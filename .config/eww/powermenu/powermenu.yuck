@@ -1,26 +1,26 @@
 (defwidget powermenu [] 
   (box :orientation "v" :space-evenly "false" 
     (eventbox :class "hover-power-btn" :timeout "20ms" :cursor "pointer" 
-      (button :class "power-button" :onclick "shutdown 0 1" "⏻ "  )
+      (button :class "power-button" :onclick "shutdown 0 1" "⏻"  )
     )
     (label :class "power-description" :text "Shutdown" :justify "center")
     (eventbox :class "hover-power-btn" :timeout "20ms" :cursor "pointer" 
-    (button :class "reboot-button" :onclick "reboot" " ")
+    (button :class "reboot-button" :onclick "reboot" "")
     )
     (label :class "reboot-description" :text "Reboot" :justify "center")
     (eventbox :class "hover-power-btn" :timeout "20ms" :cursor "pointer" 
-    (button :class "logout-button" :onclick "hyprctl dispatch exit" " ")
+    (button :class "logout-button" :onclick "hyprctl dispatch exit" "")
     )
     (label :class "logout-description" :text "Logout" :justify "center")
     (eventbox :class "hover-power-btn" :timeout "20ms" :cursor "pointer" 
-    (button :class "suspend-button" :onclick "systemctl suspend" "󰤄 ")
+    (button :class "suspend-button" :onclick "systemctl suspend" "󰤄")
     )
     (label :class "suspend-description" :text "Suspend" :justify "center")))
 
     (defwindow powermenu 
 			    :geometry (geometry  :x "10px" 
                                :width "80px"
-                               :height "400px"
+                               :height "300px"
                                :anchor "top right"
                                )
 			     				(powermenu))

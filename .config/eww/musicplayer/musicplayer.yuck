@@ -36,13 +36,12 @@
 
 (defpoll current_time_duration_friendly :interval "20ms" "~/.config/eww/scripts/music_position_friendly")
 (defpoll current_time_duration :interval "20ms" "~/.config/eww/scripts/music_current_position")
-(defpoll artMusic :interval "20ms" "playerctl metadata mpris:artUrl | sed 's|file://||' ")
-(defpoll max_time_duration :interval "20ms" "playerctl metadata mpris:length")
-(defpoll music_title :interval "20ms" "playerctl metadata xesam:title")
-(defpoll music_artist :interval "20ms" "playerctl metadata xesam:artist")
-(defpoll music_album :interval "20ms" "playerctl metadata xesam:album")
 (defpoll player_status :interval "20ms" "playerctl status")
-(defpoll close :interval "20ms" "~/.config/eww/scripts/music_closer")
+(deflisten artMusic :initial "~/.config/eww/images/music.png" "playerctl --follow metadata mpris:artUrl | sed 's|file://||'")
+(deflisten max_time_duration :initial "0" "playerctl --follow metadata mpris:length")
+(deflisten music_title :initial "Music title" "playerctl --follow metadata xesam:title")
+(deflisten music_artist :initial "Music Artist" "playerctl --follow metadata xesam:artist")
+(deflisten music_album :initial "Music Album" "playerctl --follow metadata xesam:album")
 
 (defwindow  musicplayer
 	    :geometry (geometry 

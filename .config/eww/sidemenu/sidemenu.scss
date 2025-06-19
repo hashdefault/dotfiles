@@ -6,9 +6,7 @@
 }
 
 .sidemenu {
-  border: 4px solid rgb(190, 230, 230);
-  padding: 5px;
-  min-width: 430px;
+  margin: 20px 0px;
 
   .buttons-space {
     .button-item {
@@ -27,7 +25,6 @@
     font-size: 30px;
     font-weight: bold;
     color: rgb(190, 230, 230);
-    margin-bottom: 10px;
   }
 
   .quote {
@@ -43,22 +40,22 @@
 
   .profile-label-time {
     color: rgb(190, 230, 230);
-    font-size: 45px;
+    font-size: 35px;
     font-family: "Hack";
-    margin-left: 20px;
   }
 
   .profile-desc {
     color: rgb(190, 230, 230);
     padding: 5px 0px;
-    font-size: 25px;
-    margin: 0px 15px;
+    font-size: 16px;
+    margin: 0px 10px;
+    margin-left: 50px;
     font-family: "Hack";
   }
 
   .box-profile {
     font-weight: bold;
-    margin: 5px 20px;
+    margin: 20px 20px 10px 50px;
   }
 
 
@@ -69,13 +66,13 @@
 
 
   .power-menu-side {
-    font-size: 28px;
+    font-size: 25px;
 
     button {
       border: 4px solid rgb(180, 220, 220);
       border-radius: 15px;
-      padding: 15px;
-      margin: 8px 15px;
+      padding: 10px;
+      margin: 20px;
     }
 
     button:hover {
@@ -120,7 +117,7 @@
 
   .box-label {
 
-    font-size: 15px;
+    font-size: 13px;
     font-weight: bold;
 
   }
@@ -148,7 +145,7 @@
     .button-wifi-arrow {
       margin: 15px 0px 5px 0px;
       font-size: 20px;
-      padding: 12px 12px;
+      padding: 10px;
       background-color: rgb(70, 70, 70);
     }
 
@@ -182,7 +179,7 @@
     .button-bluetooth-arrow {
       margin: 15px 0px 5px 0px;
       font-size: 20px;
-      padding: 12px 12px;
+      padding: 10px;
       background-color: rgb(70, 70, 70);
     }
 
@@ -216,7 +213,7 @@
     .button-not_disturb-arrow {
       margin: 15px 0px 5px 0px;
       font-size: 20px;
-      padding: 12px 12px;
+      padding: 10px;
       background-color: rgb(70, 70, 70);
     }
 
@@ -249,7 +246,7 @@
     .button-nightlight-arrow {
       margin: 15px 0px 5px 0px;
       font-size: 20px;
-      padding: 12px 12px;
+      padding: 10px;
       background-color: rgb(70, 70, 70);
     }
 
@@ -258,132 +255,4 @@
       background-color: rgb(100, 180, 180);
     }
   }
-}
-
-
-
-.notifications-menu-side {
-  border-bottom: 1px solid rgba(170, 220, 220, 0.8);
-  min-height: 420px;
-  margin: 10px;
-
-  .notification-box-content {
-    margin: 5px;
-  }
-
-  .notification-scroll {
-    min-height: 380px;
-  }
-
-  .no-notif {
-    font-size: 15px;
-    margin-top: 20px;
-  }
-
-  .notif-line-icon-screen {
-    border-radius: 5px;
-
-    .icon-notif-screenshot {
-      margin: 8px;
-      border-radius: 5px;
-    }
-
-
-
-    .buttons-screenshot {
-      padding: 10px;
-
-    }
-
-    .notif-screen-button-delete {
-      padding: 12px;
-      border-radius: 5px;
-      background-color: rgb(230, 100, 100);
-      margin: 3px 45px;
-      color: rgb(250, 250, 220);
-      font-weight: bold;
-    }
-
-    .notif-screen-button-open {
-      padding: 12px;
-      margin: 3px 45px;
-      border-radius: 5px;
-      background-color: rgb(100, 200, 200);
-      color: rgb(250, 250, 220);
-      font-weight: bold;
-
-    }
-
-
-  }
-
-  .notif-line-icon {
-    margin: 10px;
-  }
-
-  .icon-notif {
-    border-radius: 5px;
-    border: 5px solid rgb(100, 200, 200, 0.4);
-  }
-
-  .box-labels-notif {
-    padding: 20px;
-  }
-
-  .notif-item-header {
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
-
-
-    background-color: rgba(80, 150, 150, 0.1);
-    font-weight: bold;
-    color: rgb(250, 250, 220);
-    padding: 3px;
-
-    .notif-dismiss-button {
-      font-size: 20px;
-      background-color: transparent;
-      color: rgb(200, 100, 100);
-    }
-
-  }
-
-
-  .notif-item {
-    border-radius: 5px;
-    margin: 10px 5px;
-    background-color: rgb(40, 40, 40, 0.9);
-  }
-
-  .notification-item-title {
-    font-size: 18px;
-    font-weight: bold;
-  }
-
-
-
-  .notification-message {
-    font-size: 14px;
-  }
-
-
-  .notifications-menu-header {
-    background-color: rgb(60, 60, 60, 0.5);
-    padding: 5px 10px;
-    margin: 0px 5px;
-    border-radius: 5px;
-
-    .clear-history-button {
-      font-size: 25px;
-      color: rgb(200, 200, 200, 0.6);
-      background-color: transparent;
-    }
-  }
-
-  .notification-title {
-    color: rgba(190, 230, 230, 0.9);
-    font-size: 22px;
-    font-weight: bold;
-  }
-
 }

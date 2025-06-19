@@ -5,24 +5,13 @@
        (label  :class "greeter-user"  :wrap true :text "${username}" ))
     (box :class "box-profile" :orientation "h"  :space-evenly "false"
         (image :halign "end" :valign "center"  :class "profile-img" :path "/home/lucas/.local/share/images/avatar.png"  :image-width 100)
-        (label :halign "end" :valign "center"  :class "profile-label-time"  :text "${hour}:${min}")
         (box :space-evenly false  :valign "center" :halign "start" :class  "profile-desc" :orientation "v"  
+          (label :halign "start" :valign "center"  :class "profile-label-time"  :text "${hour}:${min}")
           (label :halign "start"  :class "profile-label-day"  :text "${month_full} ${number_day}")
           (label :halign "start" :class "profile-label-day"  :text "${day}")
         ))
     (box :space-evenly "false" :orientation "h" 
        (label :class "quote"  :wrap true :text text_quote )
-    )
-      (box :space-evenly "false" :class "notifications-menu-side" :orientation "v"  
-        (box :class "notifications-menu-header" :orientation "h" :valign "center" 
-          (label :halign "start" :text "Notifications" :class "notification-title")
-          (eventbox  :halign "end" :class "clear-history-button-event" :cursor "pointer"
-            (button :tooltip "Clear all history" :class "clear-history-button" :onclick "dunstctl history-clear && : > /tmp/dunstlog " "󰩺")
-          )
-        )
-        (scroll :vscroll true :class "notification-scroll"
-            (literal  :content notification )
-        )
     )
     (box :halign "center"  :valign "center" :orientation "h" :class "buttons-space"
       (box :valign "center" :halign "center" :space-evenly "false" :orientation "v" :class "button-item" 
@@ -82,8 +71,6 @@
 (defpoll host :interval "10s" "hostname")
 (defpoll text_quote  :interval "1800s" "~/.config/eww/scripts/getquote")
 
-;; Notification vars
-(defpoll  notification  :interval "300ms" "~/.config/eww/scripts/notify_history")
 
 ;; Buttons vars
 (defpoll nightlight_active :interval "20ms" "[ $(pidof hyprsunset) ] && echo true || echo false")

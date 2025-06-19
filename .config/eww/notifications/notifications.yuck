@@ -1,0 +1,18 @@
+(defwidget notifications [] 
+    (box :space-evenly "false" :class "notifications-menu-side" :orientation "v"  
+      (box :class "notifications-menu-header" :orientation "h" :valign "center" 
+        (label :halign "start" :text "Notifications" :class "notification-title")
+          (eventbox  :halign "end" :class "clear-history-button-event" :cursor "pointer"
+            (button :tooltip "Clear all history" :class "clear-history-button" :onclick "dunstctl history-clear && : > /tmp/dunstlog " "󰩺")))
+      (scroll :vscroll true :class "notification-scroll"
+        (literal  :content notification ))))
+
+;; Notification vars
+(defpoll  notification  :interval "300ms" "~/.config/eww/scripts/notify_history")
+
+(defwindow notifications 
+	    :geometry (geometry  :width "380px"
+                           :height "750px"
+                           :anchor "top center"
+                           )
+	     				(notifications))

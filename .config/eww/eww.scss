@@ -3,9 +3,10 @@
 @import "./powermenu/powermenu.scss";
 @import "./sidemenu/sidemenu.scss";
 @import "./musicplayer/musicplayer.scss";
+@import "./notifications/notifications.scss";
 
 window {
-  all:unset;
+  all: unset;
   background-color: #171717;
   color: #d0ddf2;
   font-family: 'Ubuntu Nerd Font';
