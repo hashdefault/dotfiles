@@ -1,12 +1,10 @@
 (defwidget musicplayer []
   (box :orientation "v" :space-evenly false :class "music-main-box"
   (box :space-evenly false :class "box-music-player" :valign "center" :halign "center" :orientation "v"
-      (box :class "music-art" :valign "center" :halign "center" :orientation "v"
-        (image :class "music-art-image" :path artMusic :image-width "130")
-      )
+      (box :width 120 :height 120 :class "music-art" :valign "center" :halign "center" :orientation "v" :style "background-image: url('${artMusic}');" )
       (box :space-evenly false :class "box-music-info" :valign "center" :halign "center" :orientation "v"
         (label :text music_artist :class "music-artist")
-        (label :text "${music_title} ~ ${music_album}" :class "music-title" :wrap true)
+        (label :limit-width 100 :text "${music_title} ~ ${music_album}" :class "music-title" :wrap true)
     )
       (box :space-evenly false :class "box-music-duration" :valign "center" :halign "center" :orientation "v")
         (label :halign "start" :text current_time_duration_friendly :class "current-time-friendly")
@@ -37,7 +35,7 @@
 (defpoll current_time_duration_friendly :interval "20ms" "~/.config/eww/scripts/music_position_friendly")
 (defpoll current_time_duration :interval "20ms" "~/.config/eww/scripts/music_current_position")
 (defpoll player_status :interval "20ms" "playerctl status")
-(deflisten artMusic :initial "~/.config/eww/images/music.png" "playerctl --follow metadata mpris:artUrl | sed 's|file://||'")
+(defpoll artMusic :interval "20ms" "playerctl metadata mpris:artUrl | sed 's|file://||'")
 (deflisten max_time_duration :initial "0" "playerctl --follow metadata mpris:length")
 (deflisten music_title :initial "Music title" "playerctl --follow metadata xesam:title")
 (deflisten music_artist :initial "Music Artist" "playerctl --follow metadata xesam:artist")
