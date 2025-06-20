@@ -11,7 +11,6 @@
   background-color: transparent;
   font-size: 50px;
   color: rgb(120, 220, 200);
-  margin: 10px;
 
   eventbox {
     background-color: transparent;
@@ -42,9 +41,6 @@
   background-size: cover;
 }
 
-.box-music-duration {
-  padding: 10px;
-}
 
 
 .box-music-info {
@@ -77,6 +73,7 @@ scale.music-duration-scale {
     background-color: rgb(100, 100, 90);
 
     slider {
+      all:unset;
       background-color: rgb(200, 200, 200);
     }
 

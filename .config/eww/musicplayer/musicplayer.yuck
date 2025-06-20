@@ -4,13 +4,14 @@
       (box :width 120 :height 120 :class "music-art" :valign "center" :halign "center" :orientation "v" :style "background-image: url('${artMusic}');" )
       (box :space-evenly false :class "box-music-info" :valign "center" :halign "center" :orientation "v"
         (label :text music_artist :class "music-artist")
-        (label :limit-width 100 :text "${music_title} ~ ${music_album}" :class "music-title" :wrap true)
+        (label :limit-width 150 :text "${music_title} ~ ${music_album}" :class "music-title" :wrap true)
     )
-      (box :space-evenly false :class "box-music-duration" :valign "center" :halign "center" :orientation "v")
+      (box :space-evenly false :class "box-music-duration" :valign "center" :halign "center" :orientation "v"
         (label :halign "start" :text current_time_duration_friendly :class "current-time-friendly")
             (scale 
               :orientation "h"
               :draw-value false
+              :width 350
               :class "music-duration-scale"
               :min 0
               :max max_time_duration
@@ -30,6 +31,7 @@
       )
     )
   )
+)
 )
 
 (defpoll current_time_duration_friendly :interval "20ms" "~/.config/eww/scripts/music_position_friendly")
