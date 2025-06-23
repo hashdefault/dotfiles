@@ -1,19 +1,15 @@
 
 xset b off &
 
-xfce4-session &
+lxsession &
+plank &
 
-tint2 -c ~/.config/tint2/tint2rc &
-tint2 -c ~/.config/tint2/workspaces.tint2rc &
-tint2 -c ~/.config/tint2/stats.tint2rc &
-tint2 -c ~/.config/tint2/music.tint2rc &
+~/.config/polybar/launch.sh &
 
-redshift -x; redshift -O 4200 &
+redshift -x && redshift -O 4200 &
 dunst &
-
 ~/.local/bin/lock.sh &
 swww daemon &
 ~/.local/bin/wallpaper.sh &
-picom --experimental-backends &
 setxkbmap us altgr-intl &
 xset r rate 200 40 &
