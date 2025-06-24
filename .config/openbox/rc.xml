@@ -123,15 +123,15 @@
     <number>9</number>
     <firstdesk>9</firstdesk>
     <names>
-      <name>code</name>
+      <name>dev</name>
       <name>www</name>
       <name>search</name>
-      <name>talk</name>
-      <name>sounds</name>
+      <name>chat</name>
+      <name>media</name>
       <name>docs</name>
-      <name>ftp</name>
+      <name>opt</name>
       <name>gfx</name>
-      <name>fun</name>
+      <name>misc</name>
     </names>
     <popupTime>882</popupTime>
     <!-- The number of milliseconds to show the popup for when switching
@@ -158,10 +158,10 @@
      Many programs reserve space automatically, but you can use this in other
      cases. -->
   <margins>
-    <top>27</top>
-    <bottom>7</bottom>
-    <left>7</left>
-    <right>7</right>
+    <top>30</top>
+    <bottom>0</bottom>
+    <left>5</left>
+    <right>5</right>
   </margins>
   <dock>
     <position>Bottom</position>

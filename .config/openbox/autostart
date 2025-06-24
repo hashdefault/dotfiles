@@ -1,9 +1,7 @@
-
 xset b off &
-
-lxsession &
+lxqt-session &
 plank &
-
+picom &
 ~/.config/polybar/launch.sh &
 
 redshift -x && redshift -O 4200 &
