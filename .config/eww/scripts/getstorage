@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Get memory info from free command
+
+free -m -s 2 | while IFS= read -r line; do
+  # Check if the line starts with "Mem:"
+  if [[ $line == Mem:* ]]; then
+    # Read values directly using read
+    read -r _ total used free shared buff_cache available <<<"$line"
+    total=$(echo "scale=3; $total/1024" | bc)
+    used=$(echo "scale=3; $used/1024" | bc)
+    available=$(echo "scale=3; $available/1024" | bc)
+
+    # Calculate used percentage
+    used_percent=$(awk "BEGIN {printf \"%.2f\", ($used/$total)*100}")
+
+    if [[ "$1" == '--total' ]]; then
+      echo "${total}"
+    elif [[ "$1" == '--used' ]]; then
+      echo "${used}"
+    elif [[ "$1" == '--available' ]]; then
+      echo "${available}"
+    elif [[ "$1" == '--usage_percent' ]]; then
+      echo "${used_percent}"
+    fi
+  fi
+done

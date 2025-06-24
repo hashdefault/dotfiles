@@ -1,0 +1,35 @@
+(defwidget storagemon [] 
+  (box :halign "center" :valign "center" :orientation "h"
+    (box :width 260 :space-evenly false :halign "center" :valign "center" :class "storage" :orientation "v"
+      (label :class "header-ram-description" :text "RAM" )
+      (circular-progress :class "storage-graph" :value usage_percent :start-at 0 :thickness 90 :clockwise true )
+      (box  :orientation "v" :class "description-box" :width 200 :space-evenly false
+(box :orientation "h"  :halign "start"  :space-evenly false
+        (label :justify "left"  :class "ram-description-usage" :text "Usage:" )
+        (label :justify "right"  :class "ram-description-usage number" :text "${usage_percent} %" )
+      )
+      (box :orientation "h"  :halign "start"  :space-evenly false
+        (label :justify "left"   :class "ram-description-available" :text "Available:" )
+        (label :justify "right"   :class "ram-description-available number" :text "${availableram} GiB" )
+      )
+      (box :orientation "h"  :halign "start"  :space-evenly false
+      (label :justify "left"   :class "ram-description-used" :text "Used:" )
+      (label :justify "right"  :class "ram-description-used number" :text "${usedram} GiB" )
+      )
+
+      )
+          )
+    (box :halign "center" :valign "center" :class "ram" :orientation "v")
+    (box :halign "center" :valign "center" :class "proc" :orientation "v")
+  )
+)
+(deflisten usage_percent :initial 0 "~/.config/eww/scripts/getstorage --usage_percent")
+(deflisten availableram :initial 0 "~/.config/eww/scripts/getstorage --available")
+(deflisten totalram :initial 0 "~/.config/eww/scripts/getstorage --total")
+(deflisten usedram :initial 0 "~/.config/eww/scripts/getstorage --used")
+(defwindow  storagemon
+	    :geometry (geometry  :width "400px"
+                           :height "400px"
+                           :anchor "top right"
+                           )
+	     				(storagemon))
