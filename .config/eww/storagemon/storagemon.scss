@@ -4,17 +4,38 @@
 }
 
 .storagemon {
-  padding: 30px;
+  padding: 10px;
+  border-radius: 10px;
 }
-
 .box-disks {
-  padding: 20px;
+  margin:20px 10px;
 }
 
 .cpu-graph {
   margin: 5px;
   background-color: rgb(190, 250, 190);
   color: rgb(120, 120, 200);
+}
+
+.proc-title {
+  font-size: 30px;
+  font-weight: bold;
+  color: #ddd;
+}
+
+.proc-header {
+  font-size: 17px;
+  font-weight: bold;
+  margin-top: 5px;
+  padding: 2px;
+  border-bottom: 2px solid rgb(100, 100, 100);
+  color: skyblue;
+}
+
+.proc-body {
+  font-size: 15px;
+  margin: 5px;
+  color: #ccc;
 }
 
 .ram-graph {
@@ -29,13 +50,13 @@
   color: rgb(220, 80, 80);
 }
 
+
 .disk-description-usage,
 .disk-description-used,
 .disk-description-available {
   margin: 0px 10px;
   font-size: 15px;
 }
-
 
 .cpu-description-usage,
 .cpu-description-used,
@@ -52,13 +73,23 @@
 }
 
 .storage {
-  padding: 10px;
-  margin: 20px;
+  margin-left: 20px;
 }
 
+.header-cpu-description {
+  font-size: 25px;
+  color: #ddd;
+  font-weight: bold;
+}
+
+.header-disk-description {
+  font-size: 30px;
+  color: #ddd;
+  font-weight: bold;
+}
 
 .header-ram-description {
-  font-size: 30px;
+  font-size: 25px;
   color: #ddd;
   font-weight: bold;
 }
