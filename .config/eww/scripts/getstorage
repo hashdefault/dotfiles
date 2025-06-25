@@ -7,9 +7,9 @@ free -m -s 2 | while IFS= read -r line; do
   if [[ $line == Mem:* ]]; then
     # Read values directly using read
     read -r _ total used free shared buff_cache available <<<"$line"
-    total=$(echo "scale=3; $total/1024" | bc)
-    used=$(echo "scale=3; $used/1024" | bc)
-    available=$(echo "scale=3; $available/1024" | bc)
+    total=$(echo "scale=2; $total/1024" | bc)
+    used=$(echo "scale=2; $used/1024" | bc)
+    available=$(echo "scale=2; $available/1024" | bc)
 
     # Calculate used percentage
     used_percent=$(awk "BEGIN {printf \"%.2f\", ($used/$total)*100}")
