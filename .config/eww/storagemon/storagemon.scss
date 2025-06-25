@@ -1,21 +1,60 @@
 * {
   all: unset;
-  font-family: Hasklug Nerd Font;
+  font-family: Ubuntu;
+}
+
+.storagemon {
+  padding: 30px;
+}
+
+.box-disks {
+  padding: 20px;
+}
+
+.cpu-graph {
+  margin: 5px;
+  background-color: rgb(190, 250, 190);
+  color: rgb(120, 120, 200);
+}
+
+.ram-graph {
+  margin: 5px;
+  background-color: rgb(190, 250, 190);
+  color: rgb(20, 200, 250);
 }
 
 .storage-graph {
-  margin: 20px;
-  background-color: #ccc;
+  margin: 10px;
+  background-color: rgb(190, 250, 190);
   color: rgb(220, 80, 80);
+}
+
+.disk-description-usage,
+.disk-description-used,
+.disk-description-available {
+  margin: 0px 10px;
+  font-size: 15px;
+}
+
+
+.cpu-description-usage,
+.cpu-description-used,
+.cpu-description-available {
+  margin: 0px 10px;
+  font-size: 15px;
 }
 
 .ram-description-usage,
 .ram-description-used,
 .ram-description-available {
   margin: 0px 10px;
-  font-size: 18px;
+  font-size: 15px;
 }
 
+.storage {
+  padding: 10px;
+  margin: 20px;
+}
 
 
 .header-ram-description {
@@ -24,14 +63,38 @@
   font-weight: bold;
 }
 
+.disk-description-used.number {
+  color: rgb(170, 170, 230);
+}
+
+.disk-description-available.number {
+  color: rgb(190, 250, 190);
+}
+
+.disk-description-usage.number {
+  color: rgb(220, 130, 130);
+}
+
+.cpu-description-used.number {
+  color: rgb(170, 170, 230);
+}
+
+.cpu-description-available.number {
+  color: rgb(190, 250, 190);
+}
+
+.cpu-description-usage.number {
+  color: rgb(120, 120, 200);
+}
+
 .ram-description-used.number {
   color: rgb(170, 170, 230);
 }
 
 .ram-description-available.number {
-  color: rgb(150, 240, 150);
+  color: rgb(190, 250, 190);
 }
 
 .ram-description-usage.number {
-  color: rgb(220, 130, 130);
+  color: rgb(20, 200, 250);
 }

@@ -1,32 +1,83 @@
 (defwidget storagemon [] 
-  (box :halign "center" :valign "center" :orientation "h"
-    (box :width 260 :space-evenly false :halign "center" :valign "center" :class "storage" :orientation "v"
-      (label :class "header-ram-description" :text "RAM" )
-      (circular-progress :class "storage-graph" :value usage_percent :start-at 0 :thickness 90 :clockwise true )
-      (box  :orientation "v" :class "description-box" :width 200 :space-evenly false
-(box :orientation "h"  :halign "start"  :space-evenly false
-        (label :justify "left"  :class "ram-description-usage" :text "Usage:" )
-        (label :justify "right"  :class "ram-description-usage number" :text "${usage_percent} %" )
+  (box :space-evenly false :halign "center" :valign "center" :orientation "h" :class "box-disks"
+    (box :space-evenly false :halign "center" :valign "center" :class "storage" :orientation "v"
+      (label :class "header-ram-description" :text "DISK" )
+      (circular-progress :class "storage-graph" :value usage_percent_disk :start-at 0 :thickness 80 :clockwise true )
+      (box  :orientation "v" :class "description-box" :space-evenly false
+        (box :orientation "h"  :halign "center" 
+          (label  :halign "end" :class "disk-description-usage" :text "In Use:" )
+          (label  :halign "start" :class "disk-description-usage number" :text "${usage_percent_disk} %" )
+        )
+        (box :orientation "h"  :halign "center"  
+          (label :halign "end"  :class "disk-description-available" :text "Available:" )
+          (label :halign "start"  :class "disk-description-available number" :text "${availabledisk} GiB" )
+        )
+        (box :orientation "h"  :halign "center"  
+          (label :halign "end" :class "disk-description-used" :text "Used:" )
+          (label :halign "start" :class "disk-description-used number" :text "${useddisk} GiB" )
+        )
       )
-      (box :orientation "h"  :halign "start"  :space-evenly false
-        (label :justify "left"   :class "ram-description-available" :text "Available:" )
-        (label :justify "right"   :class "ram-description-available number" :text "${availableram} GiB" )
-      )
-      (box :orientation "h"  :halign "start"  :space-evenly false
-      (label :justify "left"   :class "ram-description-used" :text "Used:" )
-      (label :justify "right"  :class "ram-description-used number" :text "${usedram} GiB" )
-      )
-
-      )
+    )
+    (box :width 400 :space-evenly false :halign "center" :valign "center" :class "storage" :orientation "v"
+      (box :orientation "v" :space-evenly false
+        (label :class "header-ram-description" :text "RAM" )
+        (box :orientation "h" :valign "center" :halign "center" :space-evenly false
+          (circular-progress  :class "ram-graph" :value usage_percent :start-at 0 :thickness 40 :clockwise true )
+          (box  :orientation "v" :class "description-box" :space-evenly false :valign "center" :halign "center"
+            (box :orientation "h"  :halign "center" 
+              (label  :halign "end"  :class "ram-description-usage" :text "In Use:" )
+              (label  :halign "start" :class "ram-description-usage number" :text "${usage_percent} %" )
+            )
+            (box :orientation "h"  :halign "center"  
+              (label  :halign "end"  :class "ram-description-available" :text "Available:" )
+              (label  :halign "start" :class "ram-description-available number" :text "${availableram} GiB" )
+            )
+            (box :orientation "h"  :halign "center"  
+              (label  :halign "end"  :class "ram-description-used" :text "Used:" )
+              (label  :halign "start":class "ram-description-used number" :text "${usedram} GiB" )
+            )
           )
-    (box :halign "center" :valign "center" :class "ram" :orientation "v")
-    (box :halign "center" :valign "center" :class "proc" :orientation "v")
+        )
+      )
+      (box :orientation "v" :space-evenly false 
+        (label :class "header-ram-description" :text "CPU" )
+        (box :orientation "h" :valign "center" :halign "center" :space-evenly false
+          (circular-progress  :class "cpu-graph" :value usage_percent_cpu :start-at 0 :thickness 40 :clockwise true )
+          (box  :orientation "v" :class "description-box" :space-evenly false :valign "center" :halign "center"
+            (box :orientation "h"  :halign "center" 
+              (label  :halign "end"  :class "cpu-description-usage" :text "In Use:" )
+              (label  :halign "start" :class "cpu-description-usage number" :text "${usage_percent_cpu} %" )
+            )
+            ;;(box :orientation "h"  :halign "center"  
+            ;;  (label  :halign "end"  :class "cpu-description-available" :text "Available:" )
+            ;;  (label  :halign "start" :class "cpu-description-available number" :text "${availablecpu} GiB" )
+            ;;)
+            ;;(box :orientation "h"  :halign "center"  
+            ;;  (label :halign "end"   :class "cpu-description-used" :text "Used:" )
+            ;;  (label :halign "start" :class "cpu-description-used number" :text "${usedcpu} GiB" )
+            ;;)
+          )
+        )
+      )
+    )
   )
 )
 (deflisten usage_percent :initial 0 "~/.config/eww/scripts/getstorage --usage_percent")
 (deflisten availableram :initial 0 "~/.config/eww/scripts/getstorage --available")
 (deflisten totalram :initial 0 "~/.config/eww/scripts/getstorage --total")
 (deflisten usedram :initial 0 "~/.config/eww/scripts/getstorage --used")
+
+(defpoll usage_percent_cpu :interval "3s" "~/.config/eww/scripts/getcpu --percent")
+;;(defpoll availablecpu :interval "3s" "~/.config/eww/scripts/getcpu --available")
+(defpoll totalcpu :interval "3s" "~/.config/eww/scripts/getcpu --total")
+(defpoll usedcpu :interval "3s" "~/.config/eww/scripts/getcpu --used")
+
+(defpoll usage_percent_disk :interval "20s" "~/.config/eww/scripts/getdiskusage --percent")
+(defpoll availabledisk :interval "20s" "~/.config/eww/scripts/getdiskusage --available")
+(defpoll totaldisk :interval "20s" "~/.config/eww/scripts/getdiskusage --total")
+(defpoll useddisk :interval "20s" "~/.config/eww/scripts/getdiskusage --used")
+
+
 (defwindow  storagemon
 	    :geometry (geometry  :width "400px"
                            :height "400px"

@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Path to check disk usage for; default is "/"
+path="${1:-/}"
+
+# If second argument looks like a flag, treat first as path; else path is default
+if [[ "$1" == --* ]]; then
+  flag="$1"
+  path="/"
+else
+  flag="$2"
+fi
+
+# Validate path
+if ! df "$path" &> /dev/null; then
+  echo "Error: Invalid path or not mounted: $path"
+  exit 1
+fi
+
+# Read used, available, total in bytes
+read used_bytes avail_bytes total_bytes <<< $(df --output=used,avail,size --block-size=1 "$path" | tail -1 | awk '{print $1, $2, $3}')
+
+# Convert bytes to GB
+used_gb=$(awk "BEGIN {printf \"%.3f\", $used_bytes/1024/1024/1024}")
+avail_gb=$(awk "BEGIN {printf \"%.3f\", $avail_bytes/1024/1024/1024}")
+total_gb=$(awk "BEGIN {printf \"%.3f\", $total_bytes/1024/1024/1024}")
+
+# Calculate usage percent
+percent=$(awk "BEGIN {printf \"%.2f\", ($used_bytes/$total_bytes)*100}")
+
+case "$flag" in
+  --total) echo "$total_gb";;
+  --used) echo "$used_gb";;
+  --available) echo "$avail_gb";;
+  --percent) echo "$percent";;
+  *)
+    echo "Usage: $0 [path] --total | --used | --available | --percent"
+    echo "Example: $0 /home --available"
+    exit 1
+    ;;
+esac
+

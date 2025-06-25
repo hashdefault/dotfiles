@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Read CPU stats from /proc/stat (first line)
+read cpu user nice system idle iowait irq softirq steal guest guest_nice </proc/stat
+
+# Calculate total and idle times
+idle_all=$((idle + iowait))
+non_idle=$((user + nice + system + irq + softirq + steal))
+total=$((idle_all + non_idle))
+
+# We need to calculate CPU usage over time (diff between two readings)
+# Read first snapshot
+cpu_line1=($user $nice $system $idle $iowait $irq $softirq $steal)
+
+sleep 0.5
+
+read cpu user nice system idle iowait irq softirq steal guest guest_nice </proc/stat
+cpu_line2=($user $nice $system $idle $iowait $irq $softirq $steal)
+
+# Calculate deltas
+delta_user=$((cpu_line2[0] - cpu_line1[0]))
+delta_nice=$((cpu_line2[1] - cpu_line1[1]))
+delta_system=$((cpu_line2[2] - cpu_line1[2]))
+delta_idle=$((cpu_line2[3] - cpu_line1[3]))
+delta_iowait=$((cpu_line2[4] - cpu_line1[4]))
+delta_irq=$((cpu_line2[5] - cpu_line1[5]))
+delta_softirq=$((cpu_line2[6] - cpu_line1[6]))
+delta_steal=$((cpu_line2[7] - cpu_line1[7]))
+
+delta_idle_all=$((delta_idle + delta_iowait))
+delta_non_idle=$((delta_user + delta_nice + delta_system + delta_irq + delta_softirq + delta_steal))
+delta_total=$((delta_idle_all + delta_non_idle))
+
+# Calculate CPU usage percent
+cpu_used=$(awk "BEGIN {printf \"%.2f\", ($delta_non_idle / $delta_total) * 100}")
+cpu_total=100
+
+case "$1" in
+--total) echo "$cpu_total" ;;
+--used) echo "$cpu_used" ;;
+--percent) echo "$cpu_used" ;;
+*) echo "Usage: $0 --total | --used | --percent" ;;
+esac
