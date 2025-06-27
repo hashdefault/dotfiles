@@ -1,10 +1,10 @@
 xset b off &
 lxqt-session &
 plank &
-picom &
+picom --experimental-backends &
 ~/.config/polybar/launch.sh &
 
-redshift -x && redshift -O 4200 &
+redshift -x ; redshift -O 4200 &
 dunst &
 ~/.local/bin/lock.sh &
 swww daemon &
