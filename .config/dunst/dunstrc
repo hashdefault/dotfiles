@@ -34,7 +34,8 @@
     # The width can be negative.  In this case the actual width is the
     # screen width minus the width defined in within the geometry option.
     width = 300
-    offset = 10
+    offset = (20,30)
+    gap_size = 10
     origin = top-right
 
     # Show how many messages are currently hidden (because of geometry).
@@ -56,7 +57,7 @@
     # Draw a line of "separator_height" pixel height between two
     # notifications.
     # Set to 0 to disable.
-    separator_height = 2
+    separator_height = 0
 
     # Padding between text and separator.
     padding = 10
@@ -78,6 +79,7 @@
     #  * frame: use the same color as the frame;
     #  * anything else will be interpreted as a X color.
     separator_color = auto
+    separator_size = 0
 
     # Sort messages by urgency.
     sort = yes
@@ -169,7 +171,6 @@
 
     # Scale larger icons down to this size, set to 0 to disable
     max_icon_size = 80
-
 
     # Should a notification popped up from history be sticky or timeout
     # as if it would normally do.
