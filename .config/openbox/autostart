@@ -1,8 +1,8 @@
 xset b off &
 lxqt-session &
 plank &
-picom --experimental-backends &
-~/.config/polybar/launch.sh &
+picom --config ~/.config/picom/picom.conf &
+sleep 1 && ~/.config/polybar/launch.sh &
 
 redshift -x ; redshift -O 4200 &
 dunst &
