@@ -149,7 +149,7 @@ button:hover {
 
 #custom-calendar,
 #clock {
-  border: 2px solid @color13;
+  border: 2px solid @color5;
   color: @foreground;
   background-color: @background;
 }
