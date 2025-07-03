@@ -1,10 +1,3 @@
-@import "./weather/weather.scss";
-@import "./calendar/calendar.scss";
-@import "./powermenu/powermenu.scss";
-@import "./sidemenu/sidemenu.scss";
-@import "./musicplayer/musicplayer.scss";
-@import "./notifications/notifications.scss";
-@import "./storagemon/storagemon.scss";
 
 window {
   all: unset;
@@ -17,3 +10,12 @@ button {
   all: unset;
   background-color: rgb(30, 30, 30);
 }
+
+@import "./weather/weather.scss";
+@import "./calendar/calendar.scss";
+@import "./powermenu/powermenu.scss";
+@import "./sidemenu/sidemenu.scss";
+@import "./musicplayer/musicplayer.scss";
+@import "./notifications/notifications.scss";
+@import "./storagemon/storagemon.scss";
+@import "./tips/tips.scss";

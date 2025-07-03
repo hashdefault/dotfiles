@@ -12,4 +12,6 @@ if [[ "$check_bluetooth" == 'active' ]]; then
     bluetoothctl power on
     dunstify -i ~/.config/eww/images/bluetooth.svg -a "Bluetooth" "Bluetooth" "Turned ON"
   fi
+else
+  echo false
 fi

@@ -1,21 +1,21 @@
 (defwidget sidemenu [] 
-  (box :space-evenly "false" :class "box-sidemenu" :orientation "v" 
-    (box :space-evenly "false" :orientation "v" 
+  (box :space-evenly false :class "box-sidemenu" :orientation "v" :halign "center"
+    (box :space-evenly false :orientation "v"  :halign "center"
        (label  :class "greeter"  :wrap true :text "${greeter}" )
        (label  :class "greeter-user"  :wrap true :text "${username}" ))
-    (box :class "box-profile" :orientation "h"  :space-evenly "false"
+    (box :class "box-profile" :orientation "h"  :space-evenly false :halign "center"
         (image :halign "end" :valign "center"  :class "profile-img" :path "/home/lucas/.local/share/images/avatar.png"  :image-width 100)
         (box :space-evenly false  :valign "center" :halign "start" :class  "profile-desc" :orientation "v"  
           (label :halign "start" :valign "center"  :class "profile-label-time"  :text "${hour}:${min}")
           (label :halign "start"  :class "profile-label-day"  :text "${month_full} ${number_day}")
           (label :halign "start" :class "profile-label-day"  :text "${day}")
         ))
-    (box :space-evenly "false" :orientation "h" 
+    (box :space-evenly false :orientation "h" 
        (label :class "quote"  :wrap true :text text_quote )
     )
     (box :halign "center"  :valign "center" :orientation "h" :class "buttons-space"
-      (box :valign "center" :halign "center" :space-evenly "false" :orientation "v" :class "button-item" 
-        (box :space-evenly "false" :class  "box-nightlight-buttons" :orientation "h" 
+      (box :valign "center" :halign "center" :space-evenly false :orientation "v" :class "button-item" 
+        (box :space-evenly false :class  "box-nightlight-buttons" :orientation "h" 
           (button  :class {nightlight_active ?  "button-nightlight active":"button-nightlight"} :onclick "~/.config/eww/scripts/nightlight --toggle" {nightlight_active ? "󰛨" : "󰹏" })
           (label :class "seperator"  :text "|")
           (button :class {nightlight_active ?  "button-nightlight-arrow active":"button-nightlight-arrow"} :onclick "~/.config/eww/scripts/nightlight --toggle" ""  ))
@@ -29,39 +29,40 @@
             :value 5
             :timeout "2000ms"
             :onchange "~/.config/eww/scripts/nightlight {}")))
-      (box :space-evenly "false" :orientation "v" 
-          (box :space-evenly "false" :class  "box-wifi-buttons" :orientation "h"  :valign "center" :halign "center"
+      (box :space-evenly false :orientation "v" 
+          (box :space-evenly false :class  "box-wifi-buttons" :orientation "h"  :valign "center" :halign "center"
             (button  :class {wifi_active ?  "button-wifi active":"button-wifi"} :onclick "~/.local/bin/wifi --toggle" {wifi_active ? "󰖩" : "󰖪" })
             (label :class "seperator"  :text "|")
             (button :class {wifi_active ?  "button-wifi-arrow active":"button-wifi-arrow"} :onclick "~/.local/bin/wifi --toggle" ""  ))
           (box :class "box-label"  :orientation "h" 
             (label :class "wifi-label" :text "Wifi" )))
-      (box :space-evenly "false" :orientation "v"  
-        (box :space-evenly "false" :class  "box-bluetooth-buttons" :orientation "h"  :valign "center" :halign "center"
+      (box :space-evenly false :orientation "v"  
+        (box :space-evenly false :class  "box-bluetooth-buttons" :orientation "h"  :valign "center" :halign "center"
           (button  :class {bluetooth_active ?  "button-bluetooth active" : "button-bluetooth"} :onclick "~/.config/eww/scripts/bluetooth" {bluetooth_active ? "󰂯" : "󰂲" })
           (label :class "seperator"  :text "|")
           (button :class {bluetooth_active ?  "button-bluetooth-arrow active":"button-bluetooth-arrow"} :onclick "~/.config/eww/scripts/bluetooth" ""  ))
         (box :class "box-label"  :orientation "h" 
           (label :class "bluetooth-label" :text "Bluetooth")))
-      (box :space-evenly "false" :orientation "v" 
-        (box :space-evenly "false" :class  "box-not_disturb-buttons" :orientation "h" :valign "center" :halign "center"
+      (box :space-evenly false :orientation "v" 
+        (box :space-evenly false :class  "box-not_disturb-buttons" :orientation "h" :valign "center" :halign "center"
           (button  :class {not_disturb_active ?  "button-not_disturb active" : "button-not_disturb"} :onclick "~/.config/eww/scripts/do_not_disturb.sh" {not_disturb_active ? "󰂛" : "󰂚" })
           (label :class "seperator"  :text "|")
           (button :class {not_disturb_active ?  "button-not_disturb-arrow active":"button-not_disturb-arrow"} :onclick "~/.config/eww/scripts/do_not_disturb.sh" ""  ))
         (box :class "box-label"  :orientation "h" 
           (label :class "not_disturb-label" :text "Don't Disturb")))
-      )
+    )
 
   (box :class "power-menu-side" :orientation "h"  :halign "center" :valign "center"
         (eventbox :tooltip "Shutdown" :class "hover-power-side-btn" :timeout "20ms" :cursor "pointer" 
-          (button :class "power-side-button" :onclick "shutdown 0 1" "⏻"  ))
+          (button :class "power-side-button" :onclick "shutdown 0 1" " "  ))
         (eventbox :tooltip "Reboot" :class "hover-power-side-btn" :timeout "20ms" :cursor "pointer" 
-          (button :class "reboot-side-button" :onclick "reboot" ""))
+          (button :class "reboot-side-button" :onclick "reboot" "  "))
         (eventbox :tooltip "Logout" :class "hover-power-side-btn" :timeout "20ms" :cursor "pointer" 
-          (button :class "logout-side-button" :onclick "hyprctl dispatch exit" ""))
+          (button :class "logout-side-button" :onclick "hyprctl dispatch exit" " "))
         (eventbox :tooltip "Suspend" :class "hover-power-side-btn" :timeout "20ms" :cursor "pointer" 
           (button :class "suspend-button-side" :onclick "systemctl suspend" "󰤄"))
-    )))
+    )
+  ))
 
     
 ;; Profile vars

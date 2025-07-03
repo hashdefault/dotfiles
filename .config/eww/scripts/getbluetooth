@@ -1,14 +1,19 @@
 #!/bin/bash
 
-# off
-if [ $(bluetoothctl show | grep "Powered: yes" | wc -c) -eq 0 ]; then
-  echo false
-else
-  # on
-  if [ $(echo info | bluetoothctl | grep 'Device' | wc -c) -eq 0 ]; then
-    echo true
-    # connected
-  else
+check_bluetooth=$(systemctl is-active bluetooth)
+if [[ "$check_bluetooth" == 'active' ]]; then
+  # off
+  if [ $(bluetoothctl show | grep "Powered: yes" | wc -c) -eq 0 ]; then
     echo false
+  else
+    # on
+    if [ $(echo info | bluetoothctl | grep 'Device' | wc -c) -eq 0 ]; then
+      echo true
+      # connected
+    else
+      echo false
+    fi
   fi
+else 
+  echo false
 fi

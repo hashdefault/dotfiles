@@ -1,0 +1,27 @@
+(defwidget tips []
+  (box :orientation "v" :halign "center" :valign "center"
+    (label :halign "center" :valign "center" :class "header" :text "Keybinds")
+    (label :halign "start" :valign "center" :class "sep" :text " ")
+    (label :halign "start" :valign "center" :class "tip" :text "SUPER + SHIFT + Return       Terminal")
+    (label :halign "start" :valign "center" :class "tip" :text "SUPER + SHIFT + F       Files")
+    (label :halign "start" :valign "center" :class "tip" :text "SUPER + SHIFT + C       Close window")
+    (label :halign "start" :valign "center" :class "tip" :text "SUPER + M       Profile Menu")
+    (label :halign "start" :valign "center" :class "tip" :text "SUPER + R       Rofi Menu")
+    (label :halign "start" :valign "center" :class "tip" :text "SUPER + B       Browser")
+    (label :halign "start" :valign "center" :class "tip" :text "SUPER + N       Notifications")
+    (label :halign "start" :valign "center" :class "tip" :text "SUPER + Q       Power Menu")
+    (label :halign "start" :valign "center" :class "tip" :text "SUPER + P       Screenshot")
+    (label :halign "start" :valign "center" :class "tip" :text "SUPER + V       Clipboard")
+    (label :halign "start" :valign "center" :class "tip" :text "SUPER + N       Edit Notes")
+  )
+)
+(defwindow tips
+    :stacking "bg"
+    :geometry (geometry :x "50px"
+                        :y "200px"
+                        :height "400px"
+                        :width "350px"
+                        :anchor "top left"
+                )
+    (tips)
+)

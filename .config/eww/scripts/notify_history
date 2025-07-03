@@ -19,7 +19,7 @@ if [[ -n "$checkfile" ]]; then
           (box :orientation "h" :class "notif-item-header"
            (label :text "'"$appname"'" :halign "start")
            (eventbox :halign "end" :cursor "pointer" :class "notif-dismiss-button-event"
-             (button  :class "notif-dismiss-button" :onclick "sed -i '$line_num'd '$tmplog'" "󰅚")
+             (button  :class "notif-dismiss-button" :onclick "sed -i '$line_num'd '$tmplog'" "󰅚 ")
            )
           )'
 

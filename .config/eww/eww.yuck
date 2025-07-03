@@ -5,3 +5,5 @@
 (include "./musicplayer/musicplayer.yuck")
 (include "./notifications/notifications.yuck")
 (include "./storagemon/storagemon.yuck")
+(include "./tips/tips.yuck")
+
