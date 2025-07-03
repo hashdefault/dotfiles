@@ -4,6 +4,8 @@
     (label :halign "start" :valign "center" :class "sep" :text " ")
     (label :halign "start" :valign "center" :class "tip" :text "SUPER + SHIFT + Return       Terminal")
     (label :halign "start" :valign "center" :class "tip" :text "SUPER + SHIFT + F       Files")
+    (label :halign "start" :valign "center" :class "tip" :text "SUPER + SHIFT + V       Clipboard")
+    (label :halign "start" :valign "center" :class "tip" :text "SUPER + SHIFT + N       Edit Notes")
     (label :halign "start" :valign "center" :class "tip" :text "SUPER + SHIFT + C       Close window")
     (label :halign "start" :valign "center" :class "tip" :text "SUPER + M       Profile Menu")
     (label :halign "start" :valign "center" :class "tip" :text "SUPER + R       Rofi Menu")
@@ -11,8 +13,6 @@
     (label :halign "start" :valign "center" :class "tip" :text "SUPER + N       Notifications")
     (label :halign "start" :valign "center" :class "tip" :text "SUPER + Q       Power Menu")
     (label :halign "start" :valign "center" :class "tip" :text "SUPER + P       Screenshot")
-    (label :halign "start" :valign "center" :class "tip" :text "SUPER + V       Clipboard")
-    (label :halign "start" :valign "center" :class "tip" :text "SUPER + N       Edit Notes")
   )
 )
 (defwindow tips
