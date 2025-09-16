@@ -1,4 +1,45 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-temp=$(hyprctl hyprsunset temperature)
-echo $temp
+set -euo pipefail
+
+# Prefer hyprsunset when available
+if command -v hyprctl >/dev/null 2>&1; then
+  if hyprctl hyprsunset 2>/dev/null | grep -q temperature; then
+    # Newer hyprctl prints info; fallback to explicit subcommand if supported
+    temp=$(hyprctl hyprsunset temperature 2>/dev/null || true)
+    if [[ -n "${temp:-}" ]]; then
+      echo "$temp"
+      exit 0
+    fi
+  else
+    # Try direct temperature query
+    temp=$(hyprctl hyprsunset temperature 2>/dev/null || true)
+    if [[ -n "${temp:-}" ]]; then
+      echo "$temp"
+      exit 0
+    fi
+  fi
+fi
+
+# Redshift: parse `redshift -p` output
+if command -v redshift >/dev/null 2>&1; then
+  if out=$(redshift -p 2>/dev/null | grep -i "color temperature" | awk '{print $3}' | tr -d 'K'); then
+    if [[ -n "$out" ]]; then
+      echo "$out"
+      exit 0
+    fi
+  fi
+fi
+
+# Gammastep: similar to redshift
+if command -v gammastep >/dev/null 2>&1; then
+  if out=$(gammastep -p 2>/dev/null | grep -i "color temperature" | awk '{print $3}' | tr -d 'K'); then
+    if [[ -n "$out" ]]; then
+      echo "$out"
+      exit 0
+    fi
+  fi
+fi
+
+# Default (no backend information): assume neutral 6500K
+echo 6500

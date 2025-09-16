@@ -18,7 +18,7 @@
         (box :space-evenly false :class  "box-nightlight-buttons" :orientation "h" 
           (button  :class {nightlight_active ?  "button-nightlight active":"button-nightlight"} :onclick "~/.config/eww/scripts/nightlight --toggle" {nightlight_active ? "󰛨" : "󰹏" })
           (label :class "seperator"  :text "|")
-          (button :class {nightlight_active ?  "button-nightlight-arrow active":"button-nightlight-arrow"} :onclick "~/.config/eww/scripts/nightlight --toggle" ""  ))
+            (button :class {nightlight_active ?  "button-nightlight-arrow active":"button-nightlight-arrow"} :onclick "~/.config/eww/scripts/nightlight --toggle" ""  ))
         (box :class "box-label"  :orientation "v" 
           (label :class "nightlight-label"  :text "Night Light")
           (scale 
@@ -31,9 +31,9 @@
             :onchange "~/.config/eww/scripts/nightlight {}")))
       (box :space-evenly false :orientation "v" 
           (box :space-evenly false :class  "box-wifi-buttons" :orientation "h"  :valign "center" :halign "center"
-            (button  :class {wifi_active ?  "button-wifi active":"button-wifi"} :onclick "~/.local/bin/wifi --toggle" {wifi_active ? "󰖩" : "󰖪" })
+            (button  :class {wifi_active ?  "button-wifi active":"button-wifi"} :onclick "~/.config/eww/scripts/wifi --toggle" {wifi_active ? "󰖩" : "󰖪" })
             (label :class "seperator"  :text "|")
-            (button :class {wifi_active ?  "button-wifi-arrow active":"button-wifi-arrow"} :onclick "~/.local/bin/wifi --toggle" ""  ))
+          (button :class {wifi_active ?  "button-wifi-arrow active":"button-wifi-arrow"} :onclick "~/.config/eww/scripts/wifi --toggle" ""  ))
           (box :class "box-label"  :orientation "h" 
             (label :class "wifi-label" :text "Wifi" )))
       (box :space-evenly false :orientation "v"  
@@ -54,11 +54,11 @@
 
   (box :class "power-menu-side" :orientation "h"  :halign "center" :valign "center"
         (eventbox :tooltip "Shutdown" :class "hover-power-side-btn" :timeout "20ms" :cursor "pointer" 
-          (button :class "power-side-button" :onclick "shutdown 0 1" " "  ))
+          (button :class "power-side-button" :onclick "systemctl poweroff" " "  ))
         (eventbox :tooltip "Reboot" :class "hover-power-side-btn" :timeout "20ms" :cursor "pointer" 
-          (button :class "reboot-side-button" :onclick "reboot" "  "))
+          (button :class "reboot-side-button" :onclick "systemctl reboot" "  "))
         (eventbox :tooltip "Logout" :class "hover-power-side-btn" :timeout "20ms" :cursor "pointer" 
-          (button :class "logout-side-button" :onclick "hyprctl dispatch exit" " "))
+          (button :class "logout-side-button" :onclick "~/.config/eww/scripts/session_exit" " "))
         (eventbox :tooltip "Suspend" :class "hover-power-side-btn" :timeout "20ms" :cursor "pointer" 
           (button :class "suspend-button-side" :onclick "systemctl suspend" "󰤄"))
     )
@@ -74,9 +74,9 @@
 
 
 ;; Buttons vars
-(defpoll nightlight_active :interval "20ms" "[ $(pidof hyprsunset) ] && echo true || echo false")
+(defpoll nightlight_active :interval "500ms" "~/.config/eww/scripts/nightlight_status")
 (defpoll bluetooth_active :interval "20ms" "~/.config/eww/scripts/getbluetooth")
-(defpoll wifi_active :interval "20ms" "[ $(pidof wifi ) ] && echo true || echo false")
+(defpoll wifi_active :interval "2s" "~/.config/eww/scripts/wifi --is-on")
 (defpoll not_disturb_active :interval "20ms" "dunstctl is-paused")
 
 (defwindow sidemenu

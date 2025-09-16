@@ -1,19 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-check_bluetooth=$(systemctl is-active bluetooth)
-if [[ "$check_bluetooth" == 'active' ]]; then
-  # off
-  if [ $(bluetoothctl show | grep "Powered: yes" | wc -c) -eq 0 ]; then
-    echo false
-  else
-    # on
-    if [ $(echo info | bluetoothctl | grep 'Device' | wc -c) -eq 0 ]; then
-      echo true
-      # connected
-    else
-      echo false
-    fi
-  fi
-else 
+# Print true if Bluetooth adapter is present and powered on
+if [[ $(systemctl is-active bluetooth 2>/dev/null || true) != "active" ]]; then
+  echo false
+  exit 0
+fi
+
+if bluetoothctl show | grep -q "Powered: yes"; then
+  echo true
+else
   echo false
 fi

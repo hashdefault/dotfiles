@@ -1,15 +1,15 @@
 (defwidget powermenu [] 
   (box :orientation "v" :space-evenly "false" 
     (eventbox :class "hover-power-btn" :timeout "20ms" :cursor "pointer" 
-      (button :class "power-button" :onclick "shutdown 0 1" "⏻"  )
+      (button :class "power-button" :onclick "systemctl poweroff" "⏻"  )
     )
     (label :class "power-description" :text "Shutdown" :justify "center")
     (eventbox :class "hover-power-btn" :timeout "20ms" :cursor "pointer" 
-    (button :class "reboot-button" :onclick "reboot" "")
+    (button :class "reboot-button" :onclick "systemctl reboot" "")
     )
     (label :class "reboot-description" :text "Reboot" :justify "center")
     (eventbox :class "hover-power-btn" :timeout "20ms" :cursor "pointer" 
-    (button :class "logout-button" :onclick "hyprctl dispatch exit" "")
+    (button :class "logout-button" :onclick "~/.config/eww/scripts/session_exit" "")
     )
     (label :class "logout-description" :text "Logout" :justify "center")
     (eventbox :class "hover-power-btn" :timeout "20ms" :cursor "pointer" 

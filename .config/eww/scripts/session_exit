@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+# Cross-desktop logout/exit helper for Wayland and Xorg
+set -euo pipefail
+
+# Try to detect common compositors/DEs and exit cleanly
+if pgrep -x Hyprland >/dev/null 2>&1 || [[ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]]; then
+  exec hyprctl dispatch exit || true
+fi
+
+if pgrep -x sway >/dev/null 2>&1; then
+  exec swaymsg exit || true
+fi
+
+# GNOME
+if [[ "${XDG_CURRENT_DESKTOP:-}" =~ GNOME ]] || pgrep -x gnome-shell >/dev/null 2>&1; then
+  exec gnome-session-quit --logout --no-prompt || true
+fi
+
+# KDE Plasma
+if [[ "${XDG_CURRENT_DESKTOP:-}" =~ KDE ]] || pgrep -x plasmashell >/dev/null 2>&1; then
+  exec qdbus org.kde.ksmserver /KSMServer logout 0 0 0 || true
+fi
+
+# Awesome/i3/Xmonad and other Xorg WMs: try to terminate the session
+if [[ "${XDG_SESSION_TYPE:-}" == x11 || -n "${DISPLAY:-}" ]]; then
+  if pgrep -x xmonad >/dev/null 2>&1; then
+    exec pkill -x xmonad || true
+  fi
+  if pgrep -x i3 >/dev/null 2>&1; then
+    exec i3-msg exit || true
+  fi
+fi
+
+# Fallback: terminate current session (works for most DMs)
+if [[ -n "${XDG_SESSION_ID:-}" ]]; then
+  exec loginctl terminate-session "$XDG_SESSION_ID" || true
+fi
+
+# Last resort: kill user graphical target
+exec loginctl terminate-user "$USER" || true
+

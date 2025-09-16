@@ -1,23 +1,67 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-function nightlight() {
-  x=$1
-  if [[ $x == '--toggle' ]]; then
-    if pgrep -x "hyprsunset" >/dev/null; then
-      pkill -x "hyprsunset"
-      dunstify -i ~/.config/eww/images/lamp-off.svg -a "Night light" "Night Light" "OFF"
-    else
-      hyprsunset &
-      dunstify -i ~/.config/eww/images/lamp.svg -a "Night light" "Night Light" "ON"
-    fi
+set -euo pipefail
 
-  fi
+backend=""
+if command -v hyprsunset >/dev/null 2>&1; then
+  backend="hyprsunset"
+elif command -v redshift >/dev/null 2>&1; then
+  backend="redshift"
+elif command -v gammastep >/dev/null 2>&1; then
+  backend="gammastep"
+fi
 
-  if (($(echo "$x <= 0" | bc -l))); then
-    exit 1
-  fi
+cmd=${1:-}
 
-  temperature=$(awk -v x="$x" 'BEGIN {
+# Toggle behavior per backend
+if [[ "$cmd" == "--toggle" ]]; then
+  case "$backend" in
+    hyprsunset)
+      if pgrep -x hyprsunset >/dev/null 2>&1; then
+        pkill -x hyprsunset || true
+        dunstify -i ~/.config/eww/images/lamp-off.svg -a "Night light" "Night Light" "OFF" || true
+      else
+        nohup hyprsunset >/dev/null 2>&1 &
+        dunstify -i ~/.config/eww/images/lamp.svg -a "Night light" "Night Light" "ON" || true
+      fi
+      ;;
+    redshift)
+      if pgrep -x redshift >/dev/null 2>&1; then
+        redshift -x || true
+        pkill -x redshift || true
+        dunstify -i ~/.config/eww/images/lamp-off.svg -a "Night light" "Night Light" "OFF" || true
+      else
+        nohup redshift -O 4500 >/dev/null 2>&1 &
+        dunstify -i ~/.config/eww/images/lamp.svg -a "Night light" "Night Light" "ON" || true
+      fi
+      ;;
+    gammastep)
+      if pgrep -x gammastep >/dev/null 2>&1; then
+        pkill -x gammastep || true
+        dunstify -i ~/.config/eww/images/lamp-off.svg -a "Night light" "Night Light" "OFF" || true
+      else
+        nohup gammastep -O 4500 >/dev/null 2>&1 &
+        dunstify -i ~/.config/eww/images/lamp.svg -a "Night light" "Night Light" "ON" || true
+      fi
+      ;;
+    *)
+      exit 0
+      ;;
+  esac
+  exit 0
+fi
+
+# If not a toggle, interpret input (range 0..100) and convert to a color temp
+val=${1:-}
+if [[ -z "${val}" ]]; then
+  exit 0
+fi
+
+if (($(echo "$val <= 0" | bc -l))); then
+  exit 0
+fi
+
+temperature=$(awk -v x="$val" 'BEGIN {
   a = 0.00012
   b = 0.2
   y = a * (x ^ b)
@@ -25,10 +69,18 @@ function nightlight() {
   print result
 }')
 
-  if pgrep -x hyprsunset; then
-    killall hyprsunset
-  fi
-
-  hyprsunset -t "$temperature"
-}
-nightlight "$1"
+case "$backend" in
+  hyprsunset)
+    # Ensure single instance takes the new temp
+    pkill -x hyprsunset >/dev/null 2>&1 || true
+    hyprsunset -t "$temperature"
+    ;;
+  redshift)
+    redshift -P -O "$temperature"
+    ;;
+  gammastep)
+    # Apply immediately and persist
+    gammastep -P -O "$temperature"
+    ;;
+  *) ;;
+esac

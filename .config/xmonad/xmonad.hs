@@ -8,7 +8,6 @@
 --
 import XMonad
 import           System.Directory
-import           System.Exit
 import           System.IO
 import XMonad.Layout.ShowWName
 import XMonad.Layout.Renamed
@@ -16,8 +15,8 @@ import XMonad.Layout.Simplest
 import XMonad.Layout.SimplestFloat
 import XMonad.Layout.Tabbed
 import XMonad.Layout.LayoutModifier
-import XMonad.Layout.MultiToggle (mkToggle, single, EOT(EOT), (??))
-import XMonad.Layout.LimitWindows (limitWindows, increaseLimit, decreaseLimit)
+import XMonad.Layout.MultiToggle (mkToggle, single, EOT(EOT), Toggle(..), (??))
+import XMonad.Layout.LimitWindows (limitWindows)
 import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, MIRROR, NOBORDERS))
 import XMonad.Layout.GridVariants (Grid(Grid))
 import XMonad.Layout.Spiral
@@ -27,9 +26,7 @@ import XMonad.Layout.ThreeColumns
 import XMonad.Layout.Fullscreen
     ( fullscreenEventHook, fullscreenManageHook, fullscreenSupport, fullscreenFull )
 import qualified XMonad.StackSet as W
-import qualified Codec.Binary.UTF8.String      as UTF8
-import qualified XMonad.Actions.Search         as S
-import XMonad.Layout.Spacing
+import XMonad.Layout.Spacing (Border (..), spacingRaw, Spacing)
 import XMonad.Layout.ResizableTile
 
 
@@ -38,38 +35,32 @@ import XMonad.Layout.SubLayouts
 
 import           XMonad.Actions.SpawnOn
 import           Data.Maybe                     ( fromJust )
-import           Data.Maybe                     ( isJust )
 import XMonad.Actions.GridSelect
 import XMonad.Actions.MouseResize
-import XMonad.Actions.Volume
 
 import Data.Monoid ()
-import System.Exit ()
 import XMonad.Util.SpawnOnce ( spawnOnce )
 import Graphics.X11.ExtraTypes.XF86 (xF86XK_AudioLowerVolume, xF86XK_AudioRaiseVolume, xF86XK_AudioMute, xF86XK_MonBrightnessDown, xF86XK_MonBrightnessUp, xF86XK_AudioPlay, xF86XK_AudioPrev, xF86XK_AudioNext)
-import XMonad.Hooks.EwmhDesktops ( ewmh )
+import XMonad.Hooks.EwmhDesktops ( ewmh, ewmhFullscreen )
 import Control.Monad ( join, when )
 import XMonad.Layout.NoBorders
 import XMonad.Hooks.ManageDocks
-    ( avoidStruts, docks, manageDocks, Direction2D(D, L, R, U) )
+    ( avoidStruts, docks, manageDocks )
 import XMonad.Hooks.ManageHelpers ( doFullFloat, isFullscreen )
 
-import           XMonad.Hooks.StatusBar
 import           XMonad.Hooks.StatusBar.PP
 import           XMonad.Util.NamedScratchpad
-import XMonad.Layout.Spacing ( spacingRaw, Border(Border) )
 
-import           XMonad.Actions.WindowGo        ( runOrRaise )
 import           XMonad.Hooks.WindowSwallowing
 import           XMonad.Layout.LimitWindows     ( decreaseLimit
                                                 , increaseLimit
-                                                , limitWindows
                                                 )
 import XMonad.Layout.Gaps
-    ( Direction2D(D, L, R, U),
-      gaps,
-      setGaps,
-      GapMessage(DecGap, ToggleGaps, IncGap) )
+    ( Direction2D(D, L, R, U)
+    , gaps
+    , setGaps
+    , GapMessage(DecGap, ToggleGaps, IncGap)
+    )
 
 import           XMonad.Hooks.SetWMName
 import           XMonad.Util.Run                ( runProcessWithInput
@@ -87,7 +78,6 @@ import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(T
 import XMonad.Layout.WindowArranger (windowArrange, WindowArrangerMsg(..))
 import XMonad.Layout.WindowNavigation
 
-import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 import Data.Maybe (maybeToList)
 
@@ -95,17 +85,10 @@ import Data.Maybe (maybeToList)
    -- ColorScheme module (SET ONLY ONE!)
       -- Possible choice are:
       -- DoomOne
-      -- Dracula
-      -- GruvboxDark
-      -- MonokaiPro
       -- Nord
-      -- OceanicNext
-      -- Palenight
-      -- SolarizedDark
-      -- SolarizedLight
-      -- TomorrowNight
+      -- TokyoNight
 
-import           Colors.DoomOne
+import           Colors.TokyoNight
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
@@ -295,8 +278,8 @@ clipboardy :: MonadIO m => m () -- Don't question it
 clipboardy = spawn "rofi -modi \"\63053 :greenclip print\" -show \"\63053 \" -run-command '{cmd}' -theme ~/.config/rofi/launcher/style.rasi"
 
 --centerlaunch = spawn "exec ~/.local/bin/eww open-many blur_full weather profile quote search_full disturb-icon vpn-icon home_dir screenshot power_full reboot_full lock_full logout_full suspend_full"
-sidebarlaunch = spawn "exec ~/.local/bin/eww open-many weather_side time_side smol_calendar player_side sys_side sliders_side"
-ewwclose = spawn "exec ~/.local/bin/eww close-all"
+sidebarlaunch = spawn "exec eww open --toggle  sidemenu"
+ewwclose = spawn "exec eww close-all"
 --maimcopy = spawn "maim -s | xclip -selection clipboard -t image/png && notify-send \"Screenshot\" \"Copied to Clipboard\" -i flameshot"
 --maimsave = spawn "maim -s ~/Desktop/$(date +%Y-%m-%d_%H-%M-%S).png && notify-send \"Screenshot\" \"Saved to Desktop\" -i flameshot"
 rofi_launcher = spawn "rofi -no-lazy-grab -show drun -modi run,drun,window -theme $HOME/.config/rofi/launcher/style -drun-icon-theme \"Oranchelo\" "
@@ -315,7 +298,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_p     ), spawn "dmenu_run -i -fn 'JetbrainsMono:bold' -nb '#1e1e1e' -sf '#fff' -sb '#5bb1d3' -nf '#5bb1d3' ")
 
     -- launch eww sidebar
-    , ((modm,               xK_s     ), sidebarlaunch)
+    , ((modm,               xK_m     ), sidebarlaunch)
     , ((modm .|. shiftMask, xK_s     ), ewwclose)
 
     -- Audio keys
@@ -359,14 +342,25 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. controlMask, xK_i), sendMessage $ IncGap 5 R)              -- increment the right-hand gap
     , ((modm .|. shiftMask, xK_i     ), sendMessage $ DecGap 5 R)           -- decrement the right-hand gap
 
+    -- Toggle keybind guide (Conky)
+    , ((modm,               xK_i     ), spawn "bash $HOME/.config/xmonad/scripts/toggle_keybinds_conky.sh")
+
      -- Rotate through the available layout algorithms
     , ((modm,               xK_space ), sendMessage NextLayout)
+
+    -- Toggle temporary floats layout and fullscreen
+    , ((modm,               xK_f     ), sendMessage (T.Toggle "floats"))
+    , ((modm .|. shiftMask, xK_f     ), sendMessage $ Toggle NBFULL)
+
+    -- Increase/decrease visible windows limit for some layouts
+    , ((modm .|. controlMask, xK_equal), increaseLimit)
+    , ((modm .|. controlMask, xK_minus), decreaseLimit)
 
     --  Reset the layouts on the current workspace to default
     , ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
 
     -- Resize viewed windows to the correct size
-    , ((modm,               xK_n     ), refresh)
+    , ((modm,               xK_n     ), spawn "exec eww open --toggle notifications")
 
     -- Move focus to the next window
     , ((modm,               xK_Tab   ), windows W.focusDown)
@@ -378,7 +372,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_k     ), windows W.focusUp  )
 
     -- Move focus to the master window
-    , ((modm,               xK_m     ), windows W.focusMaster  )
+    --, ((modm,               xK_m     ), windows W.focusMaster  )
 
      --Swap the focused window and the master window
     , ((modm,               xK_o), windows W.swapMaster)
@@ -411,7 +405,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- , ((modm              , xK_b     ), sendMessage ToggleStruts)
 
     -- Quit xmonad
-    , ((modm .|. shiftMask, xK_q     ), spawn "~/.local/bin/powermenu.sh")
+    , ((modm .|. shiftMask, xK_q     ), spawn "eww open --toggle powermenu")
 
     -- Restart xmonad
     , ((modm              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
@@ -470,7 +464,8 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 -- which denotes layout choice.
 --
 -- The layout hook
-myLayout = avoidStruts
+myLayout = gaps [(L,0),(R,0),(U,0),(D,0)]
+           $ avoidStruts
                $ mouseResize
                $ windowArrange
                $ T.toggleLayouts floats
@@ -506,6 +501,7 @@ myLayout = avoidStruts
 myManageHook = fullscreenManageHook <+> manageDocks <+> composeAll
     [ className =? "MPlayer"        --> doFloat
     , className =? "Gimp"           --> doFloat
+    , className =? "Conky"          --> doIgnore
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore
     , isFullscreen --> doFullFloat
@@ -520,7 +516,12 @@ myManageHook = fullscreenManageHook <+> manageDocks <+> composeAll
 -- return (All True) if the default handler is to be run afterwards. To
 -- combine event hooks use mappend or mconcat from Data.Monoid.
 --
-myEventHook = mempty
+myEventHook = swallowEventHook (className =? "kitty"
+                                <||> className =? "Alacritty"
+                                <||> className =? "XTerm"
+                                <||> className =? "ghostty"
+                                <||> className =? "Ghostty")
+                               (return True)
 
 
 ------------------------------------------------------------------------
@@ -540,7 +541,9 @@ myEventHook = mempty
 -- By default, do nothing.
 
 myStartupHook = do
-  spawnOnce "exec ~/.local/bin/eww daemon"
+  spawnOnce "exec eww daemon"
+  -- Keep weather forecast data fresh for eww
+  spawnOnce "sh -c '$HOME/.config/xmonad/scripts/forecast-updater.sh'"
   spawn "xsetroot -cursor_name left_ptr"
   spawn "exec ~/.local/bin/lock.sh"
   spawn "xrandr --auto --output HDMI-0 --mode 1920x1080 --left-of DP-0 && xrandr --auto --output DP-0 --mode 1920x1080"
@@ -548,18 +551,20 @@ myStartupHook = do
   spawnOnce "greenclip daemon"
   spawn " xset r rate 200 40"
   spawn " setxkbmap us altgr-intl "
-  spawn "nitrogen --restore"
+  spawnOnce "sh -c 'if [ -x $HOME/.config/xmonad/scripts/wallpaper.sh ]; then exec sh $HOME/.config/xmonad/scripts/wallpaper.sh; elif [ -x $HOME/.local/bin/wallpaper.sh ]; then exec sh $HOME/.local/bin/wallpaper.sh; fi'"
+  spawnOnce "conky -c $HOME/.config/xmonad/scripts/conky_keybinds.conf"
   spawnOnce " redshift -x; redshift -O 4300 "
   spawnOnce " pasystray "
   spawnOnce "pkill dunst && dunst -config ~/.config/dunst/dunstrc &"
   spawn ("sleep 2 && trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 " ++ colorTrayer ++ " --height 26")
+  setWMName "LG3D"
 
 main = do
   xmproc0 <- spawnPipe
     ("xmobar -x 0 $HOME/.config/xmobar/" ++ colorScheme ++ "-xmobarrc")
   xmproc1 <- spawnPipe
     ("xmobar -x 1 $HOME/.config/xmobar/" ++ colorScheme ++ "-xmobarrc")
-  xmonad $ fullscreenSupport $ docks $ ewmh $ defaults xmproc0 xmproc1
+  xmonad $ ewmhFullscreen $ ewmh $ docks $ defaults xmproc0 xmproc1
 
 
 ------------------------------------------------------------------------
@@ -640,6 +645,10 @@ help = unlines ["The default modifier key is 'super'. Default keybindings:",
     "mod-Shift-c      Close/kill the focused window",
     "mod-Space        Rotate through the available layout algorithms",
     "mod-Shift-Space  Reset the layouts on the current workSpace to default",
+    "mod-f            Toggle floats layout",
+    "mod-Shift-f      Toggle fullscreen layout",
+    "mod-Control-=    Increase window limit (some layouts)",
+    "mod-Control--    Decrease window limit (some layouts)",
     "mod-n            Resize/refresh viewed windows to the correct size",
     "",
     "-- move focus up or down the window stack",

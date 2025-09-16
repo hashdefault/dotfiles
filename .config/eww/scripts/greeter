@@ -1,6 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-datetime=$(date "")
+# Friendly greeting based on hour; datetime variable unused
+datetime=$(date)
 
 hour=$(date +%H)
 
