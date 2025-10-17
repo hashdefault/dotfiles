@@ -2,44 +2,57 @@
 
 set -euo pipefail
 
-# Prefer hyprsunset when available
+choose_state_dir() {
+  local base1="${XDG_CACHE_HOME:-$HOME/.cache}/eww"
+  local base2="${XDG_STATE_HOME:-$HOME/.local/state}/eww"
+  local base3="/tmp/eww-${USER:-$(id -u)}"
+  for d in "$base1" "$base2" "$base3"; do
+    mkdir -p "$d" 2>/dev/null || true
+    if ( : >"$d/.write_test" ) 2>/dev/null; then
+      rm -f "$d/.write_test" 2>/dev/null || true
+      echo "$d"
+      return
+    fi
+  done
+  echo "$base3"
+}
+
+# Prefer cached value so the slider doesn't snap
+state_dir="$(choose_state_dir)"
+state_temp="$state_dir/nightlight_temp"
+if [[ -f "$state_temp" ]]; then
+  t=$(cat "$state_temp" 2>/dev/null || echo 4500)
+  if [[ "$t" =~ ^[0-9]+$ ]]; then
+    echo "$t"
+    exit 0
+  fi
+fi
+
+# Try to query backends when cache is missing
 if command -v hyprctl >/dev/null 2>&1; then
-  if hyprctl hyprsunset 2>/dev/null | grep -q temperature; then
-    # Newer hyprctl prints info; fallback to explicit subcommand if supported
-    temp=$(hyprctl hyprsunset temperature 2>/dev/null || true)
-    if [[ -n "${temp:-}" ]]; then
-      echo "$temp"
-      exit 0
-    fi
-  else
-    # Try direct temperature query
-    temp=$(hyprctl hyprsunset temperature 2>/dev/null || true)
-    if [[ -n "${temp:-}" ]]; then
-      echo "$temp"
-      exit 0
-    fi
+  # Some versions support: hyprctl hyprsunset temperature
+  out=$(hyprctl hyprsunset temperature 2>/dev/null || true)
+  if [[ -n "${out:-}" && "$out" =~ ^[0-9]+$ ]]; then
+    echo "$out"
+    exit 0
   fi
 fi
 
-# Redshift: parse `redshift -p` output
 if command -v redshift >/dev/null 2>&1; then
-  if out=$(redshift -p 2>/dev/null | grep -i "color temperature" | awk '{print $3}' | tr -d 'K'); then
-    if [[ -n "$out" ]]; then
-      echo "$out"
-      exit 0
-    fi
+  out=$(redshift -p 2>/dev/null | grep -i "color temperature" | awk '{print $3}' | tr -d 'K' || true)
+  if [[ -n "${out:-}" && "$out" =~ ^[0-9]+$ ]]; then
+    echo "$out"
+    exit 0
   fi
 fi
 
-# Gammastep: similar to redshift
 if command -v gammastep >/dev/null 2>&1; then
-  if out=$(gammastep -p 2>/dev/null | grep -i "color temperature" | awk '{print $3}' | tr -d 'K'); then
-    if [[ -n "$out" ]]; then
-      echo "$out"
-      exit 0
-    fi
+  out=$(gammastep -p 2>/dev/null | grep -i "color temperature" | awk '{print $3}' | tr -d 'K' || true)
+  if [[ -n "${out:-}" && "$out" =~ ^[0-9]+$ ]]; then
+    echo "$out"
+    exit 0
   fi
 fi
 
-# Default (no backend information): assume neutral 6500K
+# Default
 echo 6500

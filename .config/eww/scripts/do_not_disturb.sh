@@ -7,6 +7,7 @@ true)
   ;;
 false)
   dunstify -i ~/.config/eww/images/bell-off.svg -a "System" "Do Not Disturb" "Active" &
-  (sleep 3 && dunstctl close && dunstctl set-paused true)
+  # Close the notification after a short delay and then pause
+  (sleep 3 && dunstctl close && dunstctl set-paused true) &
   ;;
 esac

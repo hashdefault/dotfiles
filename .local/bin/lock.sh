@@ -5,7 +5,7 @@ if [[ $XDG_SESSION_TYPE == 'x11' ]]; then
   betterlockscreen -u "$WALLPAPER"
 
   xset s 500 &
-  xautolock -time 5 -locker "betterlockscreen -l" \
+  xautolock -time 15 -locker "betterlockscreen -l" \
     -notify 30 -notifier "dunstify -i ~/.config/eww/images/lock.svg -a 'Locker' 'Locker  ' 'Locking screen in 30 seconds'" \
     -killtime 10 -killer "systemctl suspend" &
 

@@ -5,24 +5,46 @@ rofi_theme="$HOME/.config/rofi/launcher/style"
 prompt_icon="󱓧"
 icon_theme="Oranchelo"
 
+# Ensure base notes directory exists
+[ -d "$dir_path" ] || mkdir -p "$dir_path"
+
 select_note() {
-  ls -ap1 "$1" | rofi \
+  local path="$1"
+
+  # Build list: Up entry, then directories/, then files (case-insensitive sort)
+  local up_entry="../"
+  local dirs files
+  dirs=$(find "$path" -maxdepth 1 -mindepth 1 -type d -printf '%P/\n' 2>/dev/null | sort -f)
+  files=$(find "$path" -maxdepth 1 -mindepth 1 -type f -printf '%P\n' 2>/dev/null | sort -f)
+
+  printf "%s\n%s\n%s\n" "$up_entry" "$dirs" "$files" | rofi \
     -modi "$prompt_icon :" \
     -show "$prompt_icon" \
     -theme "$rofi_theme" \
     -drun-icon-theme "$icon_theme" \
     -dmenu \
-    -l 10 \
+    -matching fuzzy \
+    -l 18 \
     -show-icons \
     -i \
-    -p "$prompt_icon  Select notes or create one:"
+    -p "$prompt_icon  ${path/#$HOME/~}:"
 }
 
 launch_editor() {
-  ghostty \
-    --shell-integration='fish' \
-    --working-directory="$dir_path" \
-    --command="nvim \"$1\""
+  # Prefer ghostty if available, otherwise fall back to $TERMINAL or xterm
+  local cmd
+  cmd="nvim +VimwikiGoto\ \"$1\""
+
+  if command -v ghostty >/dev/null 2>&1; then
+    ghostty \
+      --shell-integration='fish' \
+      --working-directory="$dir_path" \
+      --command="$cmd"
+  elif [ -n "$TERMINAL" ] && command -v "$TERMINAL" >/dev/null 2>&1; then
+    "$TERMINAL" -e bash -lc "$cmd"
+  else
+    xterm -e bash -lc "$cmd"
+  fi
 }
 
 main() {
@@ -40,10 +62,16 @@ main() {
       continue
     fi
 
-    # If it's a file, check its type
+    # Navigate up when selecting ../ explicitly
+    if [ "$selection" = ".." ] || [ "$selection" = "../" ]; then
+      dir_path="$(dirname "$dir_path")"
+      continue
+    fi
+
+    # If it's a file, check its MIME type for text/*
     if [ -f "$filepath" ]; then
-      filetype=$(file --brief "$filepath")
-      if [[ "$filetype" == "Unicode text"* || "$filetype" == "ASCII text"* ]]; then
+      mime=$(file --brief --mime-type -- "$filepath")
+      if [[ "$mime" == text/* ]]; then
         break
       else
         notify-send "  Not a text file. Try another."
@@ -52,7 +80,7 @@ main() {
     fi
 
     # If it doesn't exist, offer to create it
-    rofi_confirm=$(echo -e "Yes\nNo" | rofi -theme "$rofi_theme" -dmenu -p "󱓧  '$selection' doesn't exist. Create it?")
+    rofi_confirm=$(echo -e "Yes\nNo" | rofi -theme "$rofi_theme" -dmenu -i -p "󱓧  '$selection' doesn't exist. Create it?")
     if [ "$rofi_confirm" == "Yes" ]; then
       touch "$filepath"
       break

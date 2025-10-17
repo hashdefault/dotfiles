@@ -2,6 +2,7 @@
 
 set -euo pipefail
 
+# Determine backend
 backend=""
 if command -v hyprsunset >/dev/null 2>&1; then
   backend="hyprsunset"
@@ -11,76 +12,114 @@ elif command -v gammastep >/dev/null 2>&1; then
   backend="gammastep"
 fi
 
-cmd=${1:-}
+# Resolve a writable state directory with fallbacks
+choose_state_dir() {
+  local base1="${XDG_CACHE_HOME:-$HOME/.cache}/eww"
+  local base2="${XDG_STATE_HOME:-$HOME/.local/state}/eww"
+  local base3="/tmp/eww-${USER:-$(id -u)}"
+  for d in "$base1" "$base2" "$base3"; do
+    mkdir -p "$d" 2>/dev/null || true
+    if ( : >"$d/.write_test" ) 2>/dev/null; then
+      rm -f "$d/.write_test" 2>/dev/null || true
+      echo "$d"
+      return
+    fi
+  done
+  echo "$base3"
+}
 
-# Toggle behavior per backend
-if [[ "$cmd" == "--toggle" ]]; then
+state_dir=$(choose_state_dir)
+state_on="$state_dir/nightlight_on"
+state_temp="$state_dir/nightlight_temp"
+
+notify() {
+  # best-effort notify; ignore errors if dunstify isn't present
+  if command -v dunstify >/dev/null 2>&1; then
+    dunstify -i "$1" -a "Night light" "Night Light" "$2" || true
+  fi
+}
+
+read_state() {
+  local on="false" temp="4500"
+  [[ -f "$state_on" ]] && on=$(cat "$state_on" 2>/dev/null || echo false)
+  [[ -f "$state_temp" ]] && temp=$(cat "$state_temp" 2>/dev/null || echo 4500)
+  echo "$on" "$temp"
+}
+
+write_state() {
+  echo "$1" >"$state_on" 2>/dev/null || true
+  echo "$2" >"$state_temp" 2>/dev/null || true
+}
+
+apply_temp() {
+  local t="$1"
   case "$backend" in
     hyprsunset)
-      if pgrep -x hyprsunset >/dev/null 2>&1; then
-        pkill -x hyprsunset || true
-        dunstify -i ~/.config/eww/images/lamp-off.svg -a "Night light" "Night Light" "OFF" || true
-      else
-        nohup hyprsunset >/dev/null 2>&1 &
-        dunstify -i ~/.config/eww/images/lamp.svg -a "Night light" "Night Light" "ON" || true
-      fi
+      # Set immediate color temperature (persists until changed/reset)
+      hyprsunset -t "$t" >/dev/null 2>&1 || true
       ;;
     redshift)
-      if pgrep -x redshift >/dev/null 2>&1; then
-        redshift -x || true
-        pkill -x redshift || true
-        dunstify -i ~/.config/eww/images/lamp-off.svg -a "Night light" "Night Light" "OFF" || true
-      else
-        nohup redshift -O 4500 >/dev/null 2>&1 &
-        dunstify -i ~/.config/eww/images/lamp.svg -a "Night light" "Night Light" "ON" || true
-      fi
+      # Persisted one-shot
+      redshift -P -O "$t" >/dev/null 2>&1 || true
       ;;
     gammastep)
-      if pgrep -x gammastep >/dev/null 2>&1; then
-        pkill -x gammastep || true
-        dunstify -i ~/.config/eww/images/lamp-off.svg -a "Night light" "Night Light" "OFF" || true
-      else
-        nohup gammastep -O 4500 >/dev/null 2>&1 &
-        dunstify -i ~/.config/eww/images/lamp.svg -a "Night light" "Night Light" "ON" || true
-      fi
+      gammastep -P -O "$t" >/dev/null 2>&1 || true
       ;;
     *)
-      exit 0
+      # No backend; do nothing but keep state so UI is consistent
       ;;
   esac
+}
+
+reset_temp() {
+  case "$backend" in
+    hyprsunset)
+      # Reset to neutral 6500K
+      hyprsunset -t 6500 >/dev/null 2>&1 || true
+      ;;
+    redshift)
+      redshift -x >/dev/null 2>&1 || true
+      ;;
+    gammastep)
+      gammastep -x >/dev/null 2>&1 || true
+      ;;
+    *) ;;
+  esac
+}
+
+cmd=${1:-}
+
+# Toggle handler uses state file instead of process detection
+if [[ "$cmd" == "--toggle" ]]; then
+  read -r is_on cur_temp < <(read_state)
+  if [[ "$is_on" == "true" ]]; then
+    reset_temp
+    write_state "false" "$cur_temp"
+    notify "$HOME/.config/eww/images/lamp-off.svg" "OFF"
+  else
+    # Use last temperature or default to 4500
+    t=${cur_temp:-4500}
+    apply_temp "$t"
+    write_state "true" "$t"
+    notify "$HOME/.config/eww/images/lamp.svg" "ON"
+  fi
   exit 0
 fi
 
-# If not a toggle, interpret input (range 0..100) and convert to a color temp
+# Slider value: expect Kelvin integer
 val=${1:-}
 if [[ -z "${val}" ]]; then
   exit 0
 fi
-
-if (($(echo "$val <= 0" | bc -l))); then
+if ! [[ "$val" =~ ^[0-9]+$ ]]; then
+  exit 0
+fi
+if (( val < 1000 || val > 10000 )); then
+  # Guardrail: ignore obviously invalid ranges
   exit 0
 fi
 
-temperature=$(awk -v x="$val" 'BEGIN {
-  a = 0.00012
-  b = 0.2
-  y = a * (x ^ b)
-  result = 1 / y
-  print result
-}')
-
-case "$backend" in
-  hyprsunset)
-    # Ensure single instance takes the new temp
-    pkill -x hyprsunset >/dev/null 2>&1 || true
-    hyprsunset -t "$temperature"
-    ;;
-  redshift)
-    redshift -P -O "$temperature"
-    ;;
-  gammastep)
-    # Apply immediately and persist
-    gammastep -P -O "$temperature"
-    ;;
-  *) ;;
-esac
+temperature="$val"
+apply_temp "$temperature"
+# Setting temperature implies ON
+write_state "true" "$temperature"
