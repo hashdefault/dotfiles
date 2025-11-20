@@ -1,4 +1,6 @@
-@import url('../../.cache/wal/colors-waybar.css');
+/* @import url('../../.cache/wal/colors-waybar.css'); */
+
+ @import url('colors/DoomOne.css'); 
 
 * {
   font-family: "JetBrains Mono Nerd Font", Font Awesome;
@@ -149,7 +151,7 @@ button:hover {
 
 #custom-calendar,
 #clock {
-  border: 2px solid @color5;
+  border: 2px solid @color13;
   color: @foreground;
   background-color: @background;
 }
