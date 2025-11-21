@@ -18,7 +18,7 @@ elif [[ "$appname" == "Calendar" ]] || [[ "$appname" == "Volume" ]] || [[ "$appn
   exit 0
 fi
 
-notification_item="$timestamp;$urgency;$icon;$body;$summary;$appname"
+notification_item="$1;$2;$3;$4;$5;$6;$7;$8;$9;${10}"
 
 tmp=$(mktemp)
 echo "$notification_item" >"$tmp"

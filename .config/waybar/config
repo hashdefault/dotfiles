@@ -64,9 +64,11 @@
     "interval": 1,
     "format": "{icon0}{icon1}{icon2}{icon3} {usage:>2}% 󰍛 ",
     "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
+    "on-click": "~/.local/bin/eww open --toggle storagemon --screen $(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')",
   },
   "memory" : {
     "format": "   {used} of {total}GiB",
+    "on-click": "~/.local/bin/eww open --toggle storagemon --screen $(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')",
   },
 	"battery": {
 		"format": "{capacity}% {icon}",

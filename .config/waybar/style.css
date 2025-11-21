@@ -1,6 +1,6 @@
 /* @import url('../../.cache/wal/colors-waybar.css'); */
 
- @import url('colors/DoomOne.css'); 
+@import url('colors/DoomOne.css');
 
 * {
   font-family: "JetBrains Mono Nerd Font", Font Awesome;
@@ -13,7 +13,7 @@ window#waybar {
   color: @foreground;
   transition-property: background-color;
   transition-duration: .5s;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 
 window#waybar.hidden {
@@ -100,7 +100,7 @@ button:hover {
   padding: 0 8px;
   margin: 1px 3px;
   color: @foreground;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 
 #custom-cava.Playing {
@@ -134,7 +134,7 @@ button:hover {
 #window,
 #workspaces {
   background-color: @background;
-  border-radius: 5px;
+  border-radius: 3px;
   margin: 1px 5px;
   padding: 0px 5px;
 }

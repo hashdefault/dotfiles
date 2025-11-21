@@ -253,10 +253,15 @@
 [log_notifs]
     script = ~/.config/dunst/scripts/dunst_logger.sh
 
-[messages]
-  appname = whatsapp-desktop-linux
-  new_icon = ~/.config/dunst/images/chat.svg
-
+#[whatsapp_icon_proxy]
+#    appname = whatsapp-desktop-linux
+#    skip_display = yes
+#    script = ~/.config/dunst/scripts/messaging_icon_proxy.sh
+#
+#[telegram_icon_proxy]
+#    desktop_entry = org.telegram.desktop
+#    skip_display = yes
+#    script = ~/.config/dunst/scripts/messaging_icon_proxy.sh
 
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
