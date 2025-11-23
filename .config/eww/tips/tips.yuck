@@ -1,26 +1,87 @@
 (defwidget tips []
-  (box :orientation "v" :halign "center" :valign "center"
+  (box :orientation "v" :halign "center" :valign "center" :space-evenly false :class "tips"
     (label :halign "center" :valign "center" :class "header" :text "Keybinds")
     (label :halign "start" :valign "center" :class "sep" :text " ")
-    (label :halign "start" :valign "center" :class "tip" :text "SUPER + SHIFT + Return       Terminal")
-    (label :halign "start" :valign "center" :class "tip" :text "SUPER + SHIFT + F       Files")
-    (label :halign "start" :valign "center" :class "tip" :text "SUPER + SHIFT + V       Clipboard")
-    (label :halign "start" :valign "center" :class "tip" :text "SUPER + SHIFT + N       Edit Notes")
-    (label :halign "start" :valign "center" :class "tip" :text "SUPER + SHIFT + C       Close window")
-    (label :halign "start" :valign "center" :class "tip" :text "SUPER + M       Profile Menu")
-    (label :halign "start" :valign "center" :class "tip" :text "SUPER + R       Rofi Menu")
-    (label :halign "start" :valign "center" :class "tip" :text "SUPER + B       Browser")
-    (label :halign "start" :valign "center" :class "tip" :text "SUPER + N       Notifications")
-    (label :halign "start" :valign "center" :class "tip" :text "SUPER + Q       Power Menu")
-    (label :halign "start" :valign "center" :class "tip" :text "SUPER + P       Screenshot")
+
+    (box :orientation "h" :halign "center" :valign "center" :class "box-text" :space-evenly false
+      (label :halign "start" :valign "center" :class "key" :text "SUPER + SHIFT + Return")
+      (label :halign "start" :valign "center" :class "tip" :text " Terminal")
+    )
+    (box :orientation "h" :halign "center" :valign "center"  :class "box-text" :space-evenly false
+      (label :halign "start" :valign "center" :class "key" :text "SUPER + SHIFT + F")
+      (label :halign "start" :valign "center" :class "tip" :text " Files")
+    )
+    (box :orientation "h" :halign "center" :valign "center" :class "box-text" :space-evenly false
+      (label :halign "start" :valign "center" :class "key" :text "SUPER + SHIFT + V")
+      (label :halign "start" :valign "center" :class "tip" :text " Clipboard")
+    )
+    (box :orientation "h" :halign "center" :valign "center" :class "box-text" :space-evenly false
+      (label :halign "start" :valign "center" :class "key" :text "SUPER + SHIFT + N")
+      (label :halign "start" :valign "center" :class "tip" :text " Edit Notes")
+    )
+    (box :orientation "h" :halign "center" :valign "center" :class "box-text" :space-evenly false
+      (label :halign "start" :valign "center" :class "key" :text "SUPER + SHIFT + C")
+      (label :halign "start" :valign "center" :class "tip" :text " Close Window")
+    )
+    (box :orientation "h" :halign "center" :valign "center" :class "box-text" :space-evenly false
+      (label :halign "start" :valign "center" :class "key" :text "SUPER + SHIFT + R")
+      (label :halign "start" :valign "center" :class "tip" :text " Reload Hyprland")
+    )
+    (box :orientation "h" :halign "center" :valign "center" :class "box-text" :space-evenly false
+      (label :halign "start" :valign "center" :class "key" :text "SUPER + SHIFT + Q")
+      (label :halign "start" :valign "center" :class "tip" :text " Logout")
+    )
+    (box :orientation "h" :halign "center" :valign "center" :class "box-text" :space-evenly false
+      (label :halign "start" :valign "center" :class "key" :text "SUPER + M")
+      (label :halign "start" :valign "center" :class "tip" :text " Profile Menu")
+    )
+    (box :orientation "h" :halign "center" :valign "center" :class "box-text" :space-evenly false
+      (label :halign "start" :valign "center" :class "key" :text "SUPER + R")
+      (label :halign "start" :valign "center" :class "tip" :text " Rofi Menu")
+    )
+    (box :orientation "h" :halign "center" :valign "center" :class "box-text" :space-evenly false
+      (label :halign "start" :valign "center" :class "key" :text "SUPER + B")
+      (label :halign "start" :valign "center" :class "tip" :text  " Browser")
+    )
+    (box :orientation "h" :halign "center" :valign "center" :class "box-text" :space-evenly false
+      (label :halign "start" :valign "center" :class "key" :text "SUPER + N")
+      (label :halign "start" :valign "center" :class "tip" :text " Notifications")
+    )
+    (box :orientation "h" :halign "center" :valign "center" :class "box-text" :space-evenly false
+      (label :halign "start" :valign "center" :class "key" :text "SUPER + Q")
+      (label :halign "start" :valign "center" :class "tip" :text " Power Menu")
+    )
+
+    (box :orientation "h" :halign "center" :valign "center" :class "box-text" :space-evenly false
+      (label :halign "start" :valign "center" :class "key" :text "SUPER + G")
+      (label :halign "start" :valign "center" :class "tip" :text " System Monitor")
+    )
+    (box :orientation "h" :halign "center" :valign "center" :class "box-text" :space-evenly false
+      (label :halign "start" :valign "center" :class "key" :text "SUPER + V")
+      (label :halign "start" :valign "center" :class "tip" :text " Volume I/O Control")
+    )
+
+    (box :orientation "h" :halign "center" :valign "center" :class "box-text" :space-evenly false
+      (label :halign "start" :valign "center" :class "key" :text "SUPER + H,L,K,J")
+      (label :halign "start" :valign "center" :class "tip" :text " Move Focus")
+    )
+    (box :orientation "h" :halign "center" :valign "center" :class "box-text" :space-evenly false
+      (label :halign "start" :valign "center" :class "key" :text "SUPER + O")
+      (label :halign "start" :valign "center" :class "tip" :text " Swap Workspaces")
+    )
+    (box :orientation "h" :halign "center" :valign "center" :class "box-text" :space-evenly false
+      (label :halign "start" :valign "center" :class "key" :text "Print")
+      (label :halign "start" :valign "center" :class "tip" :text " Screenshot")
+    )
   )
 )
 (defwindow tips
     :stacking "bg"
+    :monitor 0
     :geometry (geometry :x "50px"
-                        :y "200px"
-                        :height "400px"
-                        :width "350px"
+                        :y "100px"
+                        :height "520px"
+                        :width "380px"
                         :anchor "top left"
                 )
     (tips)

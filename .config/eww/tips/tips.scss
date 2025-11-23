@@ -3,16 +3,46 @@
 }
 
 .tips {
-  background-color: rgb(30, 30, 30, 0.6);
-  padding: 18px;
-  font-family: monospace;
+  background: linear-gradient(150deg, #0e141c 0%, #161c24 45%, #0f2230 100%);
+  padding: 28px 32px;
+  font-family: "Ubuntu Nerd Font";
+  border-radius: 16px;
+  color: #bbc2cf;
+  border: 1px solid rgba(91, 98, 104, 0.55);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.5);
+}
+
+.tip_super,
+.key {
+  margin: 0 10px 0 0;
+  padding: 6px 12px;
+  color: #e5f5ff;
+  background: linear-gradient(90deg, rgba(48, 113, 219, 0.35), rgba(81, 175, 239, 0.35));
+  border-radius: 12px;
+  border: 1px solid rgba(81, 175, 239, 0.35);
+  letter-spacing: 0.5px;
+  font-weight: 700;
 }
 
 .tip {
-  font-size: 14px;
-  padding: 5px;
+  font-size: 15px;
+  padding: 6px 0;
+  color: #e8eaf1;
 }
 
 .header {
-  font-size: 20px;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #ecbe7b;
+  padding-bottom: 6px;
+}
+.box-text {
+  min-width: 360px;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.box-text:last-child {
+  border-bottom: none;
 }
