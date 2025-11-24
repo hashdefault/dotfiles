@@ -1,8 +1,8 @@
 (defwidget calendar_full [] 
-     (box :orientation "v" :halign "center" :space-evenly "false" 
+     (box :orientation "v" :halign "center" :space-evenly "false" :class "calendar_full" 
         (box :class "calendar_title" "     ${day}, ${number_day} ${month_full} ${year_full}")
-        (box :class "calendar" 
-           (calendar :show-details "true")
+        (box :class "calendar_panel" 
+           (calendar :show-details "true" :class "calendar_grid")
 )))
 
 ;; Date vars
@@ -23,4 +23,3 @@
                          :anchor "top right"
                          )
         (calendar_full))
-

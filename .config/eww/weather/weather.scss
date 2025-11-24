@@ -1,51 +1,52 @@
-.weather-icon {
-  margin: 30px -20px 0px 60px;
+.weather {
+  padding: 16px;
+  border-radius: 10px;
+  background: linear-gradient(155deg, #0f1a26 0%, #0f1f2e 50%, #0f293a 100%);
+  border: 1px solid #1f2c3a;
+  color: #d7e6ff;
 }
 
-.weather {
-  border-radius: 15px;
+.weather-current {
+  padding: 10px 6px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #1f2c3a;
+}
+
+.weather-icon {
+  margin: 10px 12px 0px 6px;
+  padding: 6px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid #203248;
 }
 
 .weather-desc {
-  font-size: 25px;
-  font-weight: bold;
+  font-size: 22px;
+  font-weight: 700;
   font-family: 'Ubuntu Nerd Font';
-  margin: 0px 65px 0px 0px;
+  margin: 0px 24px 0px 4px;
+  color: #e3edff;
 }
 
 .temperature {
-  font-size: 35px;
+  font-size: 38px;
   font-weight: 900;
+  color: #6ec7ff;
 }
 
-
-.weather-prec-1,
-.weather-prec-2,
-.weather-prec-3,
-.weather-prec-4,
-.weather-prec-5 {
-  font-size: 15px;
-  color: rgb(80, 80, 230);
-  font-weight: bold;
+.weather-forecast {
+  padding: 10px 6px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 0.1px solid #223445;
 }
 
-.weather-temp-1,
-.weather-temp-2,
-.weather-temp-3,
-.weather-temp-4,
-.weather-temp-5 {
-  font-size: 16px;
-  padding: 10px;
-}
-
-.weather-icon-1,
-.weather-icon-2,
-.weather-icon-3,
-.weather-icon-4,
-.weather-icon-5 {
-  font-size: 35px;
-  padding: 5px;
-  margin-left: 10px;
+.weather-day {
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: rgba(15, 30, 45, 0.6);
+  border: 1px solid #223445;
+  margin: 0px 6px;
 }
 
 .weather-week-1,
@@ -54,20 +55,49 @@
 .weather-week-4,
 .weather-week-5 {
   font-size: 13px;
-  font-weight: bold;
-  padding: 5px;
-  margin: 0px 25px;
+  font-weight: 800;
+  padding: 4px;
+  color: #9fb3c7;
 }
 
+.weather-icon-1,
+.weather-icon-2,
+.weather-icon-3,
+.weather-icon-4,
+.weather-icon-5 {
+  font-size: 35px;
+  padding: 6px;
+  margin-left: 4px;
+}
+
+.weather-temp-1,
+.weather-temp-2,
+.weather-temp-3,
+.weather-temp-4,
+.weather-temp-5 {
+  font-size: 16px;
+  font-weight: 800;
+  padding: 6px;
+  color: #e3edff;
+}
+
+.weather-prec-1,
+.weather-prec-2,
+.weather-prec-3,
+.weather-prec-4,
+.weather-prec-5 {
+  font-size: 14px;
+  color: #6ec7ff;
+  font-weight: 700;
+}
 
 .weather-desc-1,
 .weather-desc-2,
 .weather-desc-3,
 .weather-desc-4,
 .weather-desc-5 {
-  font-size: 14px;
-  padding: 10px;
-  margin: 0px 10px;
-  margin-bottom: 10px;
-
+  font-size: 13px;
+  padding: 6px;
+  margin: 0px 4px 4px 4px;
+  color: #9fb3c7;
 }

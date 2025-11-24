@@ -1,0 +1,19 @@
+#!/bin/bash
+
+length="$(playerctl metadata mpris:length 2>/dev/null || echo 0)"
+
+if [[ -z "$length" ]] || ! [[ "$length" =~ ^[0-9]+$ ]]; then
+  echo "0:00"
+  exit 0
+fi
+
+if (( length <= 0 )); then
+  echo "0:00"
+  exit 0
+fi
+
+seconds=$((length / 1000000))
+minutes=$((seconds / 60))
+remaining=$((seconds % 60))
+
+printf "%d:%02d\n" "$minutes" "$remaining"

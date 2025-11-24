@@ -1,6 +1,6 @@
 (defwidget storagemon [] 
-  (box :space-evenly false :orientation "v"
-    (box :space-evenly false :halign "center" :valign "center" :orientation "h" :class "box-disks"
+  (box :space-evenly false :orientation "v" :class "storagemon"
+    (box :space-evenly false :halign "center" :valign "center" :orientation "h" :class "box-disks panel"
       (box :space-evenly false :halign "center" :valign "center" :class "storage" :orientation "v"
         (label :class "header-disk-description" :text "DISK" )
         (circular-progress :class "storage-graph" :value usage_percent_disk :start-at 0 :thickness 80 :clockwise true )
@@ -16,6 +16,10 @@
           (box :orientation "h"  :halign "center"  
             (label :halign "end" :class "disk-description-used" :text "Used:" )
             (label :halign "start" :class "disk-description-used number" :text "${useddisk} GiB" )
+          )
+          (box :orientation "h"  :halign "center"  
+            (label :halign "end" :class "disk-description-total" :text "Total:" )
+            (label :halign "start" :class "disk-description-total number" :text "${totaldisk} GiB" )
           )
         )
       )
@@ -35,7 +39,11 @@
               )
               (box :orientation "h"  :halign "center"  
                 (label  :halign "end"  :class "ram-description-used" :text "Used:" )
-                (label  :halign "start":class "ram-description-used number" :text "${usedram} GiB" )
+                (label  :halign "start" :class "ram-description-used number" :text "${usedram} GiB" )
+              )
+              (box :orientation "h"  :halign "center"  
+                (label  :halign "end"  :class "ram-description-total" :text "Total:" )
+                (label  :halign "start" :class "ram-description-total number" :text "${totalram} GiB" )
               )
             )
           )
@@ -62,7 +70,7 @@
         )
       )
     )
-    (box :width 500 :orientation "v" :space-evenly false :class "box-disks proc"
+    (box :width 500 :orientation "v" :space-evenly false :class "box-disks proc panel"
       (label :text "Process" :class "proc-title")
     (box :width 500 :orientation "h"  :class "proc-header"  :halign "center" :valign "center"
       (label :halign "start" :justify "left"   :text "PID" :class "proc-header-desc")

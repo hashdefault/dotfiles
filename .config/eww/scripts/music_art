@@ -1,0 +1,10 @@
+#!/bin/bash
+
+fallback="/home/lucas/.config/eww/images/music.png"
+art="$(playerctl metadata mpris:artUrl 2>/dev/null | sed 's|file://||' | tr -d '\n')"
+
+if [[ -n "$art" && -f "$art" ]]; then
+  printf "%s" "$art"
+else
+  printf "%s" "$fallback"
+fi

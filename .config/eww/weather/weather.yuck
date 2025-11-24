@@ -1,39 +1,39 @@
 (defwidget weather [] 
-  (box :orientation "v" :space-evenly "false" 
-    (box :orientation "h" :space-evenly "false" 
+  (box :orientation "v" :space-evenly "false" :class "weather" 
+    (box :orientation "h" :space-evenly "false" :class "weather-current"
       (image :class "weather-icon" :path {weather-icon} :image-width 120 )
       (box :class "weather-desc" {weather-desc})
       (box :class "temperature" "${temperature}  "))
-    (box :orientation "h" :space-evenly "false" 
-      (box :orientation "v" :space-evenly "false" 
+    (box :orientation "h" :space-evenly "false" :class "weather-forecast"
+      (box :orientation "v" :space-evenly "false" :class "weather-day"
         (box :class "weather-week-1" {weather-week-1})
         (image :class "weather-icon-1" :path {weather-icon-1} :image-width 70)
         (box :class "weather-temp-1"  {weather-temp-1})
         (box :class "weather-prec-1"  {weather-prec-1})
         (box :class "weather-desc-1"  {weather-desc-1})
       )
-      (box :orientation "v" :space-evenly "false" 
+      (box :orientation "v" :space-evenly "false" :class "weather-day"
         (box :class "weather-week-2" {weather-week-2})
         (image :class "weather-icon-2" :path {weather-icon-2} :image-width 70)
         (box :class "weather-temp-2" {weather-temp-2})
         (box :class "weather-prec-2" {weather-prec-2})
         (box :class "weather-desc-2" {weather-desc-2})
       )
-      (box :orientation "v" :space-evenly "false" 
+      (box :orientation "v" :space-evenly "false" :class "weather-day"
         (box :class "weather-week-3" {weather-week-3})
         (image :class "weather-icon-3" :path {weather-icon-3} :image-width 70)
         (box :class "weather-temp-3" {weather-temp-3})
         (box :class "weather-prec-3" {weather-prec-3})
         (box :class "weather-desc-3" {weather-desc-3})
       )
-      (box :orientation "v" :space-evenly "false" 
+      (box :orientation "v" :space-evenly "false" :class "weather-day"
         (box :class "weather-week-4" {weather-week-4})
         (image :class "weather-icon-4" :path {weather-icon-4} :image-width 70)
         (box :class "weather-temp-4" {weather-temp-4})
         (box :class "weather-prec-4" {weather-prec-4})
         (box :class "weather-desc-4" {weather-desc-4})
       )
-      (box :orientation "v" :space-evenly "false" 
+      (box :orientation "v" :space-evenly "false" :class "weather-day"
         (box :class "weather-week-5" {weather-week-5})
         (image :class "weather-icon-5" :path {weather-icon-5} :image-width 70)
         (box :class "weather-temp-5" {weather-temp-5})
