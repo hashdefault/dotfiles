@@ -5,8 +5,16 @@
   font-family: 'Ubuntu Nerd Font';
 }
 
+.sidemenu:last-child {
+  border: 1px solid #1f2c3a;
+}
+
 .sidemenu {
   margin: 20px 0px;
+  padding: 14px;
+  border-radius: 16px;
+  background: linear-gradient(150deg, #0e141c 0%, #161c24 45%, #0f2230 100%);
+  color: #d7e6ff;
 
   .buttons-space {
     .button-item {
@@ -40,35 +48,39 @@
   }
 
   .profile-label-time {
-    color: rgb(190, 230, 230);
+    color: #6ec7ff;
     font-size: 35px;
     font-family: "Hack";
   }
 
   .profile-desc {
-    color: rgb(190, 230, 230);
-    padding: 5px 0px;
+    color: #d7e6ff;
+    padding: 6px 0px;
     font-size: 16px;
-    margin: 0px 10px;
-    margin-left: 50px;
+    margin: 0px 14px;
+    margin-left: 40px;
     font-family: "Hack";
   }
 
   .box-profile {
     font-weight: bold;
-    margin: 20px 20px 10px 50px;
+    margin: 20px 12px 10px 12px;
+    padding: 10px 12px;
+    border: 1px solid #223445;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.02);
   }
 
 
   .profile-img {
-    border: 5px solid rgb(180, 220, 220);
+    border: 4px solid #6ec7ff;
     border-radius: 50%;
   }
 
 
   .power-menu-side {
     font-size: 28px;
-    font-weight:700;
+    font-weight: 700;
     font-family: "Ubuntu Nerd Font";
 
     eventbox {
@@ -79,51 +91,21 @@
 
     button {
       all: unset;
-      border: 4px solid rgb(180, 220, 220);
-      border-radius: 18px;
-      padding:10px;
-      margin:25px 15px;
+      border: 2px solid #223445;
+      border-radius: 14px;
+      padding: 10px;
+      margin: 18px 10px;
+      background: rgba(255, 255, 255, 0.04);
+      color: #e3edff;
     }
 
     button:hover {
-      background-color: rgb(60, 60, 60);
+      background-color: rgba(110, 199, 255, 0.15);
       transition: background .2s ease-in-out;
     }
   }
 
   border-radius: 15px;
-
-  scale.night-light.disabled {
-    opacity: 0;
-  }
-
-  scale.night-light {
-    margin-left: 3px;
-    transition: opacity 0.3s ease-in-out;
-    opacity: 1;
-    margin-bottom: 10px;
-    margin-top: 5px;
-
-    trough {
-      padding: 0px;
-      border-radius: 10px;
-      background-color: rgb(100, 100, 90);
-
-      slider {
-        all: unset;
-        background-color: rgb(200, 200, 200);
-      }
-
-      highlight {
-        all: unset;
-        padding: 5px;
-        border-radius: 10px;
-        background-color: rgb(220, 220, 200);
-
-      }
-
-    }
-  }
 
   .box-label {
 
@@ -156,12 +138,17 @@
       margin: 15px 0px 5px 0px;
       font-size: 20px;
       padding: 12px;
-      background-color: rgb(70, 70, 70);
+      background-color: rgba(255, 255, 255, 0.04);
+      border: 1px solid #223445;
+      color: #d7e6ff;
     }
 
     .button-wifi.active,
     .button-wifi-arrow.active {
-      background-color: rgb(100, 180, 180);
+      background: linear-gradient(130deg, #6fc4ff 0%, #6b8cff 100%);
+      color: #0c1826;
+      border-color: rgba(111, 196, 255, 0.85);
+      box-shadow: 0 0 8px rgba(111, 196, 255, 0.35), 0 0 14px rgba(107, 140, 255, 0.3);
     }
   }
 
@@ -190,12 +177,17 @@
       margin: 15px 0px 5px 0px;
       font-size: 20px;
       padding: 12px;
-      background-color: rgb(70, 70, 70);
+      background-color: rgba(255, 255, 255, 0.04);
+      border: 1px solid #223445;
+      color: #d7e6ff;
     }
 
     .button-bluetooth.active,
     .button-bluetooth-arrow.active {
-      background-color: rgb(100, 180, 180);
+      background: linear-gradient(135deg, #6fc4ff 0%, #6b8cff 100%);
+      color: #0c1826;
+      border-color: rgba(111, 196, 255, 0.85);
+      box-shadow: 0 0 8px rgba(111, 196, 255, 0.35), 0 0 14px rgba(107, 140, 255, 0.3);
     }
   }
 
@@ -224,12 +216,17 @@
       margin: 15px 0px 5px 0px;
       font-size: 20px;
       padding: 12px;
-      background-color: rgb(70, 70, 70);
+      background-color: rgba(255, 255, 255, 0.04);
+      border: 1px solid #223445;
+      color: #d7e6ff;
     }
 
     .button-not_disturb.active,
     .button-not_disturb-arrow.active {
-      background-color: rgb(100, 180, 180);
+      background: linear-gradient(135deg, #6fc4ff 0%, #6b8cff 100%);
+      color: #0c1826;
+      border-color: rgba(111, 196, 255, 0.85);
+      box-shadow: 0 0 8px rgba(111, 196, 255, 0.35), 0 0 14px rgba(107, 140, 255, 0.3);
     }
   }
 
@@ -257,12 +254,17 @@
       margin: 15px 0px 5px 0px;
       font-size: 20px;
       padding: 12px;
-      background-color: rgb(70, 70, 70);
+      background-color: rgba(255, 255, 255, 0.04);
+      border: 1px solid #223445;
+      color: #d7e6ff;
     }
 
     .button-nightlight.active,
     .button-nightlight-arrow.active {
-      background-color: rgb(100, 180, 180);
+      background: linear-gradient(135deg, #6fc4ff 0%, #6b8cff 100%);
+      color: #0c1826;
+      border-color: rgba(111, 196, 255, 0.85);
+      box-shadow: 0 0 8px rgba(111, 196, 255, 0.35), 0 0 14px rgba(107, 140, 255, 0.3);
     }
   }
 }

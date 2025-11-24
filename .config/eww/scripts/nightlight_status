@@ -1,34 +1,32 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+# Report whether hyprsunset (nightlight) is currently running.
 
-choose_state_dir() {
-  local base1="${XDG_CACHE_HOME:-$HOME/.cache}/eww"
-  local base2="${XDG_STATE_HOME:-$HOME/.local/state}/eww"
-  local base3="/tmp/eww-${USER:-$(id -u)}"
-  for d in "$base1" "$base2" "$base3"; do
-    mkdir -p "$d" 2>/dev/null || true
-    if ( : >"$d/.write_test" ) 2>/dev/null; then
-      rm -f "$d/.write_test" 2>/dev/null || true
-      echo "$d"
-      return
-    fi
-  done
-  echo "$base3"
-}
+STATE_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/nightlight.state"
+PID_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/hyprsunset.pid"
 
-state_on="$(choose_state_dir)/nightlight_on"
-if [[ -f "$state_on" ]]; then
-  val=$(cat "$state_on" 2>/dev/null || echo false)
-  if [[ "$val" == "true" ]]; then
-    echo true
-    exit 0
+status="false"
+
+if [[ -f "$PID_FILE" ]]; then
+  read -r pid <"$PID_FILE"
+  if [[ "$pid" =~ ^[0-9]+$ ]] && kill -0 "$pid" 2>/dev/null; then
+    status="true"
+  else
+    rm -f "$PID_FILE"
   fi
 fi
 
-# Fallback to process heuristics if no state known
-if pgrep -x hyprsunset >/dev/null 2>&1; then echo true; exit 0; fi
-if pgrep -x redshift >/dev/null 2>&1; then echo true; exit 0; fi
-if pgrep -x gammastep >/dev/null 2>&1; then echo true; exit 0; fi
+# Fallback to a process search in case the PID file was lost.
+if [[ "$status" == "false" ]] && pgrep -x hyprsunset >/dev/null 2>&1; then
+  status="true"
+fi
 
-echo false
+mkdir -p "$(dirname "$STATE_FILE")"
+
+if [[ "$status" == "true" ]]; then
+  echo "on" >"$STATE_FILE"
+  echo "true"
+else
+  echo "off" >"$STATE_FILE"
+  echo "false"
+fi

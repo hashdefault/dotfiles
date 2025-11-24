@@ -1,23 +1,60 @@
 .powermenu {
-  border-radius: 15px;
-  background-color: rgb(30, 30, 30);
-  padding: 10px;
+  padding: 14px 10px;
+  border-radius: 14px;
+  background: linear-gradient(150deg, #0e141c 0%, #161c24 45%, #0f2230 100%);
+  border: 1px solid #1f2c3a;
+  color: #d7e6ff;
+}
+
+.power-item {
+  padding: 8px 6px;
+  margin: 6px 0;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(34, 52, 69, 0.9);
+}
+
+.hover-power-btn {
+  border-radius: 10px;
 }
 
 .hover-power-btn:hover {
-  color: rgb(100, 200, 200);
+  background: linear-gradient(135deg, rgba(143, 233, 182, 0.16), rgba(99, 163, 255, 0.08));
+  color: #8fe9b6;
 }
 
-.reboot-button,
-.logout-button,
-.suspend-button,
-.power-button {
-  font-size: 30px;
-  margin-top: 5px;
+.power-item:hover {
+  border-color: #3a5368;
 }
 
+.power-button,
 .reboot-button,
 .logout-button,
 .suspend-button {
-  margin-top: 20px;
+  font-size: 30px;
+  margin: 6px 0 2px 0;
+  padding: 8px 0;
+  color: #e3edff;
+  background: linear-gradient(140deg, rgba(143, 233, 182, 0.18), rgba(99, 163, 255, 0.08));
+  border: 1px solid rgba(143, 233, 182, 0.22);
+  border-radius: 12px;
+  min-width: 52px;
+}
+
+.hover-power-btn:hover .power-button,
+.hover-power-btn:hover .reboot-button,
+.hover-power-btn:hover .logout-button,
+.hover-power-btn:hover .suspend-button {
+  color: #b6ffe1;
+  border-color: rgba(143, 233, 182, 0.45);
+}
+
+.power-description,
+.reboot-description,
+.logout-description,
+.suspend-description {
+  font-size: 13px;
+  color: #9fb3c7;
+  margin-top: 3px;
+  opacity: 0.9;
 }

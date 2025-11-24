@@ -1,125 +1,74 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+# Toggle Hyprsunset on/off, tracking state locally for the "nightlight" toggle.
 
-# Determine backend
-backend=""
-if command -v hyprsunset >/dev/null 2>&1; then
-  backend="hyprsunset"
-elif command -v redshift >/dev/null 2>&1; then
-  backend="redshift"
-elif command -v gammastep >/dev/null 2>&1; then
-  backend="gammastep"
+STATE_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/nightlight.state"
+PID_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/hyprsunset.pid"
+TEMP="${HYPRSUNSET_TEMP:-4200}"
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+ICON_ON="$SCRIPT_DIR/../images/lamp.svg"
+ICON_OFF="$SCRIPT_DIR/../images/lamp-off.svg"
+
+command -v hyprsunset >/dev/null 2>&1 || {
+  echo "hyprsunset not found" >&2
+  exit 1
+}
+
+mkdir -p "$(dirname "$STATE_FILE")"
+
+if [[ -f "$STATE_FILE" ]]; then
+  read -r CURRENT_STATE <"$STATE_FILE"
+else
+  CURRENT_STATE="off"
 fi
 
-# Resolve a writable state directory with fallbacks
-choose_state_dir() {
-  local base1="${XDG_CACHE_HOME:-$HOME/.cache}/eww"
-  local base2="${XDG_STATE_HOME:-$HOME/.local/state}/eww"
-  local base3="/tmp/eww-${USER:-$(id -u)}"
-  for d in "$base1" "$base2" "$base3"; do
-    mkdir -p "$d" 2>/dev/null || true
-    if ( : >"$d/.write_test" ) 2>/dev/null; then
-      rm -f "$d/.write_test" 2>/dev/null || true
-      echo "$d"
-      return
+stop_hyprsunset() {
+  if [[ -f "$PID_FILE" ]]; then
+    read -r pid <"$PID_FILE"
+    if [[ "$pid" =~ ^[0-9]+$ ]] && kill -0 "$pid" 2>/dev/null; then
+      kill "$pid" 2>/dev/null
+      wait "$pid" 2>/dev/null
     fi
-  done
-  echo "$base3"
-}
-
-state_dir=$(choose_state_dir)
-state_on="$state_dir/nightlight_on"
-state_temp="$state_dir/nightlight_temp"
-
-notify() {
-  # best-effort notify; ignore errors if dunstify isn't present
-  if command -v dunstify >/dev/null 2>&1; then
-    dunstify -i "$1" -a "Night light" "Night Light" "$2" || true
+    rm -f "$PID_FILE"
   fi
 }
 
-read_state() {
-  local on="false" temp="4500"
-  [[ -f "$state_on" ]] && on=$(cat "$state_on" 2>/dev/null || echo false)
-  [[ -f "$state_temp" ]] && temp=$(cat "$state_temp" 2>/dev/null || echo 4500)
-  echo "$on" "$temp"
+start_hyprsunset() {
+  hyprsunset --temperature "$TEMP" >/dev/null 2>&1 &
+  local pid=$!
+  echo "$pid" >"$PID_FILE"
+  # confirm the process stuck around so the script can exit immediately
+  sleep 0.1
+  if kill -0 "$pid" 2>/dev/null; then
+    disown "$pid" 2>/dev/null || true
+    return 0
+  fi
+
+  rm -f "$PID_FILE"
+  return 1
 }
 
-write_state() {
-  echo "$1" >"$state_on" 2>/dev/null || true
-  echo "$2" >"$state_temp" 2>/dev/null || true
+send_notification() {
+  # Best effort notify; skip if notify-send is not available.
+  command -v notify-send >/dev/null 2>&1 || return 0
+  local state="$1"
+  local icon="$2"
+  notify-send -i "$icon" "Night light $state"
 }
 
-apply_temp() {
-  local t="$1"
-  case "$backend" in
-    hyprsunset)
-      # Set immediate color temperature (persists until changed/reset)
-      hyprsunset -t "$t" >/dev/null 2>&1 || true
-      ;;
-    redshift)
-      # Persisted one-shot
-      redshift -P -O "$t" >/dev/null 2>&1 || true
-      ;;
-    gammastep)
-      gammastep -P -O "$t" >/dev/null 2>&1 || true
-      ;;
-    *)
-      # No backend; do nothing but keep state so UI is consistent
-      ;;
-  esac
-}
-
-reset_temp() {
-  case "$backend" in
-    hyprsunset)
-      # Reset to neutral 6500K
-      hyprsunset -t 6500 >/dev/null 2>&1 || true
-      ;;
-    redshift)
-      redshift -x >/dev/null 2>&1 || true
-      ;;
-    gammastep)
-      gammastep -x >/dev/null 2>&1 || true
-      ;;
-    *) ;;
-  esac
-}
-
-cmd=${1:-}
-
-# Toggle handler uses state file instead of process detection
-if [[ "$cmd" == "--toggle" ]]; then
-  read -r is_on cur_temp < <(read_state)
-  if [[ "$is_on" == "true" ]]; then
-    reset_temp
-    write_state "false" "$cur_temp"
-    notify "$HOME/.config/eww/images/lamp-off.svg" "OFF"
+if [[ "$CURRENT_STATE" == "on" ]]; then
+  stop_hyprsunset
+  echo "off" >"$STATE_FILE"
+  send_notification "off" "$ICON_OFF"
+  echo "off"
+else
+  stop_hyprsunset
+  if start_hyprsunset; then
+    echo "on" >"$STATE_FILE"
+    send_notification "on" "$ICON_ON"
+    echo "on"
   else
-    # Use last temperature or default to 4500
-    t=${cur_temp:-4500}
-    apply_temp "$t"
-    write_state "true" "$t"
-    notify "$HOME/.config/eww/images/lamp.svg" "ON"
+    echo "failed to enable nightlight" >&2
+    exit 1
   fi
-  exit 0
 fi
-
-# Slider value: expect Kelvin integer
-val=${1:-}
-if [[ -z "${val}" ]]; then
-  exit 0
-fi
-if ! [[ "$val" =~ ^[0-9]+$ ]]; then
-  exit 0
-fi
-if (( val < 1000 || val > 10000 )); then
-  # Guardrail: ignore obviously invalid ranges
-  exit 0
-fi
-
-temperature="$val"
-apply_temp "$temperature"
-# Setting temperature implies ON
-write_state "true" "$temperature"

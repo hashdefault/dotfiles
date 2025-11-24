@@ -20,14 +20,7 @@
           (label :class "seperator"  :text "|")
             (button :class {nightlight_active ?  "button-nightlight-arrow active":"button-nightlight-arrow"} :onclick "~/.config/eww/scripts/nightlight --toggle" ""  ))
         (box :class "box-label"  :orientation "v" 
-          (label :class "nightlight-label"  :text "Night Light")
-          (scale
-            :orientation "h"
-            :class {nightlight_active ?  "night-light":"night-light disabled"}
-            :min 3000
-            :max 6500
-            :value nightlight_temp
-            :onchange "~/.config/eww/scripts/nightlight {}")))
+          (label :class "nightlight-label"  :text "Night Light")))
       (box :space-evenly false :orientation "v" 
           (box :space-evenly false :class  "box-wifi-buttons" :orientation "h"  :valign "center" :halign "center"
             (button  :class {wifi_active ?  "button-wifi active":"button-wifi"} :onclick "~/.config/eww/scripts/wifi --toggle" {wifi_active ? "󰖩" : "󰖪" })
@@ -77,9 +70,6 @@
 (defpoll bluetooth_active :interval "1s" "~/.config/eww/scripts/getbluetooth")
 (defpoll wifi_active :interval "2s" "~/.config/eww/scripts/wifi --is-on")
 (defpoll not_disturb_active :interval "1s" "dunstctl is-paused")
-
-;; Night light temperature (Kelvin) for the slider value
-(defpoll nightlight_temp :interval "500ms" "~/.config/eww/scripts/getnightlighttemp")
 
 (defwindow sidemenu
 	    :geometry (geometry  :x "10px" 

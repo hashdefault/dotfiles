@@ -1,89 +1,106 @@
 .musicplayer {
-  border-radius: 15px;
-  background-color: #191919;
+  padding: 14px;
+  border-radius: 16px;
+  background: linear-gradient(160deg, #0d1620 0%, #101b27 45%, #0f2434 100%);
+  border: 1px solid #1f2c3a;
+  color: #d7e6ff;
 }
 
-.music-main-box {
-  background-color: transparent;
+.box-music-player {
+  color: #e3edff;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid #223445;
+  border-radius: 14px;
+  padding: 12px 10px;
+}
+
+.music-art {
+  margin-top: 6px;
+  border: 4px solid rgba(110, 199, 255, 0.8);
+  border-radius: 10px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.box-music-info {
+  color: #d7e6ff;
+  padding: 12px 10px;
+  border-radius: 10px;
+}
+
+.music-artist {
+  font-size: 18px;
+  margin: 2px 0px;
+  font-weight: 700;
+}
+
+.music-title {
+  font-size: 15px;
+  margin: 2px 0px;
+  color: #9fb3c7;
+}
+
+.music-album {
+  font-size: 13px;
+  margin: 2px 0px;
+  color: #8fe9b6;
+}
+
+.current-time-friendly {
+  font-size: 11px;
+  margin: -6px 0px 0px 0px;
+  padding: 0;
+  color: #9fb3c7;
+}
+
+scale.music-duration-scale {
+  margin: 10px 12px;
+
+  trough {
+    border-radius: 10px;
+    background-color: #1b2b3b;
+    min-height: 10px;
+
+    slider {
+      all: unset;
+      background-color: #e3edff;
+      border-radius: 8px;
+      min-width: 12px;
+      min-height: 12px;
+    }
+
+    highlight {
+      all: unset;
+      min-height: 10px;
+      border-radius: 10px;
+      background-color: #6ec7ff;
+
+    }
+
+  }
 }
 
 .box-music-buttons {
   background-color: transparent;
   font-size: 50px;
-  color: rgb(120, 220, 200);
+  color: #6ec7ff;
+  margin-top: 6px;
 
   eventbox {
     background-color: transparent;
   }
 
   button {
-    background-color: transparent;
-    padding: 10px 15px;
+    background-color: rgba(255, 255, 255, 0.02);
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 1px solid #223445;
+    margin: 0 6px;
   }
 
   .music-button-play-pause {
     font-size: 60px;
-  }
-}
-
-
-
-.box-music-player {
-  color: white;
-}
-
-.music-art {
-  margin-top: 10px;
-  border: 5px solid rgba(120, 220, 200, 0.9);
-  border-radius: 5px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
-
-
-
-.box-music-info {
-  color: #ddd;
-  padding: 15px;
-}
-
-.music-artist {
-  font-size: 20px;
-  margin: 2px 0px;
-}
-
-.music-title {
-  font-size: 15px;
-  padding: 0 50px;
-  margin: 2px 0px;
-}
-
-.current-time-friendly {
-  font-size: 10px;
-  margin: -10px 60px;
-  padding: 0;
-}
-
-scale.music-duration-scale {
-  margin: 10px 50px;
-
-  trough {
-    border-radius: 10px;
-    background-color: rgb(100, 100, 90);
-
-    slider {
-      all:unset;
-      background-color: rgb(200, 200, 200);
-    }
-
-    highlight {
-      all: unset;
-      padding: 5px;
-      border-radius: 10px;
-      background-color: rgb(120, 220, 200);
-
-    }
-
+    color: #8fe9b6;
   }
 }
