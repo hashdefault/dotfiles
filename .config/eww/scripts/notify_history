@@ -64,7 +64,7 @@ fi
 
 echo '(box :orientation "v" :class "notification-box-content" :space-evenly false'
 if [[ -z "$literal" ]]; then
-  echo ' (label :text "No notifications." :class "no-notif" )'
+  echo ' (label :text "No notifications." :class "no-notif" :halign "center")'
 else
   echo "$literal"
 fi

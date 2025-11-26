@@ -1,18 +1,20 @@
-(defwidget notifications [] 
-    (box :space-evenly "false" :class "notifications-menu-side" :orientation "v"  
-      (box :class "notifications-menu-header" :orientation "h" :valign "center" 
+(defwidget notifications []
+  (box :space-evenly "false" :class "notifications-menu-side" :orientation "v" :spacing 12
+    (box :class "notifications-menu-header" :orientation "h" :valign "center" :space-evenly false :spacing 6
+      (box :orientation "v" :halign "start" :spacing 2 :hexpand true
         (label :halign "start" :text "Notifications" :class "notification-title")
-          (eventbox  :halign "end" :class "clear-history-button-event" :cursor "pointer"
-            (button :tooltip "Clear all history" :class "clear-history-button" :onclick "dunstctl history-clear && : > /tmp/dunstlog " "󰩺")))
-      (scroll :vscroll true :class "notification-scroll"
-        (literal  :content notification ))))
+        (label :halign "start" :text "Recent alerts & history" :class "notification-subtitle"))
+      (box :hexpand true)
+      (eventbox :halign "end" :class "clear-history-button-event" :cursor "pointer"
+        (button :tooltip "Clear all history" :class "clear-history-button" :onclick "dunstctl history-clear && : > /tmp/dunstlog " "󰩺 Clear")))
+    (scroll :vscroll true :class "notification-scroll"
+      (literal :content notification))))
 
 ;; Notification vars
 (defpoll  notification  :interval "300ms" "~/.config/eww/scripts/notify_history")
 
-(defwindow notifications 
-	    :geometry (geometry  :width "380px"
-                           :height "750px"
-                           :anchor "top center"
-                           )
-	     				(notifications))
+(defwindow notifications
+  :geometry (geometry :width "380px"
+                      :height "750px"
+                      :anchor "top center")
+  (notifications))

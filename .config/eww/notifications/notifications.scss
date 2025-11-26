@@ -1,128 +1,147 @@
 .notifications {
-  border-radius: 15px;
+  border-radius: 10px;
+  background: transparent;
 }
 
 .notifications-menu-side {
   min-height: 680px;
-  margin: 10px;
-
-  .notification-box-content {
-    margin: 5px;
-  }
+  min-width: 400px;
+  margin: 14px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #1f2c3a;
+  background: linear-gradient(150deg, #0e141c 0%, #161c24 45%, #0f2230 100%);
+  color: #d7e6ff;
 
   .notification-scroll {
-    min-height: 700px;
+    min-height: 660px;
+    padding: 8px 6px 4px;
+    margin: 4px 2px 0px 2px;
+    border-radius: 12px;
+    border: 1px solid #223445;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .notification-box-content {
+    margin: 2px 0px;
   }
 
   .no-notif {
-    font-size: 15px;
-    margin-top: 20px;
+    font-size: 14px;
+    margin: 12px 0;
+    color: #9fb3c7;
   }
 
-  .notif-line-icon-screen {
-    border-radius: 5px;
+  .notifications-menu-header {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 10px 12px;
+    margin: 0px 2px 6px 2px;
+    border-radius: 12px;
+    border: 1px solid #223445;
 
-    .icon-notif-screenshot {
-      margin: 8px;
-      border-radius: 5px;
+    .notification-title {
+      color: #e3edff;
+      font-size: 20px;
+      font-weight: 800;
     }
 
-
-
-    .buttons-screenshot {
-      padding: 10px;
-
+    .notification-subtitle {
+      color: #9fb3c7;
+      font-size: 12px;
+      margin-top: 2px;
     }
 
-    .notif-screen-button-delete {
-      padding: 12px;
-      border-radius: 5px;
-      background-color: rgb(230, 100, 100);
-      margin: 3px 45px;
-      color: rgb(250, 250, 220);
-      font-weight: bold;
+    .clear-history-button {
+      font-size: 13px;
+      color: #e3edff;
+      background: linear-gradient(135deg, rgba(143, 233, 182, 0.18), rgba(99, 163, 255, 0.08));
+      border: 1px solid rgba(143, 233, 182, 0.22);
+      padding: 6px 12px;
+      border-radius: 10px;
     }
-
-    .notif-screen-button-open {
-      padding: 12px;
-      margin: 3px 45px;
-      border-radius: 5px;
-      background-color: rgb(100, 200, 200);
-      color: rgb(250, 250, 220);
-      font-weight: bold;
-
-    }
-
 
   }
 
-  .notif-line-icon {
-    margin: 10px;
-  }
-
-  .icon-notif {
-    border-radius: 5px;
-    border: 5px solid rgb(100, 200, 200, 0.4);
-  }
-
-  .box-labels-notif {
-    padding: 20px;
+  .notif-item {
+    margin: 8px 4px;
+    border-radius: 12px;
+    border: 1px solid #223445;
+    background: linear-gradient(165deg, rgba(255, 255, 255, 0.02), rgba(12, 24, 38, 0.82));
+    border-left: 3px solid #6ec7ff;
   }
 
   .notif-item-header {
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
-
-
-    background-color: rgba(80, 150, 150, 0.1);
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.03);
     font-weight: bold;
-    color: rgb(250, 250, 220);
-    padding: 3px;
+    color: #e3edff;
+    padding: 8px 10px;
+    border-bottom: 1px solid #223445;
 
     .notif-dismiss-button {
-      font-size: 20px;
+      font-size: 18px;
       background-color: transparent;
-      color: rgb(200, 100, 100);
+      color: rgb(230, 130, 130);
     }
-
   }
 
+  .notif-line-icon {
+    margin: 10px 12px 14px;
+  }
 
-  .notif-item {
-    border-radius: 5px;
-    margin: 10px 5px;
-    background-color: rgb(40, 40, 40, 0.9);
+  .icon-notif {
+    border-radius: 10px;
+    border: 3px solid rgba(110, 199, 255, 0.5);
+  }
+
+  .box-labels-notif {
+    padding: 8px 0px;
   }
 
   .notification-item-title {
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 10px;
+    font-weight: 800;
+    color: #e3edff;
   }
-
-
 
   .notification-message {
-    font-size: 14px;
+    font-size: 13px;
+    color: #9fb3c7;
   }
 
+  .notif-line-icon-screen {
+    border-radius: 10px;
+    padding: 10px 12px 14px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid #223445;
+    margin: 8px 10px 14px;
 
-  .notifications-menu-header {
-    background-color: rgb(60, 60, 60, 0.5);
-    padding: 5px 10px;
-    margin: 0px 5px;
-    border-radius: 5px;
+    .icon-notif-screenshot {
+      margin: 8px;
+      border-radius: 8px;
+    }
 
-    .clear-history-button {
-      font-size: 25px;
-      color: rgb(200, 200, 200, 0.6);
-      background-color: transparent;
+    .buttons-screenshot {
+      padding: 10px;
+    }
+
+    .notif-screen-button-delete,
+    .notif-screen-button-open {
+      padding: 10px 16px;
+      border-radius: 8px;
+      color: rgb(250, 250, 220);
+      font-weight: bold;
+      border: 1px solid #223445;
+    }
+
+    .notif-screen-button-delete {
+      background-color: rgb(230, 100, 100);
+    }
+
+    .notif-screen-button-open {
+      background-color: rgb(100, 200, 200);
+      color: rgb(20, 30, 40);
     }
   }
-
-  .notification-title {
-    color: rgba(190, 230, 230, 0.9);
-    font-size: 22px;
-    font-weight: bold;
-  }
-
 }
