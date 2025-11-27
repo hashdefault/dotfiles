@@ -78,11 +78,11 @@
 (defwindow tips
     :stacking "bg"
     :monitor 1
-    :geometry (geometry :x "1450px"
+    :geometry (geometry :x "50px"
                         :y "100px"
-                        :height "520px"
                         :width "380px"
-                        :anchor "top left"
+                        :height "520px"
+                        :anchor "top right"
                 )
     (tips)
 )

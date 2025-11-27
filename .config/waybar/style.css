@@ -22,10 +22,6 @@ window#waybar.hidden {
 }
 
 
-window#waybar.termite {
-  background-color: #3F3F3F;
-}
-
 window#waybar.chromium {
   background-color: #1c1f24;
   border: none;
@@ -48,13 +44,11 @@ button:hover {
 }
 
 #workspaces button:not(.empty):not(.active):not(.visible) {
-  border-top: 2px @color2;
-  background: linear-gradient(
-  to top,
-  @background 0%,
-  @background 88%,
-  #fffffb 100%
-);
+  border-radius: 1px;
+  background: linear-gradient(to top,
+      @background 0%,
+      @background 85%,
+      #bbdbdf 100%);
 
 }
 
@@ -62,7 +56,7 @@ button:hover {
   padding: 0 5px;
   margin: 0px 1px;
   color: @foreground;
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 #workspaces button:hover {
@@ -73,14 +67,13 @@ button:hover {
 #workspaces button.active {
   font-weight: bolder;
   color: @color2;
-}
-
-#workspaces button.active.visible {
   background-color: rgb(60, 60, 60);
 }
 
+
+
 #workspaces button.visible {
-  background-color: rgb(25, 25, 25);
+  background-color: rgb(60, 60, 60);
 }
 
 #workspaces button.urgent {
@@ -139,11 +132,10 @@ button:hover {
 }
 
 #custom-playerctl {
-  background-color: #66cc99;
-  color: #2a5c45;
+  background-color: @color11;
+  color: rgba(0, 0, 0, 0.7);
   min-width: 100px;
-  font-weight: normal;
-
+  font-weight: bold;
 }
 
 
@@ -279,14 +271,14 @@ label:focus {
 }
 
 #custom-media {
-  background-color: #66cc99;
-  color: #2a5c45;
+  background-color: @color10;
+  color: black;
   min-width: 100px;
   background-color: @background;
 }
 
 #custom-media.custom-spotify {
-  background-color: #66cc99;
+  background-color: @color10;
 }
 
 #custom-media.custom-vlc {
@@ -327,8 +319,8 @@ label:focus {
 }
 
 #mpd {
-  background-color: #66cc99;
-  color: #2a5c45;
+  background-color: @color10;
+  color: black;
 }
 
 #mpd.disconnected {
