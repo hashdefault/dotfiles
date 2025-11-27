@@ -3,21 +3,22 @@
 @import url('colors/DoomOne.css');
 
 * {
-  font-family: "JetBrains Mono Nerd Font", Font Awesome;
-  font-size: 10px;
+  font-family: "JetBrainsMono Nerd Font", Font Awesome;
+  font-size: 10.5px;
   font-weight: bold;
 }
 
 window#waybar {
-  background-color: transparent;
+  background-color: @background;
   color: @foreground;
   transition-property: background-color;
   transition-duration: .5s;
   border-radius: 3px;
 }
 
+
 window#waybar.hidden {
-  opacity: 0.2;
+  opacity: 1;
 }
 
 
@@ -33,6 +34,7 @@ window#waybar.chromium {
 button {
   border: none;
   border-radius: 0;
+
 }
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
@@ -45,28 +47,41 @@ button:hover {
   background-color: #a37800;
 }
 
+#workspaces button:not(.empty):not(.active):not(.visible) {
+  border-top: 2px @color2;
+  background: linear-gradient(
+  to top,
+  @background 0%,
+  @background 88%,
+  #fffffb 100%
+);
+
+}
+
 #workspaces button {
   padding: 0 5px;
   margin: 0px 1px;
   color: @foreground;
-  border-radius: 5px;
-  /* border: 2px solid #a9a1e1; */
+  border-radius: 3px;
 }
 
 #workspaces button:hover {
-  background-color: rgba(100, 100, 100, 0.5);
+  background-color: rgba(80, 80, 80, 0.9);
   color: @foreground;
 }
 
 #workspaces button.active {
-  font-weight: bold;
-  color: @color1;
-  background-color: @background;
+  font-weight: bolder;
+  color: @color2;
 }
 
-/*#workspaces button.visible {
-  background-color: transparent;
-} */
+#workspaces button.active.visible {
+  background-color: rgb(60, 60, 60);
+}
+
+#workspaces button.visible {
+  background-color: rgb(25, 25, 25);
+}
 
 #workspaces button.urgent {
   background-color: #eb4d4b;
@@ -98,7 +113,7 @@ button:hover {
 #power-profiles-daemon,
 #mpd {
   padding: 0 8px;
-  margin: 1px 3px;
+  margin: 4px;
   color: @foreground;
   border-radius: 3px;
 }
@@ -131,12 +146,12 @@ button:hover {
 
 }
 
+
 #window,
 #workspaces {
   background-color: @background;
-  border-radius: 3px;
-  margin: 1px 5px;
-  padding: 0px 5px;
+  border-radius: 2px;
+  margin: 4px;
 }
 
 /* If workspaces is the leftmost module, omit left margin */
