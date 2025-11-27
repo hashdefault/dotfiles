@@ -1,0 +1,16 @@
+/* colors */
+
+* {
+  background-alt:   #121212;
+  background:       #121212;
+  selected:         #dddddd;
+  foreground:       #eeeeee;
+  border:           #000000;
+  ac:               #da8548;
+  red:              #ff6c6b;
+  green:            #98be65;
+  yellow:           #ecbe7b;
+  blue:             #51afef;
+  purple:           #a9a1e1;
+  cyan:             #46d9ff;
+}

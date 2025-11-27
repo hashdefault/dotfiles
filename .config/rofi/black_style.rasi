@@ -1,4 +1,5 @@
-configuration{
+/* Hyprland entry point theme: pulls in unified style + config */
+configuration {
     modi: "drun,run,window,filebrowser";
     show-icons: true;
     icon-theme: "Oranchelo";
@@ -19,4 +20,4 @@ configuration{
     sidebar-mode: true;
 }
 
-@theme "~/.config/rofi/theme.rasi"
+@import "~/.config/rofi/theme.rasi"
