@@ -1,0 +1,103 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "display": {
+    "color": {
+      "keys": "#51afef",
+      "title": "#c678dd",
+      "output": "#bbc2cf",
+      "separator": "#98be65"
+    },
+    "separator": " >> ",
+    "brightColor": true,
+    "duration": {
+      "spaceBeforeUnit": "always"
+    },
+    "key": {
+      "width": 18,
+      "paddingLeft": 2
+    }
+  },
+  "modules": [
+    {
+      "type": "title",
+      "key": " ",
+      "keyIcon": ""
+    },
+
+    {
+      "type": "separator",
+      "string": ">>---- system ---->>",
+      "outputColor": "#c678dd"
+    },
+    {
+      "type": "os",
+      "key": "OS"
+    },
+    {
+      "type": "kernel",
+      "key": "Kernel"
+    },
+    {
+      "type": "uptime",
+      "key": "Uptime"
+    },
+    {
+      "type": "packages",
+      "key": "Packages"
+    },
+    {
+      "type": "shell",
+      "key": "Shell"
+    },
+    {
+      "type": "display",
+      "key": "Display"
+    },
+    {
+      "type": "wm",
+      "key": "WM"
+    },
+    {
+      "type": "terminal",
+      "key": "Terminal"
+    },
+    "break",
+    {
+      "type": "separator",
+      "string": ">>-- hardware -->>",
+      "outputColor": "#c678dd"
+    },
+    {
+      "type": "cpu",
+      "key": "CPU"
+    },
+    {
+      "type": "gpu",
+      "key": "GPU"
+    },
+    {
+      "type": "memory",
+      "key": "Memory"
+    },
+    {
+      "type": "disk",
+      "key": "Disk"
+    },
+    {
+      "type": "battery",
+      "key": "Battery"
+    },
+    "break",
+    {
+      "type": "separator",
+      "string": ">>--- palette --->>",
+      "outputColor": "#c678dd"
+    },
+    {
+      "type": "command",
+      "key": "Palette",
+      "keyColor": "#c678dd",
+      "text": "printf '\\e[38;2;255;108;107m██\\e[0m \\e[38;2;152;190;101m██\\e[0m \\e[38;2;236;190;123m██\\e[0m \\e[38;2;81;175;239m██\\e[0m \\e[38;2;198;120;221m██\\e[0m \\e[38;2;70;217;255m██\\e[0m \\e[38;2;223;223;223m██\\e[0m'"
+    }
+  ]
+}
