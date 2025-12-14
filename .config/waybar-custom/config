@@ -1,0 +1,150 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 24,
+    "margin": 5,
+    "reload_style_on_change": true,
+    "modules-left": [
+        "niri/window"
+    ],
+    "modules-center": [
+        "niri/workspaces"
+    ],
+    "modules-right": [
+        "custom/playerctl",
+        "custom/weather",
+        "cpu",
+        "memory",
+        "wireplumber",
+        "custom/calendar",
+        "tray"
+    ],
+    "custom/weather": {
+        "format": "{}",
+        "exec": "~/.local/bin/getweather && ~/.config/eww/scripts/getforecast",
+        "on-click": "~/.local/bin/eww open --toggle weather --screen $(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')",
+        "interval": 900,
+        "max-length": 35
+    },
+    "custom/cava": {
+        "format": "{}",
+        "tooltip": true,
+        "escape": true,
+        "return-type": "json",
+        "exec": "~/.config/waybar/modules-scripts/cava.sh",
+        "on-click": "playerctl play-pause",
+        "on-scroll-up": "playerctl previous",
+        "on-scroll-down": "playerctl next",
+        "max-length": 35
+    },
+    "custom/playerctl": {
+        "format": "<span>\uf001  {}</span>",
+        "return-type": "json",
+        "max-length": 35,
+        "exec": "playerctl -a metadata --format '{\"text\": \"{{artist}} ~ {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
+        "on-click-middle": "playerctl play-pause",
+        "on-click": "~/.local/bin/eww open --toggle musicplayer --screen $(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')",
+        "on-click-right": "playerctl next",
+        "scroll-step": 5.0,
+        "on-scroll-up": "amixer -D pulse sset Master 5%+",
+        "on-scroll-down": "amixer -D pulse sset Master 5%-",
+        "smooth-scrolling-threshold": 1
+    },
+    "cpu": {
+        "interval": 1,
+        "format": "{icon0}{icon1}{icon2}{icon3} {usage:>2}% \udb80\udf5b ",
+        "format-icons": [
+            "\u2581",
+            "\u2582",
+            "\u2583",
+            "\u2584",
+            "\u2585",
+            "\u2586",
+            "\u2587",
+            "\u2588"
+        ],
+        "on-click": "~/.local/bin/eww open --toggle storagemon --screen $(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')"
+    },
+    "memory": {
+        "format": "\uef8f   {used} of {total}GiB",
+        "on-click": "~/.local/bin/eww open --toggle storagemon --screen $(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')"
+    },
+    "battery": {
+        "format": "{capacity}% {icon}",
+        "format-icons": [
+            "\uf244",
+            "\uf243",
+            "\uf242",
+            "\uf241",
+            "\uf240"
+        ]
+    },
+    "wireplumber": {
+        "format": "\uf028    {volume}%",
+        "format-muted": "\uf026 muted",
+        "on-scroll-up": "amixer -D pulse sset Master 5%+",
+        "on-scroll-down": "amixer -D pulse sset Master 5%-",
+        "on-click": "amixer set Master toggle"
+    },
+    "custom/calendar": {
+        "format": "\uf017  {}",
+        "interval": 1,
+        "on-click": "~/.local/bin/eww open --toggle calendar_full --screen $(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')",
+        "exec": "~/.local/bin/clock"
+    },
+    "clock": {
+        "interval": 1,
+        "format": "\uf017  {:%H:%M}",
+        "format-alt": "\uf017 {:%H:%M:%S    \uf073 %Y, %d %B, %A}",
+        "tooltip-format": "<span size='14pt' font='Ubuntu Mono'>{calendar}</span>",
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 3,
+            "on-scroll": 1,
+            "on-click-right": "mode",
+            "format": {
+                "months": "<span color='#ffead3'>{}</span>",
+                "days": "<span color='#dfdfdf'>{}</span>",
+                "weeks": "<span color='#ff6699'>W{}</span>",
+                "weekdays": "<span color='#e8cb3c'>{}</span>",
+                "today": "<u><b><span  color='#70cc10'>{}</span></b></u>"
+            }
+        },
+        "actions": {
+            "on-click-right": "mode",
+            "on-click-forward": "tz_up",
+            "on-click-backward": "tz_down",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
+    },
+    "tray": {
+        "icon-size": 20,
+        "spacing": 10
+    },
+    "niri/workspaces": {
+        "format": "{icon} ",
+        "persistent-workspaces": {
+             "1": [],
+             "2": [],
+             "3": [],
+             "4": []
+        },
+        "format-icons": {
+            "1": "\uf10c",
+            "2": "\uf10c",
+            "3": "\uf10c",
+            "4": "\uf10c",
+            "5": "\uf10c",
+            "6": "\uf10c",
+            "7": "\uf10c",
+            "8": "\uf10c",
+            "active": "\uf111",
+            "default": "\uf10c"
+        }
+    },
+    "niri/window": {
+        "format": "{title}",
+        "max-length": 60
+    }
+}
