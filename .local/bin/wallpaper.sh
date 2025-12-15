@@ -4,7 +4,7 @@ set -eu
 
 # Configurable via environment
 : "${INTERVAL:=1800}" # seconds between changes
-: "${WALLPAPERS_DIR:="$HOME/Pictures/wallpapers"}"
+: "${WALLPAPERS_DIR:="$HOME/Pictures/wallpapers/dark"}"
 
 CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}"
 LAST_FILE="$CACHE_DIR/wallpaper-last"

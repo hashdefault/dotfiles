@@ -1,0 +1,84 @@
+#!/bin/bash
+
+dir_path="$HOME/Nextcloud/Notes"
+prompt_icon="󱓧"
+
+# Ensure base notes directory exists
+[ -d "$dir_path" ] || mkdir -p "$dir_path"
+
+select_note() {
+  local path="$1"
+
+  # Build list: Up entry, then directories/, then files (case-insensitive sort)
+  local up_entry="../"
+  local dirs files
+  dirs=$(find "$path" -maxdepth 1 -mindepth 1 -type d -printf '%P/\n' 2>/dev/null | sort -f)
+  files=$(find "$path" -maxdepth 1 -mindepth 1 -type f -printf '%P\n' 2>/dev/null | sort -f)
+
+  printf "%s\n%s\n%s\n" "$up_entry" "$dirs" "$files" | wmenu \
+    -i \
+    -l 18 \
+    -p "$prompt_icon  ${path/#$HOME/~}:"
+}
+
+launch_editor() {
+  # Prefer ghostty if available, otherwise fall back to $TERMINAL or xterm
+  local cmd
+  cmd="nvim +VimwikiGoto\ \"$1\""
+
+  if command -v ghostty >/dev/null 2>&1; then
+    ghostty \
+      --shell-integration='fish' \
+      --working-directory="$dir_path" \
+      --command="$cmd"
+  elif [ -n "$TERMINAL" ] && command -v "$TERMINAL" >/dev/null 2>&1; then
+    "$TERMINAL" -e bash -lc "$cmd"
+  else
+    xterm -e bash -lc "$cmd"
+  fi
+}
+
+main() {
+  while true; do
+    selection=$(select_note "$dir_path")
+
+    # Exit if nothing selected
+    [ -z "$selection" ] && exit
+
+    filepath="$dir_path/$selection"
+
+    # If it's a directory, dive in
+    if [ -d "$filepath" ]; then
+      dir_path="$filepath"
+      continue
+    fi
+
+    # Navigate up when selecting ../ explicitly
+    if [ "$selection" = ".." ] || [ "$selection" = "../" ]; then
+      dir_path="$(dirname "$dir_path")"
+      continue
+    fi
+
+    # If it's a file, check its MIME type for text/*
+    if [ -f "$filepath" ]; then
+      mime=$(file --brief --mime-type -- "$filepath")
+      if [[ "$mime" == text/* ]]; then
+        break
+      else
+        notify-send "  Not a text file. Try another."
+        continue
+      fi
+    fi
+
+    # If it doesn't exist, offer to create it
+    wmenu_confirm=$(echo -e "Yes\nNo" | wmenu -i -p "󱓧  '$selection' doesn't exist. Create it?")
+    if [ "$wmenu_confirm" == "Yes" ]; then
+      touch "$filepath"
+      break
+    fi
+  done
+
+  launch_editor "$filepath"
+}
+
+main

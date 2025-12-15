@@ -1,0 +1,3 @@
+#!/bin/sh
+# Feed slstatus text directly into dwl
+exec slstatus -s | dwl
