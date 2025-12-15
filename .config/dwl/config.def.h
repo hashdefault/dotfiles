@@ -43,7 +43,6 @@ static int log_level = WLR_INFO;
 static const char *const autostart[] = {
         "wlr-randr", "--output", "DP-1", "--on", "--output", "HDMI-A-1", "--on", NULL,
         "swaybg", "-i", "/home/lucas/Pictures/wallpapers/dark/2114.jpg", "-m", "fill", NULL,
-        "greenclip", "daemon", NULL,
         "dunst", "-c", "~/.config/dunst/dunstrc", NULL,
         "sleep","1s", NULL,
         "wlsunset","-t", "4400", NULL,
@@ -177,7 +176,7 @@ static const Key keys[] = {
 	/* modifier                  key                 function        argument */
 	{ MODKEY,                    XKB_KEY_p,          spawn,          {.v = menucmd} },
 	{ MODKEY,                    XKB_KEY_w,          spawn,          {.v = wifimenu} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_v,          spawn,          {.v = clipboard} },
+	{ MODKEY,                    XKB_KEY_v,          spawn,          {.v = clipboard} },
 	{ 0,                         XKB_KEY_Print ,     spawn,          {.v = screenshot} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Return,     spawn,          {.v = termcmd} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_f,          spawn,          {.v = filescmd} },
@@ -199,7 +198,7 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_g,          togglegaps,     {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_C,          killclient,     {0} },
 	{ MODKEY,                    XKB_KEY_t,          setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                    XKB_KEY_f,          setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                    XKB_KEY_o,          setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                    XKB_KEY_m,          setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                    XKB_KEY_space,      setlayout,      {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_space,      togglefloating, {0} },
