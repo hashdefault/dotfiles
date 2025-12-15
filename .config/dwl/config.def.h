@@ -165,11 +165,11 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 static const char *termcmd[] = { "kitty", NULL };
 static const char *menucmd[] = { "wmenu-run", "-l", "12", "-N", "#1e1e2e", "-n", "#cdd6f4", "-S", "#cba6f7", "-s", "#1e1e2e", NULL };
 static const char *filescmd[] = { "kitty", "-e","ranger", NULL };
-static const char *screenshot[] = { "kitty", "-e", "/bin/sh", "-c","~/.local/bin/screenshot.sh", NULL };
-static const char *logoutmenu[] = { "kitty", "-e","/bin/sh", "-c",  "~/.local/bin/dwl-logout", NULL };
 static const char *wifimenu[] = { "kitty", "-e","nmtui", NULL };
-static const char *clipboard[] = { "kitty", "-e" , "/bin/sh" , "-c" ,"~/.local/bin/clipboard-wmenu.sh", NULL }; 
-static const char *listnotes[] = { "kitty", "-e" , "/bin/sh" , "-c" ,"~/.local/bin/list_notes_wmenu", NULL }; 
+static const char *screenshot[] = { "/bin/sh", "-c","~/.local/bin/screenshot.sh", NULL };
+static const char *logoutmenu[] = { "/bin/sh", "-c",  "~/.local/bin/dwl-logout", NULL };
+static const char *clipboard[] = { "/bin/sh" , "-c" ,"~/.local/bin/clipboard-wmenu.sh", NULL }; 
+static const char *listnotes[] = { "/bin/sh" , "-c" ,"~/.local/bin/list_notes_wmenu", NULL }; 
 
 
 static const Key keys[] = {
@@ -179,9 +179,9 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_w,          spawn,          {.v = wifimenu} },
 	{ MODKEY,                    XKB_KEY_v,          spawn,          {.v = clipboard} },
 	{ 0,                         XKB_KEY_Print ,     spawn,          {.v = screenshot} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Return,     spawn,          {.v = termcmd} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_f,          spawn,          {.v = filescmd} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_n,          spawn,          {.v = listnotes} },
+	{ MODKEY,                    XKB_KEY_Return,     spawn,          {.v = termcmd} },
+	{ MODKEY,                    XKB_KEY_f,          spawn,          {.v = filescmd} },
+	{ MODKEY,                    XKB_KEY_n,          spawn,          {.v = listnotes} },
 	{ 0,                         XKB_KEY_XF86AudioPlay, spawn,       SHCMD("playerctl play-pause") },
 	{ 0,                         XKB_KEY_XF86AudioNext, spawn,       SHCMD("playerctl next") },
   { 0,                         XKB_KEY_XF86AudioRaiseVolume, spawn,SHCMD("pamixer -i 5") },
@@ -219,7 +219,7 @@ static const Key keys[] = {
 	TAGKEYS(          XKB_KEY_7, XKB_KEY_ampersand,                  6),
 	TAGKEYS(          XKB_KEY_8, XKB_KEY_asterisk,                   7),
 	TAGKEYS(          XKB_KEY_9, XKB_KEY_parenleft,                  8),
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Q,          spawn,           {.v = logoutmenu} },
+	{ MODKEY                   , XKB_KEY_q,          spawn,           {.v = logoutmenu} },
 
 	/* Ctrl-Alt-Backspace and Ctrl-Alt-Fx used to be handled by X server */
 	{ WLR_MODIFIER_CTRL|WLR_MODIFIER_ALT,XKB_KEY_Terminate_Server, quit, {0} },
