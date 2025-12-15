@@ -1,16 +1,8 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/sh
+# 1. Get history from cliphist
+# 2. Pipe into wmenu (using your colors)
+# 3. Decode the selection and copy it back to clipboard
 
-# Present greenclip entries in wmenu and copy the chosen one to the clipboard.
-selection="$(greenclip print | wmenu -p ' ')"
-
-if [[ -z "${selection}" ]]; then
-  exit 0
-fi
-
-# Print the selected line so it can be captured by callers if needed.
-printf '%s\n' "${selection}"
-
-# Copy selection to both clipboards.
-printf '%s' "${selection}" | wl-copy
-printf '%s' "${selection}" | wl-copy --primary
+cliphist list | wmenu -l 15 -p "Clipboard:" \
+    -N '#1e1e2e' -n '#cdd6f4' -M '#1e1e2e' -m '#cba6f7' -S '#cba6f7' -s '#1e1e2e' | \
+    cliphist decode | wl-copy

@@ -44,6 +44,7 @@ static const char *const autostart[] = {
         "wlr-randr", "--output", "DP-1", "--on", "--output", "HDMI-A-1", "--on", NULL,
         "swaybg", "-i", "/home/lucas/Pictures/wallpapers/dark/2114.jpg", "-m", "fill", NULL,
         "dunst", "-c", "~/.config/dunst/dunstrc", NULL,
+        "wl-paste", "--watch", "cliphist", "store", NULL,
         "sleep","1s", NULL,
         "wlsunset","-t", "4400", NULL,
         "/bin/sh", "-c", "~/.local/bin/welcome-notify.sh", NULL,

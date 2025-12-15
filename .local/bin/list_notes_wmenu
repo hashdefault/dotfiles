@@ -18,6 +18,7 @@ select_note() {
   printf "%s\n%s\n%s\n" "$up_entry" "$dirs" "$files" | wmenu \
     -i \
     -l 18 \
+    -N '#1e1e2e' -n '#cdd6f4' -M '#1e1e2e' -m '#cba6f7' -S '#cba6f7' -s '#1e1e2e' \
     -p "$prompt_icon  ${path/#$HOME/~}:"
 }
 
@@ -71,7 +72,7 @@ main() {
     fi
 
     # If it doesn't exist, offer to create it
-    wmenu_confirm=$(echo -e "Yes\nNo" | wmenu -i -p "󱓧  '$selection' doesn't exist. Create it?")
+    wmenu_confirm=$(echo -e "Yes\nNo" | wmenu -i -N '#1e1e2e' -n '#cdd6f4' -M '#1e1e2e' -m '#cba6f7' -S '#cba6f7' -s '#1e1e2e' -p "󱓧  '$selection' doesn't exist. Create it?")
     if [ "$wmenu_confirm" == "Yes" ]; then
       touch "$filepath"
       break
