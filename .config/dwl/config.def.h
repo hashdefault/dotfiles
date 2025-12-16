@@ -70,14 +70,30 @@ static const char *const autostart[] = {
 };
 
 
-
-
 /* NOTE: ALWAYS keep a rule declared even if you don't use rules (e.g leave at least one example) */
 static const Rule rules[] = {
-	/* app_id             title       tags mask     isfloating   alpha              monitor */
-	/* examples: */
-	{ "Gimp_EXAMPLE",     NULL,       0,            1,           default_opacity,   -1 }, /* Start on currently visible tags floating, not tiled */
-	{ "firefox_EXAMPLE",  NULL,       1 << 8,       0,           1.0,               -1 }, /* Start on ONLY tag "9" */
+    /* app_id                      title                   tags mask   isfloating  alpha             monitor */
+    { "firefox",                 NULL,       0,          0,          1.0,       -1 },
+    { "zen",                 NULL,       0,          0,          1.0,       -1 },
+    { "libre-wolf",                 NULL,       0,          0,          1.0,       -1 },
+    { "google-chrome",           NULL,       0,          0,          1.0,       -1 },
+    { "brave-browser",           NULL,       0,          0,          1.0,       -1 },
+    { "Chromium",                NULL,       0,          0,          1.0,       -1 },
+
+    { "Alacritty",               NULL,       0,          0,          1.0,       -1 },
+    { "foot",                    NULL,       0,          0,          1.0,       -1 },
+    { "kitty",                   NULL,       0,          0,          1.0,       -1 },
+    { "ghostty",                   NULL,       0,          0,          1.0,       -1 },
+    { "org.wezfurlong.wezterm",  NULL,       0,          0,          1.0,       -1 },
+
+    { "steam",                     NULL,                   0,          1,          default_opacity,  -1 },
+    { "pavucontrol",               NULL,                   0,          1,          default_opacity,  -1 },
+    { "org.pulseaudio.pavucontrol",NULL,                   0,          1,          default_opacity,  -1 },
+    { "nm-connection-editor",      NULL,                   0,          1,          default_opacity,  -1 },
+    { NULL,                        "Picture-in-Picture",   0,          1,          1.0,              -1 },
+
+    { "Gimp_EXAMPLE",              NULL,                   0,          1,          default_opacity,  -1 },
+    { "firefox_EXAMPLE",           NULL,                   1 << 8,     0,          1.0,              -1 },
 };
 
 /* layout(s) */
@@ -175,7 +191,7 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 static const char *termcmd[] = { "kitty", NULL };
 static const char *filescmd[] = { "kitty", "-e","ranger", NULL };
 static const char *wifimenu[] = { "kitty", "-e","nmtui", NULL };
-static const char *menucmd[] = { "/bin/sh","-c","~/.local/bin/wmenu-run"  NULL };
+static const char *menucmd[] = { "/bin/sh","-c","~/.local/bin/wmenu-run",  NULL };
 static const char *screenshot[] = { "/bin/sh", "-c","~/.local/bin/screenshot.sh", NULL };
 static const char *logoutmenu[] = { "/bin/sh", "-c",  "~/.local/bin/dwl-logout", NULL };
 static const char *clipboard[] = { "/bin/sh" , "-c" ,"~/.local/bin/clipboard-wmenu.sh", NULL }; 
@@ -185,53 +201,53 @@ static const char *listnotes[] = { "/bin/sh" , "-c" ,"~/.local/bin/list_notes_wm
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
 	/* modifier                  key                 function        argument */
-	{ MODKEY,                    XKB_KEY_p,          spawn,          {.v = menucmd} },
-	{ MODKEY,                    XKB_KEY_w,          spawn,          {.v = wifimenu} },
-	{ MODKEY,                    XKB_KEY_v,          spawn,          {.v = clipboard} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_p,         spawn,          {.v = screenshot} },
-	{ MODKEY,                    XKB_KEY_Return,     spawn,          {.v = termcmd} },
-	{ MODKEY,                    XKB_KEY_f,          spawn,          {.v = filescmd} },
-	{ MODKEY,                    XKB_KEY_n,          spawn,          {.v = listnotes} },
-	{ 0,                         XKB_KEY_XF86AudioPlay, spawn,       SHCMD("playerctl play-pause") },
-	{ 0,                         XKB_KEY_XF86AudioNext, spawn,       SHCMD("playerctl next") },
-  { 0,                         XKB_KEY_XF86AudioRaiseVolume, spawn,SHCMD("pamixer -i 5") },
-  { 0,                         XKB_KEY_XF86AudioLowerVolume, spawn,SHCMD("pamixer -d 5") },
-  { 0,                         XKB_KEY_XF86AudioMute,        spawn,SHCMD("pamixer -t") },
-	/*{ MODKEY,                    XKB_KEY_b,          togglebar,      {0} },*/
-	{ MODKEY,                    XKB_KEY_j,          focusstack,     {.i = +1} },
-	{ MODKEY,                    XKB_KEY_k,          focusstack,     {.i = -1} },
-	{ MODKEY,                    XKB_KEY_i,          incnmaster,     {.i = +1} },
-	{ MODKEY,                    XKB_KEY_d,          incnmaster,     {.i = -1} },
-	{ MODKEY,                    XKB_KEY_Right,          setmfact,       {.f = -0.05f} },
-	{ MODKEY,                    XKB_KEY_Left,          setmfact,       {.f = +0.05f} },
-	{ MODKEY,                    XKB_KEY_Return,     zoom,           {0} },
-	{ MODKEY,                    XKB_KEY_Tab,        view,           {0} },
-	{ MODKEY,                    XKB_KEY_g,          togglegaps,     {0} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_C,          killclient,     {0} },
-	{ MODKEY,                    XKB_KEY_t,          setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                    XKB_KEY_o,          setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                    XKB_KEY_m,          setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                    XKB_KEY_x,          setopacity,     {.f = +0.1f} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_O,          setopacity,     {.f = -0.1f} },
-	{ MODKEY,                    XKB_KEY_space,      setlayout,      {0} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_space,      togglefloating, {0} },
-	{ MODKEY,                    XKB_KEY_e,         togglefullscreen, {0} },
-	{ MODKEY,                    XKB_KEY_0,          view,           {.ui = ~0} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_parenright, tag,            {.ui = ~0} },
-	{ MODKEY,                    XKB_KEY_l,      focusmon,       {.i = WLR_DIRECTION_LEFT} },
-	{ MODKEY,                    XKB_KEY_h,     focusmon,       {.i = WLR_DIRECTION_RIGHT} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_less,       tagmon,         {.i = WLR_DIRECTION_LEFT} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_greater,    tagmon,         {.i = WLR_DIRECTION_RIGHT} },
-	TAGKEYS(          XKB_KEY_1, XKB_KEY_exclam,                     0),
-	TAGKEYS(          XKB_KEY_2, XKB_KEY_at,                         1),
-	TAGKEYS(          XKB_KEY_3, XKB_KEY_numbersign,                 2),
-	TAGKEYS(          XKB_KEY_4, XKB_KEY_dollar,                     3),
-	TAGKEYS(          XKB_KEY_5, XKB_KEY_percent,                    4),
-	TAGKEYS(          XKB_KEY_6, XKB_KEY_asciicircum,                5),
-	TAGKEYS(          XKB_KEY_7, XKB_KEY_ampersand,                  6),
-	TAGKEYS(          XKB_KEY_8, XKB_KEY_asterisk,                   7),
-	TAGKEYS(          XKB_KEY_9, XKB_KEY_parenleft,                  8),
-	{ MODKEY                   , XKB_KEY_q,          spawn,           {.v = logoutmenu} },
+	{ MODKEY,                     XKB_KEY_p,          spawn,          {.v = menucmd} },
+	{ MODKEY,                     XKB_KEY_w,          spawn,          {.v = wifimenu} },
+	{ MODKEY,                     XKB_KEY_v,          spawn,          {.v = clipboard} },
+	{ MODKEY|WLR_MODIFIER_SHIFT,  XKB_KEY_p,          spawn,          {.v = screenshot} },
+	{ MODKEY,                     XKB_KEY_Return,     spawn,          {.v = termcmd} },
+	{ MODKEY,                     XKB_KEY_f,          spawn,          {.v = filescmd} },
+	{ MODKEY,                     XKB_KEY_n,          spawn,          {.v = listnotes} },
+	{ 0,                          XKB_KEY_XF86AudioPlay, spawn,       SHCMD("playerctl play-pause") },
+	{ 0,                          XKB_KEY_XF86AudioNext, spawn,       SHCMD("playerctl next") },
+  { 0,                          XKB_KEY_XF86AudioRaiseVolume, spawn,SHCMD("pamixer -i 5") },
+  { 0,                          XKB_KEY_XF86AudioLowerVolume, spawn,SHCMD("pamixer -d 5") },
+  { 0,                          XKB_KEY_XF86AudioMute,        spawn,SHCMD("pamixer -t") },
+	/*{ MODKEY,                     XKB_KEY_b,          togglebar,      {0} },*/
+	{ MODKEY,                     XKB_KEY_j,          focusstack,     {.i = +1} },
+	{ MODKEY,                     XKB_KEY_k,          focusstack,     {.i = -1} },
+	{ MODKEY,                     XKB_KEY_i,          incnmaster,     {.i = +1} },
+	{ MODKEY,                     XKB_KEY_d,          incnmaster,     {.i = -1} },
+	{ MODKEY,                     XKB_KEY_Right,          setmfact,       {.f = -0.05f} },
+	{ MODKEY,                     XKB_KEY_Left,          setmfact,       {.f = +0.05f} },
+	{ MODKEY,                     XKB_KEY_Return,     zoom,           {0} },
+	{ MODKEY,                     XKB_KEY_Tab,        view,           {0} },
+	{ MODKEY,                     XKB_KEY_g,          togglegaps,     {0} },
+	{ MODKEY,                     XKB_KEY_C,          killclient,     {0} },
+	{ MODKEY,                     XKB_KEY_t,          setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                     XKB_KEY_o,          setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                     XKB_KEY_m,          setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                     XKB_KEY_x,          setopacity,     {.f = +0.1f} },
+	{ MODKEY|WLR_MODIFIER_SHIFT,  XKB_KEY_O,          setopacity,     {.f = -0.1f} },
+	{ MODKEY,                     XKB_KEY_space,      setlayout,      {0} },
+	{ MODKEY|WLR_MODIFIER_SHIFT,  XKB_KEY_space,      togglefloating, {0} },
+	{ MODKEY,                     XKB_KEY_e,         togglefullscreen, {0} },
+	{ MODKEY,                     XKB_KEY_0,          view,           {.ui = ~0} },
+	{ MODKEY|WLR_MODIFIER_SHIFT,  XKB_KEY_parenright, tag,            {.ui = ~0} },
+	{ MODKEY,                     XKB_KEY_l,      focusmon,       {.i = WLR_DIRECTION_LEFT} },
+	{ MODKEY,                     XKB_KEY_h,     focusmon,       {.i = WLR_DIRECTION_RIGHT} },
+	{ MODKEY|WLR_MODIFIER_SHIFT,  XKB_KEY_less,       tagmon,         {.i = WLR_DIRECTION_LEFT} },
+	{ MODKEY|WLR_MODIFIER_SHIFT,  XKB_KEY_greater,    tagmon,         {.i = WLR_DIRECTION_RIGHT} },
+	TAGKEYS(          XKB_KEY_1,  XKB_KEY_exclam,                     0),
+	TAGKEYS(          XKB_KEY_2,  XKB_KEY_at,                         1),
+	TAGKEYS(          XKB_KEY_3,  XKB_KEY_numbersign,                 2),
+	TAGKEYS(          XKB_KEY_4,  XKB_KEY_dollar,                     3),
+	TAGKEYS(          XKB_KEY_5,  XKB_KEY_percent,                    4),
+	TAGKEYS(          XKB_KEY_6,  XKB_KEY_asciicircum,                5),
+	TAGKEYS(          XKB_KEY_7,  XKB_KEY_ampersand,                  6),
+	TAGKEYS(          XKB_KEY_8,  XKB_KEY_asterisk,                   7),
+	TAGKEYS(          XKB_KEY_9,  XKB_KEY_parenleft,                  8),
+	{ MODKEY                   ,  XKB_KEY_q,          spawn,           {.v = logoutmenu} },
 
 	/* Ctrl-Alt-Backspace and Ctrl-Alt-Fx used to be handled by X server */
 	{ WLR_MODIFIER_CTRL|WLR_MODIFIER_ALT,XKB_KEY_Terminate_Server, quit, {0} },

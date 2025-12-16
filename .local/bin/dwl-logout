@@ -21,5 +21,5 @@ case "$selected" in
         pkill dwl ;;
     Lock)
         # Requires swaylock or wlock installed
-        swaylock -c 000000 ;;
+        exec ~/.local/bin/swaylock-screen ;;
 esac
