@@ -192,7 +192,7 @@ static const char *termcmd[] = { "kitty", NULL };
 static const char *filescmd[] = { "kitty", "-e","ranger", NULL };
 static const char *wifimenu[] = { "kitty", "-e","nmtui", NULL };
 static const char *menucmd[] = { "/bin/sh","-c","~/.local/bin/wmenu-run",  NULL };
-static const char *screenshot[] = { "/bin/sh", "-c","~/.local/bin/screenshot.sh", NULL };
+static const char *screenshot[] = { "screenshot", NULL };
 static const char *logoutmenu[] = { "/bin/sh", "-c",  "~/.local/bin/dwl-logout", NULL };
 static const char *clipboard[] = { "/bin/sh" , "-c" ,"~/.local/bin/clipboard-wmenu.sh", NULL }; 
 static const char *listnotes[] = { "/bin/sh" , "-c" ,"~/.local/bin/list_notes_wmenu", NULL }; 
@@ -204,7 +204,7 @@ static const Key keys[] = {
 	{ MODKEY,                     XKB_KEY_p,          spawn,          {.v = menucmd} },
 	{ MODKEY,                     XKB_KEY_w,          spawn,          {.v = wifimenu} },
 	{ MODKEY,                     XKB_KEY_v,          spawn,          {.v = clipboard} },
-	{ MODKEY|WLR_MODIFIER_SHIFT,  XKB_KEY_p,          spawn,          {.v = screenshot} },
+	{ MODKEY|WLR_MODIFIER_SHIFT,                     XKB_KEY_p,          spawn,          {.v = screenshot} },
 	{ MODKEY,                     XKB_KEY_Return,     spawn,          {.v = termcmd} },
 	{ MODKEY,                     XKB_KEY_f,          spawn,          {.v = filescmd} },
 	{ MODKEY,                     XKB_KEY_n,          spawn,          {.v = listnotes} },
@@ -220,10 +220,10 @@ static const Key keys[] = {
 	{ MODKEY,                     XKB_KEY_d,          incnmaster,     {.i = -1} },
 	{ MODKEY,                     XKB_KEY_Right,          setmfact,       {.f = -0.05f} },
 	{ MODKEY,                     XKB_KEY_Left,          setmfact,       {.f = +0.05f} },
-	{ MODKEY,                     XKB_KEY_Return,     zoom,           {0} },
+	{ MODKEY|WLR_MODIFIER_SHIFT,  XKB_KEY_Return,     zoom,           {0} },
 	{ MODKEY,                     XKB_KEY_Tab,        view,           {0} },
 	{ MODKEY,                     XKB_KEY_g,          togglegaps,     {0} },
-	{ MODKEY,                     XKB_KEY_C,          killclient,     {0} },
+	{ MODKEY,                     XKB_KEY_c,          killclient,     {0} },
 	{ MODKEY,                     XKB_KEY_t,          setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                     XKB_KEY_o,          setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                     XKB_KEY_m,          setlayout,      {.v = &layouts[2]} },
