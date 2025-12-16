@@ -35,3 +35,16 @@ alias dockerphp8='docker container stop php7_mariadb php7_phpmyadmin php7_apache
 alias dockerphp7='docker container stop php8_mariadb php8_phpmyadmin php8_apache && docker container start php7_mariadb php7_phpmyadmin php7_apache'
 alias vpnon='sudo systemctl start zerotier-one.service'
 alias vpnoff='sudo systemctl stop zerotier-one.service'
+
+# 1. Start keychain (removed deprecated --agents flag)
+#    This ensures the background process is running.
+keychain --quiet id_ed25519
+
+# 2. IMPORTANT: Connect this terminal to the agent
+#    Without this line, your terminal doesn't know the agent exists.
+begin
+    set -l host_name (uname -n)
+    if test -f ~/.keychain/$host_name-fish
+        source ~/.keychain/$host_name-fish
+    end
+end
