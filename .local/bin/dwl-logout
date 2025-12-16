@@ -5,7 +5,7 @@ options="Shutdown\nReboot\nSuspend\nLogout\nLock"
 
 # 2. Show the menu with wmenu
 # We pipe the options into wmenu and save the result to the variable 'selected'
-selected=$(echo -e "$options" | wmenu -i -l 5 -p "Power:" \
+selected=$(echo -e "$options" | wmenu -i -f "JetBrainsMono Nerd Font 10" -l 5 -p "Power:" \
     -N '#1e1e2e' -n '#cdd6f4' -M '#1e1e2e' -m '#cba6f7' -S '#cba6f7' -s '#1e1e2e')
 
 # 3. Execute the choice

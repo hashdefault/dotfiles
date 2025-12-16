@@ -26,6 +26,14 @@ static const float focuscolor[]            = COLOR(0xcba6f7ff);
 static const float urgentcolor[]           = COLOR(0xff0000ff);
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.0f, 0.0f, 0.0f, 1.0f}; /* You can also use glsl colors */
+static const float default_opacity         = 0.75;
+
+
+static const float resize_factor           = 0.0002f; /* Resize multiplier for mouse resizing, depends on mouse sensivity. */
+static const uint32_t resize_interval_ms   = 16; /* Resize interval depends on framerate and screen refresh rate. */
+ 
+enum Direction { DIR_LEFT, DIR_RIGHT, DIR_UP, DIR_DOWN };
+
 static uint32_t colors[][3]                = {
 	/*               fg          bg          border    */
 	[SchemeNorm] = { 0xcdd6f4ff, 0x1e1e2eff, 0x1e1e2eff },
@@ -62,12 +70,14 @@ static const char *const autostart[] = {
 };
 
 
+
+
 /* NOTE: ALWAYS keep a rule declared even if you don't use rules (e.g leave at least one example) */
 static const Rule rules[] = {
-	/* app_id             title       tags mask     isfloating   monitor */
+	/* app_id             title       tags mask     isfloating   alpha              monitor */
 	/* examples: */
-	{ "Gimp_EXAMPLE",     NULL,       0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */
-	{ "firefox_EXAMPLE",  NULL,       1 << 8,       0,           -1 }, /* Start on ONLY tag "9" */
+	{ "Gimp_EXAMPLE",     NULL,       0,            1,           default_opacity,   -1 }, /* Start on currently visible tags floating, not tiled */
+	{ "firefox_EXAMPLE",  NULL,       1 << 8,       0,           1.0,               -1 }, /* Start on ONLY tag "9" */
 };
 
 /* layout(s) */
@@ -86,8 +96,8 @@ static const Layout layouts[] = {
 /* NOTE: ALWAYS add a fallback rule, even if you are completely sure it won't be used */
 static const MonitorRule monrules[] = {
 	/* name       mfact nmaster scale layout       rotate/reflect              x    y  resx  resy  rate     mode adaptive*/
-	{ "DP-1",    0.55f, 1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL, 0,   0, 1920, 1080, 60.0f, 0, 1},
-	{ "HDMI-A-1", 0.55f, 1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL, 1920, 0, 1920, 1080, 60.0f,  0, 1},
+	{ "DP-1",    0.55f, 1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL, 1920,   0, 1920, 1080, 60.0f, 0, 1},
+	{ "HDMI-A-1", 0.55f, 1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL, 0, 0, 1920, 1080, 60.0f,  0, 1},
 	/* defaults */
 	{ NULL,       0.55f, 1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL, -1, -1, 0, 0, 0.0f, 0 ,1},
 };
@@ -163,9 +173,9 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 
 /* commands */
 static const char *termcmd[] = { "kitty", NULL };
-static const char *menucmd[] = { "wmenu-run", "-l", "12", "-N", "#1e1e2e", "-n", "#cdd6f4", "-S", "#cba6f7", "-s", "#1e1e2e", NULL };
 static const char *filescmd[] = { "kitty", "-e","ranger", NULL };
 static const char *wifimenu[] = { "kitty", "-e","nmtui", NULL };
+static const char *menucmd[] = { "/bin/sh","-c","~/.local/bin/wmenu-run"  NULL };
 static const char *screenshot[] = { "/bin/sh", "-c","~/.local/bin/screenshot.sh", NULL };
 static const char *logoutmenu[] = { "/bin/sh", "-c",  "~/.local/bin/dwl-logout", NULL };
 static const char *clipboard[] = { "/bin/sh" , "-c" ,"~/.local/bin/clipboard-wmenu.sh", NULL }; 
@@ -178,7 +188,7 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_p,          spawn,          {.v = menucmd} },
 	{ MODKEY,                    XKB_KEY_w,          spawn,          {.v = wifimenu} },
 	{ MODKEY,                    XKB_KEY_v,          spawn,          {.v = clipboard} },
-	{ 0,                         XKB_KEY_Print ,     spawn,          {.v = screenshot} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_p,         spawn,          {.v = screenshot} },
 	{ MODKEY,                    XKB_KEY_Return,     spawn,          {.v = termcmd} },
 	{ MODKEY,                    XKB_KEY_f,          spawn,          {.v = filescmd} },
 	{ MODKEY,                    XKB_KEY_n,          spawn,          {.v = listnotes} },
@@ -187,7 +197,7 @@ static const Key keys[] = {
   { 0,                         XKB_KEY_XF86AudioRaiseVolume, spawn,SHCMD("pamixer -i 5") },
   { 0,                         XKB_KEY_XF86AudioLowerVolume, spawn,SHCMD("pamixer -d 5") },
   { 0,                         XKB_KEY_XF86AudioMute,        spawn,SHCMD("pamixer -t") },
-	{ MODKEY,                    XKB_KEY_b,          togglebar,      {0} },
+	/*{ MODKEY,                    XKB_KEY_b,          togglebar,      {0} },*/
 	{ MODKEY,                    XKB_KEY_j,          focusstack,     {.i = +1} },
 	{ MODKEY,                    XKB_KEY_k,          focusstack,     {.i = -1} },
 	{ MODKEY,                    XKB_KEY_i,          incnmaster,     {.i = +1} },
@@ -201,6 +211,8 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_t,          setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                    XKB_KEY_o,          setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                    XKB_KEY_m,          setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                    XKB_KEY_x,          setopacity,     {.f = +0.1f} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_O,          setopacity,     {.f = -0.1f} },
 	{ MODKEY,                    XKB_KEY_space,      setlayout,      {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_space,      togglefloating, {0} },
 	{ MODKEY,                    XKB_KEY_e,         togglefullscreen, {0} },
@@ -244,3 +256,11 @@ static const Button buttons[] = {
 	{ ClkTagBar,   MODKEY, BTN_LEFT,   tag,            {0} },
 	{ ClkTagBar,   MODKEY, BTN_RIGHT,  toggletag,      {0} },
 };
+/*
+ * Patches applied
+autostart.patch
+bar.patch
+client-opacity.patch
+gaps.patch
+monitorconfig.patch
+*/

@@ -17,7 +17,8 @@ select_note() {
 
   printf "%s\n%s\n%s\n" "$up_entry" "$dirs" "$files" | wmenu \
     -i \
-    -l 18 \
+    -f "JetBrainsMono Nerd Font 10" \
+    -l 10 \
     -N '#1e1e2e' -n '#cdd6f4' -M '#1e1e2e' -m '#cba6f7' -S '#cba6f7' -s '#1e1e2e' \
     -p "$prompt_icon  ${path/#$HOME/~}:"
 }
