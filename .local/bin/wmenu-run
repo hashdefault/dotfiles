@@ -1,3 +1,4 @@
 #!/bin/sh
-exec wmenu-run -f "JetBrainsMono Nerd Font 10" -l 12 -N "#1e1e2e" -n "#cdd6f4" -S "#cba6f7" -s "#1e1e2e" 
+exec wmenu-run -f "JetBrainsMono Nerd Font 10" -l 12 \
+    -N '#121222' -n '#dcdcdc' -M '#121222' -m '#00ff99' -S '#00ff99' -s '#121222'
 

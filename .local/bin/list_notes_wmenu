@@ -19,17 +19,17 @@ select_note() {
     -i \
     -f "JetBrainsMono Nerd Font 10" \
     -l 10 \
-    -N '#1e1e2e' -n '#cdd6f4' -M '#1e1e2e' -m '#cba6f7' -S '#cba6f7' -s '#1e1e2e' \
+    -N '#121222' -n '#dcdcdc' -M '#121222' -m '#00ff99' -S '#00ff99' -s '#121222' \
     -p "$prompt_icon  ${path/#$HOME/~}:"
 }
 
 launch_editor() {
-  # Prefer ghostty if available, otherwise fall back to $TERMINAL or xterm
+  # Prefer kitty if available, otherwise fall back to $TERMINAL or xterm
   local cmd
   cmd="nvim +VimwikiGoto\ \"$1\""
 
-  if command -v ghostty >/dev/null 2>&1; then
-    ghostty \
+  if command -v kitty >/dev/null 2>&1; then
+    kitty \
       --shell-integration='fish' \
       --working-directory="$dir_path" \
       --command="$cmd"

@@ -13,32 +13,31 @@ static const unsigned int borderpx         = 2;  /* border pixel of windows */
 static const int showbar                   = 1; /* 0 means no bar */
 static const int topbar                    = 1; /* 0 means bottom bar */
 static const char *fonts[] = { "JetBrainsMono Nerd Font:size=10", "Noto Color Emoji:size=10" };
-/* 1. Bar Background (Normal) matches wmenu "-nb" #1e1e2e */
-static const float rootcolor[]             = COLOR(0x1e1e2eff);
+/* 1. Bar Background (Normal) matches wmenu "-nb" #121222 */
+static const float rootcolor[]             = COLOR(0x121222ff);
 
-/* 2. Window Borders (Inactive) matches wmenu "-nb" #1e1e2e */
-static const float bordercolor[]           = COLOR(0x1e1e2eff);
+/* 2. Window Borders (Inactive) matches wmenu "-nb" #121222 */
+static const float bordercolor[]           = COLOR(0x121222ff);
 
-/* 3. Selected Tag & Window Border matches wmenu "-sb" #cba6f7 (Purple) */
-static const float focuscolor[]            = COLOR(0xcba6f7ff);
+/* 3. Selected Tag & Window Border matches wmenu "-sb" #00ff99 (Purple) */
+static const float focuscolor[]            = COLOR(0x00ff99ff);
 
 /* 4. Urgent (Notifications) matches Red */
 static const float urgentcolor[]           = COLOR(0xff0000ff);
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.0f, 0.0f, 0.0f, 1.0f}; /* You can also use glsl colors */
-static const float default_opacity         = 0.75;
+static const float default_opacity         = 0.90;
 
 
 static const float resize_factor           = 0.0002f; /* Resize multiplier for mouse resizing, depends on mouse sensivity. */
 static const uint32_t resize_interval_ms   = 16; /* Resize interval depends on framerate and screen refresh rate. */
  
 enum Direction { DIR_LEFT, DIR_RIGHT, DIR_UP, DIR_DOWN };
-
 static uint32_t colors[][3]                = {
 	/*               fg          bg          border    */
-	[SchemeNorm] = { 0xcdd6f4ff, 0x1e1e2eff, 0x1e1e2eff },
-	[SchemeSel]  = { 0x1e1e2eff, 0xcba6f7ff, 0xcba6f7ff },
-	[SchemeUrg]  = { 0xffffffff, 0xff0000ff, 0xff0000ff },
+	[SchemeNorm] = { 0xdcdcdcff, 0x121222ff, 0x121222ff },
+	[SchemeSel]  = { 0x121222ff, 0x00ff99ff, 0x00ff99ff },
+	[SchemeUrg]  = { 0xffffffff, 0xff0099ff, 0xff0099ff },
 };
 
 /* tagging */
@@ -112,8 +111,8 @@ static const Layout layouts[] = {
 /* NOTE: ALWAYS add a fallback rule, even if you are completely sure it won't be used */
 static const MonitorRule monrules[] = {
 	/* name       mfact nmaster scale layout       rotate/reflect              x    y  resx  resy  rate     mode adaptive*/
-	{ "DP-1",    0.55f, 1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL, 1920,   0, 1920, 1080, 60.0f, 0, 1},
-	{ "HDMI-A-1", 0.55f, 1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL, 0, 0, 1920, 1080, 60.0f,  0, 1},
+	{ "DP-1",    0.55f, 1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL, 0,   0, 1920, 1080, 60.0f, 0, 1},
+	{ "HDMI-A-1", 0.55f, 1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL, 1920, 0, 1920, 1080, 60.0f,  0, 1},
 	/* defaults */
 	{ NULL,       0.55f, 1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL, -1, -1, 0, 0, 0.0f, 0 ,1},
 };
