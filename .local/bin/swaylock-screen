@@ -8,9 +8,10 @@ swaylock \
   --indicator-thickness 7 \
   --effect-blur 7x5 \
   --effect-vignette 0.5:0.5 \
-  --ring-color cba6f7 \
-  --key-hl-color fab387 \
+  --ring-color ff0099 \
+  --text-color 5ccfe6 \
+  --key-hl-color 00ff99 \
   --line-color 00000000 \
-  --inside-color 1e1e2e88 \
+  --inside-color 12122280 \
   --separator-color 00000000 \
   --fade-in 0.2
