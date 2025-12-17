@@ -187,11 +187,10 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *termcmd[] = { "kitty", NULL };
-static const char *filescmd[] = { "kitty", "-e","ranger", NULL };
+static const char *termcmd[] = { "alacritty", NULL };
+static const char *filescmd[] = { "alacritty", "-e","ranger", NULL };
 static const char *wifimenu[] = { "kitty", "-e","nmtui", NULL };
 static const char *menucmd[] = { "/bin/sh","-c","~/.local/bin/wmenu-run",  NULL };
-static const char *screenshot[] = { "screenshot", NULL };
 static const char *logoutmenu[] = { "/bin/sh", "-c",  "~/.local/bin/dwl-logout", NULL };
 static const char *clipboard[] = { "/bin/sh" , "-c" ,"~/.local/bin/clipboard-wmenu.sh", NULL }; 
 static const char *listnotes[] = { "/bin/sh" , "-c" ,"~/.local/bin/list_notes_wmenu", NULL }; 
@@ -203,7 +202,7 @@ static const Key keys[] = {
 	{ MODKEY,                     XKB_KEY_p,          spawn,          {.v = menucmd} },
 	{ MODKEY,                     XKB_KEY_w,          spawn,          {.v = wifimenu} },
 	{ MODKEY,                     XKB_KEY_v,          spawn,          {.v = clipboard} },
-	{ MODKEY|WLR_MODIFIER_SHIFT,                     XKB_KEY_p,          spawn,          {.v = screenshot} },
+	{ MODKEY|WLR_MODIFIER_SHIFT,  XKB_KEY_P,          spawn,          SHCMD("flameshot gui") },
 	{ MODKEY,                     XKB_KEY_Return,     spawn,          {.v = termcmd} },
 	{ MODKEY,                     XKB_KEY_f,          spawn,          {.v = filescmd} },
 	{ MODKEY,                     XKB_KEY_n,          spawn,          {.v = listnotes} },
