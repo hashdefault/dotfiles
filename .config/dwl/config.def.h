@@ -59,9 +59,7 @@ static const char *const autostart[] = {
 
         /* autolock */
         "swayidle", "-w",
-        "timeout", "900", "~/.local/bin/swaylock-screen",
-        "timeout", "1200", "wlr-randr --output DP-1 --off --output HDMI-A-1 --off",
-        "resume",         "wlr-randr --output DP-1 --on  --output HDMI-A-1 --on",
+        "timeout", "20", "~/.local/bin/swaylock-screen",
         "before-sleep",   "~/.local/bin/swaylock-screen",
         /* autolock */
 
