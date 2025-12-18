@@ -53,13 +53,13 @@ static const char *const autostart[] = {
         "dunst", "-c", "~/.config/dunst/dunstrc", NULL,
         "wl-paste", "--watch", "cliphist", "store", NULL,
         "sleep","1s", NULL,
-        "wlsunset","-t", "4400", NULL,
+        "wlsunset","-t", "4200", NULL,
         "/bin/sh", "-c", "~/.local/bin/welcome-notify.sh", NULL,
         "/bin/sh", "-c", "~/.config/dunst/scripts/nowplaying_notify.sh", NULL,
 
         /* autolock */
         "swayidle", "-w",
-        "timeout", "20", "~/.local/bin/swaylock-screen",
+        "timeout", "900", "~/.local/bin/swaylock-screen",
         "before-sleep",   "~/.local/bin/swaylock-screen",
         /* autolock */
 
