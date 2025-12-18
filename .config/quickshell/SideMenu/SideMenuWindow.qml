@@ -13,20 +13,18 @@ PanelWindow {
         top: 10
         left: 10
     }
-    width: 400
-    height: 600 // Increased to accommodate content better
+    implicitWidth: 420
+    implicitHeight: 680
     color: "transparent"
 
     Component.onCompleted: {
-        requestActivate()
+        // Removed requestActivate()
     }
 
     Connections {
         target: Qt.application
         function onStateChanged() {
-            if (Qt.application.state === Qt.ApplicationInactive) {
-                Qt.quit()
-            }
+            // Removed Qt.quit()
         }
     }
 
@@ -122,241 +120,269 @@ PanelWindow {
         stdout: SplitParser { onRead: data => quoteText = data.trim() }
     }
 
-    // Shadow
-    Rectangle {
-        anchors.fill: mainRect
-        anchors.leftMargin: 4
-        anchors.topMargin: 4
-        color: "#000000"
-        opacity: 0.5
-        radius: 16
-    }
     Rectangle {
         id: mainRect
         anchors.fill: parent
         anchors.rightMargin: 4
         anchors.bottomMargin: 4
-        radius: 16
+        radius: 20
         gradient: Gradient {
              GradientStop { position: 0.0; color: "#0e141c" }
-             GradientStop { position: 0.45; color: "#161c24" }
              GradientStop { position: 1.0; color: "#0f2230" }
         }
-        border.color: "#1f2c3a"
+        border.color: "#223445"
         border.width: 1
 
         ColumnLayout {
             anchors.fill: parent
-            anchors.margins: 20
-            spacing: 20
+            anchors.margins: 25
+            spacing: 24
 
-            // --- Greeter ---
-            ColumnLayout {
-                spacing: 5
-                Layout.alignment: Qt.AlignHCenter
-                Text {
-                    text: greeterText
-                    color: "#d7e6ff"
-                    font.family: "Ubuntu Nerd Font"
-                    font.pixelSize: 28
-                    Layout.alignment: Qt.AlignHCenter
-                }
-                Text {
-                    text: username
-                    color: "#bee6e6"
-                    font.family: "Ubuntu Nerd Font"
-                    font.pixelSize: 32
-                    font.bold: true
-                    Layout.alignment: Qt.AlignHCenter
-                }
-            }
+            // --- Header / Profile ---
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 20
 
-            // --- Profile ---
-            Rectangle {
-                Layout.alignment: Qt.AlignHCenter
-                Layout.preferredWidth: parent.width * 0.95
-                Layout.preferredHeight: 130
-                color: Qt.rgba(255, 255, 255, 0.02)
-                border.color: "#223445"
-                border.width: 1
-                radius: 14
-
-                RowLayout {
-                    anchors.fill: parent
-                    anchors.margins: 15
-                    spacing: 20
-
+                Rectangle {
+                    width: 80; height: 80
+                    radius: 40
+                    color: "transparent"
+                    clip: true
+                    
                     Image {
+                        anchors.fill: parent
                         source: "file:///home/lucas/.local/share/images/avatar.png"
-                        sourceSize.width: 100
-                        sourceSize.height: 100
-                        Layout.preferredWidth: 100
-                        Layout.preferredHeight: 100
                         fillMode: Image.PreserveAspectCrop
                         
-                        // Border
-                        Rectangle {
-                            anchors.fill: parent
-                            color: "transparent"
-                            border.color: "#6ec7ff"
-                            border.width: 2
-                            radius: 50
+                        onStatusChanged: if (status == Image.Error) source = "https://ui-avatars.com/api/?name=" + username + "&background=6ec7ff&color=0c1826"
+                    }
+                    
+                    Rectangle {
+                        anchors.fill: parent
+                        color: "transparent"
+                        border.color: "#6ec7ff"
+                        border.width: 2
+                        radius: 40
+                    }
+                }
+
+                ColumnLayout {
+                    spacing: 0
+                    Layout.fillWidth: true
+                    
+                    Text {
+                        text: greeterText
+                        color: "#8ca0b8"
+                        font.family: "Ubuntu Nerd Font"
+                        font.pixelSize: 16
+                    }
+                    Text {
+                        text: username.charAt(0).toUpperCase() + username.slice(1)
+                        color: "#ffffff"
+                        font.family: "Ubuntu Nerd Font"
+                        font.pixelSize: 26
+                        font.bold: true
+                    }
+                }
+                
+                ColumnLayout {
+                    spacing: 0
+                    Layout.alignment: Qt.AlignRight
+                    Text {
+                        text: Qt.formatDateTime(new Date(), "HH:mm")
+                        color: "#6ec7ff"
+                        font.family: "Hack"
+                        font.pixelSize: 28
+                        font.bold: true
+                        
+                        Timer {
+                            interval: 60000; running: true; repeat: true
+                            onTriggered: parent.text = Qt.formatDateTime(new Date(), "HH:mm")
                         }
                     }
-
-                    ColumnLayout {
-                        spacing: 2
-                        Layout.fillWidth: true
-                        
-                        Text {
-                            text: Qt.formatDateTime(new Date(), "HH:mm")
-                            color: "#6ec7ff"
-                            font.family: "Hack"
-                            font.pixelSize: 42
-                            font.bold: true
-                            
-                            Timer {
-                                interval: 1000; running: true; repeat: true
-                                onTriggered: parent.text = Qt.formatDateTime(new Date(), "HH:mm")
-                            }
-                        }
-                        Text {
-                            text: Qt.formatDateTime(new Date(), "dddd, MMM d")
-                            color: "#d7e6ff"
-                            font.family: "Hack"
-                            font.pixelSize: 18
-                            Layout.fillWidth: true
-                        }
+                    Text {
+                        text: Qt.formatDateTime(new Date(), "MMM d, yyyy")
+                        color: "#8ca0b8"
+                        font.family: "Ubuntu Nerd Font"
+                        font.pixelSize: 12
+                        Layout.alignment: Qt.AlignRight
                     }
                 }
             }
 
-            // --- Quote ---
+            Rectangle {
+                Layout.fillWidth: true
+                height: 1
+                color: "#ffffff"
+                opacity: 0.1
+            }
+
+            // --- Quick Controls Grid ---
             ColumnLayout {
                 Layout.fillWidth: true
-                spacing: 10
-                
-                Text {
-                    text: quoteText
-                    color: "#bee6e6"
-                    font.family: "Serif"
-                    font.italic: true
-                    font.pixelSize: 18
-                    wrapMode: Text.WordWrap
-                    Layout.fillWidth: true
-                    Layout.maximumWidth: parent.width * 0.9
-                    horizontalAlignment: Text.AlignHCenter
-                    Layout.alignment: Qt.AlignHCenter
-                }
-                
-                Rectangle {
-                    Layout.alignment: Qt.AlignHCenter
-                    width: parent.width * 0.6
-                    height: 1
-                    color: Qt.rgba(190/255, 230/255, 230/255, 0.4)
-                }
-            }
-
-            // --- Toggles ---
-            RowLayout {
-                Layout.alignment: Qt.AlignHCenter
                 spacing: 12
                 
-                // Helper Component for Split Button
-                component ToggleItem : ColumnLayout {
-                    property string label
-                    property string icon
-                    property bool active
-                    property string command
-                    
-                    spacing: 8
+                Text {
+                    text: "Quick Controls"
+                    color: "#6ec7ff"
+                    font.family: "Ubuntu Nerd Font"
+                    font.pixelSize: 14
+                    font.bold: true
+                }
 
-                    Process {
-                        id: toggleProc
-                        command: ["sh", "-c", parent.command]
-                        running: false
-                    }
+                GridLayout {
+                    columns: 2
+                    rowSpacing: 12
+                    columnSpacing: 12
+                    Layout.fillWidth: true
                     
-                    // Single Button
-                    Rectangle {
-                        width: 75; height: 45
-                        color: active ? "#6fc4ff" : Qt.rgba(255,255,255,0.04)
-                        border.color: active ? "#6fc4ff" : "#223445"
-                        radius: 20
+                    component ModernToggle : Rectangle {
+                        id: toggleRoot
+                        property string label
+                        property string icon
+                        property bool active
+                        property string command
                         
-                        Text {
-                            anchors.centerIn: parent
-                            text: icon
-                            font.family: "Ubuntu Nerd Font"
-                            font.pixelSize: 20
-                            color: active ? "#0c1826" : "#d7e6ff"
+                        Layout.fillWidth: true
+                        height: 60
+                        radius: 12
+                        color: active ? Qt.rgba(110/255, 199/255, 255/255, 0.15) : "#1a2533"
+                        border.color: active ? "#6ec7ff" : "#223445"
+                        border.width: 1
+
+                        Process {
+                            id: toggleProc
+                            command: ["sh", "-c", toggleRoot.command]
+                            running: false
                         }
                         
-                        TapHandler {
-                            onTapped: {
-                                toggleProc.running = false
+                        RowLayout {
+                            anchors.fill: parent
+                            anchors.leftMargin: 15
+                            anchors.rightMargin: 15
+                            spacing: 12
+                            
+                            Rectangle {
+                                width: 36; height: 36
+                                radius: 18
+                                color: active ? "#6ec7ff" : "#223445"
+                                
+                                Text {
+                                    anchors.centerIn: parent
+                                    text: icon
+                                    font.family: "Ubuntu Nerd Font"
+                                    font.pixelSize: 18
+                                    color: active ? "#0c1826" : "#8ca0b8"
+                                }
+                            }
+                            
+                            Text {
+                                text: label
+                                color: active ? "#ffffff" : "#d7e6ff"
+                                font.family: "Ubuntu Nerd Font"
+                                font.pixelSize: 14
+                                font.bold: true
+                                Layout.fillWidth: true
+                            }
+                        }
+                        
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
                                 toggleProc.running = true
                             }
                         }
                     }
+
+                    ModernToggle {
+                        label: "Night Light"
+                        icon: nightlightActive ? "󰛨" : "󰹏"
+                        active: nightlightActive
+                        command: "/home/lucas/.config/eww/scripts/nightlight --toggle"
+                    }
                     
-                    Text {
-                        text: label
-                        color: "#d7e6ff"
-                        font.pixelSize: 13
-                        font.bold: true
-                        Layout.alignment: Qt.AlignHCenter
+                    ModernToggle {
+                        label: "Wi-Fi"
+                        icon: wifiActive ? "󰖩" : "󰖪"
+                        active: wifiActive
+                        command: "/home/lucas/.config/eww/scripts/wifi --toggle"
+                    }
+                    
+                    ModernToggle {
+                        label: "Bluetooth"
+                        icon: bluetoothActive ? "󰂯" : "󰂲"
+                        active: bluetoothActive
+                        command: "/home/lucas/.config/eww/scripts/bluetooth --toggle"
+                    }
+                    
+                    ModernToggle {
+                        label: "DnD Mode"
+                        icon: dndActive ? "󰂛" : "󰂚"
+                        active: dndActive
+                        command: "dunstctl set-paused toggle"
                     }
                 }
+            }
 
-                ToggleItem {
-                    label: "Night Light"
-                    icon: nightlightActive ? "󰛨" : "󰹏"
-                    active: nightlightActive
-                    command: "/home/lucas/.config/eww/scripts/nightlight --toggle"
-                }
+            // --- Quote Card ---
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 120
+                radius: 16
+                color: "#1a2533"
+                border.color: "#223445"
+                border.width: 1
                 
-                ToggleItem {
-                    label: "Wifi"
-                    icon: wifiActive ? "󰖩" : "󰖪"
-                    active: wifiActive
-                    command: "/home/lucas/.config/eww/scripts/wifi --toggle"
-                }
-                
-                ToggleItem {
-                    label: "Bluetooth"
-                    icon: bluetoothActive ? "󰂯" : "󰂲"
-                    active: bluetoothActive
-                    command: "/home/lucas/.config/eww/scripts/getbluetooth"
-                }
-                
-                ToggleItem {
-                    label: "DnD"
-                    icon: dndActive ? "󰂛" : "󰂚"
-                    active: dndActive
-                    command: "/home/lucas/.config/eww/scripts/do_not_disturb.sh"
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 18
+                    spacing: 8
+                    
+                    Text {
+                        text: "󱆧"
+                        color: "#6ec7ff"
+                        font.family: "Ubuntu Nerd Font"
+                        font.pixelSize: 20
+                        opacity: 0.5
+                    }
+                    
+                    Text {
+                        text: quoteText
+                        color: "#d7e6ff"
+                        font.family: "Ubuntu Nerd Font"
+                        font.pixelSize: 14
+                        font.italic: true
+                        wrapMode: Text.WordWrap
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        verticalAlignment: Text.AlignVCenter
+                        maximumLineCount: 3
+                        elide: Text.ElideRight
+                    }
                 }
             }
-            
+
             // --- Power Menu ---
             RowLayout {
-                Layout.alignment: Qt.AlignHCenter
-                spacing: 20
+                Layout.fillWidth: true
+                spacing: 12
                 
-                component PowerBtn : Rectangle {
+                component ModernPowerBtn : Rectangle {
+                    id: powerBtnRoot
                     property string icon
                     property string command
-                    property string tooltipText
+                    property string bgColor
                     
-                    width: 50; height: 50
-                    radius: 16
-                    color: Qt.rgba(255,255,255,0.04)
+                    Layout.fillWidth: true
+                    height: 54
+                    radius: 12
+                    color: "#1a2533"
                     border.color: "#223445"
                     border.width: 1
 
                     Process {
                         id: proc
-                        command: ["sh", "-c", parent.command]
+                        command: ["sh", "-c", powerBtnRoot.command]
                         running: false
                     }
                     
@@ -368,22 +394,24 @@ PanelWindow {
                         color: "#e3edff"
                     }
                     
-                    TapHandler {
-                        onTapped: {
-                            proc.running = false
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onEntered: parent.border.color = "#6ec7ff"
+                        onExited: parent.border.color = "#223445"
+                        onClicked: {
                             proc.running = true
                         }
                     }
                 }
                 
-                PowerBtn { icon: ""; command: "systemctl poweroff"; tooltipText: "Shutdown" }
-                PowerBtn { icon: ""; command: "systemctl reboot"; tooltipText: "Reboot" }
-                PowerBtn { icon: ""; command: "/home/lucas/.config/eww/scripts/session_exit"; tooltipText: "Logout" }
-                PowerBtn { icon: "󰤄"; command: "systemctl suspend"; tooltipText: "Suspend" }
+                ModernPowerBtn { icon: ""; command: "systemctl poweroff" }
+                ModernPowerBtn { icon: ""; command: "systemctl reboot" }
+                ModernPowerBtn { icon: ""; command: "/home/lucas/.config/eww/scripts/session_exit" }
+                ModernPowerBtn { icon: "󰤄"; command: "systemctl suspend" }
             }
             
             Item { Layout.fillHeight: true }
-        
         }
     }
 }

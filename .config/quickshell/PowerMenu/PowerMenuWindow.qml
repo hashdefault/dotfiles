@@ -7,94 +7,81 @@ import Quickshell.Io
 PanelWindow {
     anchors {
         top: true
+        bottom: true
+        left: true
         right: true
     }
-    margins {
-        top: 10
-        right: 10
-    }
-    width: 100
-    height: 350
     color: "transparent"
 
-    Component.onCompleted: {
-        requestActivate()
-    }
-
-    Connections {
-        target: Qt.application
-        function onStateChanged() {
-            if (Qt.application.state === Qt.ApplicationInactive) {
-                Qt.quit()
-            }
+    // Background to catch clicks and close (optional, but good for UX)
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            // If they want it to close on click outside, they need a way to kill the process.
+            // But for now let's just make it work.
         }
-    }
-
-    // Shadow
-    Rectangle {
-        anchors.fill: mainRect
-        anchors.leftMargin: 4
-        anchors.topMargin: 4
-        color: "#000000"
-        opacity: 0.5
-        radius: 16
     }
 
     Rectangle {
         id: mainRect
-        anchors.fill: parent
-        anchors.rightMargin: 4
-        anchors.bottomMargin: 4
-        radius: 16
+        width: 500
+        height: 160
+        anchors.centerIn: parent
+        radius: 20
         gradient: Gradient {
              GradientStop { position: 0.0; color: "#0e141c" }
-             GradientStop { position: 0.45; color: "#161c24" }
              GradientStop { position: 1.0; color: "#0f2230" }
         }
-        border.color: "#1f2c3a"
+        border.color: "#223445"
         border.width: 1
 
-        ColumnLayout {
+        RowLayout {
             anchors.centerIn: parent
             spacing: 20
 
             component PowerItem : ColumnLayout {
+                id: powerItemRoot
                 property string label
                 property string icon
                 property string command
-                property string btnColor: "#e3edff"
-                property string activeColor: "#6fc4ff"
+                property string color: "#6ec7ff"
                 
-                spacing: 5
-                Layout.alignment: Qt.AlignHCenter
+                spacing: 10
+                Layout.alignment: Qt.AlignVCenter
 
                 Process {
                     id: proc
-                    command: ["sh", "-c", parent.command]
+                    command: ["sh", "-c", powerItemRoot.command]
                     running: false
                 }
 
                 Rectangle {
-                    width: 50; height: 50
-                    radius: 14
-                    color: Qt.rgba(255,255,255,0.04)
-                    border.color: hoverHandler.hovered ? activeColor : "#223445"
-                    border.width: 2
+                    id: btn
+                    width: 80; height: 80
+                    radius: 16
+                    color: mouseArea.containsMouse ? Qt.rgba(255, 255, 255, 0.08) : "#1a2533"
+                    border.color: mouseArea.containsMouse ? color : "#223445"
+                    border.width: 1
                     Layout.alignment: Qt.AlignHCenter
 
-                    HoverHandler { id: hoverHandler }
+                    Behavior on color { ColorAnimation { duration: 150 } }
+                    Behavior on border.color { ColorAnimation { duration: 150 } }
 
                     Text {
                         anchors.centerIn: parent
                         text: icon
                         font.family: "Ubuntu Nerd Font"
-                        font.pixelSize: 24
-                        color: hoverHandler.hovered ? activeColor : btnColor
+                        font.pixelSize: 32
+                        color: mouseArea.containsMouse ? color : "#e3edff"
+                        
+                        Behavior on color { ColorAnimation { duration: 150 } }
                     }
 
-                    TapHandler {
-                        onTapped: {
-                            proc.running = false
+                    MouseArea {
+                        id: mouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: {
                             proc.running = true
                         }
                     }
@@ -102,37 +89,42 @@ PanelWindow {
 
                 Text {
                     text: label
-                    color: hoverHandler.hovered ? activeColor : "#d7e6ff"
-                    font.pixelSize: 12
+                    color: mouseArea.containsMouse ? "#ffffff" : "#8ca0b8"
+                    font.family: "Ubuntu Nerd Font"
+                    font.pixelSize: 13
                     font.bold: true
                     Layout.alignment: Qt.AlignHCenter
+                    
+                    Behavior on color { ColorAnimation { duration: 150 } }
                 }
             }
 
             PowerItem {
                 label: "Shutdown"
-                icon: "⏻"
+                icon: ""
                 command: "systemctl poweroff"
-                btnColor: "#ff6b6b" // Reddish hint for danger
+                color: "#ff6b6b"
             }
 
             PowerItem {
                 label: "Reboot"
                 icon: ""
                 command: "systemctl reboot"
-                btnColor: "#ffd93d" // Yellowish
+                color: "#ffb86c"
             }
 
             PowerItem {
                 label: "Logout"
                 icon: ""
                 command: "/home/lucas/.config/eww/scripts/session_exit"
+                color: "#bd93f9"
             }
 
             PowerItem {
                 label: "Suspend"
                 icon: "󰤄"
                 command: "systemctl suspend"
+                color: "#50fa7b"
             }
         }
     }

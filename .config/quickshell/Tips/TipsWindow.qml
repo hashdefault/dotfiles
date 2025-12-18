@@ -11,9 +11,12 @@ PanelWindow {
         top: 100
         right: 50
     }
-    width: 400
-    height: 650
+    implicitWidth: 400
+    implicitHeight: 650
     color: "transparent"
+
+    WlrLayershell.layer: WlrLayershell.Background
+    WlrLayershell.namespace: "quickshell-tips"
 
     // Removed requestActivate to prevent stealing focus on load
     // Removed Connections to prevent closing on inactivity
@@ -83,18 +86,19 @@ PanelWindow {
                 component KeyItem : RowLayout {
                     property string key
                     property string desc
+                    property string app: ""
                     
                     Layout.fillWidth: true
-                    spacing: 10
+                    spacing: 12
 
                     // Key Chip
                     Rectangle {
                         Layout.preferredWidth: 160
-                        Layout.preferredHeight: 28
-                        color: Qt.rgba(255, 255, 255, 0.05)
+                        Layout.preferredHeight: 30
+                        color: Qt.rgba(110/255, 199/255, 255/255, 0.08)
                         border.color: "#223445"
                         border.width: 1
-                        radius: 6
+                        radius: 8
 
                         Text {
                             anchors.centerIn: parent
@@ -106,9 +110,9 @@ PanelWindow {
                         }
                     }
                     
-                    // Description
+                    // Description with App
                     Text {
-                        text: desc
+                        text: desc + (app !== "" ? " (" + app + ")" : "")
                         color: "#d7e6ff"
                         font.pixelSize: 13
                         font.family: "Ubuntu Nerd Font"
@@ -118,28 +122,23 @@ PanelWindow {
                 }
 
                 // Column 1
-                KeyItem { key: "SUPER + SHIFT + Enter"; desc: "Terminal" }
-                KeyItem { key: "SUPER + SHIFT + F"; desc: "Files" }
-                KeyItem { key: "SUPER + SHIFT + V"; desc: "Clipboard" }
-                KeyItem { key: "SUPER + SHIFT + N"; desc: "Edit Notes" }
-                KeyItem { key: "SUPER + SHIFT + C"; desc: "Close" }
-                KeyItem { key: "SUPER + SHIFT + R"; desc: "Reload" }
-                KeyItem { key: "SUPER + SHIFT + Q"; desc: "Logout" }
-                KeyItem { key: "SUPER + M"; desc: "Profile" }
-                KeyItem { key: "SUPER + R"; desc: "Rofi" }
-                
-                // Note: The original list was quite long. 
-                // A single column layout inside a GridLayout (essentially acting as a list) might be better if we want strict alignment.
-                // Or we can continue the list.
-                
-                KeyItem { key: "SUPER + B"; desc: "Browser" }
-                KeyItem { key: "SUPER + N"; desc: "Notify" }
-                KeyItem { key: "SUPER + Q"; desc: "Power" }
-                KeyItem { key: "SUPER + G"; desc: "Sys Mon" }
-                KeyItem { key: "SUPER + V"; desc: "Volume" }
-                KeyItem { key: "SUPER + H,L,K,J"; desc: "Focus" }
-                KeyItem { key: "SUPER + O"; desc: "Swap" }
-                KeyItem { key: "Print"; desc: "Shot" }
+                KeyItem { key: "SUPER + SHIFT + Enter"; desc: "Terminal"; app: "Alacritty" }
+                KeyItem { key: "SUPER + SHIFT + F"; desc: "Files"; app: "Thunar" }
+                KeyItem { key: "SUPER + SHIFT + V"; desc: "Clipboard"; app: "CopyQ" }
+                KeyItem { key: "SUPER + SHIFT + N"; desc: "Edit Notes"; app: "Neovim" }
+                KeyItem { key: "SUPER + SHIFT + C"; desc: "Close Window"; app: "System" }
+                KeyItem { key: "SUPER + SHIFT + R"; desc: "Reload Config"; app: "System" }
+                KeyItem { key: "SUPER + SHIFT + Q"; desc: "Exit Session"; app: "Logout" }
+                KeyItem { key: "SUPER + M"; desc: "Open SideMenu"; app: "Quickshell" }
+                KeyItem { key: "SUPER + R"; desc: "Run Launcher"; app: "Rofi" }
+                KeyItem { key: "SUPER + B"; desc: "Web Browser"; app: "Firefox" }
+                KeyItem { key: "SUPER + N"; desc: "Notifications"; app: "Dunst" }
+                KeyItem { key: "SUPER + Q"; desc: "Power Menu"; app: "Quickshell" }
+                KeyItem { key: "SUPER + G"; desc: "System Monitor"; app: "Quickshell" }
+                KeyItem { key: "SUPER + V"; desc: "Volume Control"; app: "Pavucontrol" }
+                KeyItem { key: "SUPER + H,L,K,J"; desc: "Focus Window"; app: "System" }
+                KeyItem { key: "SUPER + O"; desc: "Swap Window"; app: "System" }
+                KeyItem { key: "Print"; desc: "Screenshot"; app: "Grim/Slurp" }
             }
             
             Item { Layout.fillHeight: true }

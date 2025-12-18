@@ -13,20 +13,18 @@ PanelWindow {
         top: 10
         left: 10
     }
-    width: 240
-    height: 350
+    implicitWidth: 240
+    implicitHeight: 350
     color: "transparent"
 
     Component.onCompleted: {
-        requestActivate()
+        // Removed requestActivate() to prevent stealing focus
     }
 
     Connections {
         target: Qt.application
         function onStateChanged() {
-            if (Qt.application.state === Qt.ApplicationInactive) {
-                Qt.quit()
-            }
+            // Removed Qt.quit() on ApplicationInactive
         }
     }
 
@@ -231,17 +229,8 @@ PanelWindow {
     Process {
         id: cpuProc
         // Get CPU idle time and subtract from 100
-        command: ["sh", "-c", "top -bn1 | grep 'Cpu(s)' | awk '{print $2 + $4}'"] 
-        // Note: Top output varies by locale/version. 
-        // A more robust way for general Linux:
-        // grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage}'
-        // But top is usually fine. Let's try a simpler calculation using top's idle percentage
-        // command: top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1}'
-        
-        // Let's use a cleaner mpstat if available, but fallback to top.
-        // Simplified top parsing:
-        command: ["sh", "-c", "top -bn1 | grep 'Cpu(s)' | awk '{print 100 - $8}'"] 
         // $8 is typically 'id' (idle) in default top output
+        command: ["sh", "-c", "top -bn1 | grep 'Cpu(s)' | awk '{print 100 - $8}'"] 
         
         running: true
         stdout: SplitParser { onRead: data => cpuUsage.percentage = parseInt(data.trim()) }

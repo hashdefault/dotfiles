@@ -84,6 +84,7 @@ PanelWindow {
                 radius: 10
                 
                 MonthGrid {
+                    id: calendarGrid
                     anchors.fill: parent
                     anchors.margins: 6
                     month: new Date().getMonth()
@@ -92,8 +93,10 @@ PanelWindow {
                     font.family: "Ubuntu Nerd Font"
                     
                     delegate: Rectangle {
+                        readonly property bool isCurrentMonth: model.month === calendarGrid.month
                         color: model.today ? Qt.rgba(110/255, 199/255, 255/255, 0.15) : "transparent"
                         radius: 8
+                        opacity: isCurrentMonth ? 1.0 : 0.3
                         
                         Text {
                             anchors.centerIn: parent

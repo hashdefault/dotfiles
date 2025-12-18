@@ -12,20 +12,14 @@ PanelWindow {
     margins {
         top: 10
     }
-    width: 400
-    height: 700
+    implicitWidth: 400
+    implicitHeight: 700
     color: "transparent"
-
-    Component.onCompleted: {
-        requestActivate()
-    }
 
     Connections {
         target: Qt.application
         function onStateChanged() {
-            if (Qt.application.state === Qt.ApplicationInactive) {
-                Qt.quit()
-            }
+            // Removed Qt.quit()
         }
     }
 
@@ -260,7 +254,7 @@ PanelWindow {
     Process {
         id: ensureDunstlogProc
         command: ["sh", "-c", "touch /tmp/dunstlog"]
-        onExited: {
+        onExited: (exitCode) => {
             tailProc.running = true // Start tailing after ensuring the file exists
         }
     }
@@ -302,7 +296,7 @@ PanelWindow {
     Process {
         id: clearAllProc
         command: ["sh", "-c", "dunstctl history-clear && : > /tmp/dunstlog"]
-        onExited: {
+        onExited: (exitCode) => {
             notifModel.clear()
             // tail -F will automatically re-open the file if it's truncated or recreated,
             // so no manual restart is strictly needed but doesn't hurt.
