@@ -7,10 +7,11 @@ import Quickshell.Io
 PanelWindow {
     anchors {
         top: true
-        horizontalCenter: true
+        right: true
     }
     margins {
         top: 10
+        right: 10
     }
     implicitWidth: 400
     implicitHeight: 700
