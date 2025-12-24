@@ -21,7 +21,7 @@
     "custom/weather": {
         "format": "{}",
         "exec": "~/.local/bin/getweather && ~/.config/eww/scripts/getforecast",
-        "on-click": "~/.local/bin/eww open --toggle weather --screen $(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')",
+        "on-click": "~/.config/waybar/modules-scripts/quickshell_toggle.sh ~/.config/quickshell/Weather/WeatherWindow.qml",
         "interval": 900,
         "max-length": 35
     },
@@ -42,7 +42,7 @@
         "max-length": 35,
         "exec": "playerctl -a metadata --format '{\"text\": \"{{artist}} ~ {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
         "on-click-middle": "playerctl play-pause",
-        "on-click": "~/.local/bin/eww open --toggle musicplayer --screen $(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')",
+        "on-click": "~/.config/waybar/modules-scripts/quickshell_toggle.sh ~/.config/quickshell/MusicPlayer/MusicPlayerWindow.qml",
         "on-click-right": "playerctl next",
         "scroll-step": 5.0,
         "on-scroll-up": "amixer -D pulse sset Master 5%+",
@@ -62,11 +62,11 @@
             "\u2587",
             "\u2588"
         ],
-        "on-click": "~/.local/bin/eww open --toggle storagemon --screen $(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')"
+        "on-click": "~/.config/waybar/modules-scripts/quickshell_toggle.sh ~/.config/quickshell/StorageMon/StorageMonWindow.qml"
     },
     "memory": {
         "format": "\uef8f   {used} of {total}GiB",
-        "on-click": "~/.local/bin/eww open --toggle storagemon --screen $(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')"
+        "on-click": "~/.config/waybar/modules-scripts/quickshell_toggle.sh ~/.config/quickshell/StorageMon/StorageMonWindow.qml"
     },
     "battery": {
         "format": "{capacity}% {icon}",
@@ -88,7 +88,7 @@
     "custom/calendar": {
         "format": "\uf017  {}",
         "interval": 1,
-        "on-click": "~/.local/bin/eww open --toggle calendar_full --screen $(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')",
+        "on-click": "~/.config/waybar/modules-scripts/quickshell_toggle.sh ~/.config/quickshell/Calendar/CalendarWindow.qml",
         "exec": "~/.local/bin/clock"
     },
     "clock": {
