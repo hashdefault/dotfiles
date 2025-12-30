@@ -28,7 +28,6 @@ static const float urgentcolor[]           = COLOR(0xff0000ff);
 static const float fullscreen_bg[]         = {0.0f, 0.0f, 0.0f, 1.0f}; /* You can also use glsl colors */
 static const float default_opacity         = 0.90;
 
-
 static const float resize_factor           = 0.0002f; /* Resize multiplier for mouse resizing, depends on mouse sensivity. */
 static const uint32_t resize_interval_ms   = 16; /* Resize interval depends on framerate and screen refresh rate. */
  
@@ -187,11 +186,12 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 /* commands */
 static const char *termcmd[] = { "alacritty", NULL };
 static const char *filescmd[] = { "alacritty", "-e","ranger", NULL };
-static const char *wifimenu[] = { "kitty", "-e","nmtui", NULL };
+static const char *wifimenu[] = { "alacritty", "-e","nmtui", NULL };
 static const char *menucmd[] = { "/bin/sh","-c","~/.local/bin/wmenu-run",  NULL };
 static const char *logoutmenu[] = { "/bin/sh", "-c",  "~/.local/bin/dwl-logout", NULL };
 static const char *clipboard[] = { "/bin/sh" , "-c" ,"~/.local/bin/clipboard-wmenu.sh", NULL }; 
 static const char *listnotes[] = { "/bin/sh" , "-c" ,"~/.local/bin/list_notes_wmenu", NULL }; 
+static const char *screenshot[] = { "/bin/sh" , "-c" ,"~/.local/bin/screenshot", NULL }; 
 
 
 static const Key keys[] = {
@@ -200,7 +200,8 @@ static const Key keys[] = {
 	{ MODKEY,                     XKB_KEY_p,          spawn,          {.v = menucmd} },
 	{ MODKEY,                     XKB_KEY_w,          spawn,          {.v = wifimenu} },
 	{ MODKEY,                     XKB_KEY_v,          spawn,          {.v = clipboard} },
-	{ MODKEY|WLR_MODIFIER_SHIFT,  XKB_KEY_P,          spawn,          SHCMD("flameshot gui") },
+	/*{ MODKEY|WLR_MODIFIER_SHIFT,  XKB_KEY_P,          spawn,          {.v = screenshot}},*/
+  { MODKEY,                          XKB_KEY_Print,      spawn,          {.v = screenshot} },
 	{ MODKEY,                     XKB_KEY_Return,     spawn,          {.v = termcmd} },
 	{ MODKEY,                     XKB_KEY_f,          spawn,          {.v = filescmd} },
 	{ MODKEY,                     XKB_KEY_n,          spawn,          {.v = listnotes} },
