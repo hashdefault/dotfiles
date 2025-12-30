@@ -9,7 +9,7 @@ if [[ $XDG_SESSION_TYPE == 'x11' ]]; then
     -notify 30 -notifier "dunstify -i ~/.config/eww/images/lock.svg -a 'Locker' 'Locker  ' 'Locking screen in 30 seconds'" \
     -killtime 10 -killer "systemctl suspend" &
 
-elif [[ $XDG_SESSION_TYPE == 'wayland' ]]; then
+elif [[ $XDG_SESSION_DESKTOP == 'Hyprland' ]]; then
   hypridle -w \
     timeout 570 'dunstify -i ~/.config/eww/images/lock.svg -a "Locker" "Locker  " "Locking screen in 30 seconds"' \
     timeout 600 "hyprlock "

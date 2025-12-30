@@ -107,8 +107,8 @@ button:hover {
 #scratchpad,
 #power-profiles-daemon,
 #mpd {
-  padding: 1px 8px;
-  margin: 3px 4px;
+  padding: 0px 8px;
+  margin: 4px 4px;
   color: @foreground;
   border-radius: 15px;
 }
