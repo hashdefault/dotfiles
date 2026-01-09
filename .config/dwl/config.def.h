@@ -48,7 +48,7 @@ static int log_level = WLR_INFO;
 /* Autostart */
 static const char *const autostart[] = {
         "wlr-randr", "--output", "DP-1", "--on", "--output", "HDMI-A-1", "--on", NULL,
-        "swaybg", "-i", "/home/lucas/Pictures/wallpapers/dark/2114.jpg", "-m", "fill", NULL,
+        "waypaper", "--restore", NULL,
         "dunst", "-c", "~/.config/dunst/dunstrc", NULL,
         "wl-paste", "--watch", "cliphist", "store", NULL,
         "sleep","1s", NULL,
