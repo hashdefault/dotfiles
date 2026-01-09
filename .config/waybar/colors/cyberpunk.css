@@ -1,0 +1,22 @@
+@define-color background rgba(10, 10, 18, 0.95);
+@define-color foreground #e6e6ff;
+@define-color cursor #ff2cf6;
+
+@define-color color1  #ff2a6d;  /* neon pink */
+@define-color color2  #c77dff;  /* electric purple */
+@define-color color3  #ff9f1c;  /* amber neon */
+@define-color color4  #00f5d4;  /* cyber cyan */
+@define-color color5  #7b5cff;  /* synth violet */
+@define-color color6  #ff6f91;  /* hot coral */
+@define-color color7  #00bbf9;  /* laser blue */
+
+@define-color color8  #1a1a2e;  /* dark base */
+@define-color color9  #ff5c8a;  /* bright pink */
+@define-color color10 #d65db1;  /* magenta bloom */
+@define-color color11 #ffc75f;  /* neon yellow */
+@define-color color12 #00eaff;  /* bright cyan */
+@define-color color13 #845ec2;  /* deep purple */
+@define-color color14 #4d96ff;  /* electric blue */
+@define-color color15 #f8f8ff;  /* near-white */
+
+@define-color color16 #0b0c1a;
