@@ -15,8 +15,6 @@ static const int topbar                    = 1; /* 0 means bottom bar */
 static const char *fonts[] = { "JetBrainsMono Nerd Font:size=10", "Noto Color Emoji:size=10" };
 /* 1. Bar Background (Normal) matches wmenu "-nb" #121222 */
 static const float rootcolor[]             = COLOR(0x121222ff);
-static int enableautoswallow = 1; /* enables autoswallowing newly spawned clients */
-static float swallowborder = 1.0f; /* add this multiplied by borderpx to border when a client is swallowed */
  
 /* 2. Window Borders (Inactive) matches wmenu "-nb" #121222 */
 static const float bordercolor[]           = COLOR(0x121222ff);
@@ -27,7 +25,7 @@ static const float focuscolor[]            = COLOR(0x00ff99ff);
 /* 4. Urgent (Notifications) matches Red */
 static const float urgentcolor[]           = COLOR(0xff0000ff);
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
-static const float fullscreen_bg[]         = {0.0f, 0.0f, 0.0f, 1.0f}; /* You can also use glsl colors */
+static const float fullscreen_bg[]         = {0.0f, 0.0f, 0.0f, 0.0f}; /* You can also use glsl colors */
 static const float default_opacity         = 0.95;
 
 static const float resize_factor           = 0.0002f; /* Resize multiplier for mouse resizing, depends on mouse sensivity. */
@@ -69,32 +67,40 @@ static const char *const autostart[] = {
 };
 
 
+/* window resizing */
+/* resize_corner:
+ * 0: top-left
+ * 1: top-right
+ * 2: bottom-left
+ * 3: bottom-right
+ * 4: closest to the cursor
+ */
+static const int resize_corner = 4;
+static const int warp_cursor = 1;	/* 1: warp to corner, 0: don’t warp */
+static const int lock_cursor = 0;	/* 1: lock cursor, 0: don't lock */
+
 /* NOTE: ALWAYS keep a rule declared even if you don't use rules (e.g leave at least one example) */
 static const Rule rules[] = {
-    /* app_id                   title     tags mask    isfloating  isterm  noswallow   alpha       monitor */
-    { "firefox",                 NULL,       0,          0,          0,      0,         1.0,       -1 },
-    { "zen",                     NULL,       0,          0,          0,      0,         1.0,       -1 },
-    { "libre-wolf",              NULL,       0,          0,          0,      0,         1.0,       -1 },
-    { "google-chrome",           NULL,       0,          0,          0,      0,         1.0,       -1 },
-    { "brave-browser",           NULL,       0,          0,          0,      0,         1.0,       -1 },
-    { "Chromium",                NULL,       0,          0,          0,      0,         1.0,       -1 },
+    /* app_id                   title     tags mask    isfloating   alpha       monitor */
+    { "firefox",                 NULL,       0,          0,            1.0,       -1 },
+    { "zen",                     NULL,       0,          0,            1.0,       -1 },
+    { "libre-wolf",              NULL,       0,          0,            1.0,       -1 },
+    { "google-chrome",           NULL,       0,          0,            1.0,       -1 },
+    { "brave-browser",           NULL,       0,          0,            1.0,       -1 },
+    { "Chromium",                NULL,       0,          0,            1.0,       -1 },
 
-    { "Alacritty",               NULL,       0,          0,          1,      1,         1.0,       -1 },
-    { "foot",                    NULL,       0,          0,          1,      1,         1.0,       -1 },
-    { "kitty",                   NULL,       0,          0,          1,      1,         1.0,       -1 },
-    { "ghostty",                 NULL,       0,          0,          1,      1,         1.0,       -1 },
-    { "org.wezfurlong.wezterm",  NULL,       0,          0,          1,      1,         1.0,       -1 },
+    { "Alacritty",               NULL,       0,          0,             default_opacity,       -1 },
+    { "foot",                    NULL,       0,          0,             default_opacity,       -1 },
+    { "kitty",                   NULL,       0,          0,             default_opacity,       -1 },
+    { "ghostty",                 NULL,       0,          0,             default_opacity,       -1 },
+    { "org.wezfurlong.wezterm",  NULL,       0,          0,             1.0,       -1 },
 
-    { "steam",                     NULL,                   0,          1,          0,      0,         default_opacity,  -1 },
-    { "pavucontrol",               NULL,                   0,          1,          0,      0,         default_opacity,  -1 },
-    { "org.pulseaudio.pavucontrol",NULL,                   0,          1,          0,      0,         default_opacity,  -1 },
-    { "nm-connection-editor",      NULL,                   0,          1,          0,      0,         default_opacity,  -1 },
-    { NULL,                        "Picture-in-Picture",   0,          1,          0,      0,         1.0,              -1 },
+    { "steam",                     NULL,                   0,          1,         default_opacity,  -1 },
+    { "pavucontrol",               NULL,                   0,          1,         default_opacity,  -1 },
+    { "org.pulseaudio.pavucontrol",NULL,                   0,          1,         default_opacity,  -1 },
+    { "nm-connection-editor",      NULL,                   0,          1,         default_opacity,  -1 },
+    { NULL,                        "Picture-in-Picture",   0,          1,         1.0,              -1 },
 
-    /* LibreOffice - noswallow = 0 para permitir swallow */
-    { "libreoffice-calc",               NULL,                   0,          0,          0,      0,         1.0,              -1 },
-    { "libreoffice-writer",               NULL,                   0,          0,          0,      0,         1.0,              -1 },
-    { "soffice",                   NULL,                   0,          0,          0,      0,         1.0,              -1 },
 };
 
 /* layout(s) */
@@ -234,8 +240,6 @@ static const Key keys[] = {
 	{ MODKEY,                     XKB_KEY_space,      setlayout,      {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT,  XKB_KEY_space,      togglefloating, {0} },
 	{ MODKEY,                     XKB_KEY_e,         togglefullscreen, {0} },
-	{ MODKEY,                     XKB_KEY_a,          toggleswallow,  {0} },
-	{ MODKEY|WLR_MODIFIER_SHIFT,  XKB_KEY_A,          toggleautoswallow,{0} },
 	{ MODKEY,                     XKB_KEY_0,          view,           {.ui = ~0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT,  XKB_KEY_parenright, tag,            {.ui = ~0} },
 	{ MODKEY,                     XKB_KEY_h,      focusmon,       {.i = WLR_DIRECTION_LEFT} },
@@ -279,9 +283,10 @@ static const Button buttons[] = {
 /*
  * Patches applied
 autostart.patch
+better-resize-0.0.patch
 bar.patch
 client-opacity.patch
 gaps.patch
+hide-behind-fullscreen.patch
 monitorconfig.patch
-swallow.patch
 */
