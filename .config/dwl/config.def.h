@@ -6,27 +6,29 @@
 /* appearance */
 static const int sloppyfocus               = 1;  /* focus follows mouse */
 static const int bypass_surface_visibility = 0;  /* 1 means idle inhibitors will disable idle tracking even if it's surface isn't visible  */
-static const int smartgaps                 = 0;  /* 1 means no outer gap when there is only one window */
+static const int smartgaps                 = 1;  /* 1 means no outer gap when there is only one window */
 static int gaps                            = 1;  /* 1 means gaps between windows are added */
 static const unsigned int gappx            = 10; /* gap pixel between windows */
-static const unsigned int borderpx         = 2;  /* border pixel of windows */
+static const unsigned int borderpx         = 3;  /* border pixel of windows */
 static const int showbar                   = 1; /* 0 means no bar */
 static const int topbar                    = 1; /* 0 means bottom bar */
 static const char *fonts[] = { "JetBrainsMono Nerd Font:size=10", "Noto Color Emoji:size=10" };
 /* 1. Bar Background (Normal) matches wmenu "-nb" #121222 */
 static const float rootcolor[]             = COLOR(0x121222ff);
-
+static int enableautoswallow = 1; /* enables autoswallowing newly spawned clients */
+static float swallowborder = 1.0f; /* add this multiplied by borderpx to border when a client is swallowed */
+ 
 /* 2. Window Borders (Inactive) matches wmenu "-nb" #121222 */
 static const float bordercolor[]           = COLOR(0x121222ff);
 
-/* 3. Selected Tag & Window Border matches wmenu "-sb" #00ff99 (Purple) */
+/* 3. Selected Tag & Window Border matches wmenu "-sb" #00ff99 (Green) */
 static const float focuscolor[]            = COLOR(0x00ff99ff);
 
 /* 4. Urgent (Notifications) matches Red */
 static const float urgentcolor[]           = COLOR(0xff0000ff);
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.0f, 0.0f, 0.0f, 1.0f}; /* You can also use glsl colors */
-static const float default_opacity         = 0.90;
+static const float default_opacity         = 0.95;
 
 static const float resize_factor           = 0.0002f; /* Resize multiplier for mouse resizing, depends on mouse sensivity. */
 static const uint32_t resize_interval_ms   = 16; /* Resize interval depends on framerate and screen refresh rate. */
@@ -36,11 +38,11 @@ static uint32_t colors[][3]                = {
 	/*               fg          bg          border    */
 	[SchemeNorm] = { 0xdcdcdcff, 0x121222ff, 0x121222ff },
 	[SchemeSel]  = { 0x121222ff, 0x00ff99ff, 0x00ff99ff },
-	[SchemeUrg]  = { 0xffffffff, 0xff0099ff, 0xff0099ff },
+	[SchemeUrg]  = { 0xffffffff, 0xff0000ff, 0xff0000ff },
 };
 
 /* tagging */
-static char *tags[] = { "code", "web", "search", "chat", "media", "opt", "gfx", "misc" };
+static char *tags[] = { "dev", "web", "search", "chat", "media", "misc", "gfx", "opt" };
 
 /* logging */
 static int log_level = WLR_INFO;
@@ -48,7 +50,7 @@ static int log_level = WLR_INFO;
 /* Autostart */
 static const char *const autostart[] = {
         "wlr-randr", "--output", "DP-1", "--on", "--output", "HDMI-A-1", "--on", NULL,
-        "swaybg", "-i", "/home/lucas/Pictures/wallpapers/dark/2114.jpg", "-m", "fill", NULL,
+        "waypaper", "--restore", NULL,
         "dunst", "-c", "~/.config/dunst/dunstrc", NULL,
         "wl-paste", "--watch", "cliphist", "store", NULL,
         "sleep","1s", NULL,
@@ -69,28 +71,30 @@ static const char *const autostart[] = {
 
 /* NOTE: ALWAYS keep a rule declared even if you don't use rules (e.g leave at least one example) */
 static const Rule rules[] = {
-    /* app_id                      title                   tags mask   isfloating  alpha             monitor */
-    { "firefox",                 NULL,       0,          0,          1.0,       -1 },
-    { "zen",                 NULL,       0,          0,          1.0,       -1 },
-    { "libre-wolf",                 NULL,       0,          0,          1.0,       -1 },
-    { "google-chrome",           NULL,       0,          0,          1.0,       -1 },
-    { "brave-browser",           NULL,       0,          0,          1.0,       -1 },
-    { "Chromium",                NULL,       0,          0,          1.0,       -1 },
+    /* app_id                   title     tags mask    isfloating  isterm  noswallow   alpha       monitor */
+    { "firefox",                 NULL,       0,          0,          0,      0,         1.0,       -1 },
+    { "zen",                     NULL,       0,          0,          0,      0,         1.0,       -1 },
+    { "libre-wolf",              NULL,       0,          0,          0,      0,         1.0,       -1 },
+    { "google-chrome",           NULL,       0,          0,          0,      0,         1.0,       -1 },
+    { "brave-browser",           NULL,       0,          0,          0,      0,         1.0,       -1 },
+    { "Chromium",                NULL,       0,          0,          0,      0,         1.0,       -1 },
 
-    { "Alacritty",               NULL,       0,          0,          1.0,       -1 },
-    { "foot",                    NULL,       0,          0,          1.0,       -1 },
-    { "kitty",                   NULL,       0,          0,          1.0,       -1 },
-    { "ghostty",                   NULL,       0,          0,          1.0,       -1 },
-    { "org.wezfurlong.wezterm",  NULL,       0,          0,          1.0,       -1 },
+    { "Alacritty",               NULL,       0,          0,          1,      1,         1.0,       -1 },
+    { "foot",                    NULL,       0,          0,          1,      1,         1.0,       -1 },
+    { "kitty",                   NULL,       0,          0,          1,      1,         1.0,       -1 },
+    { "ghostty",                 NULL,       0,          0,          1,      1,         1.0,       -1 },
+    { "org.wezfurlong.wezterm",  NULL,       0,          0,          1,      1,         1.0,       -1 },
 
-    { "steam",                     NULL,                   0,          1,          default_opacity,  -1 },
-    { "pavucontrol",               NULL,                   0,          1,          default_opacity,  -1 },
-    { "org.pulseaudio.pavucontrol",NULL,                   0,          1,          default_opacity,  -1 },
-    { "nm-connection-editor",      NULL,                   0,          1,          default_opacity,  -1 },
-    { NULL,                        "Picture-in-Picture",   0,          1,          1.0,              -1 },
+    { "steam",                     NULL,                   0,          1,          0,      0,         default_opacity,  -1 },
+    { "pavucontrol",               NULL,                   0,          1,          0,      0,         default_opacity,  -1 },
+    { "org.pulseaudio.pavucontrol",NULL,                   0,          1,          0,      0,         default_opacity,  -1 },
+    { "nm-connection-editor",      NULL,                   0,          1,          0,      0,         default_opacity,  -1 },
+    { NULL,                        "Picture-in-Picture",   0,          1,          0,      0,         1.0,              -1 },
 
-    { "Gimp_EXAMPLE",              NULL,                   0,          1,          default_opacity,  -1 },
-    { "firefox_EXAMPLE",           NULL,                   1 << 8,     0,          1.0,              -1 },
+    /* LibreOffice - noswallow = 0 para permitir swallow */
+    { "libreoffice-calc",               NULL,                   0,          0,          0,      0,         1.0,              -1 },
+    { "libreoffice-writer",               NULL,                   0,          0,          0,      0,         1.0,              -1 },
+    { "soffice",                   NULL,                   0,          0,          0,      0,         1.0,              -1 },
 };
 
 /* layout(s) */
@@ -211,7 +215,7 @@ static const Key keys[] = {
   { 0,                          XKB_KEY_XF86AudioRaiseVolume, spawn,SHCMD("pamixer -i 5") },
   { 0,                          XKB_KEY_XF86AudioLowerVolume, spawn,SHCMD("pamixer -d 5") },
   { 0,                          XKB_KEY_XF86AudioMute,        spawn,SHCMD("pamixer -t") },
-	/*{ MODKEY,                     XKB_KEY_b,          togglebar,      {0} },*/
+	{ MODKEY,                     XKB_KEY_b,          togglebar,      {0} },
 	{ MODKEY,                     XKB_KEY_j,          focusstack,     {.i = +1} },
 	{ MODKEY,                     XKB_KEY_k,          focusstack,     {.i = -1} },
 	{ MODKEY,                     XKB_KEY_i,          incnmaster,     {.i = +1} },
@@ -230,10 +234,12 @@ static const Key keys[] = {
 	{ MODKEY,                     XKB_KEY_space,      setlayout,      {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT,  XKB_KEY_space,      togglefloating, {0} },
 	{ MODKEY,                     XKB_KEY_e,         togglefullscreen, {0} },
+	{ MODKEY,                     XKB_KEY_a,          toggleswallow,  {0} },
+	{ MODKEY|WLR_MODIFIER_SHIFT,  XKB_KEY_A,          toggleautoswallow,{0} },
 	{ MODKEY,                     XKB_KEY_0,          view,           {.ui = ~0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT,  XKB_KEY_parenright, tag,            {.ui = ~0} },
-	{ MODKEY,                     XKB_KEY_l,      focusmon,       {.i = WLR_DIRECTION_LEFT} },
-	{ MODKEY,                     XKB_KEY_h,     focusmon,       {.i = WLR_DIRECTION_RIGHT} },
+	{ MODKEY,                     XKB_KEY_h,      focusmon,       {.i = WLR_DIRECTION_LEFT} },
+	{ MODKEY,                     XKB_KEY_l,     focusmon,       {.i = WLR_DIRECTION_RIGHT} },
 	{ MODKEY|WLR_MODIFIER_SHIFT,  XKB_KEY_less,       tagmon,         {.i = WLR_DIRECTION_LEFT} },
 	{ MODKEY|WLR_MODIFIER_SHIFT,  XKB_KEY_greater,    tagmon,         {.i = WLR_DIRECTION_RIGHT} },
 	TAGKEYS(          XKB_KEY_1,  XKB_KEY_exclam,                     0),
@@ -277,4 +283,5 @@ bar.patch
 client-opacity.patch
 gaps.patch
 monitorconfig.patch
+swallow.patch
 */
