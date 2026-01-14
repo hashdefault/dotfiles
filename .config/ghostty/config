@@ -13,5 +13,5 @@ shell-integration = fish
 shell-integration-features = no-cursor
 cursor-style-blink = true
 background-opacity = 0.8
-theme = "Cyberpunk"
+theme = "Niji"
 cursor-color = #ff2cf6

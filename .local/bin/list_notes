@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dir_path="$HOME/Nextcloud/Notes"
+dir_path="$HOME/Docs/Notes"
 rofi_theme="$HOME/.config/rofi/launcher/style"
 prompt_icon="󱓧"
 icon_theme="Oranchelo"
