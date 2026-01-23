@@ -29,6 +29,8 @@ def autostart():
     os.system("dunst -config ~/.config/dunst/dunstrc &")
     os.system("wlsunset -t 4300 &")
     os.system("swayidle -w timeout 900 'lockscreen' &")
+    os.system("~/.config/dunst/scripts/nowplaying_notify.sh &")
+
     os.system("notify-send 'Welcome back!' 'Qtile is ready.' -i computer &")
 
 
@@ -195,11 +197,12 @@ screens = [
                 separator(),
                 widget.CPU(
                     foreground='#ccc',
+                    format='cpu: {load_percent}%',
                 ),
                 separator(),
                 widget.Memory(
                     foreground='#ccc',
-                    fmt='RAM:{}',
+                    fmt='mem:{}',
                     measure_mem='G',
                 ),
                 separator(),
@@ -207,7 +210,7 @@ screens = [
                     foreground='#ccc',
                     partition='/',
                     visible_on_warn=False,
-                    format='Disk: {uf}{m}/{s}{m} ({r:.0f}%)',
+                    format='dsk: {uf}{m}/{s}{m} ({r:.0f}%)',
                 ),
                 separator(),
                 widget.Volume(foreground='#ccc',fmt='Volume: {}'),
@@ -247,11 +250,12 @@ screens = [
                 separator(),
                 widget.CPU(
                     foreground='#ccc',
+                    format='cpu: {load_percent}%',
                 ),
                 separator(),
                 widget.Memory(
                     foreground='#ccc',
-                    fmt='RAM:{}',
+                    fmt='mem:{}',
                     measure_mem='G',
                 ),
                 separator(),
@@ -259,7 +263,7 @@ screens = [
                     foreground='#ccc',
                     partition='/',
                     visible_on_warn=False,
-                    format='Disk: {uf}{m}/{s}{m} ({r:.0f}%)',
+                    format='dsk: {uf}{m}/{s}{m} ({r:.0f}%)',
                 ),
                 separator(),
                 widget.Volume(foreground='#ccc',fmt='Volume: {}'),
