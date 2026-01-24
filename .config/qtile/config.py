@@ -16,9 +16,12 @@ cyberpunk = {
     "neon_cyan": "#00ffff",
     "neon_magenta": "#ff00ff",
     "neon_pink": "#ff0080",
+    "neon_pink_dim": "#cc77aa",
     "dark_bg": "#0a0a0a",
     "border_normal": "#1a1a2e",
+    "border_unfocused": "#1e4a68",
     "border_focus": "#00ffaa",
+    "border_focus_dim": "#3f7c68",
     "border_stack": "#e75480",
 }
 
@@ -43,12 +46,11 @@ keys = [
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "e", lazy.next_screen()),
-    Key([mod], "w", lazy.prev_screen()),
-    Key([mod, "shift"],"e", lazy.window.to_screen()),
+    Key([mod], "tab", lazy.next_screen()),
     Key([mod], "space", lazy.window.toggle_floating(), desc="Toggle floating"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
+    Key([mod, "shift"], "e", lazy.window.to_group()),
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
     Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
     Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
@@ -77,7 +79,7 @@ keys = [
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod], "p", lazy.spawn("dm-run"), desc="Launch dmenu"),
     # Toggle between different layouts as defined below
-    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    Key([mod], "t", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "c", lazy.window.kill(), desc="Kill focused window"),
     Key(
         [mod],
@@ -91,6 +93,7 @@ keys = [
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key([], "Print", lazy.spawn("screenshot"), desc="Take screenshot"),
     # Volume controls
+    Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause"), desc="Play or Pause media"),
     Key([], "XF86AudioRaiseVolume", lazy.spawn("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"), desc="Raise volume"),
     Key([], "XF86AudioLowerVolume", lazy.spawn("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), desc="Lower volume"),
     Key([], "XF86AudioMute", lazy.spawn("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), desc="Mute/unmute"),
@@ -178,7 +181,10 @@ screens = [
             [
                 widget.GroupBox(
                     highlight_method='line',
-                    this_current_screen_border=cyberpunk["neon_pink"],
+                    this_current_screen_border=cyberpunk["border_focus"],
+                    this_screen_border=cyberpunk["border_focus_dim"],
+                    other_current_screen_border=cyberpunk["border_focus"],
+                    other_screen_border=cyberpunk['border_focus_dim'],
                 ),
                 widget.CurrentLayout(),
                 widget.Prompt(),
@@ -231,7 +237,10 @@ screens = [
             [
                 widget.GroupBox(
                     highlight_method='line',
-                    this_current_screen_border=cyberpunk["neon_pink"],
+                    this_current_screen_border=cyberpunk["border_focus"],
+                    this_screen_border=cyberpunk["border_focus_dim"],
+                    other_current_screen_border=cyberpunk["border_focus"],
+                    other_screen_border=cyberpunk['border_focus_dim'],               
                 ),
                 widget.CurrentLayout(),
                 widget.Prompt(),
@@ -328,7 +337,7 @@ wl_input_rules = {
         kb_layout="us",
         kb_variant="altgr-intl",
         kb_repeat_rate=35,
-        kb_delay=200
+        kb_repeat_delay=200
     ),
 }
 idle_inhibitors = []  # type: list
