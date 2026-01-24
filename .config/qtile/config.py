@@ -1,5 +1,6 @@
 import os
 import subprocess
+from sys import byteorder
 
 from libqtile import bar, hook, layout, qtile, widget
 from libqtile.backend.wayland import inputs
@@ -19,7 +20,7 @@ cyberpunk = {
     "neon_pink_dim": "#cc77aa",
     "dark_bg": "#0a0a0a",
     "border_normal": "#1a1a2e",
-    "border_unfocused": "#1e4a68",
+    "border_unfocused": "#317aaa",
     "border_focus": "#00ffaa",
     "border_focus_dim": "#3f7c68",
     "border_stack": "#e75480",
@@ -94,6 +95,8 @@ keys = [
     Key([], "Print", lazy.spawn("screenshot"), desc="Take screenshot"),
     # Volume controls
     Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause"), desc="Play or Pause media"),
+    Key([], "XF86AudioNext", lazy.spawn("playerctl next"), desc="Play Next"),
+    Key([], "XF86AudioPrev", lazy.spawn("playerctl previous"), desc="Play Previous"),
     Key([], "XF86AudioRaiseVolume", lazy.spawn("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"), desc="Raise volume"),
     Key([], "XF86AudioLowerVolume", lazy.spawn("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), desc="Lower volume"),
     Key([], "XF86AudioMute", lazy.spawn("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), desc="Mute/unmute"),
@@ -185,8 +188,12 @@ screens = [
                     this_screen_border=cyberpunk["border_focus_dim"],
                     other_current_screen_border=cyberpunk["border_focus"],
                     other_screen_border=cyberpunk['border_focus_dim'],
+                    active=cyberpunk['neon_cyan'],
+                    inactive=cyberpunk['border_unfocused']
                 ),
+                separator(),
                 widget.CurrentLayout(),
+                separator(),
                 widget.Prompt(),
                 widget.WindowName(),
                 widget.Chord(
@@ -229,8 +236,9 @@ screens = [
                 widget.Systray(),
             ],
             24,
+            background=cyberpunk['border_normal'],
         ),
-        background="#000000",
+        background=cyberpunk['border_normal'],
     ),
     Screen(
         top=bar.Bar(
@@ -241,8 +249,12 @@ screens = [
                     this_screen_border=cyberpunk["border_focus_dim"],
                     other_current_screen_border=cyberpunk["border_focus"],
                     other_screen_border=cyberpunk['border_focus_dim'],               
+                    active=cyberpunk['neon_cyan'],
+                    inactive=cyberpunk['border_unfocused']
                 ),
+                separator(),
                 widget.CurrentLayout(),
+                separator(),
                 widget.Prompt(),
                 widget.WindowName(),
                 widget.Chord(
@@ -284,8 +296,9 @@ screens = [
                 ),
             ],
             24,
+            background=cyberpunk['border_normal'],
         ),
-        background="#000000",
+        background=cyberpunk['border_normal'],
     ),
 ]
 
