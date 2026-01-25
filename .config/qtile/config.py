@@ -2,6 +2,7 @@ import os
 import subprocess
 from sys import byteorder
 
+
 from libqtile import bar, hook, layout, qtile, widget
 from libqtile.backend.wayland import inputs
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
@@ -29,14 +30,14 @@ cyberpunk = {
 
 @hook.subscribe.startup_once
 def autostart():
-    os.system("wlr-randr --output HDMI-A-1 --pos 0,0 --on")
-    os.system("waypaper --restore &")
+    subprocess.Popen(["kanshi"])
     os.system("dunst -config ~/.config/dunst/dunstrc &")
+    os.system("waypaper --restore &")
     os.system("wlsunset -t 4300 &")
-    os.system("greenclip daemon  &")
     os.system("swayidle -w timeout 900 'swaylock-screen' &")
     os.system("~/.config/dunst/scripts/nowplaying_notify.sh &")
     os.system("~/.local/bin/welcome-notify.sh &")
+
 
 
 
@@ -65,7 +66,7 @@ keys = [
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod, "shift"], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
     Key([mod], "v", lazy.spawn("clipboard-dmenu.sh"), desc="Clipboard menu"),
-    Key([mod], "q", lazy.spawn("powermenu-dmenu"), desc="Power menu"),
+    Key([mod], "q", lazy.spawn("powermenu-dmenu.sh"), desc="Power menu"),
     Key([mod], "x", lazy.spawn("swaylock-screen"), desc="Lock screen"),
     Key([mod], "n", lazy.spawn("list_notes_dmenu"), desc="List notes"),
     # Toggle between split and unsplit sides of stack.
