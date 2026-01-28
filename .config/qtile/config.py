@@ -335,9 +335,11 @@ floating_layout = layout.Floating(
     ]
 )
 
-PIP_WIDTH = 400
-PIP_HEIGHT = 220
+PIP_WIDTH = 420
+PIP_HEIGHT = 230
 PIP_MARGIN = 20  # distância da borda da tela
+
+pip_window = None
 
 @hook.subscribe.client_managed
 def gpg_pinentry_float(window):
@@ -378,10 +380,9 @@ def detect_pip(window):
 
 
 @hook.subscribe.setgroup
-def keep_pip_on_group():
+def keep_pip_on_screen():
     if pip_window and pip_window.group:
-        qtile = pip_window.qtile
-        pip_window.togroup(qtile.current_group.name)
+        pip_window.toscreen(0)
 
 
 auto_fullscreen = True
