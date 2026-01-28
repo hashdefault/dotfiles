@@ -2,7 +2,6 @@ import os
 import subprocess
 from sys import byteorder
 
-
 from libqtile import bar, hook, layout, qtile, widget
 from libqtile.backend.wayland import inputs
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
@@ -34,6 +33,7 @@ def autostart():
     os.system("dunst -config ~/.config/dunst/dunstrc &")
     os.system("waypaper --restore &")
     os.system("wlsunset -t 4300 &")
+    os.system("syncthing --no-browser &")
     os.system("swayidle -w timeout 900 'swaylock-screen' &")
     os.system("~/.config/dunst/scripts/nowplaying_notify.sh &")
     os.system("~/.local/bin/welcome-notify.sh &")
@@ -90,7 +90,6 @@ keys = [
         lazy.window.toggle_fullscreen(),
         desc="Toggle fullscreen on the focused window",
     ),
-    Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
     Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
@@ -325,13 +324,59 @@ floating_layout = layout.Floating(
         # Run the utility of `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
         Match(wm_class="confirmreset"),  # gitk
+        Match(wm_class="dialog"),  # gitk
+        Match(wm_class="utility"),  # gitk
+        Match(title="Picture-in-Picture"),
         Match(wm_class="makebranch"),  # gitk
         Match(wm_class="maketag"),  # gitk
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title="branchdialog"),  # gitk
-        Match(title="pinentry"),  # GPG key password entry
+        Match(wm_class="pinentry"),  # GPG key password entry
     ]
 )
+
+PIP_WIDTH = 350
+PIP_HEIGHT = 200
+PIP_MARGIN = 20  # distância da borda da tela
+
+@hook.subscribe.client_managed
+def gpg_pinentry_float(window):
+    # app_id mais comuns do pinentry
+    if window.wm_class in {
+        "pinentry-gtk-2",
+        "pinentry-qt",
+    }:
+        window.floating = True
+        window.center()
+        return
+
+    # fallback por título (caso distro/custom)
+    if window.name and "pinentry" in window.name.lower():
+        window.floating = True
+        window.center()
+
+@hook.subscribe.client_managed
+def place_picture_in_picture(window):
+    if not window.name:
+        return
+
+    if "Picture-in-Picture" in window.name:
+        screen = window.qtile.current_screen
+
+        x = screen.x + screen.width - PIP_WIDTH - PIP_MARGIN
+        y = screen.y + screen.height - PIP_HEIGHT - PIP_MARGIN
+
+        window.floating = True
+        window.place(
+            x=x,
+            y=y,
+            width=PIP_WIDTH,
+            height=PIP_HEIGHT,
+            borderwidth=0
+        )
+
+
+
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 focus_previous_on_window_remove = False
