@@ -335,8 +335,8 @@ floating_layout = layout.Floating(
     ]
 )
 
-PIP_WIDTH = 350
-PIP_HEIGHT = 200
+PIP_WIDTH = 400
+PIP_HEIGHT = 220
 PIP_MARGIN = 20  # distância da borda da tela
 
 @hook.subscribe.client_managed
@@ -355,26 +355,33 @@ def gpg_pinentry_float(window):
         window.floating = True
         window.center()
 
+
 @hook.subscribe.client_managed
-def place_picture_in_picture(window):
-    if not window.name:
-        return
+def detect_pip(window):
+    global pip_window
 
-    if "Picture-in-Picture" in window.name:
+    if window.name and "Picture-in-Picture" in window.name:
+        pip_window = window
+        window.floating = True
+
         screen = window.qtile.current_screen
-
         x = screen.x + screen.width - PIP_WIDTH - PIP_MARGIN
         y = screen.y + screen.height - PIP_HEIGHT - PIP_MARGIN
 
-        window.floating = True
         window.place(
             x=x,
             y=y,
             width=PIP_WIDTH,
             height=PIP_HEIGHT,
-            borderwidth=0
+            borderwidth=0,
         )
 
+
+@hook.subscribe.setgroup
+def keep_pip_on_group():
+    if pip_window and pip_window.group:
+        qtile = pip_window.qtile
+        pip_window.togroup(qtile.current_group.name)
 
 
 auto_fullscreen = True
