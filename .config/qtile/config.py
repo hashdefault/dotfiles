@@ -30,6 +30,7 @@ cyberpunk = {
 @hook.subscribe.startup_once
 def autostart():
     subprocess.Popen(["kanshi"])
+    subprocess.Popen(['wl-paste', '--watch', 'cliphist', '-max-items', '1000', 'store'])
     os.system("dunst -config ~/.config/dunst/dunstrc &")
     os.system("waypaper --restore &")
     os.system("wlsunset -t 4300 &")
