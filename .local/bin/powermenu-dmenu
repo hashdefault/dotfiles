@@ -1,0 +1,19 @@
+#!/bin/sh
+# Power menu using dmenu for Wayland
+
+options="󰐥  Shutdown\n󰜉  Reboot\n󰍃  Logout\n󰤄  Suspend"
+
+selected=$(printf "$options" | dmenu -i -l 4 -p "Power:" \
+  -fn "JetBrainsMono Nerd Font:size=10" \
+  -nb '#121222' -nf '#cccccc' -sb '#00ff99' -sf '#121222')
+
+case "$selected" in
+  "󰐥  Shutdown")
+    systemctl poweroff ;;
+  "󰜉  Reboot")
+    systemctl reboot ;;
+  "󰍃  Logout")
+    pkill -SIGTERM -u "$USER" ;;
+  "󰤄  Suspend")
+    systemctl suspend ;;
+esac

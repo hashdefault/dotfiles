@@ -69,7 +69,7 @@ keys = [
     Key([mod], "v", lazy.spawn("clipboard-dmenu.sh"), desc="Clipboard menu"),
     Key([mod], "q", lazy.spawn("powermenu-dmenu.sh"), desc="Power menu"),
     Key([mod], "x", lazy.spawn("swaylock-screen"), desc="Lock screen"),
-    Key([mod], "n", lazy.spawn("list_notes_dmenu"), desc="List notes"),
+    Key([mod], "n", lazy.spawn("listnotes-dmenu"), desc="List notes"),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
@@ -233,7 +233,7 @@ screens = [
                 widget.Clock(
                     foreground='#ccc',
                     format="%Y, %B %d %a %I:%M %p",
-                    mouse_callbacks={'Button1': lambda: qtile.spawn('sh -c "notify-send \"$(cal -3)\""')},
+                    mouse_callbacks={'Button1': lambda: qtile.cmd_spawn('/home/lucas/.local/bin/cal.py')}
                 ),
                 widget.Systray(),
             ],
@@ -294,7 +294,7 @@ screens = [
                 widget.Clock(
                     foreground='#ccc',
                     format="%Y, %B %d %a %I:%M %p",
-                    mouse_callbacks={'Button1': lambda: qtile.spawn('sh -c "notify-send \"$(cal -3)\""')},
+                    mouse_callbacks={'Button1': lambda: qtile.cmd_spawn('/home/lucas/.local/bin/cal.py')}
                 ),
             ],
             24,
