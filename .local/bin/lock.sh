@@ -1,16 +1,35 @@
 #!/bin/bash
 
-WALLPAPER=$(find ~/Pictures/wallpapers -type f | shuf -n 1)
-if [[ $XDG_SESSION_TYPE == 'x11' ]]; then
-  betterlockscreen -u "$WALLPAPER"
+WALLPAPER_DIR=~/Pictures/wallpapers/
 
-  xset s 500 &
-  xautolock -time 15 -locker "betterlockscreen -l" \
-    -notify 30 -notifier "dunstify -i ~/.config/eww/images/lock.svg -a 'Locker' 'Locker  ' 'Locking screen in 30 seconds'" \
-    -killtime 10 -killer "systemctl suspend" &
+lock() {
+    WALLPAPER=$(find "$WALLPAPER_DIR" -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.bmp' \) | shuf -n 1)
+    betterlockscreen -u "$WALLPAPER"
+    betterlockscreen -l
+}
 
-elif [[ $XDG_SESSION_DESKTOP == 'Hyprland' ]]; then
-  hypridle -w \
-    timeout 570 'dunstify -i ~/.config/eww/images/lock.svg -a "Locker" "Locker  " "Locking screen in 30 seconds"' \
-    timeout 600 "hyprlock "
-fi
+warn() {
+    dunstify -u critical -t 30000 "Screen Lock" "Locking in 30 seconds..."
+}
+
+case "$1" in
+    --lock)
+        lock
+        ;;
+    --warn)
+        warn
+        ;;
+    *)
+        # Kill any existing xautolock instance
+        killall xautolock 2>/dev/null
+
+        xautolock \
+            -time 15 \
+            -locker "$0 --lock" \
+            -notify 30 \
+            -notifier "$0 --warn" \
+            -detectsleep &
+
+        echo "Idle lock daemon started (locks after 15min, warns 30s before)"
+        ;;
+esac

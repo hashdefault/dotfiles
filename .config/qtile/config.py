@@ -4,7 +4,7 @@ from sys import byteorder
 
 from libqtile import bar, hook, layout, qtile, widget
 from libqtile.backend.wayland import inputs
-from libqtile.config import Click, Drag, Group, Key, Match, Screen
+from libqtile.config import Click, Drag, Group, Key, Match, Rule, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
@@ -30,15 +30,14 @@ cyberpunk = {
 @hook.subscribe.startup_once
 def autostart():
     subprocess.Popen(["kanshi"])
-    subprocess.Popen(['wl-paste', '--watch', 'cliphist', '-max-items', '1000', 'store'])
+    subprocess.Popen(['greenclip', 'daemon'])
     os.system("dunst -config ~/.config/dunst/dunstrc &")
-    os.system("waypaper --restore &")
-    os.system("wlsunset -t 4300 &")
+    os.system("nitrogen --restore &")
+    os.system("redshift -O 4300 &")
     os.system("syncthing --no-browser &")
-    os.system("swayidle -w timeout 900 'swaylock-screen' &")
+    os.system("~/.local/bin/lock.sh &")
     os.system("~/.config/dunst/scripts/nowplaying_notify.sh &")
     os.system("~/.local/bin/welcome-notify.sh &")
-
 
 
 
@@ -94,7 +93,7 @@ keys = [
     Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
-    Key([], "Print", lazy.spawn("screenshot"), desc="Take screenshot"),
+    Key([], "Print", lazy.spawn("flameshot gui"), desc="Take screenshot"),
     # Volume controls
     Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause"), desc="Play or Pause media"),
     Key([], "XF86AudioNext", lazy.spawn("playerctl next"), desc="Play Next"),
@@ -143,7 +142,24 @@ for i in groups:
             #     desc="move focused window to group {}".format(i.name)),
         ]
     )
+swallow_matches = [
+    Match(wm_class="feh"),
+    Match(wm_class="imv"),
+    Match(wm_class="sxiv"),
+    Match(wm_class="nsxiv"),
 
+    Match(wm_class="mpv"),
+    Match(wm_class="vlc"),
+
+    Match(wm_class="zathura"),
+    Match(wm_class="evince"),
+    Match(wm_class="okular"),
+
+    Match(wm_class="libreoffice"),
+    Match(wm_class="libreoffice-calc"),
+    Match(wm_class="soffice"),
+
+]
 layouts = [
     layout.MonadTall(
         border_focus=cyberpunk["border_focus"],
@@ -151,7 +167,8 @@ layouts = [
         border_width=3,
         margin=8,
         single_margin=0,
-    ),
+        swallow_rules=swallow_matches,
+            ),
     layout.Columns(
         border_focus=cyberpunk["border_focus"],
         border_normal=cyberpunk["border_normal"],
@@ -160,6 +177,7 @@ layouts = [
         border_width=3,
         margin=8,
         margin_on_single=0,
+        swallow_rules=swallow_matches
     ),
     layout.Max(),
     layout.Tile(
@@ -167,8 +185,62 @@ layouts = [
         border_normal=cyberpunk["border_normal"],
         border_width=3,
         margin=8,
+        swallow_rules=swallow_matches
     ),
 ]
+dgroups_app_rules = [
+    Rule(Match(wm_class="zathura")),
+    Rule(Match(wm_class="evince")),
+    Rule(Match(wm_class="okular")),
+
+    Rule(Match(wm_class="libreoffice")),
+    Rule(Match(wm_class="libreoffice-calc")),
+    Rule(Match(wm_class="soffice")),
+
+    Rule(Match(wm_class="feh")),
+    Rule(Match(wm_class="qView")),
+    Rule(Match(wm_class="imv")),
+    Rule(Match(wm_class="sxiv")),
+    Rule(Match(wm_class="nsxiv")),
+
+    Rule(Match(wm_class="mpv")),
+    Rule(Match(wm_class="vlc")),
+]
+
+FULLSCREEN_MATCHES = [
+    Match(wm_class="feh"),
+    Match(wm_class="imv"),
+    Match(wm_class="sxiv"),
+    Match(wm_class="nsxiv"),
+    Match(wm_class="qView"),
+
+    Match(wm_class="mpv"),
+    Match(wm_class="vlc"),
+
+    Match(wm_class="zathura"),
+    Match(wm_class="evince"),
+    Match(wm_class="okular"),
+
+    Match(wm_class="libreoffice"),
+    Match(wm_class="libreoffice-calc"),
+    Match(wm_class="soffice"),
+]
+@hook.subscribe.client_new
+def maximize_qview(window):
+    wm_class = window.get_wm_class()
+    print(f"New window class: {wm_class}")  # Check qtile log
+    if wm_class and any(x in str(wm_class).lower() for x in ['qview']):
+        window.cmd_toggle_maximize()
+
+
+@hook.subscribe.client_managed
+def force_fullscreen(window):
+    for m in FULLSCREEN_MATCHES:
+        if m.compare(window):
+            window.toggle_maximize()
+            break
+
+
 
 widget_defaults = dict(
     font="JetBrainsMono Nerd Font",
@@ -317,6 +389,8 @@ follow_mouse_focus = True
 bring_front_click = False
 floats_kept_above = True
 cursor_warp = False
+
+
 floating_layout = layout.Floating(
     border_focus=cyberpunk["neon_cyan"],
     border_normal=cyberpunk["border_normal"],
@@ -420,3 +494,4 @@ idle_inhibitors = []  # type: list
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
+
