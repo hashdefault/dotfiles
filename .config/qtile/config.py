@@ -9,7 +9,7 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
 mod = "mod4"
-terminal = guess_terminal('ghostty')
+terminal = guess_terminal('alacritty')
 
 # Cyberpunk color scheme - neon green primary
 cyberpunk = {
@@ -33,11 +33,13 @@ def autostart():
     subprocess.Popen(['greenclip', 'daemon'])
     os.system("dunst -config ~/.config/dunst/dunstrc &")
     os.system("nitrogen --restore &")
-    os.system("redshift -O 4300 &")
+    os.system("redshift -O 4200 &")
     os.system("syncthing --no-browser &")
     os.system("~/.local/bin/lock.sh &")
     os.system("~/.config/dunst/scripts/nowplaying_notify.sh &")
     os.system("~/.local/bin/welcome-notify.sh &")
+    os.system("setxkbmap -layout us -variant altgr-intl")
+    os.system("xset r rate 200 35")
 
 
 
@@ -475,14 +477,14 @@ auto_minimize = True
 # xcursor theme (string or None) and size (integer) for Wayland backend
 wl_xcursor_theme = None
 wl_xcursor_size = 24
-wl_input_rules = {
-    "type:keyboard": inputs.InputConfig(
-        kb_layout="us",
-        kb_variant="altgr-intl",
-        kb_repeat_rate=35,
-        kb_repeat_delay=200
-    ),
-}
+#wl_input_rules = {
+#    "type:keyboard": inputs.InputConfig(
+#        kb_layout="us",
+#        kb_variant="altgr-intl",
+#        kb_repeat_rate=35,
+#        kb_repeat_delay=200
+#    ),
+#}
 idle_inhibitors = []  # type: list
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
