@@ -55,6 +55,7 @@ weather_icons["50d"]=" "
 weather_icons["50n"]=" "
 
 weather=$(curl -sf "http://api.openweathermap.org/data/2.5/weather?APPID=$KEY&q=$ID&units=$UNIT")
+fore=$("~/.local/bin/getforecast")
 
 if [ -n "$weather" ]; then
 

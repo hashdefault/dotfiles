@@ -26,27 +26,43 @@ cyberpunk = {
     "border_stack": "#e75480",
 }
 
+def run_once(cmd):
+    """Spawn command without invoking a shell."""
+    if isinstance(cmd, list):
+        subprocess.Popen(cmd)
+    else:
+        subprocess.Popen(cmd.split())
 
 @hook.subscribe.startup_once
 def autostart():
-    subprocess.Popen(["kanshi"])
-    subprocess.Popen(['greenclip', 'daemon'])
-    os.system("dunst -config ~/.config/dunst/dunstrc &")
-    os.system("nitrogen --restore &")
-    os.system("redshift -O 4200 &")
-    os.system("syncthing --no-browser &")
-    os.system("~/.local/bin/lock.sh &")
-    os.system("~/.config/dunst/scripts/nowplaying_notify.sh &")
-    os.system("~/.local/bin/welcome-notify.sh &")
-    os.system("setxkbmap -layout us -variant altgr-intl")
-    os.system("xset r rate 200 35")
+    home = os.path.expanduser("~")
 
+    commands = [
+        ["kanshi"],
+        ["greenclip", "daemon"],
+        ["dunst", "-config", f"{home}/.config/dunst/dunstrc"],
+        ["nitrogen", "--restore"],
+        ["redshift", "-O", "4200"],
+        ["syncthing", "--no-browser"],
+        ["picom", "--config", f"{home}/.config/picom/picom.conf"],
+        ["setxkbmap", "-layout", "us", "-variant", "altgr-intl"],
+        ["xset", "r", "rate", "200", "35"],
+        [f"{home}/.local/bin/getforecast"],
+        [f"{home}/.local/bin/lock.sh"],
+        [f"{home}/.config/scripts/getforecast"],
+        [f"{home}/.config/dunst/scripts/nowplaying_notify.sh"],
+        [f"{home}/.local/bin/welcome-notify.sh"],
+    ]
 
+    for cmd in commands:
+        run_once(cmd)
 
 keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
     # Switch between windows
+
+    Key([mod], "m", lazy.spawn('eww open --toggle --anchor "top left" --pos 10x35 sidemenu '), desc="Menu Eww Profile Widget"),
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
@@ -55,6 +71,7 @@ keys = [
     Key([mod], "space", lazy.window.toggle_floating(), desc="Toggle floating"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
+    Key([mod, "shift"], "n", lazy.spawn('eww open --toggle --anchor "top center" --pos 0x35 notifications '), desc="Menu Eww Notifications Widget"),
     Key([mod, "shift"], "e", lazy.window.to_group()),
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
     Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
@@ -66,7 +83,7 @@ keys = [
     Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
     Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod, "shift"], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    #Key([mod, "shift"], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
     Key([mod], "v", lazy.spawn("clipboard-dmenu.sh"), desc="Clipboard menu"),
     Key([mod], "q", lazy.spawn("powermenu-dmenu.sh"), desc="Power menu"),
     Key([mod], "x", lazy.spawn("swaylock-screen"), desc="Lock screen"),
@@ -282,6 +299,9 @@ screens = [
                     func=lambda: subprocess.check_output('getweather').decode().strip(),
                     update_interval=600,
                     foreground='#ccc',
+                    mouse_callbacks={
+                    'Button1': lambda: qtile.cmd_spawn('eww open --toggle --anchor "top right" --pos 0x35 weather ')
+                    }
                 ),
                 separator(),
                 widget.CPU(
@@ -307,7 +327,9 @@ screens = [
                 widget.Clock(
                     foreground='#ccc',
                     format="%Y, %B %d %a %I:%M %p",
-                    mouse_callbacks={'Button1': lambda: qtile.cmd_spawn('/home/lucas/.local/bin/cal.py')}
+                    mouse_callbacks={
+                        'Button1': lambda: qtile.cmd_spawn('eww open --toggle --anchor "top right" --pos 0x35 calendar_full ')
+                    }
                 ),
                 widget.Systray(),
             ],
@@ -343,7 +365,10 @@ screens = [
                     func=lambda: subprocess.check_output('getweather').decode().strip(),
                     update_interval=600,
                     foreground='#ccc',
-                ),
+                    mouse_callbacks={
+                    'Button1': lambda: qtile.cmd_spawn('eww open --toggle --anchor "top right" --pos 0x35 weather ')
+                    }
+                 ),
                 separator(),
                 widget.CPU(
                     foreground='#ccc',
@@ -368,7 +393,9 @@ screens = [
                 widget.Clock(
                     foreground='#ccc',
                     format="%Y, %B %d %a %I:%M %p",
-                    mouse_callbacks={'Button1': lambda: qtile.cmd_spawn('/home/lucas/.local/bin/cal.py')}
+                    mouse_callbacks={
+                        'Button1': lambda: qtile.cmd_spawn('eww open --toggle --anchor "top right" --pos 0x35 calendar_full ')
+                    }
                 ),
             ],
             24,
