@@ -38,18 +38,17 @@ def autostart():
     home = os.path.expanduser("~")
 
     commands = [
-        ["kanshi"],
         ["greenclip", "daemon"],
+        ["xrandr", "--output", "DisplayPort-1", "--mode", "1920x1080", "--scale", "1x1", "--pos", "1920x0", "--output", "HDMI-A-0", "--mode", "1920x1080", "--scale", "1x1", "--pos", "0x0"],
         ["dunst", "-config", f"{home}/.config/dunst/dunstrc"],
-        ["nitrogen", "--restore"],
         ["redshift", "-O", "4200"],
         ["syncthing", "--no-browser"],
         ["picom", "--config", f"{home}/.config/picom/picom.conf"],
+        ["nitrogen", "--restore"],
         ["setxkbmap", "-layout", "us", "-variant", "altgr-intl"],
         ["xset", "r", "rate", "200", "35"],
         [f"{home}/.local/bin/getforecast"],
         [f"{home}/.local/bin/lock.sh"],
-        [f"{home}/.config/scripts/getforecast"],
         [f"{home}/.config/dunst/scripts/nowplaying_notify.sh"],
         [f"{home}/.local/bin/welcome-notify.sh"],
     ]
