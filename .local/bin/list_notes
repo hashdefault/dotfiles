@@ -1,7 +1,6 @@
 #!/bin/bash
 
 dir_path="$HOME/Docs/Notes"
-rofi_theme="$HOME/.config/rofi/launcher/style"
 prompt_icon="󱓧"
 icon_theme="Oranchelo"
 
@@ -20,7 +19,6 @@ select_note() {
   printf "%s\n%s\n%s\n" "$up_entry" "$dirs" "$files" | rofi \
     -modi "$prompt_icon :" \
     -show "$prompt_icon" \
-    -theme "$rofi_theme" \
     -drun-icon-theme "$icon_theme" \
     -dmenu \
     -matching fuzzy \

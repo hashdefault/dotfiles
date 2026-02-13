@@ -2,8 +2,7 @@
 set -euo pipefail
 
 # Present greenclip entries in rofi (same theme as before) and copy the chosen one to the clipboard.
-theme="${HOME}/.config/rofi/launcher/style.rasi"
-selection="$(greenclip print | rofi -dmenu -p ' ' -theme "${theme}")"
+selection="$(greenclip print | rofi -dmenu -p ' ' )"
 
 if [[ -z "${selection}" ]]; then
   exit 0

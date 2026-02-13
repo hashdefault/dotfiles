@@ -1,3 +1,0 @@
-#!/bin/sh
-flatpak override --user --socket=wayland com.anydesk.Anydesk
-flatpak run com.anydesk.Anydesk 
