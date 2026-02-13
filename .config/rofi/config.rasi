@@ -1,22 +1,14 @@
-configuration{
-    modi: "drun,run,window,filebrowser";
-    show-icons: true;
-    icon-theme: "Oranchelo";
-    terminal: "ghostty";
-    drun-display-format: "{icon} {name}";
-    location: 0;
-    matching: "fuzzy";
-    sort: true;
-    hover-select: true;
-    me-select-entry: "MouseSecondary";
-    me-accept-entry: "MousePrimary";
-    disable-history: false;
-    hide-scrollbar: true;
-    display-drun: "   Apps ";
-    display-run: "   Run ";
-    display-window: "   Windows ";
-    display-filebrowser: " 🗁  Files ";
-    sidebar-mode: true;
+configuration {
+    modi:                "drun,run,window,filebrowser";
+    show-icons:          true;
+    icon-theme:          "Papirus";
+    display-drun:        " Apps";
+    display-run:         " Run";
+    display-window:      " Windows";
+    display-filebrowser: " Files";
+    drun-display-format: "{name}";
+    font:                "JetBrains Mono Nerd Font 11";
+    click-to-exit:       true;
 }
 
-@theme "~/.config/rofi/theme.rasi"
+@theme "cyberpunk"
