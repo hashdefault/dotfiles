@@ -1,14 +1,14 @@
 
 window {
   all: unset;
-  background-color: #171717;
-  color: #d0ddf2;
+  background-color: #0a0a1a;
+  color: #e0e0ff;
   font-family: 'Ubuntu Nerd Font';
 }
 
 button {
   all: unset;
-  background-color: rgb(30, 30, 30);
+  background-color: #111130;
 }
 
 @import "./weather/weather.scss";

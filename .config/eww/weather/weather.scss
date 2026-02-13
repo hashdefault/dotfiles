@@ -1,23 +1,21 @@
 .weather {
   padding: 16px;
-  border-radius: 10px;
-  background: linear-gradient(155deg, #0f1a26 0%, #0f1f2e 50%, #0f293a 100%);
-  border: 1px solid #1f2c3a;
-  color: #d7e6ff;
+  border-radius: 14px;
+  background: linear-gradient(155deg, #0a0a1a 0%, #111130 50%, #1a1a40 100%);
+  border: 1px solid rgba(255, 32, 121, 0.3);
+  color: #e0e0ff;
+  box-shadow: 0 0 20px rgba(255, 32, 121, 0.08);
 }
 
 .weather-current {
   padding: 10px 6px;
   margin-bottom: 12px;
-  border-bottom: 1px solid #1f2c3a;
+  border-bottom: 1px solid rgba(189, 0, 255, 0.3);
 }
 
 .weather-icon {
   margin: 10px 12px 0px 6px;
   padding: 6px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid #203248;
 }
 
 .weather-desc {
@@ -25,28 +23,27 @@
   font-weight: 700;
   font-family: 'Ubuntu Nerd Font';
   margin: 0px 24px 0px 4px;
-  color: #e3edff;
+  color: #e0e0ff;
 }
 
 .temperature {
   font-size: 38px;
   font-weight: 900;
-  color: #6ec7ff;
+  color: #00f0ff;
 }
 
 .weather-forecast {
-  padding: 10px 6px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 0.1px solid #223445;
+  padding: 6px 0px;
 }
 
 .weather-day {
-  padding: 6px 10px;
-  border-radius: 10px;
-  background: rgba(15, 30, 45, 0.6);
-  border: 1px solid #223445;
-  margin: 0px 6px;
+  padding: 8px 6px;
+  margin: 0px 4px;
+  border-right: 1px solid rgba(189, 0, 255, 0.15);
+
+  &:last-child {
+    border-right: none;
+  }
 }
 
 .weather-week-1,
@@ -57,7 +54,7 @@
   font-size: 13px;
   font-weight: 800;
   padding: 4px;
-  color: #9fb3c7;
+  color: #7a7a9a;
 }
 
 .weather-icon-1,
@@ -78,7 +75,7 @@
   font-size: 16px;
   font-weight: 800;
   padding: 6px;
-  color: #e3edff;
+  color: #e0e0ff;
 }
 
 .weather-prec-1,
@@ -87,7 +84,7 @@
 .weather-prec-4,
 .weather-prec-5 {
   font-size: 14px;
-  color: #6ec7ff;
+  color: #00f0ff;
   font-weight: 700;
 }
 
@@ -99,5 +96,5 @@
   font-size: 13px;
   padding: 6px;
   margin: 0px 4px 4px 4px;
-  color: #9fb3c7;
+  color: #7a7a9a;
 }

@@ -28,31 +28,15 @@ if [[ -f "$state_temp" ]]; then
   fi
 fi
 
-# Try to query backends when cache is missing
-if command -v hyprctl >/dev/null 2>&1; then
-  # Some versions support: hyprctl hyprsunset temperature
-  out=$(hyprctl hyprsunset temperature 2>/dev/null || true)
-  if [[ -n "${out:-}" && "$out" =~ ^[0-9]+$ ]]; then
-    echo "$out"
+# Default to stored value or 4500 if nightlight is on, 6500 if off
+STATE_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/nightlight.state"
+if [[ -f "$STATE_FILE" ]]; then
+  read -r state <"$STATE_FILE"
+  if [[ "$state" == "on" ]]; then
+    echo "${REDSHIFT_TEMP:-4200}"
     exit 0
   fi
 fi
 
-if command -v redshift >/dev/null 2>&1; then
-  out=$(redshift -p 2>/dev/null | grep -i "color temperature" | awk '{print $3}' | tr -d 'K' || true)
-  if [[ -n "${out:-}" && "$out" =~ ^[0-9]+$ ]]; then
-    echo "$out"
-    exit 0
-  fi
-fi
-
-if command -v gammastep >/dev/null 2>&1; then
-  out=$(gammastep -p 2>/dev/null | grep -i "color temperature" | awk '{print $3}' | tr -d 'K' || true)
-  if [[ -n "${out:-}" && "$out" =~ ^[0-9]+$ ]]; then
-    echo "$out"
-    exit 0
-  fi
-fi
-
-# Default
+# Default (nightlight off = daylight)
 echo 6500

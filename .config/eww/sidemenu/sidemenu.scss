@@ -6,15 +6,16 @@
 }
 
 .sidemenu:last-child {
-  border: 1px solid #1f2c3a;
+  border: 1px solid rgba(255, 32, 121, 0.3);
 }
 
 .sidemenu {
   margin: 20px 0px;
   padding: 14px;
-  border-radius: 16px;
-  background: linear-gradient(150deg, #0e141c 0%, #161c24 45%, #0f2230 100%);
-  color: #d7e6ff;
+  border-radius: 18px;
+  background: linear-gradient(150deg, #0a0a1a 0%, #111130 45%, #1a1a40 100%);
+  color: #e0e0ff;
+  box-shadow: 0 0 20px rgba(255, 32, 121, 0.08);
 
   .buttons-space {
     .button-item {
@@ -33,28 +34,28 @@
     padding: 0px 20px;
     font-size: 30px;
     font-weight: bold;
-    color: rgb(190, 230, 230);
+    color: #e0e0ff;
   }
 
   .quote {
     font-size: 18px;
     font-family: serif;
     font-style: italic;
-    color: rgb(190, 230, 230);
-    border-bottom: 1px solid rgba(190, 230, 230, 0.6);
+    color: #7a7a9a;
+    border-bottom: 1px solid rgba(189, 0, 255, 0.4);
     margin: 30px;
     font-weight: 500;
     padding: 0px 0px 40px 0px;
   }
 
   .profile-label-time {
-    color: #6ec7ff;
+    color: #00f0ff;
     font-size: 35px;
     font-family: "Hack";
   }
 
   .profile-desc {
-    color: #d7e6ff;
+    color: #e0e0ff;
     padding: 6px 0px;
     font-size: 16px;
     margin: 0px 14px;
@@ -66,14 +67,14 @@
     font-weight: bold;
     margin: 20px 12px 10px 12px;
     padding: 10px 12px;
-    border: 1px solid #223445;
-    border-radius: 14px;
+    border: 1px solid #1a1a40;
+    border-radius: 16px;
     background: rgba(255, 255, 255, 0.02);
   }
 
 
   .profile-img {
-    border: 4px solid #6ec7ff;
+    border: 4px solid #ff2079;
     border-radius: 50%;
   }
 
@@ -91,21 +92,21 @@
 
     button {
       all: unset;
-      border: 2px solid #223445;
+      border: 2px solid #1a1a40;
       border-radius: 14px;
       padding: 10px;
       margin: 18px 10px;
       background: rgba(255, 255, 255, 0.04);
-      color: #e3edff;
+      color: #e0e0ff;
     }
 
     button:hover {
-      background-color: rgba(110, 199, 255, 0.15);
+      background-color: rgba(255, 32, 121, 0.15);
       transition: background .2s ease-in-out;
     }
   }
 
-  border-radius: 15px;
+  border-radius: 18px;
 
   .box-label {
 
@@ -139,16 +140,16 @@
       font-size: 20px;
       padding: 12px;
       background-color: rgba(255, 255, 255, 0.04);
-      border: 1px solid #223445;
-      color: #d7e6ff;
+      border: 1px solid #1a1a40;
+      color: #e0e0ff;
     }
 
     .button-wifi.active,
     .button-wifi-arrow.active {
-      background: linear-gradient(130deg, #6fc4ff 0%, #6b8cff 100%);
-      color: #0c1826;
-      border-color: rgba(111, 196, 255, 0.85);
-      box-shadow: 0 0 8px rgba(111, 196, 255, 0.35), 0 0 14px rgba(107, 140, 255, 0.3);
+      background: linear-gradient(130deg, #ff2079 0%, #bd00ff 100%);
+      color: #0a0a1a;
+      border-color: rgba(255, 32, 121, 0.85);
+      box-shadow: 0 0 8px rgba(255, 32, 121, 0.35), 0 0 14px rgba(189, 0, 255, 0.3);
     }
   }
 
@@ -178,16 +179,16 @@
       font-size: 20px;
       padding: 12px;
       background-color: rgba(255, 255, 255, 0.04);
-      border: 1px solid #223445;
-      color: #d7e6ff;
+      border: 1px solid #1a1a40;
+      color: #e0e0ff;
     }
 
     .button-bluetooth.active,
     .button-bluetooth-arrow.active {
-      background: linear-gradient(135deg, #6fc4ff 0%, #6b8cff 100%);
-      color: #0c1826;
-      border-color: rgba(111, 196, 255, 0.85);
-      box-shadow: 0 0 8px rgba(111, 196, 255, 0.35), 0 0 14px rgba(107, 140, 255, 0.3);
+      background: linear-gradient(135deg, #ff2079 0%, #bd00ff 100%);
+      color: #0a0a1a;
+      border-color: rgba(255, 32, 121, 0.85);
+      box-shadow: 0 0 8px rgba(255, 32, 121, 0.35), 0 0 14px rgba(189, 0, 255, 0.3);
     }
   }
 
@@ -217,16 +218,16 @@
       font-size: 20px;
       padding: 12px;
       background-color: rgba(255, 255, 255, 0.04);
-      border: 1px solid #223445;
-      color: #d7e6ff;
+      border: 1px solid #1a1a40;
+      color: #e0e0ff;
     }
 
     .button-not_disturb.active,
     .button-not_disturb-arrow.active {
-      background: linear-gradient(135deg, #6fc4ff 0%, #6b8cff 100%);
-      color: #0c1826;
-      border-color: rgba(111, 196, 255, 0.85);
-      box-shadow: 0 0 8px rgba(111, 196, 255, 0.35), 0 0 14px rgba(107, 140, 255, 0.3);
+      background: linear-gradient(135deg, #ff2079 0%, #bd00ff 100%);
+      color: #0a0a1a;
+      border-color: rgba(255, 32, 121, 0.85);
+      box-shadow: 0 0 8px rgba(255, 32, 121, 0.35), 0 0 14px rgba(189, 0, 255, 0.3);
     }
   }
 
@@ -255,16 +256,16 @@
       font-size: 20px;
       padding: 12px;
       background-color: rgba(255, 255, 255, 0.04);
-      border: 1px solid #223445;
-      color: #d7e6ff;
+      border: 1px solid #1a1a40;
+      color: #e0e0ff;
     }
 
     .button-nightlight.active,
     .button-nightlight-arrow.active {
-      background: linear-gradient(135deg, #6fc4ff 0%, #6b8cff 100%);
-      color: #0c1826;
-      border-color: rgba(111, 196, 255, 0.85);
-      box-shadow: 0 0 8px rgba(111, 196, 255, 0.35), 0 0 14px rgba(107, 140, 255, 0.3);
+      background: linear-gradient(135deg, #ff2079 0%, #bd00ff 100%);
+      color: #0a0a1a;
+      border-color: rgba(255, 32, 121, 0.85);
+      box-shadow: 0 0 8px rgba(255, 32, 121, 0.35), 0 0 14px rgba(189, 0, 255, 0.3);
     }
   }
 }

@@ -1,7 +1,7 @@
 .number_day {
   padding-top: 10px;
   font-size: 35px;
-  color: #D35D6E;
+  color: #ff2079;
 }
 
 .month {
@@ -9,23 +9,24 @@
 }
 
 .calendar_full {
-  border-radius: 10px;
+  border-radius: 14px;
   font-family: "Ubuntu Nerd Font";
   font-weight: bold;
   margin: 10px 0;
-  background: linear-gradient(150deg, #0e141c 0%, #161c24 45%, #0f2230 100%);
+  background: linear-gradient(150deg, #0a0a1a 0%, #111130 45%, #1a1a40 100%);
   padding: 12px;
-  color: #d7e6ff;
+  color: #e0e0ff;
+  box-shadow: 0 0 20px rgba(255, 32, 121, 0.08);
 }
 
 .calendar_full:last-child {
-  border: 1px solid #1f2c3a;
+  border: 1px solid rgba(255, 32, 121, 0.3);
 }
 
 .calendar_title {
   margin-top: 4px;
   font-size: 16px;
-  color: #e3edff;
+  color: #e0e0ff;
   letter-spacing: 0.5px;
 }
 
@@ -33,22 +34,22 @@
   font-size: 14px;
   margin-top: 10px;
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid #223445;
-  border-radius: 10px;
-  padding: 6px;
+  border: 1px solid #1a1a40;
+  border-radius: 14px;
+  padding: 8px;
 }
 
 calendar:dir(ltr) {
   all: unset;
   padding: 4px;
   border-radius: 10px;
-  background: rgba(16, 27, 39, 0.7);
-  color: #d7e6ff;
+  background: rgba(10, 10, 26, 0.7);
+  color: #e0e0ff;
 }
 
 calendar:selected {
-  color: #6ec7ff;
-  background-color: rgba(110, 199, 255, 0.15);
+  color: #ff2079;
+  background-color: rgba(255, 32, 121, 0.15);
   border-radius: 8px;
 }
 
@@ -57,5 +58,5 @@ calendar:indeterminate {
 }
 
 calendar.highlight {
-  color: #e8e4a2;
+  color: #f5f500;
 }
