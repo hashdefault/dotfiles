@@ -9,16 +9,16 @@
   margin: 14px;
   padding: 12px;
   border-radius: 10px;
-  border: 1px solid #1f2c3a;
-  background: linear-gradient(150deg, #0e141c 0%, #161c24 45%, #0f2230 100%);
-  color: #d7e6ff;
+  border: 1px solid rgba(255, 32, 121, 0.3);
+  background: linear-gradient(155deg, #0a0a1a 0%, #111130 50%, #1a1a40 100%);
+  color: #e0e0ff;
 
   .notification-scroll {
     min-height: 660px;
     padding: 8px 6px 4px;
     margin: 4px 2px 0px 2px;
     border-radius: 12px;
-    border: 1px solid #223445;
+    border: 1px solid rgba(189, 0, 255, 0.2);
     background: rgba(255, 255, 255, 0.02);
   }
 
@@ -37,7 +37,7 @@
     padding: 10px 12px;
     margin: 0px 2px 6px 2px;
     border-radius: 12px;
-    border: 1px solid #223445;
+    border: 1px solid rgba(189, 0, 255, 0.2);
 
     .notification-title {
       color: #e3edff;
@@ -65,9 +65,9 @@
   .notif-item {
     margin: 8px 4px;
     border-radius: 12px;
-    border: 1px solid #223445;
-    background: linear-gradient(165deg, rgba(255, 255, 255, 0.02), rgba(12, 24, 38, 0.82));
-    border-left: 3px solid #6ec7ff;
+    border: 1px solid rgba(189, 0, 255, 0.2);
+    background: linear-gradient(165deg, rgba(255, 255, 255, 0.02), rgba(17, 17, 48, 0.82));
+    border-left: 3px solid #00f0ff;
   }
 
   .notif-item-header {
@@ -77,7 +77,7 @@
     font-weight: bold;
     color: #e3edff;
     padding: 8px 10px;
-    border-bottom: 1px solid #223445;
+    border-bottom: 1px solid rgba(189, 0, 255, 0.2);
 
     .notif-dismiss-button {
       font-size: 18px;
@@ -92,7 +92,7 @@
 
   .icon-notif {
     border-radius: 10px;
-    border: 3px solid rgba(110, 199, 255, 0.5);
+    border: 3px solid rgba(0, 240, 255, 0.5);
   }
 
   .box-labels-notif {
@@ -114,7 +114,7 @@
     border-radius: 10px;
     padding: 10px 12px 14px;
     background: rgba(255, 255, 255, 0.02);
-    border: 1px solid #223445;
+    border: 1px solid rgba(189, 0, 255, 0.2);
     margin: 8px 10px 14px;
 
     .icon-notif-screenshot {
@@ -132,7 +132,7 @@
       border-radius: 8px;
       color: rgb(250, 250, 220);
       font-weight: bold;
-      border: 1px solid #223445;
+      border: 1px solid rgba(189, 0, 255, 0.2);
     }
 
     .notif-screen-button-delete {

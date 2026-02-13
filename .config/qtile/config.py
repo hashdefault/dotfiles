@@ -14,16 +14,21 @@ terminal = guess_terminal('alacritty')
 # Cyberpunk color scheme - neon green primary
 cyberpunk = {
     "neon_green": "#00ff41",
-    "neon_cyan": "#00ffff",
+    "neon_cyan": "#00f0ff",
     "neon_magenta": "#ff00ff",
-    "neon_pink": "#ff0080",
+    "neon_pink": "#ff2079",
     "neon_pink_dim": "#cc77aa",
+    "neon_yellow": "#f0e020",
     "dark_bg": "#0a0a0a",
     "border_normal": "#1a1a2e",
     "border_unfocused": "#317aaa",
-    "border_focus": "#00ffaa",
-    "border_focus_dim": "#3f7c68",
+    "border_focus": "#ff2079",
+    "border_focus_dim": "#cc77aa",
     "border_stack": "#e75480",
+    # Bar segment backgrounds
+    "bar_bg": "#0a0a14",
+    "seg_purple": "#1a0a2e",
+    "seg_blue": "#0a1a2e",
 }
 
 def run_once(cmd):
@@ -33,22 +38,37 @@ def run_once(cmd):
     else:
         subprocess.Popen(cmd.split())
 
+@lazy.function
+def eww_open(qtile, anchor, pos, widget_name):
+    """Open eww widget on the currently focused screen."""
+    screen_idx = qtile.current_screen.index
+    qtile.cmd_spawn(
+        f'eww open --toggle --anchor "{anchor}" --pos {pos} --screen {screen_idx} {widget_name}'
+    )
+
+def eww_click(anchor, pos, widget_name):
+    """Mouse callback: open eww widget on the currently focused screen."""
+    return lambda: qtile.cmd_spawn(
+        f'eww open --toggle --anchor "{anchor}" --pos {pos} '
+        f'--screen {qtile.current_screen.index} {widget_name}'
+    )
+
 @hook.subscribe.startup_once
 def autostart():
     home = os.path.expanduser("~")
 
     commands = [
         ["greenclip", "daemon"],
-        ["xrandr", "--output", "DisplayPort-1", "--mode", "1920x1080", "--scale", "1x1", "--pos", "1920x0", "--output", "HDMI-A-0", "--mode", "1920x1080", "--scale", "1x1", "--pos", "0x0"],
         ["dunst", "-config", f"{home}/.config/dunst/dunstrc"],
+        ["nitrogen", "--restore"],
         ["redshift", "-O", "4200"],
         ["syncthing", "--no-browser"],
         ["picom", "--config", f"{home}/.config/picom/picom.conf"],
-        ["nitrogen", "--restore"],
         ["setxkbmap", "-layout", "us", "-variant", "altgr-intl"],
         ["xset", "r", "rate", "200", "35"],
         [f"{home}/.local/bin/getforecast"],
         [f"{home}/.local/bin/lock.sh"],
+        [f"{home}/.config/scripts/getforecast"],
         [f"{home}/.config/dunst/scripts/nowplaying_notify.sh"],
         [f"{home}/.local/bin/welcome-notify.sh"],
     ]
@@ -61,7 +81,7 @@ keys = [
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
     # Switch between windows
 
-    Key([mod], "m", lazy.spawn('eww open --toggle --anchor "top left" --pos 10x35 sidemenu '), desc="Menu Eww Profile Widget"),
+    Key([mod], "m", eww_open("top left", "10x35", "sidemenu"), desc="Menu Eww Profile Widget"),
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
@@ -70,7 +90,7 @@ keys = [
     Key([mod], "space", lazy.window.toggle_floating(), desc="Toggle floating"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
-    Key([mod, "shift"], "n", lazy.spawn('eww open --toggle --anchor "top center" --pos 0x35 notifications '), desc="Menu Eww Notifications Widget"),
+    Key([mod, "shift"], "n", eww_open("top center", "0x35", "notifications"), desc="Menu Eww Notifications Widget"),
     Key([mod, "shift"], "e", lazy.window.to_group()),
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
     Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
@@ -83,10 +103,10 @@ keys = [
     Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     #Key([mod, "shift"], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-    Key([mod], "v", lazy.spawn("clipboard-dmenu.sh"), desc="Clipboard menu"),
-    Key([mod], "q", lazy.spawn("powermenu-dmenu.sh"), desc="Power menu"),
-    Key([mod], "x", lazy.spawn("swaylock-screen"), desc="Lock screen"),
-    Key([mod], "n", lazy.spawn("listnotes-dmenu"), desc="List notes"),
+    Key([mod], "v", lazy.spawn("clipboard-rofi.sh"), desc="Clipboard menu"),
+    Key([mod], "q", eww_open("center", "0x0", "powermenu"), desc="Eww Power menu"),
+    Key([mod], "x", lazy.spawn("lock.sh"), desc="Lock screen"),
+    Key([mod], "n", lazy.spawn("list_notes"), desc="List notes"),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
@@ -110,7 +130,7 @@ keys = [
     ),
     Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+    Key([mod], "r", lazy.spawn('rofi -show drun '), desc="Spawn a command using a prompt widget"),
     Key([], "Print", lazy.spawn("flameshot gui"), desc="Take screenshot"),
     # Volume controls
     Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause"), desc="Play or Pause media"),
@@ -190,7 +210,7 @@ layouts = [
     layout.Columns(
         border_focus=cyberpunk["border_focus"],
         border_normal=cyberpunk["border_normal"],
-        border_focus_stack=[cyberpunk["neon_green"], cyberpunk["border_stack"]],
+        border_focus_stack=[cyberpunk["neon_pink"], cyberpunk["border_stack"]],
         border_normal_stack=[cyberpunk["dark_bg"], cyberpunk["border_normal"]],
         border_width=3,
         margin=8,
@@ -262,143 +282,223 @@ def force_fullscreen(window):
 
 widget_defaults = dict(
     font="JetBrainsMono Nerd Font",
-    fontsize=12,
+    fontsize=13,
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
 
-def separator():
-    return widget.TextBox(text='|', foreground='#555', padding=8)
+BAR_BG = cyberpunk["bar_bg"]
+SEG_A = cyberpunk["seg_purple"]
+SEG_B = cyberpunk["seg_blue"]
+
+def powerline(from_color, to_color):
+    """Powerline right-arrow separator."""
+    return widget.TextBox(
+        text='\ue0b0',
+        fontsize=30,
+        padding=0,
+        foreground=from_color,
+        background=to_color,
+    )
+
+def make_widgets(systray=False):
+    widgets = [
+        # ── Logo ──
+        widget.TextBox(
+            text='  ',
+            fontsize=20,
+            foreground=cyberpunk["neon_cyan"],
+            background=BAR_BG,
+            padding=6,
+        ),
+        # ── Groups ──
+        widget.GroupBox(
+            highlight_method='line',
+            rounded=False,
+            highlight_color=[BAR_BG, BAR_BG],
+            this_current_screen_border=cyberpunk["neon_cyan"],
+            this_screen_border=cyberpunk["neon_cyan"],
+            other_current_screen_border=cyberpunk["neon_magenta"],
+            other_screen_border=cyberpunk["neon_pink_dim"],
+            active=cyberpunk["neon_cyan"],
+            inactive='#555577',
+            urgent_border=cyberpunk["neon_yellow"],
+            fontsize=14,
+            padding_x=6,
+            padding_y=3,
+            margin_x=3,
+            margin_y=3,
+            disable_drag=True,
+            background=BAR_BG,
+        ),
+        powerline(BAR_BG, SEG_A),
+        # ── Layout ──
+        widget.TextBox(
+            text=' ',
+            foreground=cyberpunk["neon_magenta"],
+            background=SEG_A,
+            fontsize=16,
+            padding=4,
+        ),
+        widget.CurrentLayout(
+            foreground=cyberpunk["neon_magenta"],
+            background=SEG_A,
+            padding=4,
+        ),
+        powerline(SEG_A, BAR_BG),
+        # ── Prompt + Window Name ──
+        widget.Prompt(background=BAR_BG),
+        widget.WindowName(
+            foreground=cyberpunk["neon_cyan"],
+            background=BAR_BG,
+            max_chars=50,
+            format='{name}',
+            empty_group_string='desktop',
+        ),
+        widget.Chord(
+            chords_colors={
+                "launch": (cyberpunk["neon_pink"], "#ffffff"),
+            },
+            name_transform=lambda name: name.upper(),
+            background=BAR_BG,
+        ),
+        # ── Right side: Weather ──
+        powerline(BAR_BG, SEG_B),
+        widget.TextBox(
+            text='  ',
+            foreground=cyberpunk["neon_yellow"],
+            background=SEG_B,
+            fontsize=16,
+            padding=0,
+        ),
+        widget.GenPollText(
+            func=lambda: subprocess.check_output('getweather').decode().strip(),
+            update_interval=600,
+            foreground=cyberpunk["neon_yellow"],
+            background=SEG_B,
+            padding=4,
+            mouse_callbacks={
+                'Button1': eww_click("top right", "0x35", "weather"),
+            },
+        ),
+        powerline(SEG_B, SEG_A),
+        # ── CPU ──
+        widget.TextBox(
+            text='  ',
+            foreground=cyberpunk["neon_magenta"],
+            background=SEG_A,
+            fontsize=16,
+            padding=0,
+        ),
+        widget.CPU(
+            foreground=cyberpunk["neon_magenta"],
+            background=SEG_A,
+            format='{load_percent}%',
+            padding=4,
+            mouse_callbacks={
+                'Button1': eww_click("top left", "10x35", "storagemon"),
+            },
+        ),
+        powerline(SEG_A, SEG_B),
+        # ── Memory ──
+        widget.TextBox(
+            text=' 󰍛 ',
+            foreground=cyberpunk["neon_green"],
+            background=SEG_B,
+            fontsize=16,
+            padding=0,
+        ),
+        widget.Memory(
+            foreground=cyberpunk["neon_green"],
+            background=SEG_B,
+            fmt='{}',
+            measure_mem='G',
+            padding=4,
+            mouse_callbacks={
+                'Button1': eww_click("top left", "10x35", "storagemon"),
+            },
+        ),
+        powerline(SEG_B, SEG_A),
+        # ── Disk ──
+        widget.TextBox(
+            text=' 󰋊 ',
+            foreground=cyberpunk["neon_pink"],
+            background=SEG_A,
+            fontsize=14,
+            padding=0,
+        ),
+        widget.DF(
+            foreground=cyberpunk["neon_pink"],
+            background=SEG_A,
+            partition='/',
+            visible_on_warn=False,
+            format='{uf}{m}/{s}{m}',
+            padding=4,
+        ),
+        powerline(SEG_A, SEG_B),
+        # ── Volume ──
+        widget.TextBox(
+            text=' 󰕾 ',
+            foreground=cyberpunk["neon_cyan"],
+            background=SEG_B,
+            fontsize=16,
+            padding=0,
+        ),
+        widget.Volume(
+            foreground=cyberpunk["neon_cyan"],
+            background=SEG_B,
+            fmt='{}',
+            padding=4,
+        ),
+        powerline(SEG_B, SEG_A),
+        # ── Clock ──
+        widget.TextBox(
+            text='  ',
+            foreground=cyberpunk["neon_magenta"],
+            background=SEG_A,
+            fontsize=16,
+            padding=0,
+        ),
+        widget.Clock(
+            foreground=cyberpunk["neon_magenta"],
+            background=SEG_A,
+            format='%b %d  %I:%M %p',
+            padding=4,
+            mouse_callbacks={
+                'Button1': eww_click("top right", "0x35", "calendar_full"),
+            },
+        ),
+    ]
+    if systray:
+        widgets.extend([
+            powerline(SEG_A, BAR_BG),
+            widget.Systray(background=BAR_BG, padding=8),
+            widget.Spacer(length=8, background=BAR_BG),
+        ])
+    else:
+        widgets.append(
+            widget.Spacer(length=8, background=SEG_A),
+        )
+    return widgets
 
 screens = [
     Screen(
         top=bar.Bar(
-            [
-                widget.GroupBox(
-                    highlight_method='line',
-                    this_current_screen_border=cyberpunk["border_focus"],
-                    this_screen_border=cyberpunk["border_focus_dim"],
-                    other_current_screen_border=cyberpunk["border_focus"],
-                    other_screen_border=cyberpunk['border_focus_dim'],
-                    active=cyberpunk['neon_cyan'],
-                    inactive=cyberpunk['border_unfocused']
-                ),
-                separator(),
-                widget.CurrentLayout(),
-                separator(),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
-                widget.GenPollText(
-                    func=lambda: subprocess.check_output('getweather').decode().strip(),
-                    update_interval=600,
-                    foreground='#ccc',
-                    mouse_callbacks={
-                    'Button1': lambda: qtile.cmd_spawn('eww open --toggle --anchor "top right" --pos 0x35 weather ')
-                    }
-                ),
-                separator(),
-                widget.CPU(
-                    foreground='#ccc',
-                    format='cpu: {load_percent}%',
-                ),
-                separator(),
-                widget.Memory(
-                    foreground='#ccc',
-                    fmt='mem:{}',
-                    measure_mem='G',
-                ),
-                separator(),
-                widget.DF(
-                    foreground='#ccc',
-                    partition='/',
-                    visible_on_warn=False,
-                    format='dsk: {uf}{m}/{s}{m} ({r:.0f}%)',
-                ),
-                separator(),
-                widget.Volume(foreground='#ccc',fmt='Volume: {}'),
-                separator(),
-                widget.Clock(
-                    foreground='#ccc',
-                    format="%Y, %B %d %a %I:%M %p",
-                    mouse_callbacks={
-                        'Button1': lambda: qtile.cmd_spawn('eww open --toggle --anchor "top right" --pos 0x35 calendar_full ')
-                    }
-                ),
-                widget.Systray(),
-            ],
-            24,
-            background=cyberpunk['border_normal'],
+            make_widgets(systray=True),
+            30,
+            background=BAR_BG,
+            margin=[6, 10, 0, 10],
+            opacity=0.92,
         ),
         background=cyberpunk['border_normal'],
     ),
     Screen(
         top=bar.Bar(
-            [
-                widget.GroupBox(
-                    highlight_method='line',
-                    this_current_screen_border=cyberpunk["border_focus"],
-                    this_screen_border=cyberpunk["border_focus_dim"],
-                    other_current_screen_border=cyberpunk["border_focus"],
-                    other_screen_border=cyberpunk['border_focus_dim'],               
-                    active=cyberpunk['neon_cyan'],
-                    inactive=cyberpunk['border_unfocused']
-                ),
-                separator(),
-                widget.CurrentLayout(),
-                separator(),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
-                widget.GenPollText(
-                    func=lambda: subprocess.check_output('getweather').decode().strip(),
-                    update_interval=600,
-                    foreground='#ccc',
-                    mouse_callbacks={
-                    'Button1': lambda: qtile.cmd_spawn('eww open --toggle --anchor "top right" --pos 0x35 weather ')
-                    }
-                 ),
-                separator(),
-                widget.CPU(
-                    foreground='#ccc',
-                    format='cpu: {load_percent}%',
-                ),
-                separator(),
-                widget.Memory(
-                    foreground='#ccc',
-                    fmt='mem:{}',
-                    measure_mem='G',
-                ),
-                separator(),
-                widget.DF(
-                    foreground='#ccc',
-                    partition='/',
-                    visible_on_warn=False,
-                    format='dsk: {uf}{m}/{s}{m} ({r:.0f}%)',
-                ),
-                separator(),
-                widget.Volume(foreground='#ccc',fmt='Volume: {}'),
-                separator(),
-                widget.Clock(
-                    foreground='#ccc',
-                    format="%Y, %B %d %a %I:%M %p",
-                    mouse_callbacks={
-                        'Button1': lambda: qtile.cmd_spawn('eww open --toggle --anchor "top right" --pos 0x35 calendar_full ')
-                    }
-                ),
-            ],
-            24,
-            background=cyberpunk['border_normal'],
+            make_widgets(systray=False),
+            30,
+            background=BAR_BG,
+            margin=[6, 10, 0, 10],
+            opacity=0.92,
         ),
         background=cyberpunk['border_normal'],
     ),

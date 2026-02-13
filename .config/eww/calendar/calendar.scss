@@ -9,14 +9,12 @@
 }
 
 .calendar_full {
-  border-radius: 14px;
+  border-radius: 10px;
   font-family: "Ubuntu Nerd Font";
   font-weight: bold;
   margin: 10px 0;
-  background: linear-gradient(150deg, #0a0a1a 0%, #111130 45%, #1a1a40 100%);
   padding: 12px;
   color: #e0e0ff;
-  box-shadow: 0 0 20px rgba(255, 32, 121, 0.08);
 }
 
 .calendar_full:last-child {
@@ -33,9 +31,8 @@
 .calendar_panel {
   font-size: 14px;
   margin-top: 10px;
-  background: rgba(255, 255, 255, 0.02);
   border: 1px solid #1a1a40;
-  border-radius: 14px;
+  border-radius: 10px;
   padding: 8px;
 }
 
@@ -43,13 +40,11 @@ calendar:dir(ltr) {
   all: unset;
   padding: 4px;
   border-radius: 10px;
-  background: rgba(10, 10, 26, 0.7);
   color: #e0e0ff;
 }
 
 calendar:selected {
   color: #ff2079;
-  background-color: rgba(255, 32, 121, 0.15);
   border-radius: 8px;
 }
 

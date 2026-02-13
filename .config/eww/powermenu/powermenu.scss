@@ -1,30 +1,30 @@
-.powermenu {
-  padding: 14px 10px;
+.powermenu-window {
+  background: linear-gradient(155deg, #0a0a1a 0%, #111130 50%, #1a1a40 100%);
+  border: 1px solid rgba(255, 32, 121, 0.3);
   border-radius: 14px;
-  background: linear-gradient(150deg, #0e141c 0%, #161c24 45%, #0f2230 100%);
-  border: 1px solid #1f2c3a;
-  color: #d7e6ff;
+}
+
+.powermenu { padding: 5px 5px; border-radius: 14px;
+  color: #e0e0ff;
 }
 
 .power-item {
   padding: 8px 6px;
   margin: 6px 0;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(34, 52, 69, 0.9);
 }
 
 .hover-power-btn {
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .hover-power-btn:hover {
-  background: linear-gradient(135deg, rgba(143, 233, 182, 0.16), rgba(99, 163, 255, 0.08));
-  color: #8fe9b6;
+  background: linear-gradient(135deg, rgba(19, 200, 182, 0.16), rgba(99, 163, 255, 0.08));
+  color: #16ffa1;
 }
 
 .power-item:hover {
-  border-color: #3a5368;
+  border-color: rgba(19, 200, 155, 0.7);
 }
 
 .power-button,
@@ -34,9 +34,9 @@
   font-size: 30px;
   margin: 6px 0 2px 0;
   padding: 8px 0;
-  color: #e3edff;
-  background: linear-gradient(140deg, rgba(143, 233, 182, 0.18), rgba(99, 163, 255, 0.08));
-  border: 1px solid rgba(143, 233, 182, 0.22);
+  color: #0feeff;
+  background: transparent;
+  border: none;
   border-radius: 12px;
   min-width: 52px;
 }
@@ -45,8 +45,8 @@
 .hover-power-btn:hover .reboot-button,
 .hover-power-btn:hover .logout-button,
 .hover-power-btn:hover .suspend-button {
-  color: #b6ffe1;
-  border-color: rgba(143, 233, 182, 0.45);
+  color: #16ffa1;
+  border-color: rgba(103, 233, 132, 0.45);
 }
 
 .power-description,
@@ -54,7 +54,7 @@
 .logout-description,
 .suspend-description {
   font-size: 13px;
-  color: #9fb3c7;
+  color: #0feeff;
   margin-top: 3px;
   opacity: 0.9;
 }

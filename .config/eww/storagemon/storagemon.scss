@@ -6,17 +6,17 @@
 .storagemon {
   padding: 16px;
   border-radius: 14px;
-  background: linear-gradient(160deg, #0d1620 0%, #101b27 45%, #0d2434 100%);
-  border: 1px solid #1f2c3a;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  color: #d7e6ff;
+  background: linear-gradient(155deg, #0a0a1a 0%, #111130 50%, #1a1a40 100%);
+  border: 1px solid rgba(255, 32, 121, 0.3);
+  box-shadow: 0 10px 30px rgba(255, 32, 121, 0.08);
+  color: #e0e0ff;
 }
 
 .panel {
   padding: 12px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid #223445;
+  border: 1px solid rgba(189, 0, 255, 0.2);
 }
 
 .box-disks {
@@ -107,19 +107,19 @@
 
 .storage-graph {
   margin: 10px;
-  background-color: #182636;
+  background-color: #1a1a40;
   color: #e15656;
 }
 
 .ram-graph {
   margin: 8px;
-  background-color: #182636;
+  background-color: #1a1a40;
   color: #27c6f5;
 }
 
 .cpu-graph {
   margin: 8px;
-  background-color: #182636;
+  background-color: #1a1a40;
   color: #9a8dff;
 }
 
@@ -135,8 +135,8 @@
   font-weight: bold;
   margin-top: 2px;
   padding: 6px 8px;
-  border-bottom: 1px solid #2e4052;
-  color: #6ec7ff;
+  border-bottom: 1px solid rgba(189, 0, 255, 0.2);
+  color: #00f0ff;
 }
 
 .proc-header-desc {
@@ -149,8 +149,8 @@
   color: #d3deec;
   padding: 8px 6px;
   border-radius: 10px;
-  background: rgba(16, 27, 39, 0.8);
-  border: 1px solid #243547;
+  background: rgba(17, 17, 48, 0.8);
+  border: 1px solid rgba(189, 0, 255, 0.15);
 }
 
 .text {

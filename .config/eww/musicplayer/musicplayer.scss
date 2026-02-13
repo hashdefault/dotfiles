@@ -1,22 +1,22 @@
 .musicplayer {
   padding: 14px;
   border-radius: 16px;
-  background: linear-gradient(160deg, #0d1620 0%, #101b27 45%, #0f2434 100%);
-  border: 1px solid #1f2c3a;
-  color: #d7e6ff;
+  background: linear-gradient(155deg, #0a0a1a 0%, #111130 50%, #1a1a40 100%);
+  border: 1px solid rgba(255, 32, 121, 0.3);
+  color: #e0e0ff;
 }
 
 .box-music-player {
   color: #e3edff;
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid #223445;
+  border: 1px solid rgba(189, 0, 255, 0.2);
   border-radius: 14px;
   padding: 12px 10px;
 }
 
 .music-art {
   margin-top: 6px;
-  border: 4px solid rgba(110, 199, 255, 0.8);
+  border: 4px solid rgba(0, 240, 255, 0.8);
   border-radius: 10px;
   background-repeat: no-repeat;
   background-position: center;
@@ -59,7 +59,7 @@ scale.music-duration-scale {
 
   trough {
     border-radius: 10px;
-    background-color: #1b2b3b;
+    background-color: #1a1a40;
     min-height: 10px;
 
     slider {
@@ -74,7 +74,7 @@ scale.music-duration-scale {
       all: unset;
       min-height: 10px;
       border-radius: 10px;
-      background-color: #6ec7ff;
+      background-color: #00f0ff;
 
     }
 
@@ -84,7 +84,7 @@ scale.music-duration-scale {
 .box-music-buttons {
   background-color: transparent;
   font-size: 50px;
-  color: #6ec7ff;
+  color: #00f0ff;
   margin-top: 6px;
 
   eventbox {
@@ -95,7 +95,7 @@ scale.music-duration-scale {
     background-color: rgba(255, 255, 255, 0.02);
     padding: 10px 16px;
     border-radius: 12px;
-    border: 1px solid #223445;
+    border: 1px solid rgba(189, 0, 255, 0.2);
     margin: 0 6px;
   }
 
