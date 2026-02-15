@@ -58,6 +58,7 @@ def autostart():
     home = os.path.expanduser("~")
 
     commands = [
+        ["xrandr", "--output","HDMI-A-0","--mode","1920x1080","--pos","0x0", "--output","DisplayPort-1","--mode","1920x1080","--pos","1920x0"],
         ["greenclip", "daemon"],
         ["dunst", "-config", f"{home}/.config/dunst/dunstrc"],
         ["nitrogen", "--restore"],
@@ -487,7 +488,7 @@ screens = [
             make_widgets(systray=True),
             30,
             background=BAR_BG,
-            margin=[6, 10, 0, 10],
+            margin=0,
             opacity=0.92,
         ),
         background=cyberpunk['border_normal'],
@@ -497,7 +498,7 @@ screens = [
             make_widgets(systray=False),
             30,
             background=BAR_BG,
-            margin=[6, 10, 0, 10],
+            margin=0,
             opacity=0.92,
         ),
         background=cyberpunk['border_normal'],
