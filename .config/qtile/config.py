@@ -546,17 +546,28 @@ floating_layout = layout.Floating(
     border_normal=cyberpunk["border_normal"],
     border_width=2,
     float_rules=[
-        # Run the utility of `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
-        Match(wm_class="confirmreset"),  # gitk
-        Match(wm_class="dialog"),  # gitk
-        Match(wm_class="utility"),  # gitk
         Match(title="Picture-in-Picture"),
-        Match(wm_class="makebranch"),  # gitk
-        Match(wm_class="maketag"),  # gitk
-        Match(wm_class="ssh-askpass"),  # ssh-askpass
-        Match(title="branchdialog"),  # gitk
-        Match(wm_class="pinentry"),  # GPG key password entry
+        # GPG pinentry
+        Match(wm_class="pinentry"),
+        Match(wm_class="pinentry-gtk"),
+        Match(wm_class="Pinentry-gtk"),
+        Match(wm_class="pinentry-gtk-2"),
+        Match(wm_class="pinentry-qt"),
+        Match(wm_class="pinentry-gnome3"),
+        Match(wm_class="Pinentry"),
+        # SSH askpass
+        Match(wm_class="ssh-askpass"),
+        Match(wm_class="gcr-prompter"),
+        Match(wm_class="ksshaskpass"),
+        # Dialogs and confirmations
+        Match(wm_class="confirmreset"),
+        Match(wm_class="dialog"),
+        Match(wm_class="makebranch"),
+        Match(wm_class="maketag"),
+        Match(title="branchdialog"),
+        Match(title="confirm"),
+        Match(wm_type="dialog"),
     ]
 )
 
@@ -567,18 +578,13 @@ PIP_MARGIN = 20  # distância da borda da tela
 pip_window = None
 
 @hook.subscribe.client_managed
-def gpg_pinentry_float(window):
-    # app_id mais comuns do pinentry
-    if window.wm_class in {
-        "pinentry-gtk-2",
-        "pinentry-qt",
-    }:
-        window.floating = True
-        window.center()
-        return
+def password_dialog_float(window):
+    wm_class = window.wm_class or ""
+    if isinstance(wm_class, list):
+        wm_class = " ".join(wm_class)
+    wm_class_lower = wm_class.lower()
 
-    # fallback por título (caso distro/custom)
-    if window.name and "pinentry" in window.name.lower():
+    if any(kw in wm_class_lower for kw in ("pinentry", "askpass", "gcr-prompter")):
         window.floating = True
         window.center()
 
