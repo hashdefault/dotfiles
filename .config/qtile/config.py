@@ -1,5 +1,6 @@
 import os
 import subprocess
+import time
 from sys import byteorder
 
 from libqtile import bar, hook, layout, qtile, widget
@@ -38,38 +39,56 @@ def run_once(cmd):
     else:
         subprocess.Popen(cmd.split())
 
+def get_weather_safe():
+    """Non-blocking weather fetch with timeout and error handling."""
+    try:
+        result = subprocess.run(
+            ['getweather'],
+            capture_output=True,
+            text=True,
+            timeout=5
+        )
+        return result.stdout.strip() if result.returncode == 0 else "N/A"
+    except (subprocess.TimeoutExpired, FileNotFoundError, Exception):
+        return "N/A"
+
 @lazy.function
 def eww_open(qtile, anchor, pos, widget_name):
     """Open eww widget on the currently focused screen."""
     screen_idx = qtile.current_screen.index
-    qtile.cmd_spawn(
+    qtile.spawn(
         f'eww open --toggle --anchor "{anchor}" --pos {pos} --screen {screen_idx} {widget_name}'
     )
 
-def eww_click(anchor, pos, widget_name):
+@lazy.function
+def eww_click(qtile, anchor, pos, widget_name):
     """Mouse callback: open eww widget on the currently focused screen."""
-    return lambda: qtile.cmd_spawn(
+    screen_idx = qtile.current_screen.index
+    qtile.spawn(
         f'eww open --toggle --anchor "{anchor}" --pos {pos} '
-        f'--screen {qtile.current_screen.index} {widget_name}'
+        f'--screen {screen_idx} {widget_name}'
     )
 
 @hook.subscribe.startup_once
 def autostart():
     home = os.path.expanduser("~")
 
+    subprocess.run(
+        ["xrandr", "--output","HDMI-A-0","--mode","1920x1080","--pos","0x0",
+         "--output","DisplayPort-1","--mode","1920x1080","--pos","1920x0"],
+    )
+
     commands = [
-        ["xrandr", "--output","HDMI-A-0","--mode","1920x1080","--pos","0x0", "--output","DisplayPort-1","--mode","1920x1080","--pos","1920x0"],
         ["greenclip", "daemon"],
         ["dunst", "-config", f"{home}/.config/dunst/dunstrc"],
-        ["nitrogen", "--restore"],
+        ["picom", "--config", f"{home}/.config/picom/picom.conf"],
         ["redshift", "-O", "4200"],
         ["syncthing", "--no-browser"],
-        ["picom", "--config", f"{home}/.config/picom/picom.conf"],
         ["setxkbmap", "-layout", "us", "-variant", "altgr-intl"],
         ["xset", "r", "rate", "200", "35"],
         [f"{home}/.local/bin/getforecast"],
         [f"{home}/.local/bin/lock.sh"],
-        [f"{home}/.config/scripts/getforecast"],
+        [f"{home}/.config/eww/scripts/getforecast"],
         [f"{home}/.config/dunst/scripts/nowplaying_notify.sh"],
         [f"{home}/.local/bin/welcome-notify.sh"],
     ]
@@ -156,7 +175,7 @@ for vt in range(1, 8):
     )
 
 
-groups = [Group(i) for i in "123456789"]
+groups = [Group(i) for i in "12345678"]
 
 for i in groups:
     keys.extend(
@@ -267,9 +286,8 @@ FULLSCREEN_MATCHES = [
 @hook.subscribe.client_new
 def maximize_qview(window):
     wm_class = window.get_wm_class()
-    print(f"New window class: {wm_class}")  # Check qtile log
     if wm_class and any(x in str(wm_class).lower() for x in ['qview']):
-        window.cmd_toggle_maximize()
+        window.toggle_maximize()
 
 
 @hook.subscribe.client_managed
@@ -296,7 +314,7 @@ def powerline(from_color, to_color):
     """Powerline right-arrow separator."""
     return widget.TextBox(
         text='\ue0b0',
-        fontsize=30,
+        fontsize=28,
         padding=0,
         foreground=from_color,
         background=to_color,
@@ -305,13 +323,13 @@ def powerline(from_color, to_color):
 def make_widgets(systray=False):
     widgets = [
         # ── Logo ──
-        widget.TextBox(
-            text='  ',
-            fontsize=20,
-            foreground=cyberpunk["neon_cyan"],
-            background=BAR_BG,
-            padding=6,
-        ),
+        #widget.TextBox(
+        #    text='  ',
+        #    fontsize=20,
+        #    foreground=cyberpunk["neon_cyan"],
+        #    background=BAR_BG,
+        #    padding=6,
+        #),
         # ── Groups ──
         widget.GroupBox(
             highlight_method='line',
@@ -324,10 +342,10 @@ def make_widgets(systray=False):
             active=cyberpunk["neon_cyan"],
             inactive='#555577',
             urgent_border=cyberpunk["neon_yellow"],
-            fontsize=14,
-            padding_x=6,
-            padding_y=3,
-            margin_x=3,
+            fontsize=13,
+            padding_x=2,
+            padding_y=1,
+            margin_x=2,
             margin_y=3,
             disable_drag=True,
             background=BAR_BG,
@@ -338,13 +356,13 @@ def make_widgets(systray=False):
             text=' ',
             foreground=cyberpunk["neon_magenta"],
             background=SEG_A,
-            fontsize=16,
-            padding=4,
+            fontsize=15,
+            padding=2,
         ),
         widget.CurrentLayout(
             foreground=cyberpunk["neon_magenta"],
             background=SEG_A,
-            padding=4,
+            padding=2,
         ),
         powerline(SEG_A, BAR_BG),
         # ── Prompt + Window Name ──
@@ -369,15 +387,15 @@ def make_widgets(systray=False):
             text='  ',
             foreground=cyberpunk["neon_yellow"],
             background=SEG_B,
-            fontsize=16,
+            fontsize=15,
             padding=0,
         ),
         widget.GenPollText(
-            func=lambda: subprocess.check_output('getweather').decode().strip(),
+            func=get_weather_safe,
             update_interval=600,
             foreground=cyberpunk["neon_yellow"],
             background=SEG_B,
-            padding=4,
+            padding=2,
             mouse_callbacks={
                 'Button1': eww_click("top right", "0x35", "weather"),
             },
@@ -388,7 +406,7 @@ def make_widgets(systray=False):
             text='  ',
             foreground=cyberpunk["neon_magenta"],
             background=SEG_A,
-            fontsize=16,
+            fontsize=15,
             padding=0,
         ),
         widget.CPU(
@@ -406,7 +424,7 @@ def make_widgets(systray=False):
             text=' 󰍛 ',
             foreground=cyberpunk["neon_green"],
             background=SEG_B,
-            fontsize=16,
+            fontsize=15,
             padding=0,
         ),
         widget.Memory(
@@ -414,7 +432,7 @@ def make_widgets(systray=False):
             background=SEG_B,
             fmt='{}',
             measure_mem='G',
-            padding=4,
+            padding=2,
             mouse_callbacks={
                 'Button1': eww_click("top left", "10x35", "storagemon"),
             },
@@ -425,7 +443,7 @@ def make_widgets(systray=False):
             text=' 󰋊 ',
             foreground=cyberpunk["neon_pink"],
             background=SEG_A,
-            fontsize=14,
+            fontsize=13,
             padding=0,
         ),
         widget.DF(
@@ -434,7 +452,7 @@ def make_widgets(systray=False):
             partition='/',
             visible_on_warn=False,
             format='{uf}{m}/{s}{m}',
-            padding=4,
+            padding=2,
         ),
         powerline(SEG_A, SEG_B),
         # ── Volume ──
@@ -442,14 +460,14 @@ def make_widgets(systray=False):
             text=' 󰕾 ',
             foreground=cyberpunk["neon_cyan"],
             background=SEG_B,
-            fontsize=16,
+            fontsize=15,
             padding=0,
         ),
         widget.Volume(
             foreground=cyberpunk["neon_cyan"],
             background=SEG_B,
             fmt='{}',
-            padding=4,
+            padding=2,
         ),
         powerline(SEG_B, SEG_A),
         # ── Clock ──
@@ -457,14 +475,14 @@ def make_widgets(systray=False):
             text='  ',
             foreground=cyberpunk["neon_magenta"],
             background=SEG_A,
-            fontsize=16,
+            fontsize=15,
             padding=0,
         ),
         widget.Clock(
             foreground=cyberpunk["neon_magenta"],
             background=SEG_A,
             format='%b %d  %I:%M %p',
-            padding=4,
+            padding=2,
             mouse_callbacks={
                 'Button1': eww_click("top right", "0x35", "calendar_full"),
             },
@@ -473,7 +491,7 @@ def make_widgets(systray=False):
     if systray:
         widgets.extend([
             powerline(SEG_A, BAR_BG),
-            widget.Systray(background=BAR_BG, padding=8),
+            widget.Systray(background=BAR_BG, padding=4),
             widget.Spacer(length=8, background=BAR_BG),
         ])
     else:
@@ -482,26 +500,30 @@ def make_widgets(systray=False):
         )
     return widgets
 
+WALLPAPER = os.path.expanduser("~/Pictures/wallpapers/woman-glasses-neuro.jpg")
+
 screens = [
     Screen(
         top=bar.Bar(
             make_widgets(systray=True),
-            30,
+            25,
             background=BAR_BG,
             margin=0,
             opacity=0.92,
         ),
-        background=cyberpunk['border_normal'],
+        wallpaper=WALLPAPER,
+        wallpaper_mode="fill",
     ),
     Screen(
         top=bar.Bar(
             make_widgets(systray=False),
-            30,
+            25,
             background=BAR_BG,
             margin=0,
             opacity=0.92,
         ),
-        background=cyberpunk['border_normal'],
+        wallpaper=WALLPAPER,
+        wallpaper_mode="fill",
     ),
 ]
 
@@ -513,7 +535,6 @@ mouse = [
 ]
 
 dgroups_key_binder = None
-dgroups_app_rules = []  # type: list
 follow_mouse_focus = True
 bring_front_click = False
 floats_kept_above = True
@@ -582,11 +603,25 @@ def detect_pip(window):
             borderwidth=0,
         )
 
+@hook.subscribe.client_killed
+def cleanup_pip(window):
+    global pip_window
+    if pip_window and window == pip_window:
+        pip_window = None
+
 
 @hook.subscribe.setgroup
 def keep_pip_on_screen():
-    if pip_window and pip_window.group:
-        pip_window.toscreen(0)
+    global pip_window
+    if pip_window is None:
+        return
+    try:
+        # Validate window still exists and has a group
+        if hasattr(pip_window, 'group') and pip_window.group:
+            pip_window.toscreen(0)
+    except Exception:
+        # Window no longer valid, clear the reference
+        pip_window = None
 
 
 auto_fullscreen = True
