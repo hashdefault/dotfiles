@@ -1,21 +1,27 @@
 #!/usr/bin/env bash
 
 # Report whether redshift (nightlight) is currently active.
+# Re-applies redshift once per session if state says "on" (e.g. after restart).
 
 STATE_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/nightlight.state"
+SYNC_FLAG="/tmp/nightlight-synced"
+TEMP="${REDSHIFT_TEMP:-4200}"
 
 mkdir -p "$(dirname "$STATE_FILE")"
 
-# Read state from file (maintained by nightlight script)
 if [[ -f "$STATE_FILE" ]]; then
   read -r state <"$STATE_FILE"
   if [[ "$state" == "on" ]]; then
+    # Apply redshift once if not yet synced this session
+    if [[ ! -f "$SYNC_FLAG" ]]; then
+      redshift -O "$TEMP" >/dev/null 2>&1
+      touch "$SYNC_FLAG"
+    fi
     echo "true"
   else
     echo "false"
   fi
 else
-  # Default to off if state file doesn't exist
   echo "off" >"$STATE_FILE"
   echo "false"
 fi

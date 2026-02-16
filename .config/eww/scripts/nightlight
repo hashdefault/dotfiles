@@ -3,6 +3,7 @@
 # Toggle redshift on/off, tracking state locally for the "nightlight" toggle.
 
 STATE_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/nightlight.state"
+SYNC_FLAG="/tmp/nightlight-synced"
 TEMP="${REDSHIFT_TEMP:-4200}"
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 ICON_ON="$SCRIPT_DIR/../images/lamp.svg"
@@ -40,12 +41,14 @@ send_notification() {
 
 if [[ "$CURRENT_STATE" == "on" ]]; then
   stop_redshift
+  rm -f "$SYNC_FLAG"
   echo "off" >"$STATE_FILE"
   send_notification "off" "$ICON_OFF"
   echo "off"
 else
   if start_redshift; then
     echo "on" >"$STATE_FILE"
+    touch "$SYNC_FLAG"
     send_notification "on" "$ICON_ON"
     echo "on"
   else
