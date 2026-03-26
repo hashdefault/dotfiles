@@ -14,6 +14,7 @@ if [[ -f "$STATE_FILE" ]]; then
   if [[ "$state" == "on" ]]; then
     # Apply redshift once if not yet synced this session
     if [[ ! -f "$SYNC_FLAG" ]]; then
+      redshift -x >/dev/null 2>&1
       redshift -O "$TEMP" >/dev/null 2>&1
       touch "$SYNC_FLAG"
     fi
