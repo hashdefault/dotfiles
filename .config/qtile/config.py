@@ -10,27 +10,130 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
 mod = "mod4"
-terminal = guess_terminal('alacritty')
+terminal = guess_terminal('ghostty')
 
-# Cyberpunk color scheme - neon green primary
-cyberpunk = {
-    "neon_green": "#00ff41",
-    "neon_cyan": "#00f0ff",
-    "neon_magenta": "#ff00ff",
-    "neon_pink": "#ff2079",
-    "neon_pink_dim": "#cc77aa",
-    "neon_yellow": "#f0e020",
-    "dark_bg": "#0a0a0a",
-    "border_normal": "#1a1a2e",
-    "border_unfocused": "#317aaa",
-    "border_focus": "#ff2079",
-    "border_focus_dim": "#cc77aa",
-    "border_stack": "#e75480",
-    # Bar segment backgrounds
-    "bar_bg": "#0a0a14",
-    "seg_purple": "#1a0a2e",
-    "seg_blue": "#0a1a2e",
+COLORSCHEMES = {
+    "Cyberpunk": {
+        "neon_green": "#00ff41",
+        "neon_cyan": "#00f0ff",
+        "neon_magenta": "#ff00ff",
+        "neon_pink": "#ff2079",
+        "neon_pink_dim": "#cc77aa",
+        "neon_yellow": "#f0e020",
+        "dark_bg": "#0a0a0a",
+        "border_normal": "#1a1a2e",
+        "border_unfocused": "#317aaa",
+        "border_focus": "#ff2079",
+        "border_focus_dim": "#cc77aa",
+        "border_stack": "#e75480",
+        # Bar segment backgrounds
+        "bar_bg": "#0a0a14",
+        "seg_purple": "#1a0a2e",
+        "seg_blue": "#0a1a2e",
+    },
+    "Nord": {
+        "neon_green": "#a3be8c",
+        "neon_cyan": "#88c0d0",
+        "neon_magenta": "#b48ead",
+        "neon_pink": "#d08770",
+        "neon_pink_dim": "#bf616a",
+        "neon_yellow": "#ebcb8b",
+        "dark_bg": "#2e3440",
+        "border_normal": "#3b4252",
+        "border_unfocused": "#4c566a",
+        "border_focus": "#88c0d0",
+        "border_focus_dim": "#81a1c1",
+        "border_stack": "#b48ead",
+        "bar_bg": "#2e3440",
+        "seg_purple": "#3b4252",
+        "seg_blue": "#434c5e",
+    },
+    "Gruvbox": {
+        "neon_green": "#b8bb26",
+        "neon_cyan": "#83a598",
+        "neon_magenta": "#d3869b",
+        "neon_pink": "#fb4934",
+        "neon_pink_dim": "#cc241d",
+        "neon_yellow": "#fabd2f",
+        "dark_bg": "#282828",
+        "border_normal": "#3c3836",
+        "border_unfocused": "#504945",
+        "border_focus": "#d3869b",
+        "border_focus_dim": "#b16286",
+        "border_stack": "#fe8019",
+        "bar_bg": "#282828",
+        "seg_purple": "#3c3836",
+        "seg_blue": "#504945",
+    },
+    "Tokyo Night": {
+        "neon_green": "#9ece6a",
+        "neon_cyan": "#7dcfff",
+        "neon_magenta": "#bb9af7",
+        "neon_pink": "#f7768e",
+        "neon_pink_dim": "#ff9e64",
+        "neon_yellow": "#e0af68",
+        "dark_bg": "#1a1b26",
+        "border_normal": "#24283b",
+        "border_unfocused": "#414868",
+        "border_focus": "#7dcfff",
+        "border_focus_dim": "#2ac3de",
+        "border_stack": "#c0caf5",
+        "bar_bg": "#1a1b26",
+        "seg_purple": "#24283b",
+        "seg_blue": "#1f2335",
+    },
+    "Catpuccin Mocha": {
+        "neon_green": "#a6e3a1",
+        "neon_cyan": "#89dceb",
+        "neon_magenta": "#cba6f7",
+        "neon_pink": "#f5c2e7",
+        "neon_pink_dim": "#eba0ac",
+        "neon_yellow": "#f9e2af",
+        "dark_bg": "#1e1e2e",
+        "border_normal": "#313244",
+        "border_unfocused": "#45475a",
+        "border_focus": "#89dceb",
+        "border_focus_dim": "#74c7ec",
+        "border_stack": "#f38ba8",
+        "bar_bg": "#1e1e2e",
+        "seg_purple": "#181825",
+        "seg_blue": "#11111b",
+    },
+    "Cyan Noir": {
+        "neon_green": "#00f5d4",
+        "neon_cyan": "#00d4ff",
+        "neon_magenta": "#7c3aed",
+        "neon_pink": "#22d3ee",
+        "neon_pink_dim": "#0891b2",
+        "neon_yellow": "#a3e635",
+        "dark_bg": "#050608",
+        "border_normal": "#10131a",
+        "border_unfocused": "#0b1a22",
+        "border_focus": "#00d4ff",
+        "border_focus_dim": "#0891b2",
+        "border_stack": "#22d3ee",
+        "bar_bg": "#050608",
+        "seg_purple": "#0b1016",
+        "seg_blue": "#071019",
+    },
 }
+
+THEME_FILE = os.path.expanduser("~/.config/qtile/colorscheme.txt")
+
+def load_theme_name():
+    try:
+        with open(THEME_FILE, "r", encoding="utf-8") as f:
+            name = f.read().strip()
+            if name in COLORSCHEMES:
+                return name
+    except FileNotFoundError:
+        pass
+    except Exception:
+        pass
+    return "Cyberpunk"
+
+THEME_NAME = load_theme_name()
+theme = COLORSCHEMES[THEME_NAME]
 
 def run_once(cmd):
     """Spawn command without invoking a shell."""
@@ -69,6 +172,40 @@ def eww_click(qtile, anchor, pos, widget_name):
         f'--screen {screen_idx} {widget_name}'
     )
 
+@lazy.function
+def choose_colorscheme(qtile):
+    current = load_theme_name()
+    options = []
+    for name in COLORSCHEMES.keys():
+        label = f"{name} (current)" if name == current else name
+        options.append(label)
+    menu = "\n".join(options)
+    try:
+        result = subprocess.run(
+            ["rofi", "-dmenu", "-i", "-p", "Colorscheme"],
+            input=menu,
+            text=True,
+            capture_output=True,
+        )
+    except FileNotFoundError:
+        return
+    if result.returncode != 0:
+        return
+    choice = result.stdout.strip()
+    if not choice:
+        return
+    selected = choice.replace(" (current)", "")
+    if selected not in COLORSCHEMES:
+        return
+    if selected == current:
+        return
+    try:
+        with open(THEME_FILE, "w", encoding="utf-8") as f:
+            f.write(selected)
+    except Exception:
+        return
+    qtile.cmd_reload_config()
+
 @hook.subscribe.startup_once
 def autostart():
     home = os.path.expanduser("~")
@@ -84,13 +221,13 @@ def autostart():
         ["picom", "--config", f"{home}/.config/picom/picom.conf"],
         ["redshift", "-O", "4200"],
         ["syncthing", "--no-browser"],
-        ["setxkbmap", "-layout", "us", "-variant", "altgr-intl"],
-        ["xset", "r", "rate", "200", "35"],
         [f"{home}/.local/bin/getforecast"],
         [f"{home}/.local/bin/lock.sh"],
         [f"{home}/.config/eww/scripts/getforecast"],
         [f"{home}/.config/dunst/scripts/nowplaying_notify.sh"],
         [f"{home}/.local/bin/welcome-notify.sh"],
+        ["setxkbmap", "-layout", "us", "-variant", "altgr-intl"],
+        ["xset", "r", "rate", "200", "35"],
     ]
 
     for cmd in commands:
@@ -220,18 +357,18 @@ swallow_matches = [
 ]
 layouts = [
     layout.MonadTall(
-        border_focus=cyberpunk["border_focus"],
-        border_normal=cyberpunk["border_normal"],
+        border_focus=theme["border_focus"],
+        border_normal=theme["border_normal"],
         border_width=3,
         margin=8,
         single_margin=0,
         swallow_rules=swallow_matches,
             ),
     layout.Columns(
-        border_focus=cyberpunk["border_focus"],
-        border_normal=cyberpunk["border_normal"],
-        border_focus_stack=[cyberpunk["neon_pink"], cyberpunk["border_stack"]],
-        border_normal_stack=[cyberpunk["dark_bg"], cyberpunk["border_normal"]],
+        border_focus=theme["border_focus"],
+        border_normal=theme["border_normal"],
+        border_focus_stack=[theme["neon_pink"], theme["border_stack"]],
+        border_normal_stack=[theme["dark_bg"], theme["border_normal"]],
         border_width=3,
         margin=8,
         margin_on_single=0,
@@ -239,8 +376,8 @@ layouts = [
     ),
     layout.Max(),
     layout.Tile(
-        border_focus=cyberpunk["border_focus"],
-        border_normal=cyberpunk["border_normal"],
+        border_focus=theme["border_focus"],
+        border_normal=theme["border_normal"],
         border_width=3,
         margin=8,
         swallow_rules=swallow_matches
@@ -306,9 +443,9 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
-BAR_BG = cyberpunk["bar_bg"]
-SEG_A = cyberpunk["seg_purple"]
-SEG_B = cyberpunk["seg_blue"]
+BAR_BG = theme["bar_bg"]
+SEG_A = theme["seg_purple"]
+SEG_B = theme["seg_blue"]
 
 def powerline(from_color, to_color):
     """Powerline right-arrow separator."""
@@ -326,7 +463,7 @@ def make_widgets(systray=False):
         #widget.TextBox(
         #    text='  ',
         #    fontsize=20,
-        #    foreground=cyberpunk["neon_cyan"],
+        #    foreground=theme["neon_cyan"],
         #    background=BAR_BG,
         #    padding=6,
         #),
@@ -335,13 +472,13 @@ def make_widgets(systray=False):
             highlight_method='line',
             rounded=False,
             highlight_color=[BAR_BG, BAR_BG],
-            this_current_screen_border=cyberpunk["neon_cyan"],
-            this_screen_border=cyberpunk["neon_cyan"],
-            other_current_screen_border=cyberpunk["neon_magenta"],
-            other_screen_border=cyberpunk["neon_pink_dim"],
-            active=cyberpunk["neon_cyan"],
+            this_current_screen_border=theme["neon_cyan"],
+            this_screen_border=theme["neon_cyan"],
+            other_current_screen_border=theme["neon_magenta"],
+            other_screen_border=theme["neon_pink_dim"],
+            active=theme["neon_cyan"],
             inactive='#555577',
-            urgent_border=cyberpunk["neon_yellow"],
+            urgent_border=theme["neon_yellow"],
             fontsize=13,
             padding_x=1,
             padding_y=1,
@@ -354,13 +491,13 @@ def make_widgets(systray=False):
         # ── Layout ──
         widget.TextBox(
             text=' ',
-            foreground=cyberpunk["neon_magenta"],
+            foreground=theme["neon_magenta"],
             background=SEG_A,
             fontsize=15,
             padding=2,
         ),
         widget.CurrentLayout(
-            foreground=cyberpunk["neon_magenta"],
+            foreground=theme["neon_magenta"],
             background=SEG_A,
             padding=2,
         ),
@@ -368,7 +505,7 @@ def make_widgets(systray=False):
         # ── Prompt + Window Name ──
         widget.Prompt(background=BAR_BG),
         widget.WindowName(
-            foreground=cyberpunk["neon_cyan"],
+            foreground=theme["neon_cyan"],
             background=BAR_BG,
             max_chars=50,
             format='{name}',
@@ -376,7 +513,7 @@ def make_widgets(systray=False):
         ),
         widget.Chord(
             chords_colors={
-                "launch": (cyberpunk["neon_pink"], "#ffffff"),
+                "launch": (theme["neon_pink"], "#ffffff"),
             },
             name_transform=lambda name: name.upper(),
             background=BAR_BG,
@@ -385,7 +522,7 @@ def make_widgets(systray=False):
         powerline(BAR_BG, SEG_B),
         widget.TextBox(
             text='  ',
-            foreground=cyberpunk["neon_yellow"],
+            foreground=theme["neon_yellow"],
             background=SEG_B,
             fontsize=15,
             padding=0,
@@ -393,7 +530,7 @@ def make_widgets(systray=False):
         widget.GenPollText(
             func=get_weather_safe,
             update_interval=600,
-            foreground=cyberpunk["neon_yellow"],
+            foreground=theme["neon_yellow"],
             background=SEG_B,
             padding=2,
             mouse_callbacks={
@@ -404,13 +541,13 @@ def make_widgets(systray=False):
         # ── CPU ──
         widget.TextBox(
             text='  ',
-            foreground=cyberpunk["neon_magenta"],
+            foreground=theme["neon_magenta"],
             background=SEG_A,
             fontsize=15,
             padding=0,
         ),
         widget.CPU(
-            foreground=cyberpunk["neon_magenta"],
+            foreground=theme["neon_magenta"],
             background=SEG_A,
             format='{load_percent}%',
             padding=4,
@@ -422,13 +559,13 @@ def make_widgets(systray=False):
         # ── Memory ──
         widget.TextBox(
             text=' 󰍛 ',
-            foreground=cyberpunk["neon_green"],
+            foreground=theme["neon_green"],
             background=SEG_B,
             fontsize=15,
             padding=0,
         ),
         widget.Memory(
-            foreground=cyberpunk["neon_green"],
+            foreground=theme["neon_green"],
             background=SEG_B,
             fmt='{}',
             measure_mem='G',
@@ -441,13 +578,13 @@ def make_widgets(systray=False):
         # ── Disk ──
         widget.TextBox(
             text=' 󰋊 ',
-            foreground=cyberpunk["neon_pink"],
+            foreground=theme["neon_pink"],
             background=SEG_A,
             fontsize=13,
             padding=0,
         ),
         widget.DF(
-            foreground=cyberpunk["neon_pink"],
+            foreground=theme["neon_pink"],
             background=SEG_A,
             partition='/',
             visible_on_warn=False,
@@ -458,13 +595,13 @@ def make_widgets(systray=False):
         # ── Volume ──
         widget.TextBox(
             text=' 󰕾 ',
-            foreground=cyberpunk["neon_cyan"],
+            foreground=theme["neon_cyan"],
             background=SEG_B,
             fontsize=15,
             padding=0,
         ),
         widget.Volume(
-            foreground=cyberpunk["neon_cyan"],
+            foreground=theme["neon_cyan"],
             background=SEG_B,
             fmt='{}',
             padding=2,
@@ -473,18 +610,27 @@ def make_widgets(systray=False):
         # ── Clock ──
         widget.TextBox(
             text='  ',
-            foreground=cyberpunk["neon_magenta"],
+            foreground=theme["neon_magenta"],
             background=SEG_A,
             fontsize=15,
             padding=0,
         ),
         widget.Clock(
-            foreground=cyberpunk["neon_magenta"],
+            foreground=theme["neon_magenta"],
             background=SEG_A,
             format='%b %d  %I:%M %p',
             padding=2,
             mouse_callbacks={
                 'Button1': eww_click("top right", "0x35", "calendar_full"),
+            },
+        ),
+        widget.TextBox(
+            text=' Theme ',
+            foreground=theme["neon_cyan"],
+            background=SEG_A,
+            padding=2,
+            mouse_callbacks={
+                'Button1': choose_colorscheme,
             },
         ),
     ]
@@ -500,7 +646,7 @@ def make_widgets(systray=False):
         )
     return widgets
 
-WALLPAPER = os.path.expanduser("~/Pictures/wallpapers/woman-glasses-neuro.jpg")
+WALLPAPER = os.path.expanduser("~/Pictures/wallpapers/astroboy.jpg")
 
 screens = [
     Screen(
@@ -542,8 +688,8 @@ cursor_warp = False
 
 
 floating_layout = layout.Floating(
-    border_focus=cyberpunk["neon_cyan"],
-    border_normal=cyberpunk["border_normal"],
+    border_focus=theme["neon_cyan"],
+    border_normal=theme["border_normal"],
     border_width=2,
     float_rules=[
         *layout.Floating.default_float_rules,
@@ -643,7 +789,7 @@ auto_minimize = True
 #wl_input_rules = None
 
 # xcursor theme (string or None) and size (integer) for Wayland backend
-wl_xcursor_theme = None
+wl_xcursor_theme = "Bibata-Modern-Ice"
 wl_xcursor_size = 24
 #wl_input_rules = {
 #    "type:keyboard": inputs.InputConfig(
@@ -664,4 +810,3 @@ idle_inhibitors = []  # type: list
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
-
