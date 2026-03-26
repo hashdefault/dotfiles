@@ -9,17 +9,17 @@
   margin: 14px;
   padding: 12px;
   border-radius: 10px;
-  border: 1px solid rgba(255, 32, 121, 0.3);
-  background: linear-gradient(155deg, #0a0a1a 0%, #111130 50%, #1a1a40 100%);
-  color: #e0e0ff;
+  border: 1px solid rgba($pink, 0.3);
+  background: linear-gradient(155deg, $bg 0%, $bg_alt 50%, $bg_panel 100%);
+  color: $fg;
 
   .notification-scroll {
     min-height: 660px;
     padding: 8px 6px 4px;
     margin: 4px 2px 0px 2px;
     border-radius: 12px;
-    border: 1px solid rgba(189, 0, 255, 0.2);
-    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba($magenta, 0.2);
+    background: rgba($fg, 0.02);
   }
 
   .notification-box-content {
@@ -29,33 +29,33 @@
   .no-notif {
     font-size: 14px;
     margin: 12px 0;
-    color: #9fb3c7;
+    color: $muted2;
   }
 
   .notifications-menu-header {
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba($fg, 0.03);
     padding: 10px 12px;
     margin: 0px 2px 6px 2px;
     border-radius: 12px;
-    border: 1px solid rgba(189, 0, 255, 0.2);
+    border: 1px solid rgba($magenta, 0.2);
 
     .notification-title {
-      color: #e3edff;
+      color: $fg_softer;
       font-size: 20px;
       font-weight: 800;
     }
 
     .notification-subtitle {
-      color: #9fb3c7;
+      color: $muted2;
       font-size: 12px;
       margin-top: 2px;
     }
 
     .clear-history-button {
       font-size: 13px;
-      color: #e3edff;
-      background: linear-gradient(135deg, rgba(143, 233, 182, 0.18), rgba(99, 163, 255, 0.08));
-      border: 1px solid rgba(143, 233, 182, 0.22);
+      color: $fg_softer;
+      background: linear-gradient(135deg, rgba($green, 0.18), rgba($blue, 0.08));
+      border: 1px solid rgba($green, 0.22);
       padding: 6px 12px;
       border-radius: 10px;
     }
@@ -65,19 +65,19 @@
   .notif-item {
     margin: 8px 4px;
     border-radius: 12px;
-    border: 1px solid rgba(189, 0, 255, 0.2);
-    background: linear-gradient(165deg, rgba(255, 255, 255, 0.02), rgba(17, 17, 48, 0.82));
-    border-left: 3px solid #00f0ff;
+    border: 1px solid rgba($magenta, 0.2);
+    background: linear-gradient(165deg, rgba($fg, 0.02), rgba($bg_alt, 0.82));
+    border-left: 3px solid $cyan;
   }
 
   .notif-item-header {
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: rgba($fg, 0.03);
     font-weight: bold;
-    color: #e3edff;
+    color: $fg_softer;
     padding: 8px 10px;
-    border-bottom: 1px solid rgba(189, 0, 255, 0.2);
+    border-bottom: 1px solid rgba($magenta, 0.2);
 
     .notif-dismiss-button {
       font-size: 18px;
@@ -92,7 +92,7 @@
 
   .icon-notif {
     border-radius: 10px;
-    border: 3px solid rgba(0, 240, 255, 0.5);
+    border: 3px solid rgba($cyan, 0.5);
   }
 
   .box-labels-notif {
@@ -102,19 +102,19 @@
   .notification-item-title {
     font-size: 10px;
     font-weight: 800;
-    color: #e3edff;
+    color: $fg_softer;
   }
 
   .notification-message {
     font-size: 13px;
-    color: #9fb3c7;
+    color: $muted2;
   }
 
   .notif-line-icon-screen {
     border-radius: 10px;
     padding: 10px 12px 14px;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(189, 0, 255, 0.2);
+    background: rgba($fg, 0.02);
+    border: 1px solid rgba($magenta, 0.2);
     margin: 8px 10px 14px;
 
     .icon-notif-screenshot {
@@ -132,7 +132,7 @@
       border-radius: 8px;
       color: rgb(250, 250, 220);
       font-weight: bold;
-      border: 1px solid rgba(189, 0, 255, 0.2);
+      border: 1px solid rgba($magenta, 0.2);
     }
 
     .notif-screen-button-delete {

@@ -1,7 +1,7 @@
 .number_day {
   padding-top: 10px;
   font-size: 35px;
-  color: #ff2079;
+  color: $pink;
 }
 
 .month {
@@ -14,24 +14,24 @@
   font-weight: bold;
   margin: 10px 0;
   padding: 12px;
-  color: #e0e0ff;
+  color: $fg;
 }
 
 .calendar_full:last-child {
-  border: 1px solid rgba(255, 32, 121, 0.3);
+  border: 1px solid rgba($pink, 0.3);
 }
 
 .calendar_title {
   margin-top: 4px;
   font-size: 16px;
-  color: #e0e0ff;
+  color: $fg;
   letter-spacing: 0.5px;
 }
 
 .calendar_panel {
   font-size: 14px;
   margin-top: 10px;
-  border: 1px solid #1a1a40;
+  border: 1px solid $bg_panel;
   border-radius: 10px;
   padding: 8px;
 }
@@ -40,18 +40,18 @@ calendar:dir(ltr) {
   all: unset;
   padding: 4px;
   border-radius: 10px;
-  color: #e0e0ff;
+  color: $fg;
 }
 
 calendar:selected {
-  color: #ff2079;
+  color: $pink;
   border-radius: 8px;
 }
 
 calendar:indeterminate {
-  color: rgba(200, 200, 200, 0.6);
+  color: rgba($muted2, 0.6);
 }
 
 calendar.highlight {
-  color: #f5f500;
+  color: $yellow;
 }

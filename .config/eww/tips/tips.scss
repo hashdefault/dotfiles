@@ -3,22 +3,22 @@
 }
 
 .tips {
-  background: linear-gradient(155deg, #0a0a1a 0%, #111130 50%, #1a1a40 100%);
+  background: linear-gradient(155deg, $bg 0%, $bg_alt 50%, $bg_panel 100%);
   padding: 28px 32px;
   font-family: "Ubuntu Nerd Font";
   border-radius: 10px;
-  color: #e0e0ff;
-  border: 1px solid rgba(255, 32, 121, 0.3);
+  color: $fg;
+  border: 1px solid rgba($pink, 0.3);
 }
 
 .tip_super,
 .key {
   margin: 0 10px 0 0;
   padding: 6px 12px;
-  color: #e5f5ff;
-  background: linear-gradient(90deg, rgba(48, 113, 219, 0.35), rgba(81, 175, 239, 0.35));
+  color: $fg_soft;
+  background: linear-gradient(90deg, rgba($blue, 0.35), rgba($cyan, 0.35));
   border-radius: 12px;
-  border: 1px solid rgba(81, 175, 239, 0.35);
+  border: 1px solid rgba($cyan, 0.35);
   letter-spacing: 0.5px;
   font-weight: 700;
 }
@@ -26,21 +26,21 @@
 .tip {
   font-size: 15px;
   padding: 6px 0;
-  color: #e8eaf1;
+  color: $fg_soft;
 }
 
 .header {
   font-size: 22px;
   font-weight: 800;
   letter-spacing: 1px;
-  color: #ecbe7b;
+  color: $yellow;
   padding-bottom: 6px;
 }
 
 .box-text {
   min-width: 360px;
   padding: 5px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba($fg, 0.05);
 }
 
 .box-text:last-child {

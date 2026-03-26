@@ -11,4 +11,4 @@ configuration {
     click-to-exit:       true;
 }
 
-@theme "cyberpunk"
+@theme "qtile-theme"

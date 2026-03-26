@@ -6,17 +6,17 @@
 .storagemon {
   padding: 16px;
   border-radius: 14px;
-  background: linear-gradient(155deg, #0a0a1a 0%, #111130 50%, #1a1a40 100%);
-  border: 1px solid rgba(255, 32, 121, 0.3);
+  background: linear-gradient(155deg, $bg 0%, $bg_alt 50%, $bg_panel 100%);
+  border: 1px solid rgba($pink, 0.3);
   box-shadow: 0 10px 30px rgba(255, 32, 121, 0.08);
-  color: #e0e0ff;
+  color: $fg;
 }
 
 .panel {
   padding: 12px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(189, 0, 255, 0.2);
+  background: rgba($fg, 0.02);
+  border: 1px solid rgba($magenta, 0.2);
 }
 
 .box-disks {
@@ -32,7 +32,7 @@
 .header-ram-description {
   font-size: 24px;
   font-weight: bold;
-  color: #f1f6ff;
+  color: $fg_softest;
   letter-spacing: 1px;
 }
 
@@ -57,7 +57,7 @@
 .ram-description-total {
   margin: 3px 8px;
   font-size: 15px;
-  color: #9fb3c7;
+  color: $muted2;
 }
 
 .number {
@@ -65,68 +65,68 @@
 }
 
 .disk-description-usage.number {
-  color: #f17f7f;
+  color: $red_dim;
 }
 
 .disk-description-available.number {
-  color: #8fe9b6;
+  color: $green;
 }
 
 .disk-description-used.number {
-  color: #9cb0ff;
+  color: $blue;
 }
 
 .disk-description-total.number {
-  color: #d7e6ff;
+  color: $fg_soft;
 }
 
 .cpu-description-usage.number {
-  color: #9a8dff;
+  color: $blue;
 }
 
 .cpu-description-used.number,
 .cpu-description-available.number {
-  color: #9fb3c7;
+  color: $muted2;
 }
 
 .ram-description-usage.number {
-  color: #27c6f5;
+  color: $cyan_dim;
 }
 
 .ram-description-available.number {
-  color: #8fe9b6;
+  color: $green;
 }
 
 .ram-description-used.number {
-  color: #9cb0ff;
+  color: $blue;
 }
 
 .ram-description-total.number {
-  color: #d7e6ff;
+  color: $fg_soft;
 }
 
 .storage-graph {
   margin: 10px;
-  background-color: #1a1a40;
-  color: #e15656;
+  background-color: $bg_panel;
+  color: $red;
 }
 
 .ram-graph {
   margin: 8px;
-  background-color: #1a1a40;
-  color: #27c6f5;
+  background-color: $bg_panel;
+  color: $cyan_dim;
 }
 
 .cpu-graph {
   margin: 8px;
-  background-color: #1a1a40;
-  color: #9a8dff;
+  background-color: $bg_panel;
+  color: $blue;
 }
 
 .proc-title {
   font-size: 20px;
   font-weight: 800;
-  color: #f1f6ff;
+  color: $fg_softest;
   margin-bottom: 6px;
 }
 
@@ -135,8 +135,8 @@
   font-weight: bold;
   margin-top: 2px;
   padding: 6px 8px;
-  border-bottom: 1px solid rgba(189, 0, 255, 0.2);
-  color: #00f0ff;
+  border-bottom: 1px solid rgba($magenta, 0.2);
+  color: $cyan;
 }
 
 .proc-header-desc {
@@ -146,11 +146,11 @@
 .proc-body {
   font-size: 14px;
   margin: 6px 4px;
-  color: #d3deec;
+  color: $fg_soft;
   padding: 8px 6px;
   border-radius: 10px;
-  background: rgba(17, 17, 48, 0.8);
-  border: 1px solid rgba(189, 0, 255, 0.15);
+  background: rgba($bg_alt, 0.8);
+  border: 1px solid rgba($magenta, 0.15);
 }
 
 .text {

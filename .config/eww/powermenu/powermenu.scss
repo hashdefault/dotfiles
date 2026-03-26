@@ -1,11 +1,11 @@
 .powermenu-window {
-  background: linear-gradient(155deg, #0a0a1a 0%, #111130 50%, #1a1a40 100%);
-  border: 1px solid rgba(255, 32, 121, 0.3);
+  background: linear-gradient(155deg, $bg 0%, $bg_alt 50%, $bg_panel 100%);
+  border: 1px solid rgba($pink, 0.3);
   border-radius: 14px;
 }
 
 .powermenu { padding: 5px 5px; border-radius: 14px;
-  color: #e0e0ff;
+  color: $fg;
 }
 
 .power-item {
@@ -19,12 +19,12 @@
 }
 
 .hover-power-btn:hover {
-  background: linear-gradient(135deg, rgba(19, 200, 182, 0.16), rgba(99, 163, 255, 0.08));
-  color: #16ffa1;
+  background: linear-gradient(135deg, rgba($cyan, 0.16), rgba($blue, 0.08));
+  color: $green;
 }
 
 .power-item:hover {
-  border-color: rgba(19, 200, 155, 0.7);
+  border-color: rgba($green, 0.7);
 }
 
 .power-button,
@@ -34,7 +34,7 @@
   font-size: 30px;
   margin: 6px 0 2px 0;
   padding: 8px 0;
-  color: #0feeff;
+  color: $cyan;
   background: transparent;
   border: none;
   border-radius: 12px;
@@ -45,8 +45,8 @@
 .hover-power-btn:hover .reboot-button,
 .hover-power-btn:hover .logout-button,
 .hover-power-btn:hover .suspend-button {
-  color: #16ffa1;
-  border-color: rgba(103, 233, 132, 0.45);
+  color: $green;
+  border-color: rgba($green, 0.45);
 }
 
 .power-description,
@@ -54,7 +54,7 @@
 .logout-description,
 .suspend-description {
   font-size: 13px;
-  color: #0feeff;
+  color: $cyan;
   margin-top: 3px;
   opacity: 0.9;
 }

@@ -1,14 +1,14 @@
 .weather {
   padding: 16px;
   border-radius: 14px;
-  border: 1px solid rgba(255, 32, 121, 0.3);
-  color: #e0e0ff;
+  border: 1px solid rgba($pink, 0.3);
+  color: $fg;
 }
 
 .weather-current {
   padding: 10px 6px;
   margin-bottom: 12px;
-  border-bottom: 1px solid rgba(189, 0, 255, 0.3);
+  border-bottom: 1px solid rgba($magenta, 0.3);
 }
 
 .weather-icon {
@@ -21,13 +21,13 @@
   font-weight: 700;
   font-family: 'Ubuntu Nerd Font';
   margin: 0px 24px 0px 4px;
-  color: #e0e0ff;
+  color: $fg;
 }
 
 .temperature {
   font-size: 38px;
   font-weight: 900;
-  color: #00f0ff;
+  color: $cyan;
 }
 
 .weather-forecast {
@@ -37,7 +37,7 @@
 .weather-day {
   padding: 8px 6px;
   margin: 0px 4px;
-  border-right: 1px solid rgba(189, 0, 255, 0.15);
+  border-right: 1px solid rgba($magenta, 0.15);
 
   &:last-child {
     border-right: none;
@@ -52,7 +52,7 @@
   font-size: 13px;
   font-weight: 800;
   padding: 4px;
-  color: #7a7a9a;
+  color: $muted;
 }
 
 .weather-icon-1,
@@ -73,7 +73,7 @@
   font-size: 16px;
   font-weight: 800;
   padding: 6px;
-  color: #e0e0ff;
+  color: $fg;
 }
 
 .weather-prec-1,
@@ -82,7 +82,7 @@
 .weather-prec-4,
 .weather-prec-5 {
   font-size: 14px;
-  color: #00f0ff;
+  color: $cyan;
   font-weight: 700;
 }
 
@@ -94,5 +94,5 @@
   font-size: 13px;
   padding: 6px;
   margin: 0px 4px 4px 4px;
-  color: #7a7a9a;
+  color: $muted;
 }

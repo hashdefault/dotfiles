@@ -30,6 +30,20 @@ COLORSCHEMES = {
         "bar_bg": "#0a0a14",
         "seg_purple": "#1a0a2e",
         "seg_blue": "#0a1a2e",
+        "text": "#e0e0ff",
+        "text_soft": "#d7e6ff",
+        "text_softer": "#e3edff",
+        "text_softest": "#f1f6ff",
+        "muted": "#7a7a9a",
+        "muted2": "#9fb3c7",
+        "cyan_dim": "#27c6f5",
+        "green_dim": "#8fe9b6",
+        "red": "#e15656",
+        "red_dim": "#f17f7f",
+        "blue": "#9cb0ff",
+        "pink_dim": "#ff0055",
+        "primary": "#ff2079",
+        "primary_dim": "#ff2079",
     },
     "Nord": {
         "neon_green": "#a3be8c",
@@ -47,6 +61,20 @@ COLORSCHEMES = {
         "bar_bg": "#2e3440",
         "seg_purple": "#3b4252",
         "seg_blue": "#434c5e",
+        "text": "#d8dee9",
+        "text_soft": "#e5e9f0",
+        "text_softer": "#eceff4",
+        "text_softest": "#f1f3f6",
+        "muted": "#4c566a",
+        "muted2": "#81a1c1",
+        "cyan_dim": "#8fbcbb",
+        "green_dim": "#a3be8c",
+        "red": "#bf616a",
+        "red_dim": "#d08770",
+        "blue": "#81a1c1",
+        "pink_dim": "#bf616a",
+        "primary": "#88c0d0",
+        "primary_dim": "#88c0d0",
     },
     "Gruvbox": {
         "neon_green": "#b8bb26",
@@ -58,12 +86,26 @@ COLORSCHEMES = {
         "dark_bg": "#282828",
         "border_normal": "#3c3836",
         "border_unfocused": "#504945",
-        "border_focus": "#d3869b",
-        "border_focus_dim": "#b16286",
+        "border_focus": "#fabd2f",
+        "border_focus_dim": "#d79921",
         "border_stack": "#fe8019",
         "bar_bg": "#282828",
         "seg_purple": "#3c3836",
         "seg_blue": "#504945",
+        "text": "#ebdbb2",
+        "text_soft": "#fbf1c7",
+        "text_softer": "#f2e5bc",
+        "text_softest": "#f9f5d7",
+        "muted": "#928374",
+        "muted2": "#a89984",
+        "cyan_dim": "#83a598",
+        "green_dim": "#b8bb26",
+        "red": "#fb4934",
+        "red_dim": "#cc241d",
+        "blue": "#83a598",
+        "pink_dim": "#d3869b",
+        "primary": "#fabd2f",
+        "primary_dim": "#fabd2f",
     },
     "Tokyo Night": {
         "neon_green": "#9ece6a",
@@ -81,6 +123,20 @@ COLORSCHEMES = {
         "bar_bg": "#1a1b26",
         "seg_purple": "#24283b",
         "seg_blue": "#1f2335",
+        "text": "#c0caf5",
+        "text_soft": "#c0caf5",
+        "text_softer": "#a9b1d6",
+        "text_softest": "#d5d6f3",
+        "muted": "#565f89",
+        "muted2": "#9aa5ce",
+        "cyan_dim": "#2ac3de",
+        "green_dim": "#9ece6a",
+        "red": "#f7768e",
+        "red_dim": "#db4b4b",
+        "blue": "#7aa2f7",
+        "pink_dim": "#f7768e",
+        "primary": "#7dcfff",
+        "primary_dim": "#7dcfff",
     },
     "Catpuccin Mocha": {
         "neon_green": "#a6e3a1",
@@ -98,6 +154,20 @@ COLORSCHEMES = {
         "bar_bg": "#1e1e2e",
         "seg_purple": "#181825",
         "seg_blue": "#11111b",
+        "text": "#cdd6f4",
+        "text_soft": "#bac2de",
+        "text_softer": "#a6adc8",
+        "text_softest": "#d9e0ee",
+        "muted": "#6c7086",
+        "muted2": "#7f849c",
+        "cyan_dim": "#74c7ec",
+        "green_dim": "#a6e3a1",
+        "red": "#f38ba8",
+        "red_dim": "#eba0ac",
+        "blue": "#89b4fa",
+        "pink_dim": "#f5c2e7",
+        "primary": "#94e2d5",
+        "primary_dim": "#94e2d5",
     },
     "Cyan Noir": {
         "neon_green": "#00f5d4",
@@ -115,6 +185,51 @@ COLORSCHEMES = {
         "bar_bg": "#050608",
         "seg_purple": "#0b1016",
         "seg_blue": "#071019",
+        "text": "#e6f7ff",
+        "text_soft": "#cfefff",
+        "text_softer": "#b7e7ff",
+        "text_softest": "#f1fbff",
+        "muted": "#5b6b7a",
+        "muted2": "#7a8ea3",
+        "cyan_dim": "#22d3ee",
+        "green_dim": "#34d399",
+        "red": "#f87171",
+        "red_dim": "#ef4444",
+        "blue": "#38bdf8",
+        "pink_dim": "#22d3ee",
+        "primary": "#00d4ff",
+        "primary_dim": "#00d4ff",
+    },
+    "Matcha": {
+        "neon_green": "#a7f3a3",
+        "neon_cyan": "#69d2b4",
+        "neon_magenta": "#b48ead",
+        "neon_pink": "#f2b5d4",
+        "neon_pink_dim": "#e39bbf",
+        "neon_yellow": "#e6d98f",
+        "dark_bg": "#101612",
+        "border_normal": "#1a221c",
+        "border_unfocused": "#2a3530",
+        "border_focus": "#69d2b4",
+        "border_focus_dim": "#69d2b4",
+        "border_stack": "#a7f3a3",
+        "bar_bg": "#101612",
+        "seg_purple": "#151d18",
+        "seg_blue": "#12221a",
+        "text": "#e9f5ee",
+        "text_soft": "#d7ebe1",
+        "text_softer": "#c6ded3",
+        "text_softest": "#f3fbf7",
+        "muted": "#7f978c",
+        "muted2": "#9fb5aa",
+        "cyan_dim": "#69d2b4",
+        "green_dim": "#a7f3a3",
+        "red": "#f28b82",
+        "red_dim": "#f28b82",
+        "blue": "#8fd3c7",
+        "pink_dim": "#f2b5d4",
+        "primary": "#69d2b4",
+        "primary_dim": "#69d2b4",
     },
 }
 
@@ -134,6 +249,241 @@ def load_theme_name():
 
 THEME_NAME = load_theme_name()
 theme = COLORSCHEMES[THEME_NAME]
+
+def _theme_vars(t):
+    return {
+        "bg": t["bar_bg"],
+        "bg_alt": t["seg_purple"],
+        "bg_panel": t["seg_blue"],
+        "fg": t["text"],
+        "fg_soft": t["text_soft"],
+        "fg_softer": t["text_softer"],
+        "fg_softest": t["text_softest"],
+        "muted": t["muted"],
+        "muted2": t["muted2"],
+        "cyan": t["neon_cyan"],
+        "cyan_dim": t["cyan_dim"],
+        "green": t["green_dim"],
+        "pink": t["primary"],
+        "pink_dim": t["primary_dim"],
+        "magenta": t["neon_magenta"],
+        "yellow": t["neon_yellow"],
+        "blue": t["blue"],
+        "red": t["red"],
+        "red_dim": t["red_dim"],
+    }
+
+def _write_file(path, content):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(content)
+
+def _write_rofi_theme(t):
+    vars = _theme_vars(t)
+    content = f"""/* Auto-generated by qtile colorscheme */
+
+* {{
+    bg:           {vars['bg']};
+    bg-alt:       {vars['bg_alt']};
+    bg-selected:  {vars['bg_panel']};
+    fg:           {vars['fg']};
+    fg-dim:       {vars['muted']};
+    neon-pink:    {vars['pink']};
+    neon-cyan:    {vars['cyan']};
+    neon-purple:  {vars['magenta']};
+    neon-yellow:  {vars['yellow']};
+    border-neon:  {vars['pink']};
+    urgent:       {vars['red']};
+
+    background-color: transparent;
+    text-color:       @fg;
+    margin:           0;
+    padding:          0;
+    spacing:          0;
+}}
+
+window {{
+    location:         center;
+    width:            680px;
+    border:           2px;
+    border-color:     @neon-pink;
+    border-radius:    8px;
+    background-color: @bg;
+}}
+
+mainbox {{
+    children: [ inputbar, message, listview ];
+    spacing:  0;
+}}
+
+inputbar {{
+    children:         [ prompt, entry ];
+    padding:          14px 18px;
+    background-color: @bg-alt;
+    border:           0 0 2px 0;
+    border-color:     @neon-cyan;
+}}
+
+prompt {{
+    text-color:       @neon-cyan;
+    padding:          0 12px 0 0;
+    font:             "JetBrains Mono Nerd Font Bold 12";
+}}
+
+entry {{
+    text-color:        @fg;
+    placeholder:       "Search...";
+    placeholder-color: @fg-dim;
+    cursor:            text;
+}}
+
+message {{
+    padding:          10px 18px;
+    background-color: @bg-alt;
+    border:           0 0 1px 0;
+    border-color:     @neon-purple;
+}}
+
+textbox {{
+    text-color: @neon-yellow;
+}}
+
+listview {{
+    lines:      8;
+    columns:    1;
+    fixed-height: true;
+    padding:    8px 0;
+    background-color: @bg;
+}}
+
+element {{
+    padding:       10px 18px;
+    spacing:       12px;
+    border-radius: 0;
+}}
+
+element normal.normal {{
+    background-color: @bg;
+    text-color:       @fg;
+}}
+
+element normal.urgent {{
+    background-color: @bg;
+    text-color:       @urgent;
+}}
+
+element normal.active {{
+    background-color: @bg;
+    text-color:       @neon-cyan;
+}}
+
+element selected.normal {{
+    background-color: @bg-selected;
+    text-color:       @neon-pink;
+    border:           0 0 0 3px;
+    border-color:     @neon-pink;
+}}
+
+element selected.urgent {{
+    background-color: @bg-selected;
+    text-color:       @urgent;
+    border:           0 0 0 3px;
+    border-color:     @urgent;
+}}
+
+element selected.active {{
+    background-color: @bg-selected;
+    text-color:       @neon-cyan;
+    border:           0 0 0 3px;
+    border-color:     @neon-cyan;
+}}
+
+element alternate.normal {{
+    background-color: @bg;
+    text-color:       @fg;
+}}
+
+element alternate.urgent {{
+    background-color: @bg;
+    text-color:       @urgent;
+}}
+
+element alternate.active {{
+    background-color: @bg;
+    text-color:       @neon-cyan;
+}}
+
+element-icon {{
+    size: 24px;
+}}
+
+element-text {{
+    text-color: inherit;
+    vertical-align: 0.5;
+}}
+"""
+    _write_file(os.path.expanduser("~/.config/rofi/themes/qtile-theme.rasi"), content)
+
+def _write_dunst_theme(t):
+    vars = _theme_vars(t)
+    content = f"""[global]
+frame_color = \"{vars['cyan']}\"
+separator_color = auto
+
+[urgency_low]
+foreground = \"{vars['fg']}\"
+background = \"{vars['bg']}\"
+
+[urgency_normal]
+foreground = \"{vars['fg']}\"
+background = \"{vars['bg']}\"
+
+[urgency_critical]
+foreground = \"{vars['fg']}\"
+background = \"{vars['bg']}\"
+"""
+    _write_file(os.path.expanduser("~/.config/dunst/theme.conf"), content)
+
+def _write_eww_theme(t):
+    v = _theme_vars(t)
+    content = """/* Auto-generated by qtile colorscheme */
+$bg: {bg};
+$bg_alt: {bg_alt};
+$bg_panel: {bg_panel};
+$fg: {fg};
+$fg_soft: {fg_soft};
+$fg_softer: {fg_softer};
+$fg_softest: {fg_softest};
+$muted: {muted};
+$muted2: {muted2};
+$cyan: {cyan};
+$cyan_dim: {cyan_dim};
+$green: {green};
+$pink: {pink};
+$pink_dim: {pink_dim};
+$magenta: {magenta};
+$yellow: {yellow};
+$blue: {blue};
+$red: {red};
+$red_dim: {red_dim};
+""".format(**v)
+    _write_file(os.path.expanduser("~/.config/eww/theme.scss"), content)
+
+def apply_external_themes(theme_name):
+    t = COLORSCHEMES[theme_name]
+    _write_rofi_theme(t)
+    _write_dunst_theme(t)
+    _write_eww_theme(t)
+    try:
+        subprocess.run(["dunstctl", "reload"], check=False)
+    except FileNotFoundError:
+        pass
+    try:
+        subprocess.run(["eww", "reload"], check=False)
+    except FileNotFoundError:
+        pass
+
+apply_external_themes(THEME_NAME)
 
 def run_once(cmd):
     """Spawn command without invoking a shell."""

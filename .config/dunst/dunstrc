@@ -400,3 +400,5 @@
 #    set_stack_tag = "volume"
 #
 # vim: ft=cfg
+
+include "/home/lucas/.config/dunst/theme.conf"
