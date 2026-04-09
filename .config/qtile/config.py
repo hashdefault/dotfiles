@@ -483,8 +483,6 @@ def apply_external_themes(theme_name):
     except FileNotFoundError:
         pass
 
-apply_external_themes(THEME_NAME)
-
 def run_once(cmd):
     """Spawn command without invoking a shell."""
     if isinstance(cmd, list):
@@ -554,13 +552,17 @@ def choose_colorscheme(qtile):
             f.write(selected)
     except Exception:
         return
-    qtile.cmd_reload_config()
+    qtile.reload_config()
+
+@hook.subscribe.startup
+def apply_themes_on_start():
+    apply_external_themes(THEME_NAME)
 
 @hook.subscribe.startup_once
 def autostart():
     home = os.path.expanduser("~")
 
-    subprocess.run(
+    subprocess.Popen(
         ["xrandr", "--output","HDMI-A-0","--mode","1920x1080","--pos","0x0",
          "--output","DisplayPort-1","--mode","1920x1080","--pos","1920x0"],
     )
@@ -996,7 +998,7 @@ def make_widgets(systray=False):
         )
     return widgets
 
-WALLPAPER = os.path.expanduser("~/Pictures/wallpapers/astroboy.jpg")
+WALLPAPER = os.path.expanduser("~/Pictures/wallpapers/woman-glasses-neuro.jpg")
 
 screens = [
     Screen(
@@ -1075,10 +1077,10 @@ pip_window = None
 
 @hook.subscribe.client_managed
 def password_dialog_float(window):
-    wm_class = window.wm_class or ""
-    if isinstance(wm_class, list):
-        wm_class = " ".join(wm_class)
-    wm_class_lower = wm_class.lower()
+    wm_class = window.get_wm_class() or []
+    if isinstance(wm_class, str):
+        wm_class = [wm_class]
+    wm_class_lower = " ".join(wm_class).lower()
 
     if any(kw in wm_class_lower for kw in ("pinentry", "askpass", "gcr-prompter")):
         window.floating = True
@@ -1139,8 +1141,8 @@ auto_minimize = True
 #wl_input_rules = None
 
 # xcursor theme (string or None) and size (integer) for Wayland backend
-wl_xcursor_theme = "Bibata-Modern-Ice"
-wl_xcursor_size = 24
+#wl_xcursor_theme = "Bibata-Modern-Ice"
+#wl_xcursor_size = 24
 #wl_input_rules = {
 #    "type:keyboard": inputs.InputConfig(
 #        kb_layout="us",
