@@ -9,6 +9,8 @@ Item {
     property string icon: ""
     property string label: ""
     property string valueText: ""
+    property string textColor: "#ebdbb2"
+    property string labelColor: "#928374"
 
     implicitWidth: 100
     implicitHeight: 120
@@ -64,17 +66,17 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             text: root.valueText
             font.bold: true
-            color: "#d7e6ff"
+            color: root.textColor
             font.pixelSize: 12
         }
     }
-    
+
     Text {
         anchors.top: shape.bottom
         anchors.topMargin: 5
         anchors.horizontalCenter: parent.horizontalCenter
         text: root.label
-        color: "#8ca0b8"
+        color: root.labelColor
         font.pixelSize: 12
         font.bold: true
     }

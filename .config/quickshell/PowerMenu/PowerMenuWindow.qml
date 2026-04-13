@@ -13,13 +13,11 @@ PanelWindow {
     }
     color: "transparent"
 
-    // Background to catch clicks and close (optional, but good for UX)
+    Theme { id: theme }
+
     MouseArea {
         anchors.fill: parent
-        onClicked: {
-            // If they want it to close on click outside, they need a way to kill the process.
-            // But for now let's just make it work.
-        }
+        onClicked: {}
     }
 
     Rectangle {
@@ -29,10 +27,10 @@ PanelWindow {
         anchors.centerIn: parent
         radius: 20
         gradient: Gradient {
-             GradientStop { position: 0.0; color: "#0e141c" }
-             GradientStop { position: 1.0; color: "#0f2230" }
+             GradientStop { position: 0.0; color: theme.gradientTop }
+             GradientStop { position: 1.0; color: theme.gradientBottom }
         }
-        border.color: "#223445"
+        border.color: theme.border
         border.width: 1
 
         RowLayout {
@@ -44,8 +42,8 @@ PanelWindow {
                 property string label
                 property string icon
                 property string command
-                property string color: "#6ec7ff"
-                
+                property string color: theme.accent
+
                 spacing: 10
                 Layout.alignment: Qt.AlignVCenter
 
@@ -59,8 +57,8 @@ PanelWindow {
                     id: btn
                     width: 80; height: 80
                     radius: 16
-                    color: mouseArea.containsMouse ? Qt.rgba(255, 255, 255, 0.08) : "#1a2533"
-                    border.color: mouseArea.containsMouse ? color : "#223445"
+                    color: mouseArea.containsMouse ? Qt.rgba(255, 255, 255, 0.08) : theme.cardBg
+                    border.color: mouseArea.containsMouse ? powerItemRoot.color : theme.border
                     border.width: 1
                     Layout.alignment: Qt.AlignHCenter
 
@@ -72,8 +70,8 @@ PanelWindow {
                         text: icon
                         font.family: "Ubuntu Nerd Font"
                         font.pixelSize: 32
-                        color: mouseArea.containsMouse ? color : "#e3edff"
-                        
+                        color: mouseArea.containsMouse ? powerItemRoot.color : theme.text
+
                         Behavior on color { ColorAnimation { duration: 150 } }
                     }
 
@@ -89,42 +87,42 @@ PanelWindow {
 
                 Text {
                     text: label
-                    color: mouseArea.containsMouse ? "#ffffff" : "#8ca0b8"
+                    color: mouseArea.containsMouse ? "#ffffff" : theme.textMuted
                     font.family: "Ubuntu Nerd Font"
                     font.pixelSize: 13
                     font.bold: true
                     Layout.alignment: Qt.AlignHCenter
-                    
+
                     Behavior on color { ColorAnimation { duration: 150 } }
                 }
             }
 
             PowerItem {
                 label: "Shutdown"
-                icon: ""
+                icon: "󰐥"
                 command: "systemctl poweroff"
-                color: "#ff6b6b"
+                color: theme.red
             }
 
             PowerItem {
                 label: "Reboot"
-                icon: ""
+                icon: "󰜉"
                 command: "systemctl reboot"
-                color: "#ffb86c"
+                color: theme.orange
             }
 
             PowerItem {
                 label: "Logout"
-                icon: ""
+                icon: "󰍃"
                 command: "/home/lucas/.config/eww/scripts/session_exit"
-                color: "#bd93f9"
+                color: theme.purple
             }
 
             PowerItem {
                 label: "Suspend"
                 icon: "󰤄"
                 command: "systemctl suspend"
-                color: "#50fa7b"
+                color: theme.green
             }
         }
     }

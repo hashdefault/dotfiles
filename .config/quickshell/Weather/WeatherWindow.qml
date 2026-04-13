@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import Quickshell
 import Quickshell.Io
+import "../theme.js" as Theme
 
 PanelWindow {
     anchors {
@@ -49,9 +50,9 @@ PanelWindow {
         var date = new Date(dateStr + "T00:00:00")
         var now = new Date()
         now.setHours(0,0,0,0)
-        
+
         if (date.getTime() === now.getTime()) return "Today"
-        
+
         var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
         return days[date.getDay()]
     }
@@ -84,10 +85,10 @@ PanelWindow {
         anchors.bottomMargin: 4
         radius: 12
         gradient: Gradient {
-             GradientStop { position: 0.0; color: "#0e141c" }
-             GradientStop { position: 1.0; color: "#0f2230" }
+             GradientStop { position: 0.0; color: Theme.gradientTop }
+             GradientStop { position: 1.0; color: Theme.gradientBottom }
         }
-        border.color: "#223445"
+        border.color: Theme.border
         border.width: 1
 
         ColumnLayout {
@@ -102,7 +103,7 @@ PanelWindow {
 
                 Text {
                     text: "󰖐"
-                    color: "#6ec7ff"
+                    color: Theme.accent
                     font.family: "Ubuntu Nerd Font"
                     font.pixelSize: 20
                     Layout.alignment: Qt.AlignVCenter
@@ -115,13 +116,13 @@ PanelWindow {
                     font.bold: true
                     Layout.alignment: Qt.AlignVCenter
                 }
-                
+
                 Item { Layout.fillWidth: true }
-                
+
                 Text {
                     id: locText
                     text: "Maringá, PR"
-                    color: "#8ca0b8"
+                    color: Theme.textMuted
                     font.family: "Ubuntu Nerd Font"
                     font.pixelSize: 12
                     Layout.alignment: Qt.AlignVCenter
@@ -134,23 +135,23 @@ PanelWindow {
                 color: "#ffffff"
                 opacity: 0.1
             }
-            
+
             // Current Weather
             RowLayout {
                 Layout.fillWidth: true
                 Layout.topMargin: 5
                 Layout.bottomMargin: 5
                 spacing: 20
-                
+
                 Text {
                     id: weatherIcon
                     text: "󰖐"
-                    color: "#f1c40f"
+                    color: Theme.yellow
                     font.family: "Ubuntu Nerd Font"
                     font.pixelSize: 64
                     Layout.alignment: Qt.AlignVCenter
                 }
-                
+
                 ColumnLayout {
                     spacing: -2
                     Layout.alignment: Qt.AlignVCenter
@@ -165,7 +166,7 @@ PanelWindow {
                     Text {
                         id: condText
                         text: "Loading..."
-                        color: "#6ec7ff"
+                        color: Theme.accent
                         font.family: "Ubuntu Nerd Font"
                         font.pixelSize: 16
                     }
@@ -186,7 +187,7 @@ PanelWindow {
             RowLayout {
                 Layout.fillWidth: true
                 spacing: 8
-                
+
                 Repeater {
                     model: forecastModel
                     delegate: Rectangle {
@@ -194,28 +195,28 @@ PanelWindow {
                         Layout.preferredHeight: 110
                         color: index % 2 == 0 ? "#0affffff" : "#12ffffff"
                         radius: 8
-                        
+
                         ColumnLayout {
                             anchors.fill: parent
                             anchors.margins: 8
                             spacing: 4
-                            
+
                             Text {
                                 text: model.day
-                                color: "#8ca0b8"
+                                color: Theme.textMuted
                                 font.family: "Ubuntu Nerd Font"
                                 font.pixelSize: 12
                                 Layout.alignment: Qt.AlignHCenter
                             }
-                            
+
                             Text {
                                 text: model.icon
-                                color: "#6ec7ff"
+                                color: Theme.accent
                                 font.family: "Ubuntu Nerd Font"
                                 font.pixelSize: 28
                                 Layout.alignment: Qt.AlignHCenter
                             }
-                            
+
                             Text {
                                 text: model.temp
                                 color: "#ffffff"
@@ -228,17 +229,17 @@ PanelWindow {
                             RowLayout {
                                 spacing: 2
                                 Layout.alignment: Qt.AlignHCenter
-                                
+
                                 Text {
                                     text: "󰖗"
-                                    color: "#6ec7ff"
+                                    color: Theme.accent
                                     font.family: "Ubuntu Nerd Font"
                                     font.pixelSize: 10
                                     opacity: model.chanceOfRain > 0 ? 1 : 0.3
                                 }
                                 Text {
                                     text: (model.chanceOfRain || 0) + "%"
-                                    color: "#8ca0b8"
+                                    color: Theme.textMuted
                                     font.family: "Ubuntu Nerd Font"
                                     font.pixelSize: 10
                                     opacity: model.chanceOfRain > 0 ? 1 : 0.5
@@ -248,7 +249,7 @@ PanelWindow {
                     }
                 }
             }
-            
+
             Item { Layout.fillHeight: true }
         }
     }
@@ -271,11 +272,11 @@ PanelWindow {
                 try {
                     var json = JSON.parse(fullData)
                     var current = json.current_weather
-                    
+
                     tempText.text = Math.round(current.temperature) + "°C"
                     condText.text = getWMODesc(current.weathercode)
                     weatherIcon.text = getWMOIcon(current.weathercode)
-                    
+
                     locText.text = "Maringá, PR"
 
                     // Update forecast
@@ -302,12 +303,12 @@ PanelWindow {
                 condText.text = "No data received"
                 locText.text = "Check internet connection"
             }
-            
+
             // Reset buffer for next run
             fullData = ""
         }
     }
-    
+
     Timer {
         interval: 900000 // Refresh every 15 mins (15 * 60 * 1000 ms)
         running: true

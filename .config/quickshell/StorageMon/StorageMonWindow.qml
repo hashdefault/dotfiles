@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import Quickshell
 import Quickshell.Io
+import "../theme.js" as Theme
 
 PanelWindow {
     anchors {
@@ -34,10 +35,10 @@ PanelWindow {
         anchors.bottomMargin: 4
         radius: 12
         gradient: Gradient {
-             GradientStop { position: 0.0; color: "#0e141c" }
-             GradientStop { position: 1.0; color: "#0f2230" }
+             GradientStop { position: 0.0; color: Theme.gradientTop }
+             GradientStop { position: 1.0; color: Theme.gradientBottom }
         }
-        border.color: "#223445"
+        border.color: Theme.border
         border.width: 1
 
         ColumnLayout {
@@ -47,7 +48,7 @@ PanelWindow {
 
             Text {
                 text: "System Resources"
-                color: "#d7e6ff"
+                color: Theme.text
                 font.family: "Ubuntu Nerd Font"
                 font.pixelSize: 16
                 font.bold: true
@@ -57,7 +58,7 @@ PanelWindow {
             Rectangle {
                 Layout.fillWidth: true
                 height: 1
-                color: "#223445"
+                color: Theme.border
             }
 
             // Top Row: CPU & RAM Rings
@@ -70,14 +71,14 @@ PanelWindow {
                     spacing: 2
                     RingChart {
                         label: "CPU"
-                        icon: ""
+                        icon: ""
                         percentage: cpuUsage.percentage
                         valueText: cpuUsage.percentage + "%"
-                        color: cpuUsage.percentage > 80 ? "#ff6b6b" : "#50fa7b"
+                        color: cpuUsage.percentage > 80 ? Theme.red : Theme.green
                     }
                     Text {
                         text: sysInfo.tasks + " tasks"
-                        color: "#556677"
+                        color: Theme.textDim
                         font.pixelSize: 10
                         Layout.alignment: Qt.AlignHCenter
                     }
@@ -87,14 +88,14 @@ PanelWindow {
                     spacing: 2
                     RingChart {
                         label: "RAM"
-                        icon: ""
+                        icon: ""
                         percentage: ramUsage.percentage
                         valueText: ramUsage.percentage + "%"
-                        color: ramUsage.percentage > 80 ? "#ff6b6b" : "#ffb86c"
+                        color: ramUsage.percentage > 80 ? Theme.red : Theme.orange
                     }
                     Text {
                         text: ramUsage.used + " / " + ramUsage.total
-                        color: "#556677"
+                        color: Theme.textDim
                         font.pixelSize: 10
                         Layout.alignment: Qt.AlignHCenter
                     }
@@ -104,7 +105,7 @@ PanelWindow {
             Rectangle {
                 Layout.fillWidth: true
                 height: 1
-                color: "#223445"
+                color: Theme.border
             }
 
             // Middle Section: Swap
@@ -113,25 +114,25 @@ PanelWindow {
                 spacing: 4
                 visible: swapUsage.total !== "0B" && swapUsage.total !== "0"
                 RowLayout {
-                    Text { text: "  Swap"; color: "#8ca0b8"; font.pixelSize: 12; font.bold: true; font.family: "Ubuntu Nerd Font" }
+                    Text { text: "  Swap"; color: Theme.textMuted; font.pixelSize: 12; font.bold: true; font.family: "Ubuntu Nerd Font" }
                     Item { Layout.fillWidth: true }
-                    Text { text: swapUsage.percentage + "%"; color: "#d7e6ff"; font.pixelSize: 12; font.bold: true }
+                    Text { text: swapUsage.percentage + "%"; color: Theme.text; font.pixelSize: 12; font.bold: true }
                 }
                 Rectangle {
                     Layout.fillWidth: true
                     height: 6
                     radius: 3
-                    color: "#1f2c3a"
+                    color: Theme.borderDim
                     Rectangle {
                         width: parent.width * (swapUsage.percentage / 100)
                         height: parent.height
                         radius: 3
-                        color: swapUsage.percentage > 80 ? "#ff6b6b" : "#f1fa8c"
+                        color: swapUsage.percentage > 80 ? Theme.red : Theme.yellow
                     }
                 }
                 Text {
                     text: swapUsage.used + " / " + swapUsage.total
-                    color: "#556677"
+                    color: Theme.textDim
                     font.pixelSize: 10
                     Layout.alignment: Qt.AlignRight
                 }
@@ -147,26 +148,26 @@ PanelWindow {
                     Layout.fillWidth: true
                     spacing: 4
                     RowLayout {
-                        Text { text: "  Root"; color: "#8ca0b8"; font.pixelSize: 12; font.bold: true; font.family: "Ubuntu Nerd Font" }
+                        Text { text: "  Root"; color: Theme.textMuted; font.pixelSize: 12; font.bold: true; font.family: "Ubuntu Nerd Font" }
                         Item { Layout.fillWidth: true }
-                        Text { text: rootStorage.percentage + "%"; color: "#d7e6ff"; font.pixelSize: 12; font.bold: true }
+                        Text { text: rootStorage.percentage + "%"; color: Theme.text; font.pixelSize: 12; font.bold: true }
                     }
                     Rectangle {
                         Layout.fillWidth: true
                         height: 6
                         radius: 3
-                        color: "#1f2c3a"
+                        color: Theme.borderDim
                         Rectangle {
                             width: parent.width * (rootStorage.percentage / 100)
                             height: parent.height
                             radius: 3
-                            color: rootStorage.percentage > 80 ? "#ff6b6b" : "#6ec7ff"
+                            color: rootStorage.percentage > 80 ? Theme.red : Theme.accent
                         }
                     }
-                    Text { 
+                    Text {
                         text: rootStorage.used + " / " + rootStorage.total
-                        color: "#556677" 
-                        font.pixelSize: 10 
+                        color: Theme.textDim
+                        font.pixelSize: 10
                         Layout.alignment: Qt.AlignRight
                     }
                 }
@@ -177,26 +178,26 @@ PanelWindow {
                     spacing: 4
                     visible: homeStorage.total !== ""
                     RowLayout {
-                        Text { text: "  Home"; color: "#8ca0b8"; font.pixelSize: 12; font.bold: true; font.family: "Ubuntu Nerd Font" }
+                        Text { text: "  Home"; color: Theme.textMuted; font.pixelSize: 12; font.bold: true; font.family: "Ubuntu Nerd Font" }
                         Item { Layout.fillWidth: true }
-                        Text { text: homeStorage.percentage + "%"; color: "#d7e6ff"; font.pixelSize: 12; font.bold: true }
+                        Text { text: homeStorage.percentage + "%"; color: Theme.text; font.pixelSize: 12; font.bold: true }
                     }
                     Rectangle {
                         Layout.fillWidth: true
                         height: 6
                         radius: 3
-                        color: "#1f2c3a"
+                        color: Theme.borderDim
                         Rectangle {
                             width: parent.width * (homeStorage.percentage / 100)
                             height: parent.height
                             radius: 3
-                            color: homeStorage.percentage > 80 ? "#ff6b6b" : "#bd93f9"
+                            color: homeStorage.percentage > 80 ? Theme.red : Theme.purple
                         }
                     }
-                    Text { 
+                    Text {
                         text: homeStorage.used + " / " + homeStorage.total
-                        color: "#556677" 
-                        font.pixelSize: 10 
+                        color: Theme.textDim
+                        font.pixelSize: 10
                         Layout.alignment: Qt.AlignRight
                     }
                 }
@@ -209,10 +210,10 @@ PanelWindow {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignHCenter
                 spacing: 5
-                Text { text: " "; color: "#556677"; font.family: "Ubuntu Nerd Font" }
-                Text { 
+                Text { text: " "; color: Theme.textDim; font.family: "Ubuntu Nerd Font" }
+                Text {
                     text: sysInfo.uptime
-                    color: "#556677"
+                    color: Theme.textDim
                     font.pixelSize: 11
                     font.italic: true
                 }
@@ -262,7 +263,7 @@ PanelWindow {
     // CPU Process
     Process {
         id: cpuProc
-        command: ["sh", "-c", "top -bn1 | grep 'Cpu(s)' | awk '{print 100 - $8}'"] 
+        command: ["sh", "-c", "top -bn1 | grep 'Cpu(s)' | awk '{print 100 - $8}'"]
         running: true
         stdout: SplitParser { onRead: data => cpuUsage.percentage = parseInt(data.trim()) }
     }
@@ -280,7 +281,7 @@ PanelWindow {
         id: ramProc
         command: ["sh", "-c", "free -h --si | grep Mem"]
         running: true
-        stdout: SplitParser { 
+        stdout: SplitParser {
             onRead: function(data) {
                 var parts = data.split(/\s+/)
                 if (parts.length < 3) return
@@ -356,7 +357,7 @@ PanelWindow {
         running: true
         stdout: SplitParser { onRead: data => sysInfo.uptime = data.trim() }
     }
-    
+
     Timer {
         interval: 2000
         running: true
@@ -370,7 +371,7 @@ PanelWindow {
             procCountProc.running = true
         }
     }
-    
+
     Timer {
         interval: 10000
         running: true

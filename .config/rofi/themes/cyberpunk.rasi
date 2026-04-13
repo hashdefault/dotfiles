@@ -26,9 +26,8 @@
 window {
     location:         center;
     width:            680px;
-    border:           2px;
-    border-color:     @neon-pink;
-    border-radius:    8px;
+    border:           0;
+    border-radius:    0;
     background-color: @bg;
 }
 
@@ -41,8 +40,6 @@ inputbar {
     children:         [ prompt, entry ];
     padding:          14px 18px;
     background-color: @bg-alt;
-    border:           0 0 2px 0;
-    border-color:     @neon-cyan;
 }
 
 prompt {
@@ -61,8 +58,6 @@ entry {
 message {
     padding:          10px 18px;
     background-color: @bg-alt;
-    border:           0 0 1px 0;
-    border-color:     @neon-purple;
 }
 
 textbox {
@@ -101,22 +96,16 @@ element normal.active {
 element selected.normal {
     background-color: @bg-selected;
     text-color:       @neon-pink;
-    border:           0 0 0 3px;
-    border-color:     @neon-pink;
 }
 
 element selected.urgent {
     background-color: @bg-selected;
     text-color:       @urgent;
-    border:           0 0 0 3px;
-    border-color:     @urgent;
 }
 
 element selected.active {
     background-color: @bg-selected;
     text-color:       @neon-cyan;
-    border:           0 0 0 3px;
-    border-color:     @neon-cyan;
 }
 
 element alternate.normal {

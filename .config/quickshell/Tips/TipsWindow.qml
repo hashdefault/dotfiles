@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import "../theme.js" as Theme
 
 PanelWindow {
     anchors {
@@ -38,11 +39,11 @@ PanelWindow {
         anchors.bottomMargin: 4
         radius: 16
         gradient: Gradient {
-             GradientStop { position: 0.0; color: "#0e141c" }
-             GradientStop { position: 0.45; color: "#161c24" }
-             GradientStop { position: 1.0; color: "#0f2230" }
+             GradientStop { position: 0.0; color: Theme.gradientTop }
+             GradientStop { position: 0.45; color: Theme.gradientMid }
+             GradientStop { position: 1.0; color: Theme.gradientBottom }
         }
-        border.color: "#1f2c3a"
+        border.color: Theme.borderDim
         border.width: 1
 
         ColumnLayout {
@@ -55,14 +56,14 @@ PanelWindow {
                 Layout.alignment: Qt.AlignHCenter
                 spacing: 10
                 Text {
-                    text: " "
-                    color: "#6ec7ff"
+                    text: " "
+                    color: Theme.accent
                     font.pixelSize: 24
                     font.family: "Ubuntu Nerd Font"
                 }
                 Text {
                     text: "Keybinds"
-                    color: "#d7e6ff"
+                    color: Theme.text
                     font.bold: true
                     font.pixelSize: 24
                     font.family: "Ubuntu Nerd Font"
@@ -72,7 +73,7 @@ PanelWindow {
             Rectangle {
                 Layout.fillWidth: true
                 height: 1
-                color: Qt.rgba(110/255, 199/255, 255/255, 0.3)
+                color: Qt.rgba(Theme.accentR/255, Theme.accentG/255, Theme.accentB/255, 0.3)
             }
 
             // Keybinds Grid
@@ -87,7 +88,7 @@ PanelWindow {
                     property string key
                     property string desc
                     property string app: ""
-                    
+
                     Layout.fillWidth: true
                     spacing: 12
 
@@ -95,25 +96,25 @@ PanelWindow {
                     Rectangle {
                         Layout.preferredWidth: 160
                         Layout.preferredHeight: 30
-                        color: Qt.rgba(110/255, 199/255, 255/255, 0.08)
-                        border.color: "#223445"
+                        color: Qt.rgba(Theme.accentR/255, Theme.accentG/255, Theme.accentB/255, 0.08)
+                        border.color: Theme.border
                         border.width: 1
                         radius: 8
 
                         Text {
                             anchors.centerIn: parent
                             text: key
-                            color: "#6ec7ff"
+                            color: Theme.accent
                             font.bold: true
                             font.pixelSize: 11
                             font.family: "Ubuntu Nerd Font"
                         }
                     }
-                    
+
                     // Description with App
                     Text {
                         text: desc + (app !== "" ? " (" + app + ")" : "")
-                        color: "#d7e6ff"
+                        color: Theme.text
                         font.pixelSize: 13
                         font.family: "Ubuntu Nerd Font"
                         Layout.fillWidth: true
@@ -140,7 +141,7 @@ PanelWindow {
                 KeyItem { key: "SUPER + O"; desc: "Swap Window"; app: "System" }
                 KeyItem { key: "Print"; desc: "Screenshot"; app: "Grim/Slurp" }
             }
-            
+
             Item { Layout.fillHeight: true }
         }
     }

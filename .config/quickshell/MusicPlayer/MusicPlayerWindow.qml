@@ -11,10 +11,12 @@ PanelWindow {
     height: 350
     color: "transparent"
 
+    Theme { id: theme }
+
     Component.onCompleted: {
         requestActivate()
     }
-    
+
     Connections {
         target: Qt.application
         function onStateChanged() {
@@ -50,7 +52,7 @@ PanelWindow {
             }
         }
     }
-    
+
     Timer { running: true; repeat: true; interval: 1000; onTriggered: statusProc.running = true }
     Process {
         id: statusProc
@@ -82,26 +84,26 @@ PanelWindow {
         anchors.bottomMargin: 4
         radius: 16
         gradient: Gradient {
-             GradientStop { position: 0.0; color: "#0e141c" }
-             GradientStop { position: 1.0; color: "#0f2230" }
+             GradientStop { position: 0.0; color: theme.gradientTop }
+             GradientStop { position: 1.0; color: theme.gradientBottom }
         }
-        border.color: "#1f2c3a"
+        border.color: theme.borderDim
         border.width: 1
-        
+
         ColumnLayout {
             anchors.centerIn: parent
             width: parent.width * 0.9
             spacing: 15
-            
+
             Rectangle {
                 Layout.alignment: Qt.AlignHCenter
                 width: 130; height: 130
                 radius: 65
                 color: "transparent"
-                border.color: "#6ec7ff"
+                border.color: theme.accent
                 border.width: 2
                 clip: true
-                
+
                 Image {
                     anchors.fill: parent
                     anchors.margins: 2
@@ -111,22 +113,22 @@ PanelWindow {
                     fillMode: Image.PreserveAspectCrop
                 }
             }
-            
+
             ColumnLayout {
                 spacing: 2
                 Layout.alignment: Qt.AlignHCenter
                 Layout.fillWidth: true
-                Text { text: artist; color: "#6ec7ff"; font.bold: true; font.pixelSize: 16; Layout.alignment: Qt.AlignHCenter; elide: Text.ElideRight; Layout.maximumWidth: 300 }
-                Text { text: title; color: "#d7e6ff"; font.pixelSize: 14; Layout.alignment: Qt.AlignHCenter; elide: Text.ElideRight; Layout.maximumWidth: 300 }
-                Text { text: album; color: "#bee6e6"; font.italic: true; font.pixelSize: 12; Layout.alignment: Qt.AlignHCenter; elide: Text.ElideRight; Layout.maximumWidth: 300 }
+                Text { text: artist; color: theme.accent; font.bold: true; font.pixelSize: 16; Layout.alignment: Qt.AlignHCenter; elide: Text.ElideRight; Layout.maximumWidth: 300 }
+                Text { text: title; color: theme.text; font.pixelSize: 14; Layout.alignment: Qt.AlignHCenter; elide: Text.ElideRight; Layout.maximumWidth: 300 }
+                Text { text: album; color: theme.cyan; font.italic: true; font.pixelSize: 12; Layout.alignment: Qt.AlignHCenter; elide: Text.ElideRight; Layout.maximumWidth: 300 }
             }
-            
+
             Slider {
                 from: 0
                 to: duration > 0 ? duration : 1
                 value: position
                 Layout.fillWidth: true
-                
+
                 onMoved: {
                     seekProc.seekPos = value;
                     seekProc.running = true;
