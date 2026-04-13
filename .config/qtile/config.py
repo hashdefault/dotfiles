@@ -712,8 +712,8 @@ layouts = [
         border_focus=theme["border_focus"],
         border_normal=theme["border_normal"],
         border_width=3,
-        margin=8,
-        single_margin=0,
+        margin=10,
+        single_margin=10,
         swallow_rules=swallow_matches,
             ),
     layout.Columns(
@@ -722,8 +722,8 @@ layouts = [
         border_focus_stack=[theme["neon_pink"], theme["border_stack"]],
         border_normal_stack=[theme["dark_bg"], theme["border_normal"]],
         border_width=3,
-        margin=8,
-        margin_on_single=0,
+        margin=10,
+        margin_on_single=10,
         swallow_rules=swallow_matches
     ),
     layout.Max(),
@@ -731,7 +731,7 @@ layouts = [
         border_focus=theme["border_focus"],
         border_normal=theme["border_normal"],
         border_width=3,
-        margin=8,
+        margin=10,
         swallow_rules=swallow_matches
     ),
 ]
@@ -811,6 +811,7 @@ def powerline(from_color, to_color):
 
 def make_widgets(systray=False):
     widgets = [
+        widget.Spacer(length=6, background=BAR_BG),
         # ── Logo ──
         #widget.TextBox(
         #    text='  ',
@@ -990,11 +991,11 @@ def make_widgets(systray=False):
         widgets.extend([
             powerline(SEG_A, BAR_BG),
             widget.Systray(background=BAR_BG, padding=4),
-            widget.Spacer(length=8, background=BAR_BG),
+            widget.Spacer(length=10, background=BAR_BG),
         ])
     else:
         widgets.append(
-            widget.Spacer(length=8, background=SEG_A),
+            widget.Spacer(length=10, background=SEG_A),
         )
     return widgets
 
@@ -1004,9 +1005,9 @@ screens = [
     Screen(
         top=bar.Bar(
             make_widgets(systray=True),
-            25,
+            30,
             background=BAR_BG,
-            margin=0,
+            margin=[5, 10, 0, 10],
             opacity=0.92,
         ),
         wallpaper=WALLPAPER,
@@ -1015,9 +1016,9 @@ screens = [
     Screen(
         top=bar.Bar(
             make_widgets(systray=False),
-            25,
+            30,
             background=BAR_BG,
-            margin=0,
+            margin=[5, 10, 0, 10],
             opacity=0.92,
         ),
         wallpaper=WALLPAPER,
