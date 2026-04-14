@@ -3,8 +3,6 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import Quickshell
 import Quickshell.Io
-import "../theme.js" as Theme
-
 PanelWindow {
     anchors {
         top: true
@@ -17,6 +15,8 @@ PanelWindow {
     implicitWidth: 500
     implicitHeight: 380
     color: "transparent"
+
+    Theme { id: theme }
 
     function getWMOIcon(code) {
         // WMO Weather interpretation codes (WW)
@@ -85,10 +85,10 @@ PanelWindow {
         anchors.bottomMargin: 4
         radius: 12
         gradient: Gradient {
-             GradientStop { position: 0.0; color: Theme.gradientTop }
-             GradientStop { position: 1.0; color: Theme.gradientBottom }
+             GradientStop { position: 0.0; color: theme.gradientTop }
+             GradientStop { position: 1.0; color: theme.gradientBottom }
         }
-        border.color: Theme.border
+        border.color: theme.border
         border.width: 1
 
         ColumnLayout {
@@ -103,7 +103,7 @@ PanelWindow {
 
                 Text {
                     text: "󰖐"
-                    color: Theme.accent
+                    color: theme.accent
                     font.family: "Ubuntu Nerd Font"
                     font.pixelSize: 20
                     Layout.alignment: Qt.AlignVCenter
@@ -122,7 +122,7 @@ PanelWindow {
                 Text {
                     id: locText
                     text: "Maringá, PR"
-                    color: Theme.textMuted
+                    color: theme.textMuted
                     font.family: "Ubuntu Nerd Font"
                     font.pixelSize: 12
                     Layout.alignment: Qt.AlignVCenter
@@ -146,7 +146,7 @@ PanelWindow {
                 Text {
                     id: weatherIcon
                     text: "󰖐"
-                    color: Theme.yellow
+                    color: theme.yellow
                     font.family: "Ubuntu Nerd Font"
                     font.pixelSize: 64
                     Layout.alignment: Qt.AlignVCenter
@@ -166,7 +166,7 @@ PanelWindow {
                     Text {
                         id: condText
                         text: "Loading..."
-                        color: Theme.accent
+                        color: theme.accent
                         font.family: "Ubuntu Nerd Font"
                         font.pixelSize: 16
                     }
@@ -203,7 +203,7 @@ PanelWindow {
 
                             Text {
                                 text: model.day
-                                color: Theme.textMuted
+                                color: theme.textMuted
                                 font.family: "Ubuntu Nerd Font"
                                 font.pixelSize: 12
                                 Layout.alignment: Qt.AlignHCenter
@@ -211,7 +211,7 @@ PanelWindow {
 
                             Text {
                                 text: model.icon
-                                color: Theme.accent
+                                color: theme.accent
                                 font.family: "Ubuntu Nerd Font"
                                 font.pixelSize: 28
                                 Layout.alignment: Qt.AlignHCenter
@@ -232,14 +232,14 @@ PanelWindow {
 
                                 Text {
                                     text: "󰖗"
-                                    color: Theme.accent
+                                    color: theme.accent
                                     font.family: "Ubuntu Nerd Font"
                                     font.pixelSize: 10
                                     opacity: model.chanceOfRain > 0 ? 1 : 0.3
                                 }
                                 Text {
                                     text: (model.chanceOfRain || 0) + "%"
-                                    color: Theme.textMuted
+                                    color: theme.textMuted
                                     font.family: "Ubuntu Nerd Font"
                                     font.pixelSize: 10
                                     opacity: model.chanceOfRain > 0 ? 1 : 0.5

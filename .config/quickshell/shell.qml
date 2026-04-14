@@ -1,7 +1,7 @@
 import Quickshell
 import "./Calendar"
 import "./SideMenu"
-import "./Tips"
+//import "./Tips"
 import "./MusicPlayer"
 import "./Notifications"
 import "./PowerMenu"
@@ -11,7 +11,7 @@ import "./Weather"
 ShellRoot {
     CalendarWindow {}
     SideMenuWindow {}
-    TipsWindow {}
+ //   TipsWindow {}
     MusicPlayerWindow {}
     NotificationsWindow {}
     PowerMenuWindow {}

@@ -1,8 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
-import "../theme.js" as Theme
-
 PanelWindow {
     anchors {
         top: true
@@ -15,6 +13,8 @@ PanelWindow {
     implicitWidth: 400
     implicitHeight: 650
     color: "transparent"
+
+    Theme { id: theme }
 
     WlrLayershell.layer: WlrLayershell.Background
     WlrLayershell.namespace: "quickshell-tips"
@@ -39,11 +39,11 @@ PanelWindow {
         anchors.bottomMargin: 4
         radius: 16
         gradient: Gradient {
-             GradientStop { position: 0.0; color: Theme.gradientTop }
-             GradientStop { position: 0.45; color: Theme.gradientMid }
-             GradientStop { position: 1.0; color: Theme.gradientBottom }
+             GradientStop { position: 0.0; color: theme.gradientTop }
+             GradientStop { position: 0.45; color: theme.gradientMid }
+             GradientStop { position: 1.0; color: theme.gradientBottom }
         }
-        border.color: Theme.borderDim
+        border.color: theme.borderDim
         border.width: 1
 
         ColumnLayout {
@@ -57,13 +57,13 @@ PanelWindow {
                 spacing: 10
                 Text {
                     text: " "
-                    color: Theme.accent
+                    color: theme.accent
                     font.pixelSize: 24
                     font.family: "Ubuntu Nerd Font"
                 }
                 Text {
                     text: "Keybinds"
-                    color: Theme.text
+                    color: theme.text
                     font.bold: true
                     font.pixelSize: 24
                     font.family: "Ubuntu Nerd Font"
@@ -73,7 +73,7 @@ PanelWindow {
             Rectangle {
                 Layout.fillWidth: true
                 height: 1
-                color: Qt.rgba(Theme.accentR/255, Theme.accentG/255, Theme.accentB/255, 0.3)
+                color: Qt.rgba(theme.accentR/255, theme.accentG/255, theme.accentB/255, 0.3)
             }
 
             // Keybinds Grid
@@ -96,15 +96,15 @@ PanelWindow {
                     Rectangle {
                         Layout.preferredWidth: 160
                         Layout.preferredHeight: 30
-                        color: Qt.rgba(Theme.accentR/255, Theme.accentG/255, Theme.accentB/255, 0.08)
-                        border.color: Theme.border
+                        color: Qt.rgba(theme.accentR/255, theme.accentG/255, theme.accentB/255, 0.08)
+                        border.color: theme.border
                         border.width: 1
                         radius: 8
 
                         Text {
                             anchors.centerIn: parent
                             text: key
-                            color: Theme.accent
+                            color: theme.accent
                             font.bold: true
                             font.pixelSize: 11
                             font.family: "Ubuntu Nerd Font"
@@ -114,7 +114,7 @@ PanelWindow {
                     // Description with App
                     Text {
                         text: desc + (app !== "" ? " (" + app + ")" : "")
-                        color: Theme.text
+                        color: theme.text
                         font.pixelSize: 13
                         font.family: "Ubuntu Nerd Font"
                         Layout.fillWidth: true

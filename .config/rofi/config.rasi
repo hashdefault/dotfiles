@@ -7,7 +7,7 @@ configuration {
     display-window:      " Windows";
     display-filebrowser: " Files";
     drun-display-format: "{name}";
-    font:                "JetBrains Mono Nerd Font 11";
+    font:                "JetBrains Mono Nerd Font 12";
     click-to-exit:       true;
 }
 

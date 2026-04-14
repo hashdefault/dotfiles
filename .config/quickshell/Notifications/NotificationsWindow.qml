@@ -3,8 +3,6 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import Quickshell
 import Quickshell.Io
-import "../theme.js" as Theme
-
 PanelWindow {
     anchors {
         top: true
@@ -17,6 +15,8 @@ PanelWindow {
     implicitWidth: 400
     implicitHeight: 700
     color: "transparent"
+
+    Theme { id: theme }
 
     Connections {
         target: Qt.application
@@ -47,11 +47,11 @@ PanelWindow {
         anchors.bottomMargin: 4
         radius: 16
         gradient: Gradient {
-             GradientStop { position: 0.0; color: Theme.gradientTop }
-             GradientStop { position: 0.45; color: Theme.gradientMid }
-             GradientStop { position: 1.0; color: Theme.gradientBottom }
+             GradientStop { position: 0.0; color: theme.gradientTop }
+             GradientStop { position: 0.45; color: theme.gradientMid }
+             GradientStop { position: 1.0; color: theme.gradientBottom }
         }
-        border.color: Theme.borderDim
+        border.color: theme.borderDim
         border.width: 1
 
         ColumnLayout {
@@ -67,7 +67,7 @@ PanelWindow {
 
                 Text {
                     text: " Bell" // Added a bell icon
-                    color: Theme.accent
+                    color: theme.accent
                     font.family: "Ubuntu Nerd Font"
                     font.pixelSize: 22
                     Layout.alignment: Qt.AlignVCenter
@@ -77,14 +77,14 @@ PanelWindow {
                     Layout.fillWidth: true
                     Text {
                         text: "Notifications"
-                        color: Theme.text
+                        color: theme.text
                         font.family: "Ubuntu Nerd Font"
                         font.pixelSize: 22
                         font.bold: true
                     }
                     Text {
                         text: "Recent alerts & history"
-                        color: Theme.textMuted
+                        color: theme.textMuted
                         font.family: "Ubuntu Nerd Font"
                         font.pixelSize: 12
                     }
@@ -93,14 +93,14 @@ PanelWindow {
                 Rectangle {
                     width: 90; height: 35 // Slightly larger button
                     radius: 10 // More rounded
-                    color: clearMouse.containsMouse ? Theme.cardBg : Qt.rgba(255, 255, 255, 0.05)
-                    border.color: Theme.border
+                    color: clearMouse.containsMouse ? theme.cardBg : Qt.rgba(255, 255, 255, 0.05)
+                    border.color: theme.border
                     border.width: 1
 
                     Text {
                         anchors.centerIn: parent
                         text: "󰩺 Clear"
-                        color: clearMouse.containsMouse ? Theme.text : Theme.textMuted // Color change on hover
+                        color: clearMouse.containsMouse ? theme.text : theme.textMuted // Color change on hover
                         font.family: "Ubuntu Nerd Font"
                         font.pixelSize: 13
                     }
@@ -115,7 +115,7 @@ PanelWindow {
             Rectangle {
                 Layout.fillWidth: true
                 height: 1
-                color: Theme.border
+                color: theme.border
             }
 
             // --- List ---
@@ -135,7 +135,7 @@ PanelWindow {
                     height: contentCol.height + 20
                     color: Qt.rgba(255, 255, 255, 0.04)
                     radius: 12
-                    border.color: Theme.border
+                    border.color: theme.border
 
                     RowLayout {
                         anchors.fill: parent
@@ -165,21 +165,21 @@ PanelWindow {
                                 Layout.fillWidth: true
                                 Text {
                                     text: model.appname
-                                    color: Theme.textMuted
+                                    color: theme.textMuted
                                     font.pixelSize: 10
                                     font.bold: true
                                 }
                                 Item { Layout.fillWidth: true }
                                 Text {
                                     text: model.timestamp
-                                    color: Theme.textDim
+                                    color: theme.textDim
                                     font.pixelSize: 10
                                 }
                             }
 
                             Text {
                                 text: model.summary
-                                color: Theme.text
+                                color: theme.text
                                 font.pixelSize: 14
                                 font.bold: true
                                 wrapMode: Text.Wrap
@@ -187,7 +187,7 @@ PanelWindow {
                             }
                             Text {
                                 text: model.body
-                                color: Theme.textMuted
+                                color: theme.textMuted
                                 font.pixelSize: 12
                                 wrapMode: Text.Wrap
                                 Layout.fillWidth: true
@@ -203,7 +203,7 @@ PanelWindow {
                                 Rectangle {
                                     width: 60; height: 24
                                     radius: 4
-                                    color: Theme.border
+                                    color: theme.border
                                     Text { anchors.centerIn: parent; text: "Open"; color: "white"; font.pixelSize: 10 }
                                     TapHandler {
                                         onTapped: {
@@ -219,13 +219,13 @@ PanelWindow {
                         Rectangle {
                             width: 24; height: 24
                             radius: 12
-                            color: dismissHover.containsMouse ? Theme.red : Qt.rgba(255, 255, 255, 0.05)
-                            border.color: dismissHover.containsMouse ? Theme.red : Theme.border
+                            color: dismissHover.containsMouse ? theme.red : Qt.rgba(255, 255, 255, 0.05)
+                            border.color: dismissHover.containsMouse ? theme.red : theme.border
 
                             Text {
                                 anchors.centerIn: parent
                                 text: "󰅚"
-                                color: dismissHover.containsMouse ? "#1e1e1e" : Theme.textMuted
+                                color: dismissHover.containsMouse ? "#1e1e1e" : theme.textMuted
                                 font.family: "Ubuntu Nerd Font"
                                 font.pixelSize: 12
                             }
@@ -244,7 +244,7 @@ PanelWindow {
                     id: noNotifText
                     anchors.centerIn: parent // Center the text if no notifications
                     text: "No notifications"
-                    color: Theme.textDim
+                    color: theme.textDim
                     visible: notifModel.count === 0
                     font.italic: true
                 }

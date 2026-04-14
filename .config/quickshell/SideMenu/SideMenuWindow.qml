@@ -3,8 +3,6 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import Quickshell
 import Quickshell.Io
-import "../theme.js" as Theme
-
 PanelWindow {
     anchors {
         top: true
@@ -17,6 +15,8 @@ PanelWindow {
     implicitWidth: 420
     implicitHeight: 680
     color: "transparent"
+
+    Theme { id: theme }
 
     Component.onCompleted: {
         // Removed requestActivate()
@@ -128,10 +128,10 @@ PanelWindow {
         anchors.bottomMargin: 4
         radius: 20
         gradient: Gradient {
-             GradientStop { position: 0.0; color: Theme.gradientTop }
-             GradientStop { position: 1.0; color: Theme.gradientBottom }
+             GradientStop { position: 0.0; color: theme.gradientTop }
+             GradientStop { position: 1.0; color: theme.gradientBottom }
         }
-        border.color: Theme.border
+        border.color: theme.border
         border.width: 1
 
         ColumnLayout {
@@ -161,7 +161,7 @@ PanelWindow {
                     Rectangle {
                         anchors.fill: parent
                         color: "transparent"
-                        border.color: Theme.accent
+                        border.color: theme.accent
                         border.width: 2
                         radius: 40
                     }
@@ -173,7 +173,7 @@ PanelWindow {
 
                     Text {
                         text: greeterText
-                        color: Theme.textMuted
+                        color: theme.textMuted
                         font.family: "Ubuntu Nerd Font"
                         font.pixelSize: 16
                     }
@@ -191,7 +191,7 @@ PanelWindow {
                     Layout.alignment: Qt.AlignRight
                     Text {
                         text: Qt.formatDateTime(new Date(), "HH:mm")
-                        color: Theme.accent
+                        color: theme.accent
                         font.family: "Hack"
                         font.pixelSize: 28
                         font.bold: true
@@ -203,7 +203,7 @@ PanelWindow {
                     }
                     Text {
                         text: Qt.formatDateTime(new Date(), "MMM d, yyyy")
-                        color: Theme.textMuted
+                        color: theme.textMuted
                         font.family: "Ubuntu Nerd Font"
                         font.pixelSize: 12
                         Layout.alignment: Qt.AlignRight
@@ -225,7 +225,7 @@ PanelWindow {
 
                 Text {
                     text: "Quick Controls"
-                    color: Theme.accent
+                    color: theme.accent
                     font.family: "Ubuntu Nerd Font"
                     font.pixelSize: 14
                     font.bold: true
@@ -247,8 +247,8 @@ PanelWindow {
                         Layout.fillWidth: true
                         height: 60
                         radius: 12
-                        color: active ? Qt.rgba(Theme.accentR/255, Theme.accentG/255, Theme.accentB/255, 0.15) : Theme.cardBg
-                        border.color: active ? Theme.accent : Theme.border
+                        color: active ? Qt.rgba(theme.accentR/255, theme.accentG/255, theme.accentB/255, 0.15) : theme.cardBg
+                        border.color: active ? theme.accent : theme.border
                         border.width: 1
 
                         Process {
@@ -266,20 +266,20 @@ PanelWindow {
                             Rectangle {
                                 width: 36; height: 36
                                 radius: 18
-                                color: active ? Theme.accent : Theme.border
+                                color: active ? theme.accent : theme.border
 
                                 Text {
                                     anchors.centerIn: parent
                                     text: icon
                                     font.family: "Ubuntu Nerd Font"
                                     font.pixelSize: 18
-                                    color: active ? Theme.darkBase : Theme.textMuted
+                                    color: active ? theme.darkBase : theme.textMuted
                                 }
                             }
 
                             Text {
                                 text: label
-                                color: active ? "#ffffff" : Theme.text
+                                color: active ? "#ffffff" : theme.text
                                 font.family: "Ubuntu Nerd Font"
                                 font.pixelSize: 14
                                 font.bold: true
@@ -330,8 +330,8 @@ PanelWindow {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 120
                 radius: 16
-                color: Theme.cardBg
-                border.color: Theme.border
+                color: theme.cardBg
+                border.color: theme.border
                 border.width: 1
 
                 ColumnLayout {
@@ -341,7 +341,7 @@ PanelWindow {
 
                     Text {
                         text: "󱆧"
-                        color: Theme.accent
+                        color: theme.accent
                         font.family: "Ubuntu Nerd Font"
                         font.pixelSize: 20
                         opacity: 0.5
@@ -349,7 +349,7 @@ PanelWindow {
 
                     Text {
                         text: quoteText
-                        color: Theme.text
+                        color: theme.text
                         font.family: "Ubuntu Nerd Font"
                         font.pixelSize: 14
                         font.italic: true
@@ -377,8 +377,8 @@ PanelWindow {
                     Layout.fillWidth: true
                     height: 54
                     radius: 12
-                    color: Theme.cardBg
-                    border.color: Theme.border
+                    color: theme.cardBg
+                    border.color: theme.border
                     border.width: 1
 
                     Process {
@@ -392,14 +392,14 @@ PanelWindow {
                         text: icon
                         font.family: "Ubuntu Nerd Font"
                         font.pixelSize: 22
-                        color: Theme.text
+                        color: theme.text
                     }
 
                     MouseArea {
                         anchors.fill: parent
                         hoverEnabled: true
-                        onEntered: parent.border.color = Theme.accent
-                        onExited: parent.border.color = Theme.border
+                        onEntered: parent.border.color = theme.accent
+                        onExited: parent.border.color = theme.border
                         onClicked: {
                             proc.running = true
                         }

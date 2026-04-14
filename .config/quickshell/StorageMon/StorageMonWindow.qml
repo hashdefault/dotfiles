@@ -3,8 +3,6 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import Quickshell
 import Quickshell.Io
-import "../theme.js" as Theme
-
 PanelWindow {
     anchors {
         top: true
@@ -17,6 +15,8 @@ PanelWindow {
     implicitWidth: 260
     implicitHeight: 380
     color: "transparent"
+
+    Theme { id: theme }
 
     // Shadow
     Rectangle {
@@ -35,10 +35,10 @@ PanelWindow {
         anchors.bottomMargin: 4
         radius: 12
         gradient: Gradient {
-             GradientStop { position: 0.0; color: Theme.gradientTop }
-             GradientStop { position: 1.0; color: Theme.gradientBottom }
+             GradientStop { position: 0.0; color: theme.gradientTop }
+             GradientStop { position: 1.0; color: theme.gradientBottom }
         }
-        border.color: Theme.border
+        border.color: theme.border
         border.width: 1
 
         ColumnLayout {
@@ -48,7 +48,7 @@ PanelWindow {
 
             Text {
                 text: "System Resources"
-                color: Theme.text
+                color: theme.text
                 font.family: "Ubuntu Nerd Font"
                 font.pixelSize: 16
                 font.bold: true
@@ -58,7 +58,7 @@ PanelWindow {
             Rectangle {
                 Layout.fillWidth: true
                 height: 1
-                color: Theme.border
+                color: theme.border
             }
 
             // Top Row: CPU & RAM Rings
@@ -74,11 +74,11 @@ PanelWindow {
                         icon: ""
                         percentage: cpuUsage.percentage
                         valueText: cpuUsage.percentage + "%"
-                        color: cpuUsage.percentage > 80 ? Theme.red : Theme.green
+                        color: cpuUsage.percentage > 80 ? theme.red : theme.green
                     }
                     Text {
                         text: sysInfo.tasks + " tasks"
-                        color: Theme.textDim
+                        color: theme.textDim
                         font.pixelSize: 10
                         Layout.alignment: Qt.AlignHCenter
                     }
@@ -91,11 +91,11 @@ PanelWindow {
                         icon: ""
                         percentage: ramUsage.percentage
                         valueText: ramUsage.percentage + "%"
-                        color: ramUsage.percentage > 80 ? Theme.red : Theme.orange
+                        color: ramUsage.percentage > 80 ? theme.red : theme.orange
                     }
                     Text {
                         text: ramUsage.used + " / " + ramUsage.total
-                        color: Theme.textDim
+                        color: theme.textDim
                         font.pixelSize: 10
                         Layout.alignment: Qt.AlignHCenter
                     }
@@ -105,7 +105,7 @@ PanelWindow {
             Rectangle {
                 Layout.fillWidth: true
                 height: 1
-                color: Theme.border
+                color: theme.border
             }
 
             // Middle Section: Swap
@@ -114,25 +114,25 @@ PanelWindow {
                 spacing: 4
                 visible: swapUsage.total !== "0B" && swapUsage.total !== "0"
                 RowLayout {
-                    Text { text: "  Swap"; color: Theme.textMuted; font.pixelSize: 12; font.bold: true; font.family: "Ubuntu Nerd Font" }
+                    Text { text: "  Swap"; color: theme.textMuted; font.pixelSize: 12; font.bold: true; font.family: "Ubuntu Nerd Font" }
                     Item { Layout.fillWidth: true }
-                    Text { text: swapUsage.percentage + "%"; color: Theme.text; font.pixelSize: 12; font.bold: true }
+                    Text { text: swapUsage.percentage + "%"; color: theme.text; font.pixelSize: 12; font.bold: true }
                 }
                 Rectangle {
                     Layout.fillWidth: true
                     height: 6
                     radius: 3
-                    color: Theme.borderDim
+                    color: theme.borderDim
                     Rectangle {
                         width: parent.width * (swapUsage.percentage / 100)
                         height: parent.height
                         radius: 3
-                        color: swapUsage.percentage > 80 ? Theme.red : Theme.yellow
+                        color: swapUsage.percentage > 80 ? theme.red : theme.yellow
                     }
                 }
                 Text {
                     text: swapUsage.used + " / " + swapUsage.total
-                    color: Theme.textDim
+                    color: theme.textDim
                     font.pixelSize: 10
                     Layout.alignment: Qt.AlignRight
                 }
@@ -148,25 +148,25 @@ PanelWindow {
                     Layout.fillWidth: true
                     spacing: 4
                     RowLayout {
-                        Text { text: "  Root"; color: Theme.textMuted; font.pixelSize: 12; font.bold: true; font.family: "Ubuntu Nerd Font" }
+                        Text { text: "  Root"; color: theme.textMuted; font.pixelSize: 12; font.bold: true; font.family: "Ubuntu Nerd Font" }
                         Item { Layout.fillWidth: true }
-                        Text { text: rootStorage.percentage + "%"; color: Theme.text; font.pixelSize: 12; font.bold: true }
+                        Text { text: rootStorage.percentage + "%"; color: theme.text; font.pixelSize: 12; font.bold: true }
                     }
                     Rectangle {
                         Layout.fillWidth: true
                         height: 6
                         radius: 3
-                        color: Theme.borderDim
+                        color: theme.borderDim
                         Rectangle {
                             width: parent.width * (rootStorage.percentage / 100)
                             height: parent.height
                             radius: 3
-                            color: rootStorage.percentage > 80 ? Theme.red : Theme.accent
+                            color: rootStorage.percentage > 80 ? theme.red : theme.accent
                         }
                     }
                     Text {
                         text: rootStorage.used + " / " + rootStorage.total
-                        color: Theme.textDim
+                        color: theme.textDim
                         font.pixelSize: 10
                         Layout.alignment: Qt.AlignRight
                     }
@@ -178,25 +178,25 @@ PanelWindow {
                     spacing: 4
                     visible: homeStorage.total !== ""
                     RowLayout {
-                        Text { text: "  Home"; color: Theme.textMuted; font.pixelSize: 12; font.bold: true; font.family: "Ubuntu Nerd Font" }
+                        Text { text: "  Home"; color: theme.textMuted; font.pixelSize: 12; font.bold: true; font.family: "Ubuntu Nerd Font" }
                         Item { Layout.fillWidth: true }
-                        Text { text: homeStorage.percentage + "%"; color: Theme.text; font.pixelSize: 12; font.bold: true }
+                        Text { text: homeStorage.percentage + "%"; color: theme.text; font.pixelSize: 12; font.bold: true }
                     }
                     Rectangle {
                         Layout.fillWidth: true
                         height: 6
                         radius: 3
-                        color: Theme.borderDim
+                        color: theme.borderDim
                         Rectangle {
                             width: parent.width * (homeStorage.percentage / 100)
                             height: parent.height
                             radius: 3
-                            color: homeStorage.percentage > 80 ? Theme.red : Theme.purple
+                            color: homeStorage.percentage > 80 ? theme.red : theme.purple
                         }
                     }
                     Text {
                         text: homeStorage.used + " / " + homeStorage.total
-                        color: Theme.textDim
+                        color: theme.textDim
                         font.pixelSize: 10
                         Layout.alignment: Qt.AlignRight
                     }
@@ -210,10 +210,10 @@ PanelWindow {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignHCenter
                 spacing: 5
-                Text { text: " "; color: Theme.textDim; font.family: "Ubuntu Nerd Font" }
+                Text { text: " "; color: theme.textDim; font.family: "Ubuntu Nerd Font" }
                 Text {
                     text: sysInfo.uptime
-                    color: Theme.textDim
+                    color: theme.textDim
                     font.pixelSize: 11
                     font.italic: true
                 }
