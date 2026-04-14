@@ -172,8 +172,11 @@ cat > "$ROFI_THEME" <<EOF
     neon-yellow:  $neon_yellow;
     border-neon:  $primary;
     urgent:       $red;
+    surface0:     ${seg_purple}cc;
+    surface1:     ${muted2}88;
+    subtext0:     $muted;
 
-    background-color: @bg;
+    background-color: transparent;
     text-color:       @fg;
     margin:           0;
     padding:          0;
@@ -182,126 +185,168 @@ cat > "$ROFI_THEME" <<EOF
 
 window {
     location:         center;
-    width:            600px;
-    height:           600px;
-    border:           0;
-    border-radius:    16px;
+    width:            640px;
+    border:           2px;
+    border-color:     @surface1;
+    border-radius:    20px;
     background-color: @bg;
+    transparency:     "real";
 }
 
 mainbox {
-    children: [ inputbar, message, listview ];
+    children: [ inputbar, message, listview, mode-switcher ];
     spacing:  0;
+    padding:  0;
+    background-color: @bg;
 }
 
+/* ── Floating search bar ── */
 inputbar {
     children:         [ prompt, entry ];
-    padding:          14px 18px;
+    padding:          16px 22px;
+    margin:           12px 12px 0 12px;
     background-color: @bg-alt;
-    border:           0;
+    border:           1px;
+    border-color:     @bg-selected;
+    border-radius:    14px;
+    spacing:          12px;
 }
 
 prompt {
-    text-color:       @neon-cyan;
-    background-color: @bg-alt;
+    text-color:       @neon-pink;
+    background-color: transparent;
     padding:          0 12px 0 0;
     font:             "JetBrains Mono Nerd Font Bold 13";
+    vertical-align:   0.5;
 }
 
 entry {
     text-color:        @fg;
-    placeholder:       "Search...";
+    placeholder:       "Type to search...";
     placeholder-color: @fg-dim;
-    border-radius:     5px;
-    background-color:  @bg-alt;
+    background-color:  transparent;
     cursor:            text;
-    padding:           3px;
+    vertical-align:    0.5;
 }
 
+/* ── Messages ── */
 message {
-    padding:          10px 18px;
+    padding:          10px 22px;
+    margin:           8px 12px 0 12px;
     background-color: @bg-alt;
-    border:           0;
+    border-radius:    10px;
 }
 
 textbox {
-    text-color: @neon-yellow;
+    text-color:       @neon-yellow;
+    background-color: transparent;
 }
 
+/* ── Results list ── */
 listview {
-    lines:      8;
-    columns:    1;
-    fixed-height: true;
-    padding:    8px 0;
+    lines:            8;
+    columns:          1;
+    fixed-height:     true;
+    padding:          8px 6px;
+    margin:           8px 0 0 0;
     background-color: @bg;
+    scrollbar:        false;
+    spacing:          4px;
 }
 
 element {
-    padding:       10px 18px;
-    spacing:       12px;
-    border-radius: 10px;
+    padding:          12px 18px;
+    spacing:          14px;
+    border-radius:    12px;
+    background-color: transparent;
 }
 
-element normal.normal {
-    background-color: @bg;
-    text-color:       @fg;
+element normal.normal,
+element alternate.normal {
+    background-color: transparent;
+    text-color:       @subtext0;
 }
 
-element normal.urgent {
-    background-color: @bg;
+element normal.urgent,
+element alternate.urgent {
+    background-color: transparent;
     text-color:       @urgent;
 }
 
-element normal.active {
-    background-color: @bg;
-    text-color:       @neon-cyan;
-}
-
-element selected.normal {
-    background-color: @bg-selected;
+element normal.active,
+element alternate.active {
+    background-color: transparent;
     text-color:       @neon-pink;
 }
 
+element selected.normal {
+    background-color: @neon-pink;
+    text-color:       @bg;
+    border:           0;
+}
+
 element selected.urgent {
-    background-color: @bg-selected;
-    text-color:       @urgent;
+    background-color: @urgent;
+    text-color:       @bg;
+    border:           0;
 }
 
 element selected.active {
-    background-color: @bg-selected;
-    text-color:       @neon-cyan;
-}
-
-element alternate.normal {
-    background-color: @bg;
-    text-color:       @fg;
-}
-
-element alternate.urgent {
-    background-color: @bg;
-    text-color:       @urgent;
-}
-
-element alternate.active {
-    background-color: @bg;
-    text-color:       @neon-cyan;
+    background-color: @neon-pink;
+    text-color:       @bg;
+    border:           0;
 }
 
 element-icon {
-    size: 24px;
+    size:             26px;
+    vertical-align:   0.5;
+    background-color: transparent;
 }
 
 element-text {
-    text-color: inherit;
-    vertical-align: 0.5;
+    text-color:       inherit;
+    vertical-align:   0.5;
+    background-color: transparent;
 }
 
 element-text selected.normal {
-    background-color: @bg-selected;
+    background-color: @neon-pink;
+    text-color:       @bg;
 }
 
 element-icon selected.normal {
-    background-color: @bg-selected;
+    background-color: @neon-pink;
+}
+
+/* ── Mode switcher tabs ── */
+mode-switcher {
+    padding:          8px 12px 12px 12px;
+    spacing:          8px;
+    background-color: @bg;
+}
+
+button {
+    padding:          10px 0;
+    border-radius:    10px;
+    background-color: @bg-alt;
+    text-color:       @fg-dim;
+    font:             "JetBrains Mono Nerd Font 11";
+    horizontal-align: 0.5;
+}
+
+button selected {
+    background-color: @neon-pink;
+    text-color:       @bg;
+    border:           0;
+}
+
+/* ── Scrollbar ── */
+scrollbar {
+    width:            4px;
+    handle-width:     4px;
+    handle-color:     @surface1;
+    background-color: transparent;
+    border-radius:    4px;
 }
 EOF
 
