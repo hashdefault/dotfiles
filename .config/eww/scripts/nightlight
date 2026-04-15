@@ -1,18 +1,22 @@
 #!/usr/bin/env bash
 
-# Toggle redshift on/off, tracking state locally for the "nightlight" toggle.
+# Toggle nightlight on/off.
+# Uses hyprsunset on Wayland (Hyprland), redshift on X11 (Qtile).
 
 STATE_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/nightlight.state"
-SYNC_FLAG="/tmp/nightlight-synced"
-TEMP="${REDSHIFT_TEMP:-4200}"
+TEMP="${NIGHTLIGHT_TEMP:-4200}"
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 ICON_ON="$SCRIPT_DIR/../images/lamp.svg"
 ICON_OFF="$SCRIPT_DIR/../images/lamp-off.svg"
 
-command -v redshift >/dev/null 2>&1 || {
-  echo "redshift not found" >&2
-  exit 1
-}
+# Detect backend
+if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
+  BACKEND="wayland"
+  command -v hyprsunset >/dev/null 2>&1 || { echo "hyprsunset not found" >&2; exit 1; }
+else
+  BACKEND="x11"
+  command -v redshift >/dev/null 2>&1 || { echo "redshift not found" >&2; exit 1; }
+fi
 
 mkdir -p "$(dirname "$STATE_FILE")"
 
@@ -22,17 +26,29 @@ else
   CURRENT_STATE="off"
 fi
 
-stop_redshift() {
-  redshift -x >/dev/null 2>&1
+stop_nightlight() {
+  if [[ "$BACKEND" == "wayland" ]]; then
+    pkill -x hyprsunset 2>/dev/null
+    hyprsunset -i &
+    sleep 0.2
+    pkill -x hyprsunset 2>/dev/null
+  else
+    redshift -x >/dev/null 2>&1
+  fi
 }
 
-start_redshift() {
-  redshift -O "$TEMP" >/dev/null 2>&1
-  return $?
+start_nightlight() {
+  if [[ "$BACKEND" == "wayland" ]]; then
+    pkill -x hyprsunset 2>/dev/null
+    hyprsunset -t "$TEMP" &
+    disown
+  else
+    redshift -O "$TEMP" >/dev/null 2>&1
+    return $?
+  fi
 }
 
 send_notification() {
-  # Best effort notify; skip if notify-send is not available.
   command -v notify-send >/dev/null 2>&1 || return 0
   local state="$1"
   local icon="$2"
@@ -40,15 +56,15 @@ send_notification() {
 }
 
 if [[ "$CURRENT_STATE" == "on" ]]; then
-  stop_redshift
-  rm -f "$SYNC_FLAG"
+  stop_nightlight
+  rm -f /tmp/nightlight-synced
   echo "off" >"$STATE_FILE"
   send_notification "off" "$ICON_OFF"
   echo "off"
 else
-  if start_redshift; then
+  if start_nightlight; then
     echo "on" >"$STATE_FILE"
-    touch "$SYNC_FLAG"
+    touch /tmp/nightlight-synced
     send_notification "on" "$ICON_ON"
     echo "on"
   else
