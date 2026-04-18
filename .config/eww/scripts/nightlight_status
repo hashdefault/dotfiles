@@ -1,21 +1,35 @@
 #!/usr/bin/env bash
 
-# Report whether redshift (nightlight) is currently active.
-# Re-applies redshift once per session if state says "on" (e.g. after restart).
+# Report whether nightlight is currently active.
+# Re-applies once per session if state says "on" (e.g. after restart).
+# Uses hyprsunset on Wayland (Hyprland), redshift on X11 (Qtile).
 
 STATE_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/nightlight.state"
 SYNC_FLAG="/tmp/nightlight-synced"
-TEMP="${REDSHIFT_TEMP:-4200}"
+TEMP="${NIGHTLIGHT_TEMP:-4200}"
+
+# Detect backend
+if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
+  BACKEND="wayland"
+else
+  BACKEND="x11"
+fi
 
 mkdir -p "$(dirname "$STATE_FILE")"
 
 if [[ -f "$STATE_FILE" ]]; then
   read -r state <"$STATE_FILE"
   if [[ "$state" == "on" ]]; then
-    # Apply redshift once if not yet synced this session
+    # Apply once if not yet synced this session
     if [[ ! -f "$SYNC_FLAG" ]]; then
-      redshift -x >/dev/null 2>&1
-      redshift -O "$TEMP" >/dev/null 2>&1
+      if [[ "$BACKEND" == "wayland" ]]; then
+        pkill -x hyprsunset 2>/dev/null
+        hyprsunset -t "$TEMP" &
+        disown
+      else
+        redshift -x >/dev/null 2>&1
+        redshift -O "$TEMP" >/dev/null 2>&1
+      fi
       touch "$SYNC_FLAG"
     fi
     echo "true"
