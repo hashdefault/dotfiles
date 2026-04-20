@@ -13,7 +13,7 @@ PanelWindow {
         right: 120
     }
     implicitWidth: 220
-    implicitHeight: themeList.length * 44 + 24
+    implicitHeight: themeList.length * 42 + 24
     color: "transparent"
 
     Theme { id: theme }
@@ -35,11 +35,11 @@ PanelWindow {
     property var themeList: [
         "Cyberpunk",
         "Nord",
-        "Gruvbox",
         "Tokyo Night",
-        "Catppuccin Mocha",
-        "Cyan Noir",
-        "Matcha"
+        "Everforest",
+        "Rose Pine",
+        "Verde",
+        "Doom One"
     ]
 
     Process {
