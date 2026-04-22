@@ -654,7 +654,7 @@ keys = [
     ),
     Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawn('rofi -show drun '), desc="Spawn a command using a prompt widget"),
+    Key([mod], "r", lazy.spawn('rofi -show drun -modi run,drun,window'), desc="Spawn a command using a prompt widget"),
     Key([], "Print", lazy.spawn("flameshot gui"), desc="Take screenshot"),
     # Volume controls
     Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause"), desc="Play or Pause media"),

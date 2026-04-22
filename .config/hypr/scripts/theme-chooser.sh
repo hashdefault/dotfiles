@@ -28,35 +28,43 @@ dark_bg=#2e3440|bar_bg=#2e3440|text=#d8dee9|border_focus=#88c0d0|border_normal=#
 border_unfocused=#4c566a|seg_purple=#3b4252|seg_blue=#434c5e|red=#bf616a|blue=#81a1c1|primary=#88c0d0
 muted=#7b88a1|muted2=#616e88"
 
-THEMES[Gruvbox]="
-neon_green=#b8bb26|neon_cyan=#83a598|neon_magenta=#d3869b|neon_pink=#fb4934|neon_yellow=#fabd2f
-dark_bg=#282828|bar_bg=#282828|text=#ebdbb2|border_focus=#fabd2f|border_normal=#3c3836
-border_unfocused=#504945|seg_purple=#3c3836|seg_blue=#504945|red=#fb4934|blue=#83a598|primary=#fabd2f
-muted=#928374|muted2=#7c6f64"
 
 THEMES[Tokyo\ Night]="
-neon_green=#9ece6a|neon_cyan=#7dcfff|neon_magenta=#bb9af7|neon_pink=#f7768e|neon_yellow=#e0af68
+neon_green=#66c43e|neon_cyan=#7dcfff|neon_magenta=#a05ee0|neon_pink=#e04870|neon_yellow=#e0af68
 dark_bg=#1a1b26|bar_bg=#1a1b26|text=#c0caf5|border_focus=#7dcfff|border_normal=#24283b
-border_unfocused=#414868|seg_purple=#24283b|seg_blue=#1f2335|red=#f7768e|blue=#7aa2f7|primary=#7dcfff
+border_unfocused=#414868|seg_purple=#24283b|seg_blue=#1f2335|red=#f7768e|blue=#4e84e8|primary=#38a0d8
 muted=#565f89|muted2=#414868"
 
-THEMES[Catppuccin\ Mocha]="
-neon_green=#a6e3a1|neon_cyan=#89dceb|neon_magenta=#cba6f7|neon_pink=#f5c2e7|neon_yellow=#f9e2af
-dark_bg=#1e1e2e|bar_bg=#1e1e2e|text=#cdd6f4|border_focus=#89dceb|border_normal=#313244
-border_unfocused=#45475a|seg_purple=#181825|seg_blue=#11111b|red=#f38ba8|blue=#89b4fa|primary=#94e2d5
-muted=#6c7086|muted2=#585b70"
 
-THEMES[Cyan\ Noir]="
-neon_green=#00f5d4|neon_cyan=#00d4ff|neon_magenta=#7c3aed|neon_pink=#22d3ee|neon_yellow=#fde68a
-dark_bg=#050608|bar_bg=#050608|text=#e6f7ff|border_focus=#00d4ff|border_normal=#10131a
-border_unfocused=#0b1a22|seg_purple=#0b1016|seg_blue=#071019|red=#f87171|blue=#38bdf8|primary=#00d4ff
-muted=#475569|muted2=#334155"
 
-THEMES[Matcha]="
-neon_green=#a7f3a3|neon_cyan=#69d2b4|neon_magenta=#b48ead|neon_pink=#f2b5d4|neon_yellow=#e6d98f
-dark_bg=#101612|bar_bg=#101612|text=#e9f5ee|border_focus=#69d2b4|border_normal=#1a221c
-border_unfocused=#2a3530|seg_purple=#151d18|seg_blue=#12221a|red=#f28b82|blue=#8fd3c7|primary=#69d2b4
-muted=#7f978c|muted2=#5a6e63"
+
+THEMES[Everforest]="
+neon_green=#7ab358|neon_cyan=#7fbbb3|neon_magenta=#c474a8|neon_pink=#de6878|neon_yellow=#dbbc7f
+dark_bg=#1e2326|bar_bg=#1e2326|text=#d3c6aa|border_focus=#a7c080|border_normal=#343f44
+border_unfocused=#3d484d|seg_purple=#272e33|seg_blue=#2d353b|red=#e67e80|blue=#52a8a8|primary=#7ab358
+muted=#7a8478|muted2=#5c6a72"
+
+THEMES[Rose\ Pine]="
+neon_green=#9ccfd8|neon_cyan=#31748f|neon_magenta=#c4a7e7|neon_pink=#eb6f92|neon_yellow=#f6c177
+dark_bg=#191724|bar_bg=#1f1d2e|text=#e0def4|border_focus=#31748f|border_normal=#26233a
+border_unfocused=#403d52|seg_purple=#1f1d2e|seg_blue=#26233a|red=#eb6f92|blue=#9ccfd8|primary=#31748f
+muted=#6e6a86|muted2=#524f67"
+
+# Verde: escala monocromática de verde — fundo quase preto, widgets verde-escuro, bordas verde-brilhante
+# Todos os widget-bg (color4/color5) em #1e5c30 → contraste ~14:1 com o texto branco
+THEMES[Verde]="
+neon_green=#3a8a52|neon_cyan=#52a870|neon_magenta=#3a8a52|neon_pink=#1a4d26|neon_yellow=#6ee7b7
+dark_bg=#060e08|bar_bg=#0a1a0d|text=#edfaef|border_focus=#3ddb6a|border_normal=#163822
+border_unfocused=#265c38|seg_purple=#0e2916|seg_blue=#091c10|red=#52a870|blue=#1c5c3e|primary=#1e5c30
+muted=#376648|muted2=#1e4230"
+
+# Doom One: fundo cinza-azulado escuro, cores médias saturadas nos widgets
+# Branco #f8f8f2 sobre os médios: vermelho ~5.7:1, roxo ~6.6:1, azul ~5:1
+THEMES[Doom\ One]="
+neon_green=#98c379|neon_cyan=#56b6c2|neon_magenta=#c678dd|neon_pink=#e06c75|neon_yellow=#e5c07b
+dark_bg=#21252b|bar_bg=#282c34|text=#f8f8f2|border_focus=#61afef|border_normal=#3e4451
+border_unfocused=#4f5666|seg_purple=#2c313a|seg_blue=#21252b|red=#e06c75|blue=#4a90d9|primary=#4a90d9
+muted=#5c6370|muted2=#4b5263"
 
 # ── Helper: parse theme value ────────────────────────────────────────────────
 get_val() {
@@ -71,7 +79,7 @@ if [[ "$1" == "--apply" ]]; then
 else
     # Interactive rofi menu
     menu_entries=""
-    for name in "Cyberpunk" "Nord" "Gruvbox" "Tokyo Night" "Catppuccin Mocha" "Cyan Noir" "Matcha"; do
+    for name in "Cyberpunk" "Nord" "Tokyo Night" "Everforest" "Rose Pine" "Verde" "Doom One"; do
         if [[ "$name" == "$current_theme" ]]; then
             menu_entries+="$name (current)\n"
         else
@@ -383,6 +391,26 @@ accent_r=$((16#${accent_hex:0:2}))
 accent_g=$((16#${accent_hex:2:2}))
 accent_b=$((16#${accent_hex:4:2}))
 
+seg_purple_hex="${seg_purple#\#}"
+seg_purple_r=$((16#${seg_purple_hex:0:2}))
+seg_purple_g=$((16#${seg_purple_hex:2:2}))
+seg_purple_b=$((16#${seg_purple_hex:4:2}))
+
+seg_blue_hex="${seg_blue#\#}"
+seg_blue_r=$((16#${seg_blue_hex:0:2}))
+seg_blue_g=$((16#${seg_blue_hex:2:2}))
+seg_blue_b=$((16#${seg_blue_hex:4:2}))
+
+border_unfocused_hex="${border_unfocused#\#}"
+border_unfocused_r=$((16#${border_unfocused_hex:0:2}))
+border_unfocused_g=$((16#${border_unfocused_hex:2:2}))
+border_unfocused_b=$((16#${border_unfocused_hex:4:2}))
+
+dark_bg_hex="${dark_bg#\#}"
+dark_bg_r=$((16#${dark_bg_hex:0:2}))
+dark_bg_g=$((16#${dark_bg_hex:2:2}))
+dark_bg_b=$((16#${dark_bg_hex:4:2}))
+
 cat > "$QS_THEME" <<EOF
 // Auto-generated by theme-chooser — Theme: $chosen
 var gradientTop = "$bar_bg"
@@ -436,6 +464,250 @@ QtObject {
     readonly property string pink: "$neon_pink"
 }
 EOF
+
+# ── Apply to Wofi ────────────────────────────────────────────────────────────
+WOFI_STYLE="$HOME/.config/wofi/style.css"
+cat > "$WOFI_STYLE" <<EOF
+/* ================================================================
+   Wofi — $chosen Launcher
+   Auto-generated by theme-chooser — Theme: $chosen
+   ================================================================
+
+   Tokens:
+     gradientTop  $bar_bg   gradientMid  $seg_purple   gradientBottom $seg_blue
+     border       $border_unfocused   borderDim    $border_normal
+     accent       $primary   cyan         $neon_cyan   purple  $neon_magenta
+     text         $text   textMuted    $muted   textDim $muted2
+     red          $red   orange       $neon_yellow   pink    $neon_pink
+   ================================================================ */
+
+* {
+    font-family: "JetBrainsMono Nerd Font", "JetBrains Mono", monospace;
+    font-size: 13.5px;
+    transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+/* ── Window shell ─────────────────────────────────────── */
+
+window {
+    background: transparent;
+    border-radius: 20px;
+}
+
+#window {
+    background: transparent;
+    border-radius: 20px;
+}
+
+#outer-box {
+    background: linear-gradient(
+        160deg,
+        $seg_purple 0%,
+        $bar_bg 45%,
+        $seg_blue 100%
+    );
+    border: 1px solid $border_unfocused;
+    border-radius: 20px;
+    box-shadow:
+        0 32px 96px rgba(0, 0, 0, 0.75),
+        0 0 0 1px rgba($accent_r, $accent_g, $accent_b, 0.07),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    padding: 0;
+}
+
+/* ── Accent top bar ───────────────────────────────────── */
+
+#outer-box > box:first-child {
+    border-top: 2px solid $primary;
+    border-radius: 20px 20px 0 0;
+}
+
+/* ── Search input ─────────────────────────────────────── */
+
+#input {
+    background: rgba($seg_purple_r, $seg_purple_g, $seg_purple_b, 0.90);
+    color: $text;
+    border: none;
+    border-bottom: 1px solid $border_normal;
+    border-radius: 20px 20px 0 0;
+    padding: 18px 24px 16px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    caret-color: $primary;
+}
+
+#input:focus {
+    background: rgba($seg_purple_r, $seg_purple_g, $seg_purple_b, 1.0);
+    border-bottom-color: $primary;
+    color: $text;
+}
+
+/* Placeholder text (pango rendered, pick up via opacity trick) */
+#input > placeholder {
+    color: $muted2;
+    opacity: 0.8;
+}
+
+/* ── Scroll / list container ──────────────────────────── */
+
+#scroll {
+    background: transparent;
+    margin: 0;
+    padding: 0;
+}
+
+#inner-box {
+    background: transparent;
+    padding: 8px 10px 14px 10px;
+}
+
+/* ── Entry rows ───────────────────────────────────────── */
+
+#entry {
+    background: transparent;
+    border: 1px solid transparent;
+    border-left: 3px solid transparent;
+    border-radius: 12px;
+    padding: 9px 14px 9px 12px;
+    margin: 2px 0;
+}
+
+#entry:hover {
+    background: rgba($accent_r, $accent_g, $accent_b, 0.07);
+    border-color: rgba($border_unfocused_r, $border_unfocused_g, $border_unfocused_b, 0.6);
+    border-left-color: rgba($accent_r, $accent_g, $accent_b, 0.45);
+}
+
+#entry:selected {
+    background: linear-gradient(
+        90deg,
+        rgba($accent_r, $accent_g, $accent_b, 0.18) 0%,
+        rgba($accent_r, $accent_g, $accent_b, 0.06) 55%,
+        transparent 100%
+    );
+    border-color: rgba($accent_r, $accent_g, $accent_b, 0.2);
+    border-left-color: $primary;
+    box-shadow:
+        inset 0 0 0 1px rgba($accent_r, $accent_g, $accent_b, 0.12),
+        0 3px 12px rgba(0, 0, 0, 0.30);
+}
+
+/* ── Entry icon ───────────────────────────────────────── */
+
+#img {
+    border-radius: 8px;
+    min-width: 32px;
+    min-height: 32px;
+    background: rgba($seg_blue_r, $seg_blue_g, $seg_blue_b, 0.75);
+    padding: 2px;
+}
+
+/* ── Entry text ───────────────────────────────────────── */
+
+#text {
+    color: $text;
+    margin-left: 8px;
+    font-size: 13.5px;
+}
+
+#entry:selected #text {
+    color: $text;
+    font-weight: 600;
+}
+
+/* Entry action sub-label */
+#entry-default {
+    color: $muted;
+    font-size: 12px;
+    font-weight: 400;
+    font-style: italic;
+}
+
+/* Numeric shortcut hint */
+#num {
+    color: $muted2;
+    font-size: 11px;
+    font-weight: 700;
+    margin-right: 4px;
+    min-width: 20px;
+}
+
+#entry:selected #num {
+    color: $primary;
+}
+
+/* ── Scrollbar ────────────────────────────────────────── */
+
+scrollbar {
+    background: transparent;
+    border-radius: 6px;
+    margin: 8px 4px 8px 0;
+    opacity: 0.6;
+}
+
+scrollbar trough {
+    background: rgba($dark_bg_r, $dark_bg_g, $dark_bg_b, 0.5);
+    border-radius: 6px;
+    min-width: 5px;
+}
+
+scrollbar slider {
+    background: $border_unfocused;
+    border-radius: 6px;
+    min-width: 5px;
+    min-height: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+scrollbar slider:hover {
+    background: rgba($accent_r, $accent_g, $accent_b, 0.65);
+    opacity: 1;
+}
+
+scrollbar slider:active {
+    background: $primary;
+    opacity: 1;
+}
+
+/* ── No results state ─────────────────────────────────── */
+
+#no-results {
+    color: $muted2;
+    font-size: 13px;
+    font-style: italic;
+    padding: 24px;
+}
+EOF
+
+# ── Apply to Ghostty ─────────────────────────────────────────────────────────
+GHOSTTY_THEME="$HOME/.config/ghostty/theme.ghostty"
+cat > "$GHOSTTY_THEME" <<EOF
+# Auto-generated by theme-chooser — Theme: $chosen
+background = $dark_bg
+foreground = $text
+cursor-color = $primary
+selection-background = $seg_purple
+selection-foreground = $text
+
+palette = 0=$dark_bg
+palette = 1=$red
+palette = 2=$neon_green
+palette = 3=$neon_yellow
+palette = 4=$blue
+palette = 5=$neon_magenta
+palette = 6=$neon_cyan
+palette = 7=$text
+palette = 8=$muted
+palette = 9=$red
+palette = 10=$neon_green
+palette = 11=$neon_yellow
+palette = 12=$blue
+palette = 13=$neon_magenta
+palette = 14=$neon_cyan
+palette = 15=$text
+EOF
+pkill -SIGUSR2 ghostty 2>/dev/null || true
 
 # ── Reload Waybar ────────────────────────────────────────────────────────────
 # Waybar has reload_style_on_change: true, but we touch the file to be safe
