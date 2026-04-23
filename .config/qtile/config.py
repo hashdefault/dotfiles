@@ -316,14 +316,39 @@ window {{
     location:         center;
     width:            600px;
     height:           600px;
-    border:           0;
+    border:           2px;
+    border-color:     @border-neon;
     border-radius:    16px;
     background-color: @bg;
 }}
 
 mainbox {{
-    children: [ inputbar, message, listview ];
+    children: [ inputbar, message, listview, mode-switcher ];
     spacing:  0;
+}}
+
+mode-switcher {{
+    background-color: @bg-alt;
+    padding:          8px 18px;
+    spacing:          6px;
+    border:           1px 0 0 0;
+    border-color:     @border-neon;
+}}
+
+button {{
+    background-color: @bg;
+    text-color:       @fg-dim;
+    padding:          6px 14px;
+    border-radius:    8px;
+    border:           1px;
+    border-color:     @bg-selected;
+    cursor:           pointer;
+}}
+
+button selected {{
+    background-color: @bg-selected;
+    text-color:       @neon-cyan;
+    border-color:     @neon-cyan;
 }}
 
 inputbar {{
