@@ -10,7 +10,7 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
 mod = "mod4"
-terminal = guess_terminal('ghostty')
+terminal = "ghostty"
 
 COLORSCHEMES = {
     "Cyberpunk": {
@@ -530,6 +530,45 @@ def run_once(cmd):
     else:
         subprocess.Popen(cmd.split())
 
+
+XRANDR_DUAL_MONITOR_CMD = [
+    "xrandr",
+    "--output", "DP-1",
+    "--mode", "1920x1080",
+    "--pos", "0x0",
+    "--rotate", "normal",
+    "--output", "HDMI-1",
+    "--primary",
+    "--mode", "1920x1080",
+    "--pos", "1920x0",
+    "--rotate", "normal",
+]
+
+
+def configure_x11_dual_monitors():
+    """Re-apply the known-good layout after Qtile starts on X11/XLibre."""
+    if qtile.core.name != "x11":
+        return
+
+    try:
+        subprocess.run(XRANDR_DUAL_MONITOR_CMD, check=False)
+    except Exception:
+        pass
+
+
+def bind_groups_to_screens():
+    """Ensure both heads have an attached group so the second output is not blank."""
+    if qtile.core.name != "x11":
+        return
+
+    try:
+        if len(qtile.screens) >= 1 and "1" in qtile.groups_map:
+            qtile.groups_map["1"].toscreen(0)
+        if len(qtile.screens) >= 2 and "2" in qtile.groups_map:
+            qtile.groups_map["2"].toscreen(1)
+    except Exception:
+        pass
+
 def get_weather_safe():
     """Non-blocking weather fetch with timeout and error handling."""
     try:
@@ -604,12 +643,10 @@ def autostart():
     home = os.path.expanduser("~")
 
     subprocess.Popen(
-        ["xrandr", "--output","HDMI-A-0","--mode","1920x1080","--pos","1920x0",
-         "--output","DisplayPort-0","--mode","1920x1080","--pos","0x0"],
+        ["clipmenud"]
     )
 
     commands = [
-        ["greenclip", "daemon"],
         ["dunst", "-config", f"{home}/.config/dunst/dunstrc"],
         ["picom", "--config", f"{home}/.config/picom/picom.conf"],
         ["redshift", "-O", "4200"],
@@ -624,6 +661,18 @@ def autostart():
 
     for cmd in commands:
         run_once(cmd)
+
+
+@hook.subscribe.startup_complete
+def stabilize_x11_screens():
+    configure_x11_dual_monitors()
+    bind_groups_to_screens()
+
+
+@hook.subscribe.screen_change
+def fix_x11_screen_change(_event):
+    configure_x11_dual_monitors()
+    qtile.call_later(1, bind_groups_to_screens)
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -1172,7 +1221,7 @@ def keep_pip_on_screen():
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 focus_previous_on_window_remove = False
-reconfigure_screens = True
+reconfigure_screens = False
 
 # If things like steam games want to auto-minimize themselves when losing
 # focus, should we respect this or not?
