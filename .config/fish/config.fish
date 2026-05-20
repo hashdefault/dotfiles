@@ -13,6 +13,39 @@ if status is-interactive # Commands to run in interactive sessions can go here
 
     # Use starship
     starship init fish | source
+
+    function __force_block_cursor --on-event fish_prompt
+        printf '\e[1 q'
+    end
+    __force_block_cursor
+
+    function __sync_ghostty_theme --on-event fish_prompt
+        set -l theme_file ~/.config/ghostty/theme.ghostty
+        test -r $theme_file; or return
+
+        while read -l line
+            set -l parts (string split -m 1 = $line)
+            test (count $parts) -eq 2; or continue
+
+            set -l key (string trim $parts[1])
+            set -l value (string trim $parts[2])
+
+            switch $key
+                case background
+                    printf '\e]11;%s\a' $value
+                case foreground
+                    printf '\e]10;%s\a' $value
+                case cursor-color
+                    printf '\e]12;%s\a' $value
+                case palette
+                    set -l palette_parts (string split -m 1 = $value)
+                    test (count $palette_parts) -eq 2; or continue
+                    printf '\e]4;%s;%s\a' (string trim $palette_parts[1]) (string trim $palette_parts[2])
+            end
+        end < $theme_file
+    end
+    __sync_ghostty_theme
+
     alias pamcan pacman
     alias clear "printf '\033[2J\033[3J\033[1;1H'"
     alias q 'qs -c ii'
