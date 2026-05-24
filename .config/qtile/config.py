@@ -622,32 +622,38 @@ def apply_external_themes(theme_name):
     _write_dunst_theme(t)
     _write_eww_theme(t)
     try:
-        subprocess.run(["dunstctl", "reload"], check=False)
+        subprocess.Popen(["dunstctl", "reload"])
     except FileNotFoundError:
         pass
     try:
-        subprocess.run(["eww", "reload"], check=False)
+        subprocess.Popen(["eww", "reload"])
     except FileNotFoundError:
         pass
 
 def run_once(cmd):
-    """Spawn command without invoking a shell."""
-    if isinstance(cmd, list):
-        subprocess.Popen(cmd)
-    else:
-        subprocess.Popen(cmd.split())
+    """Spawn command safely without invoking a shell, avoiding crashing hooks on missing executables."""
+    try:
+        if isinstance(cmd, list):
+            subprocess.Popen(cmd)
+        else:
+            subprocess.Popen(cmd.split())
+    except Exception as e:
+        try:
+            qtile.logger.warning(f"[run_once] Failed to run command {cmd}: {e}")
+        except Exception:
+            print(f"[run_once] Failed to run command {cmd}: {e}")
 
 
 XRANDR_DUAL_MONITOR_CMD = [
     "xrandr",
-    "--output", "DP-1",
-    "--mode", "1920x1080",
-    "--pos", "0x0",
-    "--rotate", "normal",
-    "--output", "HDMI-1",
-    "--primary",
+    "--output", "DisplayPort-1",
     "--mode", "1920x1080",
     "--pos", "1920x0",
+    "--rotate", "normal",
+    "--output", "HDMI-A-0",
+    "--primary",
+    "--mode", "1920x1080",
+    "--pos", "0x0",
     "--rotate", "normal",
 ]
 
@@ -676,8 +682,12 @@ def bind_groups_to_screens():
     except Exception:
         pass
 
-def get_weather_safe():
-    """Non-blocking weather fetch with timeout and error handling."""
+import threading
+
+_weather_cache = "N/A"
+
+def _fetch_weather_async():
+    global _weather_cache
     try:
         result = subprocess.run(
             ['getweather'],
@@ -685,9 +695,152 @@ def get_weather_safe():
             text=True,
             timeout=5
         )
-        return result.stdout.strip() if result.returncode == 0 else "N/A"
-    except (subprocess.TimeoutExpired, FileNotFoundError, Exception):
-        return "N/A"
+        if result.returncode == 0:
+            _weather_cache = result.stdout.strip()
+    except Exception:
+        pass
+
+_antigravity_cache = "󰚩 N/A"
+
+def _fetch_antigravity_async():
+    global _antigravity_cache
+    try:
+        # Run our custom script to get the exact shared pool values
+        result = subprocess.run(
+            [os.path.expanduser('~/.config/eww/scripts/get_antigravity_usage')],
+            capture_output=True,
+            text=True,
+            timeout=2
+        )
+        if result.returncode == 0:
+            import json
+            data = json.loads(result.stdout.strip())
+            
+            # Find the active model to decide which pool percentage to show
+            path = os.path.expanduser("~/.gemini/antigravity-cli/conversations")
+            files = [f for f in os.listdir(path) if f.endswith(".pb")]
+            if files:
+                active_file = max(files, key=lambda f: os.path.getmtime(os.path.join(path, f)))
+                active_cid = active_file.replace(".pb", "")
+                
+                is_partner = False
+                brain_path = os.path.expanduser(f"~/.gemini/antigravity-cli/brain/{active_cid}/.system_generated/logs/transcript.jsonl")
+                if os.path.exists(brain_path):
+                    with open(brain_path) as f:
+                        for line in f:
+                            if 'Model Selection' in line:
+                                if 'Claude' in line or 'GPT' in line:
+                                    is_partner = True
+                                else:
+                                    is_partner = False
+
+
+                
+                if is_partner:
+                    pct = data["partner_pool"]["session_left_str"]
+                else:
+                    pct = data["gemini_pool"]["session_left_str"]
+                
+                _antigravity_cache = f"󰚩 {pct}"
+    except Exception:
+        pass
+
+def get_antigravity_usage():
+    """Truly non-blocking antigravity fetch using a background thread."""
+    threading.Thread(target=_fetch_antigravity_async, daemon=True).start()
+    return _antigravity_cache
+
+@lazy.function
+def show_antigravity_sessions(qtile):
+    try:
+        path = os.path.expanduser("~/.gemini/antigravity-cli/conversations")
+        if not os.path.exists(path):
+            _notify("Antigravity Sessions", "No sessions directory found.")
+            return
+        files = [f for f in os.listdir(path) if f.endswith(".pb")]
+        if not files:
+            _notify("Antigravity Sessions", "No sessions found.")
+            return
+        
+        files_with_time = []
+        for f in files:
+            fpath = os.path.join(path, f)
+            mtime = os.path.getmtime(fpath)
+            size = os.path.getsize(fpath)
+            files_with_time.append((f, mtime, size))
+        files_with_time.sort(key=lambda x: x[1], reverse=True)
+        
+        options = []
+        label_to_cid = {}
+        for i, (f, mtime, size) in enumerate(files_with_time):
+            cid = f.replace(".pb", "")
+            dt = time.strftime("%Y-%m-%d %H:%M", time.localtime(mtime))
+            if size < 1024:
+                size_str = f"{size}B"
+            elif size < 1024 * 1024:
+                size_str = f"{size / 1024:.1f}K"
+            else:
+                size_str = f"{size / (1024 * 1024):.1f}M"
+            
+            # Estimate remaining quota (1M token capacity, ~10 bytes per token)
+            estimated_tokens = size / 10.0
+            used_pct = min(100.0, (estimated_tokens / 1000000.0) * 100.0)
+            avail_pct = max(0.0, 100.0 - used_pct)
+            
+            status = "🟢 ACTIVE" if i == 0 else "⚪ PAST"
+            label = f"{status} | ID: {cid[:8]}... | Size: {size_str} | Date: {dt} | Quota: {avail_pct:.1f}% left"
+            options.append(label)
+            label_to_cid[label] = cid
+        
+        menu = "\n".join(options)
+        try:
+            result = subprocess.run(
+                ["rofi", "-dmenu", "-i", "-p", "Antigravity Sessions", "-theme", ROFI_THEME_FILE],
+                input=menu,
+                text=True,
+                capture_output=True,
+            )
+        except FileNotFoundError:
+            _notify("Antigravity Sessions", "Install rofi to use the session picker.")
+            return
+        
+        if result.returncode != 0:
+            return
+        choice = result.stdout.strip()
+        if not choice:
+            return
+        
+        selected_cid = label_to_cid.get(choice)
+        if selected_cid:
+            copied = False
+            # Try xclip (X11)
+            try:
+                p = subprocess.Popen(["xclip", "-selection", "clipboard"], stdin=subprocess.PIPE)
+                p.communicate(input=selected_cid.encode('utf-8'))
+                copied = True
+            except Exception:
+                pass
+            
+            # Try wl-copy (Wayland) if xclip failed
+            if not copied:
+                try:
+                    p = subprocess.Popen(["wl-copy"], stdin=subprocess.PIPE)
+                    p.communicate(input=selected_cid.encode('utf-8'))
+                    copied = True
+                except Exception:
+                    pass
+            
+            if copied:
+                _notify("🤖 Antigravity", f"Copied session ID to clipboard:\n{selected_cid}")
+            else:
+                _notify("🤖 Antigravity", f"Selected: {selected_cid}")
+    except Exception as e:
+        _notify("Antigravity Error", str(e))
+
+def get_weather_safe():
+    """Truly non-blocking weather fetch using a background thread."""
+    threading.Thread(target=_fetch_weather_async, daemon=True).start()
+    return _weather_cache
 
 @lazy.function
 def eww_open(qtile, anchor, pos, widget_name):
@@ -738,7 +891,7 @@ def choose_colorscheme(qtile):
         apply_external_themes(selected)
     except Exception:
         return
-    qtile.reload_config()
+    qtile.restart()
 
 @lazy.function
 def choose_wallpaper(qtile):
@@ -799,19 +952,30 @@ def open_wallpaper_manager(qtile):
             return
     choose_wallpaper(qtile)
 
-@hook.subscribe.startup
+@hook.subscribe.startup_once
 def apply_themes_on_start():
     _persist_theme_name(THEME_NAME)
     apply_external_themes(THEME_NAME)
     set_wallpaper(load_wallpaper())
 
+@hook.subscribe.startup
+def reapply_wallpaper_on_restart():
+    """Re-apply wallpaper after a restart (safe, no theme rewrite)."""
+    try:
+        wp = load_wallpaper()
+        if qtile.core.name == "x11":
+            try:
+                subprocess.Popen(["feh", "--no-fehbg", "--bg-fill", wp])
+            except FileNotFoundError:
+                pass
+    except Exception:
+        pass
+
 @hook.subscribe.startup_once
 def autostart():
     home = os.path.expanduser("~")
 
-    subprocess.Popen(
-        ["clipmenud"]
-    )
+    run_once(["clipmenud"])
 
     commands = [
         ["dunst", "-config", f"{home}/.config/dunst/dunstrc"],
@@ -895,7 +1059,7 @@ keys = [
         lazy.window.toggle_fullscreen(),
         desc="Toggle fullscreen on the focused window",
     ),
-    Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload the config"),
+    Key([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawn('rofi -show drun -modi run,drun,window'), desc="Spawn a command using a prompt widget"),
     Key([], "Print", lazy.spawn("flameshot gui"), desc="Take screenshot"),
@@ -1129,8 +1293,29 @@ def make_widgets(systray=False):
             name_transform=lambda name: name.upper(),
             background=BAR_BG,
         ),
-        # ── Right side: Weather ──
-        powerline(BAR_BG, SEG_B),
+        # ── Theme Changer & Antigravity (AI Session) ──
+        powerline(BAR_BG, SEG_A),
+        widget.TextBox(
+            text=' 󰏘 ',
+            foreground=theme["neon_cyan"],
+            background=SEG_A,
+            padding=2,
+            mouse_callbacks={
+                'Button1': choose_colorscheme,
+            },
+        ),
+        widget.GenPollText(
+            func=get_antigravity_usage,
+            update_interval=30,
+            foreground=theme["neon_pink"],
+            background=SEG_A,
+            padding=2,
+            mouse_callbacks={
+                'Button1': eww_click("top right", "0x35", "antigravity"),
+            },
+        ),
+        # ── Weather ──
+        powerline(SEG_A, SEG_B),
         widget.TextBox(
             text='  ',
             foreground=theme["neon_yellow"],
@@ -1233,25 +1418,6 @@ def make_widgets(systray=False):
             padding=2,
             mouse_callbacks={
                 'Button1': eww_click("top right", "0x35", "calendar_full"),
-            },
-        ),
-        widget.TextBox(
-            text=' Theme ',
-            foreground=theme["neon_cyan"],
-            background=SEG_A,
-            padding=2,
-            mouse_callbacks={
-                'Button1': choose_colorscheme,
-            },
-        ),
-        widget.TextBox(
-            text=' Wall ',
-            foreground=theme["neon_yellow"],
-            background=SEG_A,
-            padding=2,
-            mouse_callbacks={
-                'Button1': choose_wallpaper,
-                'Button3': open_wallpaper_manager,
             },
         ),
     ]
@@ -1374,7 +1540,7 @@ def detect_pip(window):
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 focus_previous_on_window_remove = False
-reconfigure_screens = False
+reconfigure_screens = True
 
 # If things like steam games want to auto-minimize themselves when losing
 # focus, should we respect this or not?

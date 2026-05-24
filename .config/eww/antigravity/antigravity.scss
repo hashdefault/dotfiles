@@ -1,0 +1,121 @@
+.antigravity_container {
+  border-radius: 12px;
+  font-family: "Ubuntu Nerd Font";
+  font-weight: bold;
+  padding: 14px;
+  color: $fg;
+  background: linear-gradient(155deg, $bg 0%, $bg_alt 50%, $bg_panel 100%);
+  border: 1px solid rgba($pink, 0.3);
+  box-shadow: 0 10px 30px rgba(255, 32, 121, 0.08);
+}
+
+.antigravity_header {
+  font-size: 13px;
+  color: $pink;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba($fg, 0.15);
+  padding-bottom: 5px;
+}
+
+.antigravity_panel {
+  border-radius: 10px;
+}
+
+.model_block {
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed rgba($fg, 0.08);
+}
+
+.model_block:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.model_title_row {
+  margin-bottom: 4px;
+}
+
+.model_title {
+  font-size: 13px;
+  letter-spacing: 0.2px;
+}
+
+.model_subtitle {
+  font-size: 10px;
+  color: $muted;
+  margin-left: 6px;
+}
+
+.model_title.claude {
+  color: $magenta;
+}
+
+.model_title.high {
+  color: $cyan;
+}
+
+.progress_block {
+  margin-bottom: 4px;
+}
+
+.progress_label_row {
+  margin-bottom: 3px;
+}
+
+.progress_label {
+  font-size: 11px;
+  color: $muted;
+}
+
+.progress_val {
+  font-size: 11px;
+  font-family: "JetBrains Mono Nerd Font", monospace;
+}
+
+.progress_val.claude {
+  color: rgba($magenta, 0.9);
+}
+
+.progress_val.high {
+  color: rgba($cyan, 0.9);
+}
+
+/* Base GTK Progress Bar Styling */
+.progress_bar {
+  trough {
+    background-color: rgba($fg, 0.08);
+    border-radius: 6px;
+    min-height: 8px;
+    border: 1px solid rgba($fg, 0.04);
+  }
+  progress {
+    border-radius: 6px;
+    min-height: 8px;
+  }
+}
+
+/* Individual Bar Custom Colors */
+.session_opus {
+  progress {
+    background-color: $magenta;
+  }
+}
+
+.session_high {
+  progress {
+    background-color: $cyan;
+  }
+}
+
+.refresh_label {
+  font-size: 9px;
+  color: $muted;
+  margin-top: 3px;
+  font-weight: normal;
+  font-style: italic;
+  opacity: 0.8;
+}
+

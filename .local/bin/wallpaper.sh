@@ -142,9 +142,6 @@ post_apply() {
   write_cache_file "$LAST_FILE" "$LAST_WALLPAPER"
   cp -f "$wallpaper_path" /tmp/lockscreen_background 2>/dev/null || true
 
-  if [ -x "$HOME/.local/bin/update-ghostty-wal-colors.sh" ]; then
-    "$HOME/.local/bin/update-ghostty-wal-colors.sh" || true
-  fi
 }
 
 if ! ensure_backend; then

@@ -1,0 +1,50 @@
+(defwidget antigravity []
+  (box :orientation "v" :space-evenly "false" :class "antigravity_container"
+    (box :class "antigravity_header"
+      (label :text "🤖 ANTIGRAVITY QUOTA POOLS" :halign "center"))
+    
+    (box :orientation "v" :class "antigravity_panel" :space-evenly "false"
+      
+      ;; ── Gemini Family Pool ──
+      (box :orientation "v" :class "model_block" :space-evenly "false"
+        (box :orientation "h" :class "model_title_row"
+          (label :class "model_title high" :text "Gemini Family Pool" :halign "start")
+          (label :class "model_subtitle" :text "(Flash & Pro)" :halign "start"))
+        
+        ;; Session remaining
+        (box :orientation "v" :class "progress_block" :space-evenly "false"
+          (box :orientation "h" :class "progress_label_row"
+            (label :class "progress_label" :text "Session Quota" :halign "start")
+            (label :class "progress_val high" :text "${antigravity_stats.gemini_pool.session_left_str} left" :halign "end"))
+          (progress :value "${antigravity_stats.gemini_pool.session_left}" :class "progress_bar session_high")
+          (label :class "refresh_label" :text "${antigravity_stats.gemini_pool.refresh_str}" :halign "end"))
+      )
+
+      ;; ── Claude & Partner Pool ──
+      (box :orientation "v" :class "model_block" :space-evenly "false"
+        (box :orientation "h" :class "model_title_row"
+          (label :class "model_title claude" :text "Claude & Partner Pool" :halign "start")
+          (label :class "model_subtitle" :text "(Sonnet, Opus, GPT)" :halign "start"))
+        
+        ;; Session remaining
+        (box :orientation "v" :class "progress_block" :space-evenly "false"
+          (box :orientation "h" :class "progress_label_row"
+            (label :class "progress_label" :text "Session Quota" :halign "start")
+            (label :class "progress_val claude" :text "${antigravity_stats.partner_pool.session_left_str} left" :halign "end"))
+          (progress :value "${antigravity_stats.partner_pool.session_left}" :class "progress_bar session_opus")
+          (label :class "refresh_label" :text "${antigravity_stats.partner_pool.refresh_str}" :halign "end"))
+      )
+
+    )
+  )
+)
+
+(defpoll antigravity_stats :interval "10s" :initial '{"gemini_pool":{"session_left":100.0,"session_left_str":"100%"},"partner_pool":{"session_left":100.0,"session_left_str":"100%"}}' "~/.config/eww/scripts/get_antigravity_usage")
+
+(defwindow antigravity
+  :geometry (geometry :x "10px"
+                      :y "45px"
+                      :width "300px"
+                      :height "170px"
+                      :anchor "top right")
+  (antigravity))

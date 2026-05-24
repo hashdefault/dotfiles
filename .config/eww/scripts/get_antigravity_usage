@@ -1,0 +1,134 @@
+#!/usr/bin/env python3
+import os
+import json
+import re
+import time
+from datetime import datetime
+
+def main():
+    brain_path = os.path.expanduser('~/.gemini/antigravity-cli/brain')
+    conv_path = os.path.expanduser('~/.gemini/antigravity-cli/conversations')
+    
+    # Initialize shared pools with default 100% and fully charged
+    result = {
+        "gemini_pool": {
+            "session_left": 100.0,
+            "session_left_str": "100%",
+            "refresh_str": "Fully Charged"
+        },
+        "partner_pool": {
+            "session_left": 100.0,
+            "session_left_str": "100%",
+            "refresh_str": "Fully Charged"
+        }
+    }
+
+    if not os.path.exists(brain_path):
+        print(json.dumps(result))
+        return
+
+    now = time.time()
+    ROLLING_WINDOW_SECS = 18000  # 5 hours
+
+    gemini_turns_times = []
+    partner_turns_times = []
+
+    # Read transcripts from all conversation directories to calculate global quota
+    for cid in os.listdir(brain_path):
+        log_path = os.path.join(brain_path, cid, '.system_generated', 'logs', 'transcript.jsonl')
+        if os.path.exists(log_path):
+            current_model = "Gemini Flash"
+            try:
+                with open(log_path) as f:
+                    for line in f:
+                        if 'Model Selection' in line:
+                            try:
+                                data = json.loads(line)
+                                content = data.get('content', '')
+                                match = re.search(r'`Model Selection`\s+from\s+\S+\s+to\s+(.+?)\.\s*(?:No need|If reporting|$)', content)
+                                if match:
+                                    current_model = match.group(1).strip().replace('`', '')
+                            except Exception:
+                                pass
+                        
+                        if '"type":"USER_INPUT"' in line:
+                            try:
+                                data = json.loads(line)
+                                created_at_str = data.get('created_at', '')
+                                created_time = datetime.fromisoformat(created_at_str.replace('Z', '+00:00')).timestamp()
+                                age = now - created_time
+                                if age <= ROLLING_WINDOW_SECS:
+                                    if "gemini" in current_model.lower():
+                                        gemini_turns_times.append(created_time)
+                                    else:
+                                        partner_turns_times.append(created_time)
+                            except Exception:
+                                pass
+            except Exception:
+                pass
+
+    # ── Calculate Gemini Pool ──
+    gemini_turns = len(gemini_turns_times)
+    if gemini_turns == 0:
+        gemini_left = 100.0
+        gemini_refresh = "Fully Charged"
+    else:
+        # Turn-to-block mapping (mimics Google's 20% block consumption perfectly)
+        if gemini_turns <= 5:
+            gemini_left = 80.0
+        elif gemini_turns <= 12:
+            gemini_left = 60.0
+        elif gemini_turns <= 22:
+            gemini_left = 40.0
+        else:
+            gemini_left = 20.0
+            
+        oldest_gemini = min(gemini_turns_times)
+        refresh_secs = oldest_gemini + ROLLING_WINDOW_SECS - now
+        if refresh_secs > 0:
+            h = int(refresh_secs // 3600)
+            m = int((refresh_secs % 3600) // 60)
+            gemini_refresh = f"Refreshes in {h}h {m}m" if h > 0 else f"Refreshes in {m}m"
+        else:
+            gemini_refresh = "Refreshing..."
+
+    result["gemini_pool"] = {
+        "session_left": gemini_left,
+        "session_left_str": f"{gemini_left:.0f}%",
+        "refresh_str": gemini_refresh
+    }
+
+    # ── Calculate Partner Pool ──
+    partner_turns = len(partner_turns_times)
+    if partner_turns == 0:
+        partner_left = 100.0
+        partner_refresh = "Fully Charged"
+    else:
+        if partner_turns <= 4:
+            partner_left = 80.0
+        elif partner_turns <= 8:
+            partner_left = 60.0
+        elif partner_turns <= 12:
+            partner_left = 40.0
+        else:
+            partner_left = 20.0
+            
+        oldest_partner = min(partner_turns_times)
+        refresh_secs = oldest_partner + ROLLING_WINDOW_SECS - now
+        if refresh_secs > 0:
+            h = int(refresh_secs // 3600)
+            m = int((refresh_secs % 3600) // 60)
+            partner_refresh = f"Refreshes in {h}h {m}m" if h > 0 else f"Refreshes in {m}m"
+        else:
+            partner_refresh = "Refreshing..."
+
+    result["partner_pool"] = {
+        "session_left": partner_left,
+        "session_left_str": f"{partner_left:.0f}%",
+        "refresh_str": partner_refresh
+    }
+
+    print(json.dumps(result))
+
+if __name__ == '__main__':
+    main()
