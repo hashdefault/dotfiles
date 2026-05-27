@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Present greenclip entries in rofi (same theme as before) and copy the chosen one to the clipboard.
-selection="$(greenclip print | rofi -dmenu -p ' ' )"
-
-if [[ -z "${selection}" ]]; then
-  exit 0
+# 1. Start the clipboard daemons if they aren't already running
+# cliphist requires wl-paste to feed it data
+if ! pgrep -x "wl-paste" >/dev/null; then
+    # Watch for text selections
+    wl-paste --type text --watch cliphist store &
+    # Watch for image/binary selections (optional but highly recommended)
+    wl-paste --type image --watch cliphist store &
 fi
 
-# Print the selected line so it can be captured by callers if needed.
-printf '%s\n' "${selection}"
-
-# Copy selection to clipboard.
-printf '%s' "${selection}" | xclip -selection clipboard
+# 2. Launch the rofi picker
+# cliphist list outputs the history -> rofi handles selection -> cliphist decode copies it back
+cliphist list | rofi -dmenu -i -p "󰅍 clipboard" | cliphist decode | wl-copy
