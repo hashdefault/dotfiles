@@ -38,8 +38,10 @@ PanelWindow {
         "Tokyo Night",
         "Everforest",
         "Rose Pine",
-        "Verde",
-        "Doom One"
+        "Doom One",
+        "Eldritch",
+        "Monokai",
+        "Solarized Dark"
     ]
 
     Process {

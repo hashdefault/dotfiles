@@ -76,7 +76,7 @@ dark_bg=#002b36|bar_bg=#002b36|text=#eee8d5|border_focus=#268bd2|border_normal=#
 border_unfocused=#586e75|seg_purple=#073642|seg_blue=#00212b|red=#dc322f|blue=#268bd2|primary=#268bd2
 muted=#93a1a1|muted2=#657b83"
 
-THEMES[Elrich]="
+THEMES[Eldritch]="
 neon_green=#37f499|neon_cyan=#04d1f9|neon_magenta=#a48cf2|neon_pink=#f265b5|neon_yellow=#f1fc79
 dark_bg=#171928|bar_bg=#212337|text=#ebfafa|border_focus=#37f499|border_normal=#323449
 border_unfocused=#7081d0|seg_purple=#292b40|seg_blue=#1d2032|red=#f16c75|blue=#04d1f9|primary=#37f499
@@ -95,7 +95,7 @@ if [[ "$1" == "--apply" ]]; then
 else
     # Interactive rofi menu
     menu_entries=""
-    for name in "Cyberpunk" "Nord" "Tokyo Night" "Everforest" "Rose Pine" "Doom One" "Monokai" "Solarized Dark" "Elrich"; do
+    for name in "Cyberpunk" "Nord" "Tokyo Night" "Everforest" "Rose Pine" "Doom One" "Eldritch" "Monokai" "Solarized Dark"; do
         if [[ "$name" == "$current_theme" ]]; then
             menu_entries+="$name (current)\n"
         else
