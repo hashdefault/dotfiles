@@ -42,15 +42,14 @@ if status is-interactive # Commands to run in interactive sessions can go here
                     test (count $palette_parts) -eq 2; or continue
                     printf '\e]4;%s;%s\a' (string trim $palette_parts[1]) (string trim $palette_parts[2])
             end
-        end < $theme_file
+        end <$theme_file
     end
     __sync_ghostty_theme
 
-    alias pamcan pacman
     alias clear "printf '\033[2J\033[3J\033[1;1H'"
     alias q 'qs -c ii'
-    alias pacsyu='sudo pacman -Syu' # update only standard pkgs
-    alias pacsyyu='sudo pacman -Syyu' # Refresh pkglist & update standard pkgs
+    alias update='sudo pacman -Syu' # update only standard pkgs
+    alias updatelist='sudo pacman -Syyu' # Refresh pkglist & update standard pkgs
     alias yaysua='yay -Sua --noconfirm' # update only AUR pkgs (paru)
     alias yaysyu='yay -Syu --noconfirm' # update standard pkgs and AUR pkgs (paru)
     alias unlock='sudo rm /var/lib/pacman/db.lck' # remove pacman lock
@@ -68,8 +67,6 @@ if status is-interactive # Commands to run in interactive sessions can go here
     alias mkdir='mkdir -pv'
     alias dockerphp8='docker container stop php7_mariadb php7_phpmyadmin php7_apache && docker container start php8_mariadb php8_phpmyadmin php8_apache'
     alias dockerphp7='docker container stop php8_mariadb php8_phpmyadmin php8_apache && docker container start php7_mariadb php7_phpmyadmin php7_apache'
-    alias vpnon='sudo systemctl start zerotier-one.service'
-    alias vpnoff='sudo systemctl stop zerotier-one.service'
 
     zoxide init fish | source
     # 1. Start keychain (removed deprecated --agents flag)
