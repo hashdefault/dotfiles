@@ -56,7 +56,7 @@ PanelWindow {
         currentTheme = name
         themeApplyProc.command = ["sh", "-c",
             "echo '" + name + "' > /home/lucas/.config/hypr/current-theme.txt && " +
-            "/home/lucas/.config/hypr/scripts/theme-chooser.sh --apply"
+            "setsid /home/lucas/.config/hypr/scripts/theme-chooser.sh --apply >/dev/null 2>&1 &"
         ]
         themeApplyProc.running = true
     }
