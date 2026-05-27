@@ -115,7 +115,6 @@ button:hover {
 
 #custom-weather {
   background-color: @color5;
-  color: @foreground;
   min-width: 100px;
   font-weight: bold;
 
