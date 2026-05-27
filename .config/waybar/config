@@ -138,7 +138,8 @@
              "6": [],
              "7": [],
              "8": []
-        }
+        },
+        "move-to-monitor": true
     },
     "hyprland/window": {
         "format": "{title}",
