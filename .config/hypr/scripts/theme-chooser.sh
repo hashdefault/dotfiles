@@ -769,13 +769,20 @@ pkill -SIGUSR2 ghostty 2>/dev/null || true
 touch "$WAYBAR_COLOR"
 
 # ── Restart QuickShell to pick up new theme ──────────────────────────────────
-# Kill all quickshell instances and relaunch the persistent ones
+# Kill only the quickshell instances that were running and relaunch them
+# (except for the ThemeChooser itself)
 (
     sleep 0.3
+    # Capture currently running quickshell QML files
+    running_qmls=$(pgrep -f "quickshell -p" | xargs -r ps -o args= -p 2>/dev/null | grep -oP '(?<=-p\s)\S+' | grep -v "ThemeChooserWindow.qml" | grep -v "shell.qml" | sort -u)
+    
     pkill -x quickshell 2>/dev/null
     sleep 0.5
-    quickshell -p "$CONFIG_HOME/quickshell/shell.qml" &disown 2>/dev/null
-    quickshell -p "$CONFIG_HOME/quickshell/Tips/TipsWindow.qml" &disown 2>/dev/null
+    
+    # Relaunch the ones that were actually running
+    for qml in $running_qmls; do
+        quickshell -p "$qml" &disown 2>/dev/null
+    done
 ) &disown 2>/dev/null
 
 notify-send "Theme Chooser" "Applied theme: $chosen" -t 3000
