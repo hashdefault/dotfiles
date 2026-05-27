@@ -1,17 +1,25 @@
-font-family = "JetBrains Mono Nerd Font"
-font-style = "Regular"
-font-style-bold = "Bold"
-font-style-italic = "Italic"
-font-style-bold-italic = "Bold Italic"
-font-size = 13
+# Color palette only. Keep behavior/window settings in this file.
+config-file = theme.ghostty
+palette-generate = true
 
-window-theme = ghostty
-window-padding-x = 5
-window-padding-y = 5
-cursor-style = bar
+# Interface polish that keeps the imported theme colors untouched.
+window-padding-x = 10
+window-padding-y = 8
+window-padding-balance = true
+
+background-blur = true
+
+cursor-style = block
+cursor-style-blink = true
+mouse-hide-while-typing = true
+
 shell-integration = fish
 shell-integration-features = no-cursor
-cursor-style-blink = true
-background-opacity = 0.8
-theme = "Niji"
-cursor-color = #ff2cf6
+
+resize-overlay = always
+resize-overlay-position = bottom-right
+
+# Useful defaults for day-to-day terminal work.
+clipboard-paste-protection = true
+clipboard-trim-trailing-spaces = true
+copy-on-select = true
