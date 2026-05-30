@@ -14,11 +14,6 @@ if status is-interactive # Commands to run in interactive sessions can go here
     # Use starship
     starship init fish | source
 
-    function __force_block_cursor --on-event fish_prompt
-        printf '\e[1 q'
-    end
-    __force_block_cursor
-
     function __sync_ghostty_theme --on-event fish_prompt
         set -l theme_file ~/.config/ghostty/theme.ghostty
         test -r $theme_file; or return
@@ -46,8 +41,7 @@ if status is-interactive # Commands to run in interactive sessions can go here
     end
     __sync_ghostty_theme
 
-    alias clear "printf '\033[2J\033[3J\033[1;1H'"
-    alias q 'qs -c ii'
+    alias q='qs -c ii'
     alias update='sudo pacman -Syu' # update only standard pkgs
     alias updatelist='sudo pacman -Syyu' # Refresh pkglist & update standard pkgs
     alias yaysua='yay -Sua --noconfirm' # update only AUR pkgs (paru)
@@ -56,7 +50,7 @@ if status is-interactive # Commands to run in interactive sessions can go here
     alias cleanup='sudo pacman -Rns $(pacman -Qtdq)' # remove orphaned packages (DANGEROUS!)
 
     alias l='eza -l --icons'
-    alias ls 'eza --icons'
+    alias ls='eza --icons'
     alias la='eza -la --icons'
     alias grep='rg'
     alias vim='nvim'
