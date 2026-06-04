@@ -4,6 +4,8 @@ import QtQuick.Controls
 import Quickshell
 
 PanelWindow {
+    id: root
+
     anchors {
         top: true
         right: true
@@ -13,8 +15,29 @@ PanelWindow {
         right: 10
     }
     width: 280
-    height: 250
+    height: 270
     color: "transparent"
+
+    property int displayedMonth: new Date().getMonth()
+    property int displayedYear: new Date().getFullYear()
+
+    function showPreviousMonth() {
+        if (displayedMonth === 0) {
+            displayedMonth = 11
+            displayedYear -= 1
+        } else {
+            displayedMonth -= 1
+        }
+    }
+
+    function showNextMonth() {
+        if (displayedMonth === 11) {
+            displayedMonth = 0
+            displayedYear += 1
+        } else {
+            displayedMonth += 1
+        }
+    }
 
     Theme { id: theme }
 
@@ -60,20 +83,68 @@ PanelWindow {
             anchors.margins: 12
             spacing: 10
 
-            Text {
-                id: dateLabel
-                text: Qt.formatDateTime(new Date(), "dddd, d MMMM yyyy")
-                color: theme.text
-                font.family: "Ubuntu Nerd Font"
-                font.pixelSize: 16
-                font.bold: true
-                Layout.alignment: Qt.AlignHCenter
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 8
 
-                Timer {
-                    interval: 60000
-                    running: true
-                    repeat: true
-                    onTriggered: dateLabel.text = Qt.formatDateTime(new Date(), "dddd, d MMMM yyyy")
+                Rectangle {
+                    Layout.preferredWidth: 30
+                    Layout.preferredHeight: 28
+                    radius: 8
+                    color: previousMonthArea.containsMouse ? Qt.rgba(255, 255, 255, 0.08) : Qt.rgba(255, 255, 255, 0.02)
+                    border.color: previousMonthArea.containsMouse ? theme.accent : theme.borderDim
+                    border.width: 1
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: "<"
+                        color: previousMonthArea.containsMouse ? theme.accent : theme.textMuted
+                        font.family: "Ubuntu Nerd Font"
+                        font.pixelSize: 15
+                        font.bold: true
+                    }
+
+                    MouseArea {
+                        id: previousMonthArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: root.showPreviousMonth()
+                    }
+                }
+
+                Text {
+                    text: Qt.formatDateTime(new Date(root.displayedYear, root.displayedMonth, 1), "MMMM yyyy")
+                    color: theme.text
+                    font.family: "Ubuntu Nerd Font"
+                    font.pixelSize: 16
+                    font.bold: true
+                    horizontalAlignment: Text.AlignHCenter
+                    Layout.fillWidth: true
+                }
+
+                Rectangle {
+                    Layout.preferredWidth: 30
+                    Layout.preferredHeight: 28
+                    radius: 8
+                    color: nextMonthArea.containsMouse ? Qt.rgba(255, 255, 255, 0.08) : Qt.rgba(255, 255, 255, 0.02)
+                    border.color: nextMonthArea.containsMouse ? theme.accent : theme.borderDim
+                    border.width: 1
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: ">"
+                        color: nextMonthArea.containsMouse ? theme.accent : theme.textMuted
+                        font.family: "Ubuntu Nerd Font"
+                        font.pixelSize: 15
+                        font.bold: true
+                    }
+
+                    MouseArea {
+                        id: nextMonthArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: root.showNextMonth()
+                    }
                 }
             }
 
@@ -85,27 +156,49 @@ PanelWindow {
                 border.width: 1
                 radius: 10
 
-                MonthGrid {
-                    id: calendarGrid
+                ColumnLayout {
                     anchors.fill: parent
                     anchors.margins: 6
-                    month: new Date().getMonth()
-                    year: new Date().getFullYear()
+                    spacing: 4
 
-                    font.family: "Ubuntu Nerd Font"
+                    DayOfWeekRow {
+                        Layout.fillWidth: true
+                        locale: calendarGrid.locale
+                        font.family: "Ubuntu Nerd Font"
 
-                    delegate: Rectangle {
-                        readonly property bool isCurrentMonth: model.month === calendarGrid.month
-                        color: model.today ? Qt.rgba(theme.accentR/255, theme.accentG/255, theme.accentB/255, 0.15) : "transparent"
-                        radius: 8
-                        opacity: isCurrentMonth ? 1.0 : 0.3
-
-                        Text {
-                            anchors.centerIn: parent
-                            text: model.day
-                            color: model.today ? theme.accent : theme.text
+                        delegate: Text {
+                            text: model.shortName
+                            color: theme.textMuted
                             font.family: "Ubuntu Nerd Font"
-                            font.bold: model.today
+                            font.pixelSize: 12
+                            font.bold: true
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                    }
+
+                    MonthGrid {
+                        id: calendarGrid
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        month: root.displayedMonth
+                        year: root.displayedYear
+
+                        font.family: "Ubuntu Nerd Font"
+
+                        delegate: Rectangle {
+                            readonly property bool isCurrentMonth: model.month === calendarGrid.month
+                            color: model.today ? Qt.rgba(theme.accentR/255, theme.accentG/255, theme.accentB/255, 0.15) : "transparent"
+                            radius: 8
+                            opacity: isCurrentMonth ? 1.0 : 0.3
+
+                            Text {
+                                anchors.centerIn: parent
+                                text: model.day
+                                color: model.today ? theme.accent : theme.text
+                                font.family: "Ubuntu Nerd Font"
+                                font.bold: model.today
+                            }
                         }
                     }
                 }
