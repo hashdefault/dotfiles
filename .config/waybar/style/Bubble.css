@@ -99,6 +99,7 @@ button:hover {
 #custom-playerctl,
 #custom-calendar,
 #custom-weather,
+#custom-opencode-usage,
 #wireplumber,
 #custom-media,
 #tray,
@@ -120,9 +121,19 @@ button:hover {
 
 }
 
+#custom-opencode-usage {
+  background-color: @color2;
+  color: @foreground;
+}
+
+#custom-opencode-usage.opencode-usage-idle {
+  background-color: @color13;
+  color: @foreground;
+}
+
 #custom-playerctl {
-  background-color: #66cc99;
-  color: @color3;
+  background-color: @color6;
+  color: @foreground;
   min-width: 100px;
   font-weight: normal;
 

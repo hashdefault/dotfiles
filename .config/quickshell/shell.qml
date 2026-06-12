@@ -7,6 +7,7 @@ import "./Notifications"
 import "./PowerMenu"
 import "./StorageMon"
 import "./Weather"
+import "./OpencodeUsage"
 
 ShellRoot {
     CalendarWindow {}
@@ -17,4 +18,5 @@ ShellRoot {
     PowerMenuWindow {}
     StorageMonWindow {}
     WeatherWindow {}
+    OpencodeUsageWindow {}
 }
