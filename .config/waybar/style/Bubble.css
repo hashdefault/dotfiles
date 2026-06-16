@@ -1,7 +1,10 @@
 /* Colors imported from theme */
 * {
   /* `otf-font-awesome` is required to be installed for icons */
-  font-family: FontAwesome, Ubuntu Mono, sans-serif;
+  font-family:
+    FontAwesome,
+    Ubuntu Mono,
+    sans-serif;
   font-size: 12px;
   font-weight: bold;
 }
@@ -10,8 +13,8 @@ window#waybar {
   border-radius: 15px;
   color: @foreground;
   transition-property: background-color;
-  transition-duration: .5s;
-  background-color: rgba(30,30,30,0.8);
+  transition-duration: 0.5s;
+  background-color: rgba(30, 30, 30, 0.8);
 }
 
 window#waybar.hidden {
@@ -71,7 +74,6 @@ button:hover {
 #workspaces button.active {
   font-weight: bold;
   color: @color1;
-
 }
 
 /*#workspaces button.visible {
@@ -107,18 +109,21 @@ button:hover {
 #idle_inhibitor,
 #scratchpad,
 #power-profiles-daemon,
+#custom-theme,
 #mpd {
   padding: 0px 8px;
   margin: 4px 4px;
   color: @foreground;
   border-radius: 15px;
 }
+#custom-theme {
+  background-color: rgb(100, 100, 100);
+}
 
 #custom-weather {
   background-color: @color5;
   min-width: 100px;
   font-weight: bold;
-
 }
 
 #custom-opencode-usage {
@@ -136,23 +141,21 @@ button:hover {
   color: @foreground;
   min-width: 100px;
   font-weight: normal;
-
 }
 
 #window,
 #workspaces {
   margin: 0 5px;
   padding: 2px;
-
 }
 
 /* If workspaces is the leftmost module, omit left margin */
-.modules-left>widget:first-child>#workspaces {
+.modules-left > widget:first-child > #workspaces {
   margin-left: 0;
 }
 
 /* If workspaces is the rightmost module, omit right margin */
-.modules-right>widget:last-child>#workspaces {
+.modules-right > widget:last-child > #workspaces {
   margin-right: 0;
 }
 
@@ -286,11 +289,11 @@ label:focus {
   color: @foreground;
 }
 
-#tray>.passive {
+#tray > .passive {
   -gtk-icon-effect: dim;
 }
 
-#tray>.needs-attention {
+#tray > .needs-attention {
   -gtk-icon-effect: highlight;
   background-color: @color2;
 }
@@ -337,11 +340,11 @@ label:focus {
   min-width: 16px;
 }
 
-#keyboard-state>label {
+#keyboard-state > label {
   padding: 0 5px;
 }
 
-#keyboard-state>label.locked {
+#keyboard-state > label.locked {
   background: @background;
 }
 

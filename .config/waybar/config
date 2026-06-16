@@ -11,13 +11,13 @@
         "hyprland/window"
     ],
     "modules-right": [
-        "custom/theme",
         "custom/weather",
         "custom/playerctl",
         "cpu",
         "memory",
         "wireplumber",
         "custom/calendar",
+        "custom/theme",
         "tray"
     ],
     "custom/weather": {
@@ -128,7 +128,7 @@
         }
     },
     "custom/theme": {
-        "format": "  Theme",
+        "format": " ",
         "tooltip-format": "Click to change theme",
         "on-click": "~/.config/waybar/modules-scripts/quickshell_toggle.sh ~/.config/quickshell/ThemeChooser/ThemeChooserWindow.qml"
     },
