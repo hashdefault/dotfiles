@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQml
+import Qt5Compat.GraphicalEffects
 import Quickshell
 import Quickshell.Io
 
@@ -30,6 +32,7 @@ PanelWindow {
     property string title: "Title"
     property string album: "Album"
     property string artUrl: ""
+    property string artSource: ""
     property string status: "Stopped"
     property double duration: 1
     property double position: 0
@@ -45,9 +48,23 @@ PanelWindow {
                      artist = parts[0] || "Unknown";
                      title = parts[1] || "Unknown";
                      album = parts[2] || "";
-                     artUrl = parts[3] ? parts[3].replace("file://", "") : "";
+                     var rawUrl = parts[3] || "";
+                     if (rawUrl) {
+                         if (rawUrl.startsWith("file://")) {
+                             artSource = rawUrl;
+                         } else if (rawUrl.startsWith("http://") || rawUrl.startsWith("https://")) {
+                             artSource = rawUrl;
+                         } else {
+                             artSource = "file://" + rawUrl;
+                         }
+                     } else {
+                         artSource = "";
+                     }
                      if(parts[4]) duration = parseFloat(parts[4]) / 1000000;
-                     if(parts[5]) position = parseFloat(parts[5]) / 1000000;
+                     if(parts[5]) {
+                         position = parseFloat(parts[5]) / 1000000;
+                         if (!progressSlider.pressed) progressSlider.value = position;
+                     }
                  }
             }
         }
@@ -95,22 +112,39 @@ PanelWindow {
             width: parent.width * 0.9
             spacing: 15
 
-            Rectangle {
+            Item {
                 Layout.alignment: Qt.AlignHCenter
                 width: 130; height: 130
-                radius: 65
-                color: "transparent"
-                border.color: theme.accent
-                border.width: 2
-                clip: true
 
                 Image {
+                    id: coverArt
                     anchors.fill: parent
                     anchors.margins: 2
-                    source: artUrl ? "file://" + artUrl : ""
+                    source: artSource
                     sourceSize.width: 130
                     sourceSize.height: 130
                     fillMode: Image.PreserveAspectCrop
+                    asynchronous: true
+                    smooth: true
+                    visible: false
+                }
+
+                OpacityMask {
+                    anchors.fill: coverArt
+                    source: coverArt
+                    maskSource: Rectangle {
+                        width: coverArt.width
+                        height: coverArt.height
+                        radius: width / 2
+                    }
+                }
+
+                Rectangle {
+                    anchors.fill: parent
+                    radius: width / 2
+                    color: "transparent"
+                    border.color: theme.accent
+                    border.width: 2
                 }
             }
 
@@ -124,10 +158,15 @@ PanelWindow {
             }
 
             Slider {
+                id: progressSlider
                 from: 0
                 to: duration > 0 ? duration : 1
-                value: position
                 Layout.fillWidth: true
+
+                Binding on value {
+                    when: !progressSlider.pressed
+                    value: position
+                }
 
                 onMoved: {
                     seekProc.seekPos = value;

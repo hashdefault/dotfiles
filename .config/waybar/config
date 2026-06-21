@@ -11,12 +11,13 @@
         "hyprland/window"
     ],
     "modules-right": [
-        "custom/theme",
         "custom/weather",
+        "custom/playerctl",
         "cpu",
         "memory",
         "wireplumber",
         "custom/calendar",
+        "custom/theme",
         "tray"
     ],
     "custom/weather": {
@@ -25,6 +26,14 @@
         "on-click": "~/.config/waybar/modules-scripts/quickshell_toggle.sh ~/.config/quickshell/Weather/WeatherWindow.qml",
         "interval": 900,
         "max-length": 35
+    },
+    "custom/opencode-usage": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "~/.config/waybar/modules-scripts/opencode_usage.sh",
+        "interval": 30,
+        "tooltip": true,
+        "on-click": "~/.config/waybar/modules-scripts/quickshell_toggle.sh ~/.config/quickshell/OpencodeUsage/OpencodeUsageWindow.qml"
     },
     "custom/cava": {
         "format": "{}",
@@ -119,7 +128,7 @@
         }
     },
     "custom/theme": {
-        "format": "  Theme",
+        "format": " ",
         "tooltip-format": "Click to change theme",
         "on-click": "~/.config/waybar/modules-scripts/quickshell_toggle.sh ~/.config/quickshell/ThemeChooser/ThemeChooserWindow.qml"
     },
