@@ -11,7 +11,7 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
 mod = "mod4"
-terminal = "ghostty"
+terminal = "kitty"
 
 COLORSCHEMES = {
     "Cyberpunk": {
@@ -1015,6 +1015,8 @@ def autostart():
         ["dunst", "-config", f"{home}/.config/dunst/dunstrc"],
         ["picom", "--config", f"{home}/.config/picom/picom.conf"],
         ["redshift", "-O", "4200"],
+        ["blueman-applet"],
+        ["pasystray"],
         [f"{home}/.local/bin/getforecast"],
         [f"{home}/.local/bin/lock.sh"],
         [f"{home}/.config/eww/scripts/getforecast"],
@@ -1327,7 +1329,7 @@ def make_widgets(systray=False):
             name_transform=lambda name: name.upper(),
             background=BAR_BG,
         ),
-        # ── Theme Changer & Antigravity (AI Session) ──
+        # ── Theme Changer ──
         powerline(BAR_BG, SEG_A),
         widget.TextBox(
             text=' 󰏘 ',
@@ -1336,16 +1338,6 @@ def make_widgets(systray=False):
             padding=2,
             mouse_callbacks={
                 'Button1': choose_colorscheme,
-            },
-        ),
-        widget.GenPollText(
-            func=get_antigravity_usage,
-            update_interval=30,
-            foreground=theme["neon_pink"],
-            background=SEG_A,
-            padding=2,
-            mouse_callbacks={
-                'Button1': eww_click("top right", "0x35", "antigravity"),
             },
         ),
         # ── Weather ──
@@ -1370,7 +1362,7 @@ def make_widgets(systray=False):
         powerline(SEG_B, SEG_A),
         # ── CPU ──
         widget.TextBox(
-            text='  ',
+            text='  ',
             foreground=theme["neon_magenta"],
             background=SEG_A,
             fontsize=15,
@@ -1418,7 +1410,7 @@ def make_widgets(systray=False):
             background=SEG_A,
             partition='/',
             visible_on_warn=False,
-            format='{uf}{m}/{s}{m}',
+            format='{uf:.0f}{m}/{s:.0f}{m}',
             padding=2,
         ),
         powerline(SEG_A, SEG_B),

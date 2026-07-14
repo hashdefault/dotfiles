@@ -50,7 +50,7 @@
         (eventbox :tooltip "Reboot" :class "hover-power-side-btn" :cursor "pointer" 
           (button :class "reboot-side-button" :onclick "systemctl reboot" "  "))
         (eventbox :tooltip "Logout" :class "hover-power-side-btn" :cursor "pointer" 
-          (button :class "logout-side-button" :onclick "~/.config/eww/scripts/session_exit" " "))
+          (button :class "logout-side-button" :timeout "5000ms" :onclick "~/.config/eww/scripts/session_exit" " "))
         (eventbox :tooltip "Suspend" :class "hover-power-side-btn" :cursor "pointer" 
           (button :class "suspend-button-side" :onclick "systemctl suspend" "󰤄"))
     )

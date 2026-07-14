@@ -14,7 +14,7 @@
     )
     (box :orientation "v" :halign "center" :class "power-item"
       (eventbox :class "hover-power-btn" :timeout "20ms" :cursor "pointer" 
-        (button :class "logout-button" :onclick "~/.config/eww/scripts/session_exit" "")
+        (button :class "logout-button" :timeout "5000ms" :onclick "~/.config/eww/scripts/session_exit" "")
       )
       (label :class "logout-description" :text "Logout" :justify "center")
     )
