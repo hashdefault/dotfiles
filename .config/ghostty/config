@@ -1,7 +1,8 @@
 # Color palette only. Keep behavior/window settings in this file.
-config-file = /home/lucas/.config/ghostty/theme.ghostty
-palette-generate = true
+#config-file = /home/lucas/.config/ghostty/theme.ghostty
+#palette-generate = true
 
+theme = Flexoki Dark
 # Interface polish that keeps the imported theme colors untouched.
 window-padding-x = 5
 window-padding-y = 4
@@ -19,8 +20,10 @@ shell-integration-features = no-cursor
 
 resize-overlay = always
 resize-overlay-position = bottom-right
-
+font-family = "Hack Mono NF"
+font-size = 17
 # Useful defaults for day-to-day terminal work.
 clipboard-paste-protection = true
 clipboard-trim-trailing-spaces = true
 copy-on-select = true
+window-decoration = server
