@@ -72,7 +72,8 @@
 (defpoll not_disturb_active :interval "1s" "dunstctl is-paused")
 
 (defwindow sidemenu
-	    :geometry (geometry  :x "10px" 
+	    :geometry (geometry  :x "10px"
+                           :y "24px"
                            :width "250px"
                            :height "250px"
                            :anchor "top left"

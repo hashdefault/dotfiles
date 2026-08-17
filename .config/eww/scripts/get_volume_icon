@@ -1,0 +1,17 @@
+#!/bin/bash
+# Get volume icon based on volume level and mute state
+
+vol=$(pamixer --get-volume 2>/dev/null || echo "0")
+muted=$(pamixer --get-mute 2>/dev/null || echo "false")
+
+if [[ "$muted" == "true" ]]; then
+    echo ""
+elif [[ $vol -ge 66 ]]; then
+    echo ""
+elif [[ $vol -ge 33 ]]; then
+    echo ""
+elif [[ $vol -gt 0 ]]; then
+    echo ""
+else
+    echo ""
+fi

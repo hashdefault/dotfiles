@@ -1,0 +1,17 @@
+#!/bin/bash
+# Get active window title for eww bar
+
+window_id=$(xprop -root _NET_ACTIVE_WINDOW 2>/dev/null | awk -F'# ' '{print $2}')
+if [[ -n "$window_id" && "$window_id" != "0x0" ]]; then
+    title=$(xprop -id "$window_id" _NET_WM_NAME 2>/dev/null | sed 's/^.*= "//;s/"$//')
+    if [[ -z "$title" ]]; then
+        title=$(xprop -id "$window_id" WM_NAME 2>/dev/null | sed 's/^.*= "//;s/"$//')
+    fi
+    # Truncate to 60 chars
+    if [[ ${#title} -gt 60 ]]; then
+        title="${title:0:57}..."
+    fi
+    echo "${title:-Desktop}"
+else
+    echo "Desktop"
+fi

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Uses ~/.config/rofi/config.rasi (qtile-theme.rasi), which stays in
+# sync with the system colorscheme, instead of the old xmonad dotfiles theme.
+rofi -show drun

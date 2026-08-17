@@ -1,0 +1,82 @@
+;; ─────────────────────────────────────────────
+;; Eldritch Top Bar for Openbox (eww 0.5.0 compat)
+;; ─────────────────────────────────────────────
+
+(defwidget ws-btn [wm name]
+  (eventbox :class "ws-eventbox"
+            :onclick "wmctrl -s ${wm}"
+    (box :class {ws_active == "${name}" ? "ws-btn active" : "ws-btn"}
+         :tooltip name
+      (label :class {ws_active == "${name}" ? "ws-label active" : "ws-label"}
+             :text name))))
+
+(defwidget topbar []
+  (box :class "topbar" :orientation "h" :space-evenly false
+    ;; Left section
+    (box :class "bar-left" :orientation "h" :halign "start" :space-evenly false
+      (box :class "workspaces" :orientation "h" :spacing 2
+        (ws-btn :wm "0" :name "dev")
+        (ws-btn :wm "1" :name "www")
+        (ws-btn :wm "2" :name "search")
+        (ws-btn :wm "3" :name "chat")
+        (ws-btn :wm "4" :name "media")
+        (ws-btn :wm "5" :name "docs")
+        (ws-btn :wm "6" :name "ops")
+        (ws-btn :wm "7" :name "gfx")
+        (ws-btn :wm "8" :name "misc"))
+      (box :class "separator-vertical")
+      (eventbox :cursor "pointer" :onclick "rofi -show drun -modi run,drun,window -theme ~/.config/rofi/themes/qtile-theme.rasi"
+        (label :class "bar-appmenu" :text "󰍉")))
+
+    ;; Center section
+    (box :class "bar-center" :orientation "h" :halign "center"
+      (label :class "bar-window-title" :text window_title :limit-width 60))
+
+    ;; Right section
+    (box :class "bar-right" :orientation "h" :halign "end" :space-evenly false :spacing 8
+      (box :class "bar-module weather-module"
+        (label :class "bar-icon" :text "")
+        (label :class "bar-info" :text weather_temp))
+
+      (box :class "bar-module cpu-module"
+        (label :class "bar-icon" :text "󰍛")
+        (label :class "bar-info" :text "${cpu_usage}%"))
+
+      (box :class "bar-module mem-module"
+        (label :class "bar-icon" :text "")
+        (label :class "bar-info" :text "${mem_used}G"))
+
+      (box :class "bar-module vol-module"
+        (label :class "bar-icon" :text volume_icon)
+        (label :class "bar-info" :text "${volume}%"))
+
+      (eventbox :cursor "pointer" :onclick "~/.config/eww/scripts/eww open --toggle calendar"
+        (box :class "bar-module clock-module"
+          (label :class "bar-icon" :text "")
+          (label :class "bar-info" :text "${hour}:${min}")))
+
+      (eventbox :cursor "pointer" :onclick "~/.config/eww/scripts/eww open --toggle powermenu"
+        (box :class "bar-module sys-module"
+          (label :class "bar-icon" :text "")))))))
+
+;; Window definition
+(defwindow bar_top
+  :geometry (geometry :x "0px"
+                      :y "0px"
+                      :width "100%"
+                      :height "30px"
+                      :anchor "top center")
+  :stacking "overlay"
+  :exclusive true
+  :focusable false
+  :namespace "bar"
+  (topbar))
+
+;; ── Polls ──
+(defpoll window_title     :interval "500ms" "~/.config/eww/scripts/get_active_window_title")
+(defpoll cpu_usage        :interval "2s" "top -bn1 | grep 'Cpu(s)' | awk '{printf \"%d\", $2+$4+$6}'")
+(defpoll mem_used         :interval "2s" "free -h | awk '/^Mem:/ {print $3}' | sed 's/[A-Za-z]//g'")
+(defpoll volume           :interval "500ms" "pamixer --get-volume 2>/dev/null || pactl get-sink-volume @DEFAULT_SINK@ 2>/dev/null | grep -oP '\\d+%' | head -1 | tr -d '%'")
+(defpoll volume_icon      :interval "500ms" "~/.config/eww/scripts/get_volume_icon")
+(defpoll weather_temp     :interval "900s" "~/.config/eww/scripts/getweather 2>/dev/null || echo '--'")
+(defpoll ws_active        :interval "500ms" "~/.config/eww/scripts/get_active_workspace")

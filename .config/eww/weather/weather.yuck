@@ -79,8 +79,9 @@
     (defpoll weather-week-5 :interval "20m"  "cat /tmp/getweatherweekday5")
 
     ;; Main Stuff
-    (defwindow weather 
-			    :geometry (geometry  :x "150px" 
+    (defwindow weather
+			    :geometry (geometry  :x "10px"
+                               :y "24px"
                                :width "600px"
                                :height "300px"
                                :anchor "top right"

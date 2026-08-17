@@ -1,0 +1,27 @@
+#!/bin/bash
+# Get Openbox workspace info for eww bar
+# Output: JSON array with workspace status
+
+current=$(xprop -root _NET_CURRENT_DESKTOP 2>/dev/null | awk '{print $NF}')
+num=$(xprop -root _NET_NUMBER_OF_DESKTOPS 2>/dev/null | awk '{print $NF}')
+
+# Default to 9 if detection fails
+current=${current:-0}
+num=${num:-9}
+
+# Workspace names with icons
+names=("dev" "www" "search" "chat" "media" "docs" "ops" "gfx" "misc")
+
+echo "["
+for ((i=0; i<num; i++)); do
+    active="false"
+    [[ $i -eq $current ]] && active="true"
+    name="${names[$i]:-$((i+1))}"
+    # wmctrl uses 0-indexed desktops
+    if [[ $i -eq $((num-1)) ]]; then
+        echo "  {\"id\": $((i+1)), \"wm\": $i, \"name\": \"$name\", \"active\": $active}"
+    else
+        echo "  {\"id\": $((i+1)), \"wm\": $i, \"name\": \"$name\", \"active\": $active},"
+    fi
+done
+echo "]"

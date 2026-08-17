@@ -1,0 +1,49 @@
+/* ─────────────────────────────────────────────
+   Eldritch Bottom Dock — Openbox
+   ───────────────────────────────────────────── */
+
+.dock-container {
+  all: unset;
+  background: linear-gradient(0deg, rgba($bg, 0.97) 0%, rgba($bg_panel, 0.95) 100%);
+  border-top: 1px solid rgba($green, 0.2);
+  padding: 6px 20px;
+  font-family: "JetBrains Mono Nerd Font";
+}
+
+.dock-eventbox {
+  all: unset;
+}
+
+.dock-btn {
+  all: unset;
+  padding: 8px 14px;
+  border-radius: 14px;
+  background: rgba($fg, 0.03);
+  border: 1px solid rgba($muted, 0.1);
+  transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+  min-width: 32px;
+}
+
+.dock-btn:hover {
+  background: rgba($cyan, 0.12);
+  border-color: rgba($cyan, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba($cyan, 0.15);
+}
+
+.dock-btn:hover .dock-icon {
+  color: $green;
+  text-shadow: 0 0 8px rgba($green, 0.4);
+}
+
+.dock-icon {
+  font-size: 20px;
+  color: $muted;
+  transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.dock-separator {
+  min-width: 1px;
+  margin: 8px 8px;
+  background: rgba($muted, 0.15);
+}

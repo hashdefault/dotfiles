@@ -15,11 +15,11 @@
 (defpoll year_full :interval "15h"  "date \"+%Y\"")
 
 ;; Main Stuff
-(defwindow calendar_full 
-     :geometry (geometry :x "10px"
-
-                         :width "280px" 
+(defwindow calendar_full
+     :geometry (geometry :x "0px"
+                         :y "24px"
+                         :width "280px"
                          :height "100px"
-                         :anchor "top right"
+                         :anchor "top center"
                          )
         (calendar_full))

@@ -54,6 +54,7 @@ run volumeicon &
 numlockx on &
 blueberry-tray &
 run picom &
+run dunst &
 
 #starting user applications at boot time
 #nitrogen --restore &

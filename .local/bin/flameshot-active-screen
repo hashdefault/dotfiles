@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# flameshot's own "capture the screen under the cursor" auto-detection is
+# broken on this build (v14.0.0/344aa78e-dirty): `flameshot screen -e`
+# without -n falls back to the "pick a monitor" dialog even though the
+# cursor is unambiguously on one screen. Work around it by computing the
+# monitor index ourselves from xrandr geometry and passing it explicitly.
+
+read -r cx cy < <(xdotool getmouselocation --shell | awk -F= '/^X=/{x=$2} /^Y=/{y=$2} END{print x, y}')
+
+screen_num=0
+i=0
+while read -r geom; do
+    wpart=${geom%%x*}; wpx=${wpart%%/*}
+    rest=${geom#*x};   hpart=${rest%%+*}; hpx=${hpart%%/*}
+    xy=${rest#*+};     x=${xy%%+*}; y=${xy#*+}
+    if (( cx >= x && cx < x + wpx && cy >= y && cy < y + hpx )); then
+        screen_num=$i
+        break
+    fi
+    ((i++))
+done < <(xrandr --listmonitors | tail -n +2 | awk '{print $3}')
+
+exec flameshot screen -n "$screen_num" -e

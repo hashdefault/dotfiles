@@ -1,0 +1,36 @@
+;; ─────────────────────────────────────────────
+;; Eldritch Bottom Dock for Openbox
+;; ─────────────────────────────────────────────
+
+(defwidget dock-item [icon tooltip command]
+  (eventbox :class "dock-eventbox"
+            :tooltip tooltip
+            :cursor "pointer"
+    (button :class "dock-btn"
+            :onclick command
+      (label :class "dock-icon" :text icon))))
+
+(defwidget dock []
+  (box :class "dock-container" :orientation "h" :halign "center" :spacing 6
+    (dock-item :icon ""  :tooltip "Terminal (kitty)"  :command "kitty")
+    (dock-item :icon ""  :tooltip "Browser (librewolf)" :command "librewolf")
+    (dock-item :icon ""  :tooltip "Files (nemo)"       :command "nemo")
+    (dock-item :icon ""  :tooltip "Editor (nvim)"      :command "kitty nvim")
+    (dock-item :icon ""  :tooltip "Music"              :command "spotify")
+    (dock-item :icon ""  :tooltip "Settings"           :command "lxappearance")
+    (box :class "dock-separator")
+    (dock-item :icon ""  :tooltip "Show Desktop"       :command "wmctrl -k on")
+    (dock-item :icon "󰐥"  :tooltip "Power Menu"         :command "~/.config/eww/scripts/eww open --toggle powermenu")))
+
+;; Window definition
+(defwindow dock_bottom
+  :geometry (geometry :x "0px"
+                      :y "0px"
+                      :width "100%"
+                      :height "52px"
+                      :anchor "bottom center")
+  :stacking "overlay"
+  :exclusive true
+  :focusable false
+  :namespace "dock"
+  (dock))

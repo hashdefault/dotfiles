@@ -1,0 +1,10 @@
+#!/bin/bash
+# Get the name of the currently active workspace in Openbox
+
+current=$(xprop -root _NET_CURRENT_DESKTOP 2>/dev/null | awk '{print $NF}')
+current=${current:-0}
+
+# Workspace names (matching rc.xml desktops)
+names=("dev" "www" "search" "chat" "media" "docs" "ops" "gfx" "misc")
+
+echo "${names[$current]:-$((current+1))}"
