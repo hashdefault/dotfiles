@@ -51,6 +51,7 @@ myStartupHook = do
   spawnOnce "xrdb -merge $HOME/.Xresources"
   spawnOnce "xsetroot -cursor_name left_ptr"
   spawnOnce "sh -c 'command -v feh >/dev/null 2>&1 && feh --randomize --bg-fill \"$HOME\"/Pictures/wallpapers/*'"
+  spawnOnce "picom --config $HOME/.config/picom/picom.conf -b"
   spawnOnce "trayer --edge top --align right --widthtype request --height 24 --transparent true --alpha 0 --tint 0x121222 --distance 0 --SetDockType true --SetPartialStrut true --monitor primary"
   spawnOnce "blueman-applet"
   spawnOnce "sh -c 'command -v nm-applet >/dev/null 2>&1 && nm-applet'"
