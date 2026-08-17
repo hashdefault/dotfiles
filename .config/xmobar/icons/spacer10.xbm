@@ -1,0 +1,4 @@
+#define spacer10_width 10
+#define spacer10_height 1
+static unsigned char spacer10_bits[] = {
+   0x00, 0x00 };

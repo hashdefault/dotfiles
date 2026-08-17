@@ -1,54 +1,33 @@
-Config { 
-   -- appearance
-     font =         "xft:Ubuntu:weight=bold:pixelsize=11:antialias=true:hinting=true"
-		 , additionalFonts = [ "xft:Mononoki:pixelsize=11:antialias=true:hinting=true"
-												 , "xft:Font Awesome 6 Free Solid:pixelsize=12"
-												 , "xft:Font Awesome 6 Brands:pixelsize=12"
-												 ]
-	 , bgColor      = "#1a1b26"
-	 , fgColor      = "#a9b1d6"
-   , border =       BottomB
-   , borderColor =  "#414868"
-
-   -- layout
-      -- general behavior
-	 , position = TopSize L 100 28
-   , lowerOnStart =     True    -- send to bottom of window stack on start
-   , hideOnStart =      False   -- start with window unmapped (hidden)
-   , allDesktops =      True    -- show on all desktops
-   , overrideRedirect =	True    -- set the Override Redirect flag (Xlib)
-   , pickBroadest =     False   -- choose widest display (multi-monitor)
-   , persistent =       True    -- enable/disable hiding (True = disabled)
-
-   -- plugins
-   --   Numbers can be automatically colored according to their value. xmobar
-   --   decides color based on a three-tier/two-cutoff system, controlled by
-   --   command options:
-   --     --Low sets the low cutoff
-   --     --High sets the high cutoff
-   --
-   --     --low sets the color below --Low cutoff
-   --     --normal sets the color between --Low and --High cutoffs
-   --     --High sets the color above --High cutoff
-   --
-   --   The --template option controls how the plugin is displayed. Text
-   --   color can be set by enclosing in <fc></fc> tags. For more details
-   --   see http://projects.haskell.org/xmobar/#system-monitor-plugins.
-       , commands = [
-                        -- Cpu usage in percent
-                      Run Cpu ["-t", "<fn=2>\xf108</fn>  cpu: (<total>%)","-H","50","--high","red"] 20
-                        -- Ram used number and percent
-                    , Run Memory ["-t", "<fn=2>\xf233</fn>  mem: <used>M (<usedratio>%)"] 20
-                        -- Weather (icon + temp), click toggles eww window 'weather'
-                    , Run Com "bash" ["-lc","$HOME/.local/bin/getweather"] "weather" 1800
-                        -- Time and date
-                    , Run Date "<fn=2>\xf017</fn>  %b %d %Y - (%H:%M) " "date" 50
-
-                    , Run StdinReader
+Config { font             = "JetBrainsMono Nerd Font Mono 10"
+       , additionalFonts  = ["JetBrainsMono Nerd Font Propo 13"]
+       , bgColor          = "#212337"
+       , fgColor          = "#ebfafa"
+       , position         = Static { xpos = 0, ypos = 0, width = 1920, height = 24 }
+       , border           = NoBorder
+       , alpha            = 235
+       , allDesktops      = True
+       , overrideRedirect = True
+       , commands = [ Run UnsafeXPropertyLog "_XMONAD_LOG"
+                    , Run Date "%a %d %b  %H:%M:%S" "date" 10
+                    , Run Com "/home/lucas/.local/bin/getweather" [] "weather" 6000
+                    , Run Cpu
+                        [ "-t", "<fn=1></fn> <total>%"
+                        , "-H", "85", "--high", "#f0313e"
+                        , "-L", "50", "--normal", "#f1fc79"
+                        ] 20
+                    , Run Memory
+                        [ "-t", "<fn=1></fn> <used>GiB / <total>GiB"
+                        , "-H", "85", "--high", "#f0313e"
+                        , "-L", "50", "--normal", "#f7c67f"
+                        , "-d", "1"
+                        , "--", "--scale", "1024"
+                        ] 20
+                    , Run Volume "default" "Master"
+                        [ "-t", "<status> <volume>%"
+                        , "--", "-O", "<fn=1></fn> ", "-o", "<fn=1></fn> ", "-c", "#ABB4DA", "-C", "#ABB4DA"
+                        ] 10
                     ]
-	 , sepChar =  "%"   -- delineator between plugin names and straight text
-   , alignSep = "}{"  -- separator between left-right alignment
-	 , template = " %StdinReader%  }{ <box type=Bottom width=2 mb=2 color=#9ece6a><fc=#9ece6a><action=`alacritty -e htop`>%cpu%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#e0af68><fc=#e0af68><action=`alacritty -e htop`>%memory%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#f7768e><fc=#f7768e><action=`eww open --toggle weather`>%weather%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#9ece6a><fc=#9ece6a>%date%</fc></box>  "
-
-
-   }
+       , sepChar  = "%"
+       , alignSep = "}{"
+       , template = "<icon=/home/lucas/.config/xmobar/icons/spacer20.xbm/>%_XMONAD_LOG% } <fc=#00ff99><action=`eww open --toggle calendar_full --screen $XMOBAR_SCREEN` button=1> %date%</action></fc> { <fc=#04d1f9><action=`eww open --toggle weather --screen $XMOBAR_SCREEN` button=1><box type=Bottom width=3 mb=1 color=#04d1f9>%weather%</box></action></fc><icon=/home/lucas/.config/xmobar/icons/spacer32.xbm/><fc=#a48cf2><action=`eww open --toggle storagemon --screen $XMOBAR_SCREEN` button=1><box type=Bottom width=3 mb=1 color=#a48cf2>%cpu%</box></action></fc><icon=/home/lucas/.config/xmobar/icons/spacer32.xbm/><fc=#f265b5><action=`eww open --toggle storagemon --screen $XMOBAR_SCREEN` button=1><box type=Bottom width=3 mb=1 color=#f265b5>%memory%</box></action></fc><icon=/home/lucas/.config/xmobar/icons/spacer32.xbm/><fc=#ABB4DA><action=`amixer -q sset Master toggle` button=1><box type=Bottom width=3 mb=1 color=#ABB4DA>%default:Master%</box></action></fc><icon=/home/lucas/.config/xmobar/icons/spacer20.xbm/>"
+       }
