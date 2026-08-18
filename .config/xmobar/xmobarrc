@@ -4,7 +4,7 @@ Config { font             = "JetBrainsMono Nerd Font Mono 10"
        , fgColor          = "#ebfafa"
        , position         = Static { xpos = 0, ypos = 0, width = 1920, height = 24 }
        , border           = NoBorder
-       , alpha            = 235
+       , alpha            = 245
        , allDesktops      = True
        , overrideRedirect = True
        , commands = [ Run UnsafeXPropertyLog "_XMONAD_LOG"

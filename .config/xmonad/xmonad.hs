@@ -19,6 +19,8 @@ import Control.Exception (SomeException, try)
 import Data.Char (isDigit)
 import Data.List (elemIndex)
 import Data.Maybe (fromMaybe)
+import qualified XMonad.StackSet as W
+import XMonad.Actions.Warp (warpToScreen)
 
 myTerminal :: String
 myTerminal = "alacritty"
@@ -65,6 +67,10 @@ myStartupHook = do
   spawnOnce "trayer --edge top --align right --widthtype request --height 24 --transparent true --alpha 0 --tint 0x121222 --distance 0 --SetDockType true --SetPartialStrut true --monitor primary"
   spawnOnce "blueman-applet"
   spawnOnce "sh -c 'command -v nm-applet >/dev/null 2>&1 && nm-applet'"
+  -- Keeps /tmp/forecast_*day_* fed for the eww weather widget's 5-day
+  -- forecast row; loops itself every 2h (see the script), flock-guarded
+  -- against duplicate loops across restarts.
+  spawnOnce "$HOME/.config/xmonad/scripts/forecast-updater.sh"
   spawn "xset r rate 200 35"
   -- One xmobar instance per physical monitor (pinned via `-x <screen>`), spawned
   -- directly here via spawnOnce instead of through XMonad.Hooks.StatusBar's
@@ -162,6 +168,19 @@ myBarWidth :: ScreenId -> Bool -> Int
 myBarWidth (S 0) hasTrayer = if hasTrayer then 1920 - myTrayerLaneWidth else 1920
 myBarWidth _     _         = 1920
 
+-- eww's `--screen N` now enumerates monitors in the same order xmonad's
+-- ScreenId does on this rig (re-confirmed empirically 2026-08-17: `eww open
+-- --screen 0` lands on DisplayPort-1/right, `--screen 1` lands on
+-- HDMI-A-0/left — same as xmonad's S 0/S 1, see myScreenXOffset). This used
+-- to be inverted (hence this function used to swap 0/1), which was exactly
+-- why clicking a bar on one monitor opened widgets on the other. XMOBAR_SCREEN
+-- only feeds the `eww open --screen $XMOBAR_SCREEN` click actions in
+-- xmobarrc (xmobar's own `-x` Xinerama flag below is separate and
+-- unaffected); kept as a passthrough function rather than inlined so a future
+-- re-inversion (monitor hotplug/reorder, eww update) only needs editing here.
+ewwScreenFor :: ScreenId -> Int
+ewwScreenFor (S sid) = sid
+
 -- Builds the shell command that launches one screen's xmobar, mirroring what
 -- dynamicSBs used to construct for statusBarPropTo. See myStartupHook for why
 -- this is now spawned directly via spawnOnce instead. The bar itself runs
@@ -169,7 +188,7 @@ myBarWidth _     _         = 1920
 -- around its content is xmobarrc's own left/right padding, not a gap here.
 xmobarCmd :: ScreenId -> Bool -> String
 xmobarCmd (S sid) hasTrayer =
-  "env XMOBAR_SCREEN=" ++ show sid
+  "env XMOBAR_SCREEN=" ++ show (ewwScreenFor (S sid))
     ++ " xmobar -x " ++ show sid
     ++ " -p \"Static { xpos = " ++ show (myScreenXOffset (S sid))
     ++ ", ypos = 0, width = " ++ show (myBarWidth (S sid) hasTrayer) ++ ", height = 24 }\""
@@ -188,6 +207,17 @@ myKeys =
   , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q sset Master 5%+ && ~/.local/bin/volume")
   , ((0, xF86XK_AudioLowerVolume), spawn "amixer -q sset Master 5%- && ~/.local/bin/volume")
   , ((0, xF86XK_AudioMute), spawn "amixer -q sset Master toggle && ~/.local/bin/volume")
+  -- Move focus to the physically right/left screen, and warp the mouse
+  -- there too: rofi (and anything else that picks its monitor by pointer
+  -- position rather than xmonad's focused screen) otherwise keeps opening
+  -- on whichever screen the mouse was last on. Per myScreenXOffset, S 0
+  -- (DisplayPort-1) sits on the right and S 1 (HDMI-A-0) on the left.
+  , ((myModMask, xK_l), do
+      screenWorkspace 0 >>= flip whenJust (windows . W.view)
+      warpToScreen 0 0.5 0.5)
+  , ((myModMask, xK_h), do
+      screenWorkspace 1 >>= flip whenJust (windows . W.view)
+      warpToScreen 1 0.5 0.5)
   ]
 
 myConfig =

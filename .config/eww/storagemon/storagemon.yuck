@@ -106,7 +106,7 @@
 (defpoll process4 :interval "2s" "~/.config/eww/scripts/getprocess --4")
 
 (defwindow  storagemon
-	    :geometry (geometry  :x "10px"
+	    :geometry (geometry  :x "-20px"
                            :y "24px"
                            :width "500px"
                            :height "700px"

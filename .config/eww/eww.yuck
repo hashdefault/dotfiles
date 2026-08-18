@@ -6,5 +6,4 @@
 (include "./notifications/notifications.yuck")
 (include "./storagemon/storagemon.yuck")
 (include "./tips/tips.yuck")
-(include "./antigravity/antigravity.yuck")
 
