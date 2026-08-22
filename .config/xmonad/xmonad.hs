@@ -4,6 +4,7 @@ import XMonad.Hooks.ManageDocks (avoidStruts, docks, ToggleStruts (..))
 import XMonad.Hooks.DynamicLog (xmonadPropLog')
 import XMonad.Layout.Spacing (spacing)
 import XMonad.Layout.SimpleFloat (simpleFloat)
+import XMonad.Layout.Renamed (renamed, Rename (Replace))
 import XMonad.Hooks.StatusBar.PP
 import XMonad.Util.SpawnOnce (spawnOnce)
 import XMonad.Util.EZConfig (additionalKeys)
@@ -44,7 +45,15 @@ myWorkspaces = ["dev", "web", "search", "chat", "music", "docs", "misc"]
 -- are the two used day-to-day, so they're first: one mod+space press from
 -- the default startup layout (tiled) reaches float; Mirror/Full are the
 -- rarely-needed extra two, kept for symmetry with the old 3-layout set.
-myLayout = avoidStruts (spacing 5 tiled ||| simpleFloat ||| spacing 5 (Mirror tiled) ||| Full)
+-- Each is wrapped in `renamed` so ppLayout (myXmobarPP below) prints a short
+-- clean name in the bar instead of the raw modifier-stack description
+-- (e.g. "Spacing 5 Tall" or "SimpleFloat").
+myLayout = avoidStruts
+  ( renamed [Replace "Tile"] (spacing 5 tiled)
+      ||| renamed [Replace "Float"] simpleFloat
+      ||| renamed [Replace "Mirror"] (spacing 5 (Mirror tiled))
+      ||| renamed [Replace "Full"] Full
+  )
   where
     tiled   = Tall nmaster delta ratio
     nmaster = 1
@@ -155,10 +164,11 @@ myXmobarPP = def
   , ppHidden          = \ws -> wsAction ws (xmobarColor "#a48cf2" "" ws)
   , ppHiddenNoWindows = \ws -> wsAction ws (xmobarColor "#6c77ab" "" ws)
   , ppUrgent          = \ws -> wsAction ws (xmobarColor "#f0313e" "" (wrap "!" "!" ws))
-  , ppSep             = "  "
+  , ppLayout          = xmobarColor "#a48cf2" ""
+  , ppSep             = " | "
   , ppWsSep           = " "
   , ppTitle           = const ""
-  , ppOrder           = \(ws : _) -> [ws]
+  , ppOrder           = \(ws : l : _) -> [ws, l]
   }
 
 -- Global X offset of each physical screen's origin. Screen 0 (xmonad's
