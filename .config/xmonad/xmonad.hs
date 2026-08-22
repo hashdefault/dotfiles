@@ -122,6 +122,12 @@ myStartupHook = do
   -- forecast row; loops itself every 2h (see the script), flock-guarded
   -- against duplicate loops across restarts.
   spawnOnce "$HOME/.config/xmonad/scripts/forecast-updater.sh"
+  -- Auto-locks after 20m idle (betterlockscreen wraps i3lock-color with the
+  -- cached blurred wallpaper already generated per-output under
+  -- ~/.cache/betterlockscreen). -detectsleep also locks immediately on
+  -- suspend/resume. MOD+x / MOD+shift+x (myKeys) trigger the same locker
+  -- on demand.
+  spawnOnce "xautolock -time 20 -locker \"betterlockscreen -l\" -detectsleep"
   spawn "xset r rate 200 35"
   -- One xmobar instance per physical monitor (pinned via `-x <screen>`), spawned
   -- directly here via spawnOnce instead of through XMonad.Hooks.StatusBar's
@@ -240,6 +246,8 @@ myKeys =
   , ((myModMask, xK_m), spawn "eww open --toggle sidemenu")
   , ((myModMask .|. shiftMask, xK_q), io exitSuccess)
   , ((0, xK_Print), spawn "$HOME/.local/bin/flameshot-active-screen")
+  , ((myModMask, xK_x), spawn "betterlockscreen -l")
+  , ((myModMask .|. shiftMask, xK_x), spawn "betterlockscreen -l")
   , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q sset Master 5%+ && ~/.local/bin/volume")
   , ((0, xF86XK_AudioLowerVolume), spawn "amixer -q sset Master 5%- && ~/.local/bin/volume")
   , ((0, xF86XK_AudioMute), spawn "amixer -q sset Master toggle && ~/.local/bin/volume")
