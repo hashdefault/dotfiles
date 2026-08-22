@@ -13,9 +13,10 @@ import Graphics.X11.ExtraTypes.XF86
   , xF86XK_AudioMute
   )
 import System.Exit (exitSuccess)
-import System.Environment (setEnv)
-import Data.List (elemIndex)
-import Data.Maybe (fromMaybe)
+import System.Environment (setEnv, lookupEnv)
+import Control.Exception (catch, SomeException)
+import Data.List (elemIndex, stripPrefix)
+import Data.Maybe (fromMaybe, listToMaybe)
 import qualified XMonad.StackSet as W
 import XMonad.Actions.Warp (warpToScreen)
 
@@ -50,12 +51,36 @@ myLayout = avoidStruts (spacing 5 tiled ||| simpleFloat ||| spacing 5 (Mirror ti
     ratio   = 1 / 2
     delta   = 3 / 100
 
+-- Mirrors whatever cursor theme lxappearance most recently wrote to
+-- ~/.Xresources into XCURSOR_THEME/XCURSOR_SIZE, so clients that only ever
+-- check the environment (rofi, alacritty, trayer, ...) match lxappearance's
+-- current choice. A name hardcoded here instead of read from Xresources
+-- would silently go stale and override lxappearance on every login --
+-- exactly the "have to reopen lxappearance every time" bug this replaces.
+applyCursorEnvFromXresources :: X ()
+applyCursorEnvFromXresources = io $ do
+  mhome <- lookupEnv "HOME"
+  case mhome of
+    Nothing -> return ()
+    Just home -> do
+      contents <- readFile (home ++ "/.Xresources") `catch` onErr
+      let valueFor key = listToMaybe
+            [ trim rest
+            | l <- lines contents
+            , Just rest <- [stripPrefix (key ++ ":") (trim l)]
+            ]
+      maybe (return ()) (setEnv "XCURSOR_THEME") (valueFor "Xcursor.theme")
+      maybe (return ()) (setEnv "XCURSOR_SIZE") (valueFor "Xcursor.size")
+  where
+    onErr :: SomeException -> IO String
+    onErr _ = return ""
+    trim :: String -> String
+    trim = f . f
+      where f = reverse . dropWhile (`elem` " \t")
+
 myStartupHook :: X ()
 myStartupHook = do
-  -- Set globally so every spawned child (rofi, alacritty, trayer, ...)
-  -- inherits the cursor theme, in addition to the Xresources merge below.
-  io $ setEnv "XCURSOR_THEME" "Hackneyed"
-  io $ setEnv "XCURSOR_SIZE" "24"
+  applyCursorEnvFromXresources
   -- Picks which connected output is primary (DisplayPort > HDMI > VGA,
   -- verified per-output via EDID rather than trusting the xrandr port name
   -- -- an active DP/HDMI-to-VGA adapter still negotiates a real digital
