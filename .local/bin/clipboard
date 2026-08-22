@@ -1,0 +1,145 @@
+#!/usr/bin/env python3
+"""Clipboard history manager for X11 (xclip-based), with a rofi picker.
+
+Usage:
+  clipboard daemon   Watch the X11 CLIPBOARD selection and record changes.
+  clipboard menu     Show history in rofi; selecting an entry copies it back.
+  clipboard clear    Wipe stored history.
+
+With no arguments, runs "menu".
+"""
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+HIST_DIR = Path.home() / ".cache" / "clipboard-history"
+HIST_FILE = HIST_DIR / "history.jsonl"
+MAX_ENTRIES = 200
+PREVIEW_LEN = 120
+
+
+def load_entries():
+    if not HIST_FILE.exists():
+        return []
+    entries = []
+    for line in HIST_FILE.read_text().splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            entries.append(json.loads(line))
+        except json.JSONDecodeError:
+            continue
+    return entries
+
+
+def save_entries(entries):
+    HIST_DIR.mkdir(parents=True, exist_ok=True)
+    with HIST_FILE.open("w") as f:
+        for e in entries:
+            f.write(json.dumps(e) + "\n")
+
+
+def read_clipboard():
+    try:
+        out = subprocess.run(
+            ["xclip", "-o", "-selection", "clipboard"],
+            capture_output=True, timeout=2,
+        )
+    except (subprocess.TimeoutExpired, FileNotFoundError):
+        return None
+    if out.returncode != 0:
+        return None
+    try:
+        return out.stdout.decode("utf-8")
+    except UnicodeDecodeError:
+        return None
+
+
+def write_clipboard(text):
+    subprocess.run(
+        ["xclip", "-selection", "clipboard"],
+        input=text.encode("utf-8"), check=True,
+    )
+
+
+def cmd_daemon():
+    while True:
+        try:
+            subprocess.run(["clipnotify", "-s", "clipboard"], check=True)
+        except FileNotFoundError:
+            sys.stderr.write(
+                "clipboard: clipnotify not found; install it "
+                "(sudo pacman -S clipnotify)\n"
+            )
+            sys.exit(1)
+        except subprocess.CalledProcessError:
+            continue
+
+        text = read_clipboard()
+        if not text or not text.strip():
+            continue
+
+        entries = load_entries()
+        entries = [e for e in entries if e.get("text") != text]
+        entries.append({"text": text})
+        entries = entries[-MAX_ENTRIES:]
+        save_entries(entries)
+
+
+def make_preview(text):
+    flat = text.replace("\n", " ⏎ ").strip()
+    if len(flat) > PREVIEW_LEN:
+        flat = flat[:PREVIEW_LEN] + "…"
+    return flat
+
+
+def cmd_menu():
+    entries = load_entries()
+    if not entries:
+        subprocess.run(
+            ["rofi", "-e", "Clipboard history is empty"]
+        )
+        return
+
+    entries = list(reversed(entries))  # most recent first
+    lines = [make_preview(e["text"]) for e in entries]
+
+    proc = subprocess.run(
+        ["rofi", "-dmenu", "-i", "-p", "clipboard", "-format", "i"],
+        input="\n".join(lines).encode("utf-8"),
+        capture_output=True,
+    )
+    if proc.returncode != 0:
+        return
+    choice = proc.stdout.decode("utf-8").strip()
+    if not choice.isdigit():
+        return
+    idx = int(choice)
+    if 0 <= idx < len(entries):
+        write_clipboard(entries[idx]["text"])
+
+
+def cmd_clear():
+    save_entries([])
+    print("Clipboard history cleared.")
+
+
+def main():
+    args = sys.argv[1:]
+    action = args[0] if args else "menu"
+
+    if action == "daemon":
+        cmd_daemon()
+    elif action == "menu":
+        cmd_menu()
+    elif action == "clear":
+        cmd_clear()
+    else:
+        sys.stderr.write(__doc__)
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
