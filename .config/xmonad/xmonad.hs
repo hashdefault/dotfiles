@@ -128,6 +128,11 @@ myStartupHook = do
   -- suspend/resume. MOD+x / MOD+shift+x (myKeys) trigger the same locker
   -- on demand.
   spawnOnce "xautolock -time 20 -locker \"betterlockscreen -l\" -detectsleep"
+  -- Clipboard history: watches the X11 CLIPBOARD selection (via clipnotify,
+  -- event-driven, no polling) and appends changes to
+  -- ~/.cache/clipboard-history/history.jsonl. MOD+v (myKeys) opens the rofi
+  -- picker to browse/restore past entries.
+  spawnOnce "$HOME/.local/bin/clipboard daemon"
   spawn "xset r rate 200 35"
   -- One xmobar instance per physical monitor (pinned via `-x <screen>`), spawned
   -- directly here via spawnOnce instead of through XMonad.Hooks.StatusBar's
@@ -248,6 +253,7 @@ myKeys =
   , ((0, xK_Print), spawn "$HOME/.local/bin/flameshot-active-screen")
   , ((myModMask, xK_x), spawn "betterlockscreen -l")
   , ((myModMask .|. shiftMask, xK_x), spawn "betterlockscreen -l")
+  , ((myModMask, xK_v), spawn "$HOME/.local/bin/clipboard menu")
   , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q sset Master 5%+ && ~/.local/bin/volume")
   , ((0, xF86XK_AudioLowerVolume), spawn "amixer -q sset Master 5%- && ~/.local/bin/volume")
   , ((0, xF86XK_AudioMute), spawn "amixer -q sset Master toggle && ~/.local/bin/volume")
