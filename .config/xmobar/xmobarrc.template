@@ -10,7 +10,7 @@ Config { font             = "JetBrainsMono Nerd Font Mono 10"
        , fgColor          = "@@FG@@"
        , position         = Static { xpos = 0, ypos = 0, width = 1920, height = 24 }
        , border           = NoBorder
-       , alpha            = 245
+       , alpha            = 255
        , allDesktops      = True
        , overrideRedirect = True
        , commands = [ Run UnsafeXPropertyLog "_XMONAD_LOG"
@@ -35,5 +35,5 @@ Config { font             = "JetBrainsMono Nerd Font Mono 10"
                     ]
        , sepChar  = "%"
        , alignSep = "}{"
-       , template = "<hspace=8/><fc=@@PRIMARY@@><action=`$HOME/.config/xmonad/scripts/theme-chooser.sh` button=1></action></fc><hspace=12/><fc=@@WARN@@><action=`eww open --toggle sidemenu --screen $XMOBAR_SCREEN` button=1>  </action></fc>%_XMONAD_LOG% } <fc=@@GREEN@@><action=`eww open --toggle calendar_full --screen $XMOBAR_SCREEN` button=1> %date%</action></fc> { <fc=@@CYAN@@><action=`eww open --toggle weather --screen $XMOBAR_SCREEN` button=1><box type=Bottom width=3 mb=1 color=@@CYAN@@>%weather%</box></action></fc><icon=/home/lucas/.config/xmobar/icons/spacer20.xbm/><fc=@@MAGENTA@@><action=`eww open --toggle storagemon --screen $XMOBAR_SCREEN` button=1><box type=Bottom width=3 mb=1 color=@@MAGENTA@@>%cpu%</box></action></fc><icon=/home/lucas/.config/xmobar/icons/spacer20.xbm/><fc=@@PINK@@><action=`eww open --toggle storagemon --screen $XMOBAR_SCREEN` button=1><box type=Bottom width=3 mb=1 color=@@PINK@@>%memory%</box></action></fc><icon=/home/lucas/.config/xmobar/icons/spacer20.xbm/><fc=@@MUTED@@><action=`amixer -q sset Master toggle` button=1><box type=Bottom width=3 mb=1 color=@@MUTED@@>%default:Master%</box></action></fc><hspace=10/>"
+       , template = "<hspace=10/><fc=@@WARN@@><action=`eww open --toggle sidemenu --screen $XMOBAR_SCREEN` button=1>  </action></fc>%_XMONAD_LOG% } <fc=@@GREEN@@><action=`eww open --toggle calendar_full --screen $XMOBAR_SCREEN` button=1> %date%</action></fc> { <fc=@@PRIMARY@@><action=`$HOME/.config/xmonad/scripts/theme-chooser.sh` button=1></action></fc><icon=/home/lucas/.config/xmobar/icons/spacer20.xbm/><fc=@@CYAN@@><action=`eww open --toggle weather --screen $XMOBAR_SCREEN` button=1><box type=Bottom width=3 mb=1 color=@@CYAN@@>%weather%</box></action></fc><icon=/home/lucas/.config/xmobar/icons/spacer20.xbm/><fc=@@MAGENTA@@><action=`eww open --toggle storagemon --screen $XMOBAR_SCREEN` button=1><box type=Bottom width=3 mb=1 color=@@MAGENTA@@>%cpu%</box></action></fc><icon=/home/lucas/.config/xmobar/icons/spacer20.xbm/><fc=@@PINK@@><action=`eww open --toggle storagemon --screen $XMOBAR_SCREEN` button=1><box type=Bottom width=3 mb=1 color=@@PINK@@>%memory%</box></action></fc><icon=/home/lucas/.config/xmobar/icons/spacer20.xbm/><fc=@@MUTED@@><action=`amixer -q sset Master toggle` button=1><box type=Bottom width=3 mb=1 color=@@MUTED@@>%default:Master%</box></action></fc><hspace=10/>"
        }
