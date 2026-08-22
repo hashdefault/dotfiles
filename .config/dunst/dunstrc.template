@@ -70,7 +70,7 @@
     frame_width = 2
 
     # Defines color of the frame around the notification window.
-    frame_color = "#37f499"
+    frame_color = "@@PRIMARY@@"
 
     # Define a color for the separator.
     # possible values are:
@@ -78,7 +78,7 @@
     #  * foreground: use the same color as the foreground;
     #  * frame: use the same color as the frame;
     #  * anything else will be interpreted as a X color.
-    separator_color = "#242640"
+    separator_color = "@@BORDER_NORMAL@@"
 
     # Highlight color used for progress bars (media/volume notifications).
     # Renders as a gradient across the two colors.
@@ -275,23 +275,23 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
-    foreground = "#a4a9c0"
-    background = "#12142a"
-    frame_color = "#04d1f9"
+    foreground = "@@MUTED_TEXT@@"
+    background = "@@BAR_BG@@"
+    frame_color = "@@CYAN@@"
     timeout = 10
     # Icon for notifications with low urgency, uncomment to enable
 
 [urgency_normal]
-    foreground = "#ebfafa"
-    background = "#12142a"
-    frame_color = "#37f499"
+    foreground = "@@TEXT@@"
+    background = "@@BAR_BG@@"
+    frame_color = "@@PRIMARY@@"
     timeout = 10
     # Icon for notifications with normal urgency, uncomment to enable
 
 [urgency_critical]
-    foreground = "#ebfafa"
-    background = "#1a1c38"
-    frame_color = "#f16c75"
+    foreground = "@@TEXT@@"
+    background = "@@SEG_PURPLE@@"
+    frame_color = "@@RED@@"
     timeout = 20
     # Icon for notifications with critical urgency, uncomment to enable
 

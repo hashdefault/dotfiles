@@ -30,12 +30,73 @@ myModMask = mod4Mask
 myBorderWidth :: Dimension
 myBorderWidth = 2
 
-myNormalBorderColor, myFocusedBorderColor :: String
-myNormalBorderColor  = "#3b3b4f"
-myFocusedBorderColor = "#00ff99"
-
 myLauncher :: String
 myLauncher = "$HOME/.local/bin/rofi-launcher"
+
+-- Colors that theme-chooser.sh rewrites on every theme switch (see
+-- ~/.config/xmonad/scripts/theme-chooser.sh and ~/.config/xmonad/theme.conf).
+-- Kept as a runtime-read record rather than top-level constants so that
+-- `xmonad --restart` alone (no recompile) picks up a new theme -- the
+-- theme-chooser calls exactly that after regenerating theme.conf.
+data Theme = Theme
+  { themeNormalBorder  :: String
+  , themeFocusedBorder :: String
+  , themeWsCurrent     :: String
+  , themeWsVisible     :: String
+  , themeWsHidden      :: String
+  , themeWsHiddenNoWin :: String
+  , themeWsUrgent      :: String
+  , themeLayout        :: String
+  , themeUnderline     :: String
+  }
+
+-- Eldritch, matching theme.conf's default -- used if the file is missing or
+-- a key is absent, so a bad/partial theme.conf never breaks startup.
+defaultTheme :: Theme
+defaultTheme = Theme
+  { themeNormalBorder  = "#3b3b4f"
+  , themeFocusedBorder = "#00ff99"
+  , themeWsCurrent     = "#00ff99"
+  , themeWsVisible     = "#00ff99"
+  , themeWsHidden      = "#a48cf2"
+  , themeWsHiddenNoWin = "#6c77ab"
+  , themeWsUrgent      = "#f0313e"
+  , themeLayout        = "#a48cf2"
+  , themeUnderline     = "#f265b5"
+  }
+
+-- Reads ~/.config/xmonad/theme.conf (simple KEY=VALUE lines, written by
+-- theme-chooser.sh), falling back to defaultTheme per-key on any read
+-- error or missing key.
+readTheme :: IO Theme
+readTheme = do
+  mhome <- lookupEnv "HOME"
+  case mhome of
+    Nothing -> return defaultTheme
+    Just home -> do
+      contents <- readFile (home ++ "/.config/xmonad/theme.conf") `catch` onErr
+      let valueFor key def' = fromMaybe def' $ listToMaybe
+            [ trim rest
+            | l <- lines contents
+            , Just rest <- [stripPrefix (key ++ "=") (trim l)]
+            ]
+      return Theme
+        { themeNormalBorder  = valueFor "NORMAL_BORDER"  (themeNormalBorder defaultTheme)
+        , themeFocusedBorder = valueFor "FOCUSED_BORDER" (themeFocusedBorder defaultTheme)
+        , themeWsCurrent     = valueFor "WS_CURRENT"     (themeWsCurrent defaultTheme)
+        , themeWsVisible     = valueFor "WS_VISIBLE"     (themeWsVisible defaultTheme)
+        , themeWsHidden      = valueFor "WS_HIDDEN"      (themeWsHidden defaultTheme)
+        , themeWsHiddenNoWin = valueFor "WS_HIDDEN_NOWIN" (themeWsHiddenNoWin defaultTheme)
+        , themeWsUrgent      = valueFor "WS_URGENT"      (themeWsUrgent defaultTheme)
+        , themeLayout        = valueFor "LAYOUT"         (themeLayout defaultTheme)
+        , themeUnderline     = valueFor "UNDERLINE"      (themeUnderline defaultTheme)
+        }
+  where
+    onErr :: SomeException -> IO String
+    onErr _ = return ""
+    trim :: String -> String
+    trim = f . f
+      where f = reverse . dropWhile (`elem` " \t")
 
 myWorkspaces :: [String]
 myWorkspaces = ["dev", "web", "search", "chat", "music", "docs", "misc"]
@@ -163,19 +224,19 @@ wsAction :: String -> String -> String
 wsAction ws body =
   "<action=`wmctrl -s " ++ show (wsIndex ws) ++ "` button=1>" ++ body ++ "</action>"
 
-myXmobarPP :: PP
-myXmobarPP = def
+myXmobarPP :: Theme -> PP
+myXmobarPP theme = def
   { ppCurrent         = \ws ->
       wsAction ws
-        ( "<box type=Bottom width=3 mb=1 color=#f265b5>"
-            ++ xmobarColor "#00ff99" "" ws
+        ( "<box type=Bottom width=3 mb=1 color=" ++ themeUnderline theme ++ ">"
+            ++ xmobarColor (themeWsCurrent theme) "" ws
             ++ "</box>"
         )
-  , ppVisible         = \ws -> wsAction ws (xmobarColor "#00ff99" "" ws)
-  , ppHidden          = \ws -> wsAction ws (xmobarColor "#a48cf2" "" ws)
-  , ppHiddenNoWindows = \ws -> wsAction ws (xmobarColor "#6c77ab" "" ws)
-  , ppUrgent          = \ws -> wsAction ws (xmobarColor "#f0313e" "" (wrap "!" "!" ws))
-  , ppLayout          = xmobarColor "#a48cf2" ""
+  , ppVisible         = \ws -> wsAction ws (xmobarColor (themeWsVisible theme) "" ws)
+  , ppHidden          = \ws -> wsAction ws (xmobarColor (themeWsHidden theme) "" ws)
+  , ppHiddenNoWindows = \ws -> wsAction ws (xmobarColor (themeWsHiddenNoWin theme) "" ws)
+  , ppUrgent          = \ws -> wsAction ws (xmobarColor (themeWsUrgent theme) "" (wrap "!" "!" ws))
+  , ppLayout          = xmobarColor (themeLayout theme) ""
   , ppSep             = " | "
   , ppWsSep           = " "
   , ppTitle           = const ""
@@ -249,6 +310,7 @@ myKeys =
   , ((myModMask, xK_c), kill)
   , ((myModMask, xK_q), spawn "eww open --toggle powermenu")
   , ((myModMask, xK_m), spawn "eww open --toggle sidemenu")
+  , ((myModMask, xK_t), spawn "$HOME/.config/xmonad/scripts/theme-chooser.sh")
   , ((myModMask .|. shiftMask, xK_q), io exitSuccess)
   , ((0, xK_Print), spawn "$HOME/.local/bin/flameshot-active-screen")
   , ((myModMask, xK_x), spawn "betterlockscreen -l")
@@ -270,28 +332,29 @@ myKeys =
       warpToScreen 1 0.5 0.5)
   ]
 
-myConfig =
+myConfig theme =
   def
     { terminal           = myTerminal
     , workspaces          = myWorkspaces
     , modMask             = myModMask
     , borderWidth         = myBorderWidth
-    , normalBorderColor   = myNormalBorderColor
-    , focusedBorderColor  = myFocusedBorderColor
+    , normalBorderColor   = themeNormalBorder theme
+    , focusedBorderColor  = themeFocusedBorder theme
     , layoutHook          = myLayout
     , startupHook         = myStartupHook
     -- Publishes the pretty-printed workspace log to the _XMONAD_LOG property,
     -- which xmobar reads via `Run UnsafeXPropertyLog "_XMONAD_LOG"` in
     -- xmobarrc. Previously wired up implicitly by dynamicSBs; now explicit
     -- since the bar is spawned directly (see myStartupHook).
-    , logHook             = dynamicLogString myXmobarPP >>= xmonadPropLog' "_XMONAD_LOG"
+    , logHook             = dynamicLogString (myXmobarPP theme) >>= xmonadPropLog' "_XMONAD_LOG"
     }
     `additionalKeys` myKeys
 
 main :: IO ()
-main =
+main = do
+  theme <- readTheme
   xmonad
     . ewmhFullscreen
     . ewmh
     . docks
-    $ myConfig
+    $ myConfig theme
