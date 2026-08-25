@@ -129,19 +129,19 @@ workspace "Media" {
     open-on-output "HDMI-A-1"
 }
 workspace "Term-2" {
-    open-on-output "DP-2"
+    open-on-output "DP-1"
 }
 workspace "Code-2" {
-    open-on-output "DP-2"
+    open-on-output "DP-1"
 }
 workspace "Web-2" {
-    open-on-output "DP-2"
+    open-on-output "DP-1"
 }
 workspace "Chat-2" {
-    open-on-output "DP-2"
+    open-on-output "DP-1"
 }
 workspace "Media-2" {
-    open-on-output "DP-2"
+    open-on-output "DP-1"
 }
 
 // Settings that influence how windows are positioned and sized.
@@ -233,7 +233,7 @@ layout {
     border {
         // The settings are the same as for the focus ring.
         // If you enable the border, you probably want to disable the focus ring.
-        off
+         off
 
         width 4
         active-color "#ffb454" // @theme:border-active
@@ -363,6 +363,29 @@ window-rule {
     // You can get away with just app-id="wezterm" if you want.
     match app-id=r#"^org\.wezfurlong\.wezterm$"#
     default-column-width {}
+}
+
+// Force Alacritty transparency compositor-side. Alacritty's own `opacity`
+// setting is silently ignored by niri on AMD GPUs (niri-wm/niri#2346), so
+// blend it here instead.
+window-rule {
+    match app-id="^Alacritty$"
+    opacity 0.95
+    background-effect {
+        blur true
+    }
+    // Draw the focus ring/border as an outline around the window rather
+    // than a solid rectangle behind it, so it doesn't bleed through the
+    // window's transparency.
+    draw-border-with-background false
+}
+window-rule {
+    match app-id="^kitty$"
+    opacity 0.95
+    background-effect {
+        blur true
+    }
+    draw-border-with-background false
 }
 
 // Open the Firefox picture-in-picture player as floating by default.
