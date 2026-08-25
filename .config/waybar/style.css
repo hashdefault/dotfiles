@@ -1,2 +1,159 @@
-@import url("colors/current-theme.css");
-@import url("style/Bubble.css");
+/* Retro Amber Sunset */
+/* Same idea as Synthwave Sunset — a transparent glass strip with a */
+/* gradient "horizon line" along the bottom edge — recolored to a warm */
+/* amber-to-ember duo that sits better on top of most dark rice themes */
+/* than the magenta/gold pairing did. */
+
+@define-color glass rgba(12, 8, 4, 0.34);
+@define-color fg    #ffb454;
+@define-color dim   rgba(255, 180, 84, 0.35);
+@define-color warm  #ff6a3d;
+@define-color alert #ffffff;
+
+* {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+window#waybar {
+  background-color: @glass;
+  background-image: linear-gradient(to right, @fg, @warm);
+  background-size: 100% 2px;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  color: @fg;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+}
+
+#taskbar button,
+#workspaces button {
+  color: @dim;
+  padding: 0 8px;
+}
+
+#taskbar button.active,
+#workspaces button.active {
+  color: @fg;
+  text-shadow: 0 0 5px @fg;
+  border-bottom: 2px solid @warm;
+}
+
+#taskbar button.urgent,
+#workspaces button.urgent {
+  color: @alert;
+  animation: sunset-flash 0.6s steps(2) infinite;
+}
+
+#submap {
+  color: @warm;
+  border-bottom: 1px solid @warm;
+}
+
+#backlight,
+#backlight-slider,
+#battery,
+#bluetooth,
+#clock,
+#cpu,
+#disk,
+#idle_inhibitor,
+#keyboard-state,
+#memory,
+#mode,
+#mpris,
+#network,
+#pulseaudio,
+#pulseaudio-slider,
+#taskbar,
+#temperature,
+#tray,
+#window,
+#wireplumber,
+#workspaces,
+#custom-backlight,
+#custom-cycle_wall,
+#custom-keybinds,
+#custom-keyboard,
+#custom-light_dark,
+#custom-lock,
+#custom-menu,
+#custom-power_vertical,
+#custom-power,
+#custom-swaync,
+#custom-updater,
+#custom-weather,
+#custom-weather.clearNight,
+#custom-weather.cloudyFoggyDay,
+#custom-weather.cloudyFoggyNight,
+#custom-weather.default,
+#custom-weather.rainyDay,
+#custom-weather.rainyNight,
+#custom-weather.severe,
+#custom-weather.showyIcyDay,
+#custom-weather.snowyIcyNight,
+#custom-weather.sunnyDay {
+  color: @fg;
+  text-shadow: 0 0 4px @dim;
+  margin: 0px 3px;
+  padding: 0px 10px;
+}
+
+#tray {
+  margin-right: 7px;
+}
+
+#battery.warning,
+#disk.warning,
+#memory.warning,
+#cpu.warning {
+  color: @warm;
+  text-shadow: 0 0 5px @warm;
+}
+
+#battery.critical,
+#disk.critical,
+#memory.critical,
+#cpu.critical {
+  color: @alert;
+  text-shadow: 0 0 6px @alert;
+  animation: sunset-flash 0.6s steps(2) infinite;
+}
+
+#battery.charging {
+  color: @warm;
+  text-shadow: 0 0 5px @warm;
+}
+
+@keyframes sunset-flash {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+#pulseaudio-slider slider,
+#backlight-slider slider {
+  min-width: 0px;
+  min-height: 0px;
+  opacity: 0;
+  background-image: none;
+  border: none;
+  box-shadow: none;
+}
+
+#pulseaudio-slider trough,
+#backlight-slider trough {
+  min-width: 80px;
+  min-height: 2px;
+  background-color: @dim;
+}
+
+#pulseaudio-slider highlight,
+#backlight-slider highlight {
+  min-height: 2px;
+  background-color: @fg;
+}

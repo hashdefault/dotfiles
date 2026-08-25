@@ -5,19 +5,17 @@
     "margin": 5,
     "reload_style_on_change": true,
     "modules-left": [
-        "hyprland/workspaces"
+        "niri/workspaces"
     ],
     "modules-center": [
-        "hyprland/window"
+        "custom/calendar"
     ],
     "modules-right": [
+        "custom/theme",
         "custom/weather",
-        "custom/playerctl",
         "cpu",
         "memory",
         "wireplumber",
-        "custom/calendar",
-        "custom/theme",
         "tray"
     ],
     "custom/weather": {
@@ -26,14 +24,6 @@
         "on-click": "~/.config/waybar/modules-scripts/quickshell_toggle.sh ~/.config/quickshell/Weather/WeatherWindow.qml",
         "interval": 900,
         "max-length": 35
-    },
-    "custom/opencode-usage": {
-        "format": "{}",
-        "return-type": "json",
-        "exec": "~/.config/waybar/modules-scripts/opencode_usage.sh",
-        "interval": 30,
-        "tooltip": true,
-        "on-click": "~/.config/waybar/modules-scripts/quickshell_toggle.sh ~/.config/quickshell/OpencodeUsage/OpencodeUsageWindow.qml"
     },
     "custom/cava": {
         "format": "{}",
@@ -89,7 +79,7 @@
         ]
     },
     "wireplumber": {
-        "format": "\uf028    {volume}%",
+        "format": "\uf028 {volume}%",
         "format-muted": "\uf026 muted",
         "on-scroll-up": "amixer -D pulse sset Master 5%+",
         "on-scroll-down": "amixer -D pulse sset Master 5%-",
@@ -133,22 +123,11 @@
         "on-click": "~/.config/waybar/modules-scripts/quickshell_toggle.sh ~/.config/quickshell/ThemeChooser/ThemeChooserWindow.qml"
     },
     "tray": {
-        "icon-size": 20,
+        "icon-size": 18,
         "spacing": 10
     },
-    "hyprland/workspaces": {
-        "format": "{name}",
-        "persistent-workspaces": {
-             "1": [],
-             "2": [],
-             "3": [],
-             "4": [],
-             "5": [],
-             "6": [],
-             "7": [],
-             "8": []
-        },
-        "move-to-monitor": true
+    "niri/workspaces": {
+        "format": "{name}"
     },
     "hyprland/window": {
         "format": "{title}",

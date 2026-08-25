@@ -311,8 +311,7 @@ spawn-at-startup "waybar"
 // mako is the notification daemon.
 spawn-at-startup "mako"
 
-// Rotate the wallpaper every 30 minutes (~/.local/bin/wallpaper.sh).
-spawn-sh-at-startup "INTERVAL=1800 wallpaper.sh"
+spawn-sh-at-startup "INTERVAL=2000 wallpaper.sh"
 
 // Lock the screen with the custom lockscreen script after 20 minutes idle.
 spawn-sh-at-startup "swayidle -w timeout 1200 'lockscreen' before-sleep 'lockscreen'"
@@ -728,7 +727,7 @@ binds {
     // Mod+Space       { switch-layout "next"; }
     // Mod+Shift+Space { switch-layout "prev"; }
 
-    Print { screenshot; }
+    Print { spawn "/home/lucas/.local/bin/screenshot"; }
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
 
