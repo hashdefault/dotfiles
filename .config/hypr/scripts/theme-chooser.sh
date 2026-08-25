@@ -1,13 +1,22 @@
 #!/usr/bin/env bash
-# Theme Chooser for Hyprland — applies theme to Hyprland, Waybar, Rofi, Eww,
-# QuickShell, Ghostty, Kitty, and Alacritty.
+# Theme Chooser for Wayland — applies theme to niri, Hyprland, Waybar, Rofi,
+# Fuzzel, Walker, Swaylock, Eww, QuickShell, Ghostty, Kitty, and Alacritty.
+#
+# Every generated background alpha targets ~0.9 opacity, to match the
+# compositor-level transparency+blur defaults set in niri's config.kdl and
+# Hyprland's hyprland.conf.
 
 CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+PANEL_ALPHA_HEX="e6" # ~0.9 opacity, appended/prepended to RRGGBB colors
 
 THEME_FILE="$CONFIG_HOME/hypr/current-theme.txt"
 HYPR_THEME="$CONFIG_HOME/hypr/theme.conf"
+NIRI_CONFIG="$CONFIG_HOME/niri/config.kdl"
 WAYBAR_COLOR="$CONFIG_HOME/waybar/colors/current-theme.css"
 ROFI_THEME="$CONFIG_HOME/rofi/themes/qtile-theme.rasi"
+FUZZEL_THEME="$CONFIG_HOME/fuzzel/fuzzel.ini"
+WALKER_STYLE="$CONFIG_HOME/walker/themes/default/style.css"
+SWAYLOCK_THEME="$CONFIG_HOME/swaylock/theme.conf"
 QS_THEME="$CONFIG_HOME/quickshell/theme.js"
 QS_THEME_QML="$CONFIG_HOME/quickshell/Theme.qml"
 EWW_THEME="$CONFIG_HOME/eww/theme.scss"
@@ -49,8 +58,8 @@ muted=#565f89|muted2=#414868"
 
 THEMES[Everforest]="
 neon_green=#7ab358|neon_cyan=#7fbbb3|neon_magenta=#c474a8|neon_pink=#de6878|neon_yellow=#dbbc7f
-dark_bg=#1e2326|bar_bg=#1e2326|text=#d3c6aa|border_focus=#a7c080|border_normal=#343f44
-border_unfocused=#3d484d|seg_purple=#272e33|seg_blue=#2d353b|red=#e67e80|blue=#52a8a8|primary=#7ab358
+dark_bg=#0e1011|bar_bg=#0e1011|text=#d3c6aa|border_focus=#a7c080|border_normal=#343f44
+border_unfocused=#3d484d|seg_purple=#15191c|seg_blue=#191d20|red=#e67e80|blue=#52a8a8|primary=#7ab358
 muted=#7a8478|muted2=#5c6a72"
 
 THEMES[Rose\ Pine]="
@@ -69,8 +78,8 @@ muted=#5c6370|muted2=#4b5263"
 
 THEMES[Monokai]="
 neon_green=#a9dc76|neon_cyan=#78dce8|neon_magenta=#ab9df2|neon_pink=#ff6188|neon_yellow=#ffd866
-dark_bg=#221f22|bar_bg=#2d2a2e|text=#fcfcfa|border_focus=#ff6188|border_normal=#403e41
-border_unfocused=#5b595c|seg_purple=#403e41|seg_blue=#363337|red=#ff6188|blue=#78dce8|primary=#ff6188
+dark_bg=#0f0e0f|bar_bg=#141315|text=#fcfcfa|border_focus=#ff6188|border_normal=#403e41
+border_unfocused=#5b595c|seg_purple=#232224|seg_blue=#1e1c1e|red=#ff6188|blue=#78dce8|primary=#ff6188
 muted=#939293|muted2=#727072"
 
 THEMES[Solarized\ Dark]="
@@ -81,9 +90,16 @@ muted=#93a1a1|muted2=#657b83"
 
 THEMES[Eldritch]="
 neon_green=#37f499|neon_cyan=#04d1f9|neon_magenta=#a48cf2|neon_pink=#f265b5|neon_yellow=#f1fc79
-dark_bg=#171928|bar_bg=#212337|text=#ebfafa|border_focus=#37f499|border_normal=#323449
-border_unfocused=#7081d0|seg_purple=#292b40|seg_blue=#1d2032|red=#f16c75|blue=#04d1f9|primary=#37f499
+dark_bg=#0a0b12|bar_bg=#0f1019|text=#ebfafa|border_focus=#37f499|border_normal=#323449
+border_unfocused=#7081d0|seg_purple=#171823|seg_blue=#10121c|red=#f16c75|blue=#04d1f9|primary=#37f499
 muted=#7081d0|muted2=#535d8f"
+
+# Amber: warm ember/amber glass — matches waybar's Amber Sunset + fuzzel
+THEMES[Amber]="
+neon_green=#9fbf6e|neon_cyan=#4fa8a0|neon_magenta=#c98a5e|neon_pink=#ff6a3d|neon_yellow=#ffd27a
+dark_bg=#0a0a0a|bar_bg=#0c0c0c|text=#f5ead8|border_focus=#ffb454|border_normal=#2a1c0e
+border_unfocused=#6b5636|seg_purple=#131313|seg_blue=#0f0f0f|red=#ff5f4d|blue=#5f8fae|primary=#ffb454
+muted=#a08a63|muted2=#6b5636"
 
 # ── Helper: parse theme value ────────────────────────────────────────────────
 get_val() {
@@ -98,7 +114,7 @@ if [[ "$1" == "--apply" ]]; then
 else
     # Interactive rofi menu
     menu_entries=""
-    for name in "Cyberpunk" "Nord" "Tokyo Night" "Everforest" "Rose Pine" "Doom One" "Eldritch" "Monokai" "Solarized Dark"; do
+    for name in "Cyberpunk" "Nord" "Tokyo Night" "Everforest" "Rose Pine" "Doom One" "Eldritch" "Monokai" "Solarized Dark" "Amber"; do
         if [[ "$name" == "$current_theme" ]]; then
             menu_entries+="$name (current)\n"
         else
@@ -123,6 +139,9 @@ mkdir -p \
     "${HYPR_THEME%/*}" \
     "${WAYBAR_COLOR%/*}" \
     "${ROFI_THEME%/*}" \
+    "${FUZZEL_THEME%/*}" \
+    "${WALKER_STYLE%/*}" \
+    "${SWAYLOCK_THEME%/*}" \
     "${QS_THEME%/*}" \
     "${QS_THEME_QML%/*}" \
     "${EWW_THEME%/*}" \
@@ -130,6 +149,12 @@ mkdir -p \
     "${GHOSTTY_THEME%/*}" \
     "${KITTY_THEME%/*}" \
     "${ALACRITTY_THEME%/*}"
+
+# One-time setup: Walker needs its full default theme directory present
+# under $XDG_CONFIG_HOME before we can override just style.css inside it.
+if [[ ! -f "$CONFIG_HOME/walker/themes/default/layout.xml" && -d /etc/xdg/walker/themes/default ]]; then
+    cp -rn /etc/xdg/walker/themes/default/. "$CONFIG_HOME/walker/themes/default/" 2>/dev/null
+fi
 
 echo "$chosen" > "$THEME_FILE"
 T="${THEMES[$chosen]}"
@@ -174,7 +199,7 @@ muted2=$(get_val "$T" "muted2")
 # Extract r,g,b from hex for rgba background
 hex_to_rgba() {
     local hex="${1#\#}"
-    printf "rgba(%d, %d, %d, 0.95)" "0x${hex:0:2}" "0x${hex:2:2}" "0x${hex:4:2}"
+    printf "rgba(%d, %d, %d, 0.9)" "0x${hex:0:2}" "0x${hex:2:2}" "0x${hex:4:2}"
 }
 
 cat > "$WAYBAR_COLOR" <<EOF
@@ -209,6 +234,7 @@ cat > "$ROFI_THEME" <<EOF
 
 * {
     bg:           $bar_bg;
+    bg-a:         ${bar_bg}${PANEL_ALPHA_HEX};
     bg-alt:       $seg_purple;
     bg-selected:  $seg_blue;
     fg:           $text;
@@ -236,7 +262,7 @@ window {
     border:           2px;
     border-color:     @surface1;
     border-radius:    20px;
-    background-color: @bg;
+    background-color: @bg-a;
     transparency:     "real";
 }
 
@@ -244,7 +270,7 @@ mainbox {
     children: [ inputbar, message, listview, mode-switcher ];
     spacing:  0;
     padding:  0;
-    background-color: @bg;
+    background-color: @bg-a;
 }
 
 /* ── Floating search bar ── */
@@ -296,7 +322,7 @@ listview {
     fixed-height:     true;
     padding:          8px 6px;
     margin:           8px 0 0 0;
-    background-color: @bg;
+    background-color: @bg-a;
     scrollbar:        false;
     spacing:          4px;
 }
@@ -369,7 +395,7 @@ element-icon selected.normal {
 mode-switcher {
     padding:          8px 12px 12px 12px;
     spacing:          8px;
-    background-color: @bg;
+    background-color: @bg-a;
 }
 
 button {
@@ -396,6 +422,274 @@ scrollbar {
     border-radius:    4px;
 }
 EOF
+
+# ── Helper: replace one INI-style [section] in place, keeping the rest of ────
+# the file untouched. Used for apps (like fuzzel) whose config file mixes
+# user-tuned settings with theme colors in one flat file with no import
+# mechanism, so we can't just overwrite the whole thing on every switch.
+replace_ini_section() {
+    local file="$1" section="$2" content="$3"
+    if [[ ! -f "$file" ]]; then
+        printf '[%s]\n%s\n' "$section" "$content" > "$file"
+        return
+    fi
+    awk -v section="[$section]" -v content="$content" '
+        BEGIN { in_section = 0; printed = 0 }
+        $0 == section {
+            print section
+            print content
+            in_section = 1
+            printed = 1
+            next
+        }
+        in_section && /^\[/ { in_section = 0 }
+        !in_section { print }
+        END {
+            if (!printed) {
+                print ""
+                print section
+                print content
+            }
+        }
+    ' "$file" > "${file}.tmp" && mv "${file}.tmp" "$file"
+}
+
+# ── Apply to Fuzzel ──────────────────────────────────────────────────────────
+# fuzzel.ini has no import/include mechanism, so only the [colors] section
+# is regenerated in place — [main] (font size, icon theme, etc.) is left
+# exactly as the user configured it.
+fuzzel_colors="background=${dark_bg#\#}${PANEL_ALPHA_HEX}
+text=${text#\#}ff
+prompt=${primary#\#}ff
+placeholder=${muted#\#}aa
+input=${text#\#}ff
+match=${primary#\#}ff
+selection=${seg_purple#\#}${PANEL_ALPHA_HEX}
+selection-text=ffffffff
+selection-match=${neon_pink#\#}ff
+border=${primary#\#}ff
+counter=${muted#\#}ff"
+replace_ini_section "$FUZZEL_THEME" "colors" "$fuzzel_colors"
+
+# ── Apply to Walker ──────────────────────────────────────────────────────────
+# Only style.css is regenerated; the rest of the "default" theme (layout.xml,
+# item*.xml, keybind.xml, preview.xml) was copied once from /etc/xdg and is
+# left alone.
+cat > "$WALKER_STYLE" <<EOF
+/* Auto-generated by theme-chooser — Theme: $chosen */
+@define-color window_bg_color $bar_bg;
+@define-color accent_bg_color $primary;
+@define-color theme_fg_color $text;
+@define-color error_bg_color $red;
+@define-color error_fg_color $text;
+
+* {
+  all: unset;
+}
+
+popover {
+  background: lighter(@window_bg_color);
+  border: 1px solid darker(@accent_bg_color);
+  border-radius: 18px;
+  padding: 10px;
+}
+
+.normal-icons {
+  -gtk-icon-size: 16px;
+}
+
+.large-icons {
+  -gtk-icon-size: 32px;
+}
+
+scrollbar {
+  opacity: 0;
+}
+
+.box-wrapper {
+  box-shadow:
+    0 19px 38px rgba(0, 0, 0, 0.3),
+    0 15px 12px rgba(0, 0, 0, 0.22);
+  background: alpha(@window_bg_color, 0.9);
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid darker(@accent_bg_color);
+}
+
+.preview-box,
+.elephant-hint,
+.placeholder {
+  color: @theme_fg_color;
+}
+
+.search-container {
+  border-radius: 10px;
+}
+
+.input placeholder {
+  opacity: 0.5;
+}
+
+.input selection {
+  background: lighter(lighter(lighter(@window_bg_color)));
+}
+
+.input {
+  caret-color: @theme_fg_color;
+  background: alpha(@window_bg_color, 0.9);
+  padding: 10px;
+  color: @theme_fg_color;
+}
+
+.list {
+  color: @theme_fg_color;
+}
+
+.item-box {
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.item-quick-activation {
+  background: alpha(@accent_bg_color, 0.25);
+  border-radius: 5px;
+  padding: 10px;
+}
+
+child:selected .item-box,
+row:selected .item-box {
+  background: alpha(@accent_bg_color, 0.25);
+}
+
+.item-subtext {
+  font-size: 12px;
+  opacity: 0.5;
+}
+
+.providerlist .item-subtext {
+  font-size: unset;
+  opacity: 0.75;
+}
+
+.item-image-text {
+  font-size: 28px;
+}
+
+.preview {
+  border: 1px solid alpha(@accent_bg_color, 0.25);
+  border-radius: 10px;
+  color: @theme_fg_color;
+}
+
+.calc .item-text {
+  font-size: 24px;
+}
+
+.symbols .item-image {
+  font-size: 24px;
+}
+
+.todo.done .item-text-box {
+  opacity: 0.25;
+}
+
+.todo.urgent {
+  font-size: 24px;
+}
+
+.todo.active {
+  font-weight: bold;
+}
+
+.bluetooth.disconnected {
+  opacity: 0.5;
+}
+
+.preview .large-icons {
+  -gtk-icon-size: 64px;
+}
+
+.keybinds {
+  padding-top: 10px;
+  border-top: 1px solid lighter(@window_bg_color);
+  font-size: 12px;
+  color: @theme_fg_color;
+}
+
+.keybind-button {
+  opacity: 0.5;
+}
+
+.keybind-button:hover {
+  opacity: 0.75;
+}
+
+.keybind-bind {
+  text-transform: lowercase;
+  opacity: 0.35;
+}
+
+.keybind-label {
+  padding: 2px 4px;
+  border-radius: 4px;
+  border: 1px solid @theme_fg_color;
+}
+
+.error {
+  padding: 10px;
+  background: @error_bg_color;
+  color: @error_fg_color;
+}
+
+:not(.calc).current {
+  font-style: italic;
+}
+
+.preview-content.archlinuxpkgs,
+.preview-content.dnfpackages,
+.preview-content.aptpackages {
+  font-family: monospace;
+}
+EOF
+
+# ── Apply to Swaylock ────────────────────────────────────────────────────────
+# Colors only. ~/.local/bin/lockscreen passes --config "$SWAYLOCK_THEME" and
+# keeps the non-color flags (effects, indicator geometry, fonts) itself.
+# swaylock wants "rrggbb[aa]" with no leading #.
+cat > "$SWAYLOCK_THEME" <<EOF
+# Auto-generated by theme-chooser — Theme: $chosen
+color=${dark_bg#\#}${PANEL_ALPHA_HEX}
+inside-color=${dark_bg#\#}8c
+ring-color=${primary#\#}
+key-hl-color=${neon_cyan#\#}
+bs-hl-color=${red#\#}
+ring-ver-color=${neon_green#\#}
+inside-ver-color=${dark_bg#\#}8c
+ring-wrong-color=${red#\#}
+inside-wrong-color=${dark_bg#\#}8c
+ring-clear-color=${neon_cyan#\#}
+inside-clear-color=${dark_bg#\#}8c
+line-color=00000000
+separator-color=00000000
+text-color=${primary#\#}
+text-ver-color=${neon_green#\#}
+text-wrong-color=${red#\#}
+text-clear-color=${neon_cyan#\#}
+EOF
+
+# ── Apply to niri (live) ─────────────────────────────────────────────────────
+# config.kdl has no include mechanism either, so the theme-relevant lines are
+# tagged with trailing "// @theme:*" markers and updated surgically in place.
+if [[ -f "$NIRI_CONFIG" ]]; then
+    sed -i \
+        -e "s|^\(\s*active-color \"\)[^\"]*\(\" *// @theme:focus-active\)|\1${border_focus}\2|" \
+        -e "s|^\(\s*inactive-color \"\)[^\"]*\(\" *// @theme:focus-inactive\)|\1${border_unfocused}\2|" \
+        -e "s|^\(\s*active-color \"\)[^\"]*\(\" *// @theme:border-active\)|\1${border_focus}\2|" \
+        -e "s|^\(\s*inactive-color \"\)[^\"]*\(\" *// @theme:border-inactive\)|\1${border_unfocused}\2|" \
+        -e "s|^\(\s*urgent-color \"\)[^\"]*\(\" *// @theme:border-urgent\)|\1${red}\2|" \
+        "$NIRI_CONFIG"
+    command -v niri >/dev/null 2>&1 && niri msg action load-config-file >/dev/null 2>&1
+fi
 
 # ── Apply to Dunst ───────────────────────────────────────────────────────────
 DUNST_THEME="$CONFIG_HOME/dunst/theme.conf"
@@ -450,11 +744,19 @@ dark_bg_r=$((16#${dark_bg_hex:0:2}))
 dark_bg_g=$((16#${dark_bg_hex:2:2}))
 dark_bg_b=$((16#${dark_bg_hex:4:2}))
 
+# QuickShell panels support real transparency (layer-shell alpha), so panel
+# backgrounds default to translucent: Qt/QML wants alpha-first hex (#AARRGGBB).
+to_argb() { echo "#${PANEL_ALPHA_HEX}${1#\#}"; }
+gradient_top_a=$(to_argb "$bar_bg")
+gradient_mid_a=$(to_argb "$seg_purple")
+gradient_bottom_a=$(to_argb "$seg_blue")
+card_bg_a=$(to_argb "$seg_purple")
+
 cat > "$QS_THEME" <<EOF
 // Auto-generated by theme-chooser — Theme: $chosen
-var gradientTop = "$bar_bg"
-var gradientMid = "$seg_purple"
-var gradientBottom = "$seg_blue"
+var gradientTop = "$gradient_top_a"
+var gradientMid = "$gradient_mid_a"
+var gradientBottom = "$gradient_bottom_a"
 var border = "$border_unfocused"
 var borderDim = "$border_normal"
 var accent = "$primary"
@@ -464,7 +766,7 @@ var accentB = $accent_b
 var text = "$text"
 var textMuted = "$muted"
 var textDim = "$muted2"
-var cardBg = "$seg_purple"
+var cardBg = "$card_bg_a"
 var darkBase = "$dark_bg"
 var red = "$red"
 var green = "$neon_green"
@@ -480,9 +782,9 @@ import QtQuick
 
 QtObject {
     // Auto-generated by theme-chooser — Theme: $chosen
-    readonly property string gradientTop: "$bar_bg"
-    readonly property string gradientMid: "$seg_purple"
-    readonly property string gradientBottom: "$seg_blue"
+    readonly property string gradientTop: "$gradient_top_a"
+    readonly property string gradientMid: "$gradient_mid_a"
+    readonly property string gradientBottom: "$gradient_bottom_a"
     readonly property string border: "$border_unfocused"
     readonly property string borderDim: "$border_normal"
     readonly property string accent: "$primary"
@@ -492,7 +794,7 @@ QtObject {
     readonly property string text: "$text"
     readonly property string textMuted: "$muted"
     readonly property string textDim: "$muted2"
-    readonly property string cardBg: "$seg_purple"
+    readonly property string cardBg: "$card_bg_a"
     readonly property string darkBase: "$dark_bg"
     readonly property string red: "$red"
     readonly property string green: "$neon_green"

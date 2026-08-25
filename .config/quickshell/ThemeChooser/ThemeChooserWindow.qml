@@ -41,7 +41,8 @@ PanelWindow {
         "Doom One",
         "Eldritch",
         "Monokai",
-        "Solarized Dark"
+        "Solarized Dark",
+        "Amber"
     ]
 
     Process {

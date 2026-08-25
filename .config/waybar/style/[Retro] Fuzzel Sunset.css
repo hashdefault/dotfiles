@@ -1,0 +1,159 @@
+/* Retro Fuzzel Sunset */
+/* Same thin glass-strip-with-horizon-line build as Amber Sunset, */
+/* recolored straight from ~/.config/fuzzel/fuzzel.ini so the bar and */
+/* the launcher read as one set: deep purple glass, magenta prompt, */
+/* cyan match/border, orange selection-match for anything urgent. */
+
+@define-color glass rgba(26, 19, 48, 0.75);
+@define-color fg    #ff2e97;
+@define-color dim   rgba(138, 124, 168, 0.6);
+@define-color accent #00e5ff;
+@define-color alert  #ffb347;
+
+* {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 95%;
+  letter-spacing: 1.5px;
+}
+
+window#waybar {
+  background-color: @glass;
+  background-image: linear-gradient(to right, @fg, @accent);
+  background-size: 100% 2px;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  color: @fg;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+}
+
+#taskbar button,
+#workspaces button {
+  color: @dim;
+  padding: 0 8px;
+}
+
+#taskbar button.active,
+#workspaces button.active {
+  color: @accent;
+  text-shadow: 0 0 5px @accent;
+  border-bottom: 2px solid @accent;
+}
+
+#taskbar button.urgent,
+#workspaces button.urgent {
+  color: @alert;
+  animation: fuzzel-flash 0.6s steps(2) infinite;
+}
+
+#submap {
+  color: @accent;
+  border-bottom: 1px solid @accent;
+}
+
+#backlight,
+#backlight-slider,
+#battery,
+#bluetooth,
+#clock,
+#cpu,
+#disk,
+#idle_inhibitor,
+#keyboard-state,
+#memory,
+#mode,
+#mpris,
+#network,
+#pulseaudio,
+#pulseaudio-slider,
+#taskbar,
+#temperature,
+#tray,
+#window,
+#wireplumber,
+#workspaces,
+#custom-backlight,
+#custom-cycle_wall,
+#custom-keybinds,
+#custom-keyboard,
+#custom-light_dark,
+#custom-lock,
+#custom-menu,
+#custom-power_vertical,
+#custom-power,
+#custom-swaync,
+#custom-updater,
+#custom-weather,
+#custom-weather.clearNight,
+#custom-weather.cloudyFoggyDay,
+#custom-weather.cloudyFoggyNight,
+#custom-weather.default,
+#custom-weather.rainyDay,
+#custom-weather.rainyNight,
+#custom-weather.severe,
+#custom-weather.showyIcyDay,
+#custom-weather.snowyIcyNight,
+#custom-weather.sunnyDay {
+  color: @fg;
+  text-shadow: 0 0 4px @dim;
+  margin: 0px 3px;
+  padding: 0px 10px;
+}
+
+#tray {
+  margin-right: 7px;
+}
+
+#battery.warning,
+#disk.warning,
+#memory.warning,
+#cpu.warning {
+  color: @alert;
+  text-shadow: 0 0 5px @alert;
+}
+
+#battery.critical,
+#disk.critical,
+#memory.critical,
+#cpu.critical {
+  color: @alert;
+  text-shadow: 0 0 6px @alert;
+  animation: fuzzel-flash 0.6s steps(2) infinite;
+}
+
+#battery.charging {
+  color: @accent;
+  text-shadow: 0 0 5px @accent;
+}
+
+@keyframes fuzzel-flash {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+#pulseaudio-slider slider,
+#backlight-slider slider {
+  min-width: 0px;
+  min-height: 0px;
+  opacity: 0;
+  background-image: none;
+  border: none;
+  box-shadow: none;
+}
+
+#pulseaudio-slider trough,
+#backlight-slider trough {
+  min-width: 80px;
+  min-height: 2px;
+  background-color: @dim;
+}
+
+#pulseaudio-slider highlight,
+#backlight-slider highlight {
+  min-height: 2px;
+  background-color: @fg;
+}

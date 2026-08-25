@@ -1,0 +1,69 @@
+# mako config — "Amber" theme, matched to the current waybar palette
+# (background rgba(18,10,5), foreground #f5ead8, primary #ffb454)
+
+sort=-time
+max-history=20
+layer=overlay
+anchor=top-right
+
+# ── layout ────────────────────────────────────────────────
+width=380
+height=130
+outer-margin=14
+margin=10
+padding=14,18
+border-size=2
+border-radius=6
+
+# ── type ──────────────────────────────────────────────────
+font=JetBrainsMono Nerd Font 11
+markup=1
+text-alignment=left
+format=<b>%s</b>\n%b
+
+# ── color: base (normal urgency) ─────────────────────────
+background-color=#120a05e6
+text-color=#f5ead8ff
+border-color=#ffb454ff
+progress-color=source #ffd27aff
+
+# ── icons ─────────────────────────────────────────────────
+icons=1
+max-icon-size=48
+icon-location=left
+icon-border-radius=4
+
+# ── behavior ──────────────────────────────────────────────
+default-timeout=6000
+ignore-timeout=0
+group-by=app-name
+max-visible=5
+history=1
+
+on-button-left=dismiss
+on-button-middle=exec makoctl menu -n "$id" -- wofi --dmenu -p 'Action:'
+on-button-right=dismiss-all
+on-touch=dismiss
+
+# ── urgency: low — muted blue, quieter ───────────────────
+[urgency=low]
+border-color=#5f8faeff
+default-timeout=4000
+
+# ── urgency: critical — coral red, stays until dismissed ─
+[urgency=critical]
+background-color=#1a0906f0
+border-color=#ff5f4dff
+border-size=3
+text-color=#fff2ecff
+progress-color=source #ff6a3dff
+default-timeout=0
+
+# ── grouped notifications ────────────────────────────────
+[grouped]
+format=(%g) <b>%s</b>\n%b
+border-color=#c98a5eff
+
+# ── hidden overflow placeholder ──────────────────────────
+[hidden]
+format=(and %h more)

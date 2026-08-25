@@ -1,0 +1,162 @@
+/* Retro HUD Arctic */
+/* HUD Glass sibling: same transparent glass strip, but built as a */
+/* precision instrument panel rather than a targeting reticle — no */
+/* glow, crisp edges, and a ruler-tick gauge along the base of each */
+/* module. Cool ice-white tone. */
+
+@define-color glass rgba(6, 10, 14, 0.28);
+@define-color fg    #eaf6ff;
+@define-color dim   rgba(234, 246, 255, 0.35);
+@define-color alert #7dd8ff;
+
+* {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 95%;
+  letter-spacing: 1.5px;
+}
+
+window#waybar {
+  background: @glass;
+  color: @fg;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+}
+
+#taskbar button,
+#workspaces button {
+  color: @dim;
+  padding: 0 8px;
+}
+
+#taskbar button.active,
+#workspaces button.active {
+  color: @fg;
+  border-top: 1px solid @fg;
+  border-bottom: 1px solid @fg;
+}
+
+#taskbar button.urgent,
+#workspaces button.urgent {
+  color: @alert;
+  animation: hud-flash 0.6s steps(2) infinite;
+}
+
+#submap {
+  color: @alert;
+  border-top: 1px solid @alert;
+  border-bottom: 1px solid @alert;
+}
+
+/* instrument-gauge ticks along the bottom edge of every readout */
+#backlight,
+#backlight-slider,
+#battery,
+#bluetooth,
+#clock,
+#cpu,
+#disk,
+#idle_inhibitor,
+#keyboard-state,
+#memory,
+#mode,
+#mpris,
+#network,
+#pulseaudio,
+#pulseaudio-slider,
+#taskbar,
+#temperature,
+#tray,
+#window,
+#wireplumber,
+#workspaces,
+#custom-backlight,
+#custom-cycle_wall,
+#custom-keybinds,
+#custom-keyboard,
+#custom-light_dark,
+#custom-lock,
+#custom-menu,
+#custom-power_vertical,
+#custom-power,
+#custom-swaync,
+#custom-updater,
+#custom-weather,
+#custom-weather.clearNight,
+#custom-weather.cloudyFoggyDay,
+#custom-weather.cloudyFoggyNight,
+#custom-weather.default,
+#custom-weather.rainyDay,
+#custom-weather.rainyNight,
+#custom-weather.severe,
+#custom-weather.showyIcyDay,
+#custom-weather.snowyIcyNight,
+#custom-weather.sunnyDay {
+  color: @fg;
+  margin: 4px 3px;
+  padding: 2px 10px 3px 10px;
+  background-repeat: no-repeat;
+  background-image: repeating-linear-gradient(
+    to right,
+    @dim 0px,
+    @dim 1px,
+    transparent 1px,
+    transparent 5px
+  );
+  background-size: 100% 3px;
+  background-position: bottom;
+}
+
+#tray {
+  margin-right: 7px;
+}
+
+#battery.warning,
+#disk.warning,
+#memory.warning,
+#cpu.warning {
+  color: @alert;
+}
+
+#battery.critical,
+#disk.critical,
+#memory.critical,
+#cpu.critical {
+  color: @alert;
+  animation: hud-flash 0.6s steps(2) infinite;
+}
+
+#battery.charging {
+  color: @fg;
+}
+
+@keyframes hud-flash {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+#pulseaudio-slider slider,
+#backlight-slider slider {
+  min-width: 0px;
+  min-height: 0px;
+  opacity: 0;
+  background-image: none;
+  border: none;
+  box-shadow: none;
+}
+
+#pulseaudio-slider trough,
+#backlight-slider trough {
+  min-width: 80px;
+  min-height: 2px;
+  background-color: @dim;
+}
+
+#pulseaudio-slider highlight,
+#backlight-slider highlight {
+  min-height: 2px;
+  background-color: @fg;
+}
