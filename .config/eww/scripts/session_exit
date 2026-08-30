@@ -1,47 +1,73 @@
 #!/usr/bin/env bash
-
 # Cross-desktop logout/exit helper for Wayland and Xorg
-set -euo pipefail
+# Falls through to the next strategy whenever one is unavailable or fails.
+set -uo pipefail   # NOT -e: we *want* to survive a failed attempt and try the next one
 
-# Try to detect common compositors/DEs and exit cleanly
-if pgrep -x Hyprland >/dev/null 2>&1 || [[ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]]; then
-  exec hyprctl dispatch exit || true
+have()    { command -v "$1" >/dev/null 2>&1; }
+running() { pgrep -x "$1" >/dev/null 2>&1; }
+
+# Attempt a logout command. Exits the script on success; returns on failure.
+try() {
+  have "$1" || return 1
+  "$@" && exit 0
+  return 1
+}
+
+desktop="${XDG_CURRENT_DESKTOP:-}"
+
+# --- niri ---
+if [[ -n "${NIRI_SOCKET:-}" ]] || [[ "$desktop" =~ [Nn]iri ]] || running niri; then
+  try niri msg action quit --skip-confirmation
+  try niri msg action quit          # older builds without the flag (will prompt)
 fi
 
-if pgrep -x sway >/dev/null 2>&1; then
-  exec swaymsg exit || true
+# --- Hyprland ---
+if [[ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]] || running Hyprland; then
+  try hyprctl dispatch exit
 fi
 
-# GNOME
-if [[ "${XDG_CURRENT_DESKTOP:-}" =~ GNOME ]] || pgrep -x gnome-shell >/dev/null 2>&1; then
-  exec gnome-session-quit --logout --no-prompt || true
+# --- sway ---
+if running sway; then
+  try swaymsg exit
 fi
 
-# KDE Plasma
-if [[ "${XDG_CURRENT_DESKTOP:-}" =~ KDE ]] || pgrep -x plasmashell >/dev/null 2>&1; then
-  exec qdbus org.kde.ksmserver /KSMServer logout 0 0 0 || true
+# --- river ---
+if running river; then
+  try riverctl exit
 fi
 
-# Qtile
-if pgrep -x qtile >/dev/null 2>&1; then
-  exec qtile cmd-obj -o cmd -f shutdown || true
+# --- GNOME ---
+if [[ "$desktop" =~ GNOME ]] || running gnome-shell; then
+  try gnome-session-quit --logout --no-prompt
 fi
 
-# Awesome/i3/Xmonad and other Xorg WMs: try to terminate the session
+# --- KDE Plasma ---
+if [[ "$desktop" =~ KDE ]] || running plasmashell; then
+  try qdbus6 org.kde.Shutdown /Shutdown org.kde.Shutdown.logout
+  try qdbus  org.kde.ksmserver /KSMServer logout 0 0 0
+fi
+
+# --- Qtile ---
+if running qtile; then
+  try qtile cmd-obj -o cmd -f shutdown
+fi
+
+# --- Xorg WMs ---
 if [[ "${XDG_SESSION_TYPE:-}" == x11 || -n "${DISPLAY:-}" ]]; then
-  if pgrep -x xmonad >/dev/null 2>&1; then
-    exec pkill -x xmonad || true
-  fi
-  if pgrep -x i3 >/dev/null 2>&1; then
-    exec i3-msg exit || true
-  fi
+  running i3     && try i3-msg exit
+  running xmonad && try pkill -x xmonad
+  running awesome && try awesome-client 'awesome.quit()'
 fi
 
-# Fallback: terminate current session (works for most DMs)
-if [[ -n "${XDG_SESSION_ID:-}" ]]; then
-  exec loginctl terminate-session "$XDG_SESSION_ID" || true
+# --- Fallback: ask logind/elogind to kill this session ---
+session_id="${XDG_SESSION_ID:-}"
+if [[ -z "$session_id" ]] && have loginctl; then
+  session_id=$(loginctl --no-legend list-sessions | awk -v u="$USER" '$3 == u { print $1; exit }')
 fi
+[[ -n "$session_id" ]] && try loginctl terminate-session "$session_id"
 
-# Last resort: kill user graphical target
-exec loginctl terminate-user "$USER" || true
+# --- Last resort ---
+try loginctl terminate-user "$USER"
 
+echo "logout: no working method found" >&2
+exit 1
