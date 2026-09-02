@@ -10,4 +10,4 @@ if [[ -z "$filequote" ]]; then
   fi
 fi
 
-cat /tmp/getquote
+fold -s -w 32 /tmp/getquote

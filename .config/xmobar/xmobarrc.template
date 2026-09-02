@@ -17,12 +17,12 @@ Config { font             = "JetBrainsMono Nerd Font Mono 10"
                     , Run Date "%a %d %b  %H:%M:%S" "date" 10
                     , Run Com "/home/lucas/.local/bin/getweather" [] "weather" 6000
                     , Run Cpu
-                        [ "-t", "<fn=1></fn> <total>%"
+                        [ "-t", "<fn=1></fn> <total>%"
                         , "-H", "85", "--high", "@@RED@@"
                         , "-L", "50", "--normal", "@@WARN@@"
                         ] 20
                     , Run Memory
-                        [ "-t", "<fn=1></fn> <used>GiB / <total>GiB"
+                        [ "-t", "<fn=1>󰍛</fn> <used>GiB / <total>GiB"
                         , "-H", "85", "--high", "@@RED@@"
                         , "-L", "50", "--normal", "@@WARN@@"
                         , "-d", "1"
@@ -30,7 +30,7 @@ Config { font             = "JetBrainsMono Nerd Font Mono 10"
                         ] 20
                     , Run Volume "default" "Master"
                         [ "-t", "<status> <volume>%"
-                        , "--", "-O", "<fn=1></fn> ", "-o", "<fn=1></fn> ", "-c", "@@MUTED@@", "-C", "@@MUTED@@"
+                        , "--", "-O", "<fn=1></fn> ", "-o", "<fn=1></fn> ", "-c", "@@MUTED@@", "-C", "@@MUTED@@"
                         ] 10
                     ]
        , sepChar  = "%"

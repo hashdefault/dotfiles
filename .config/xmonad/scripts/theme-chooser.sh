@@ -49,7 +49,10 @@ THEMES[Dracula]="dark_bg=#14141c|bar_bg=#1b1c28|seg_purple=#21222c|seg_blue=#282
 
 THEMES[Nord]="dark_bg=#14171d|bar_bg=#1c212b|seg_purple=#242933|seg_blue=#2e3440|text=#d8dee9|text_dim=#9aa4b8|primary=#88c0d0|neon_green=#a3be8c|neon_cyan=#88c0d0|neon_magenta=#b48ead|neon_pink=#d08770|neon_yellow=#ebcb8b|red=#bf616a|blue=#81a1c1|muted=#7b88a1|muted2=#4c566a|border_normal=#3b4252|border_unfocused=#4c566a"
 
-THEME_ORDER=("Eldritch" "Tokyo Night" "Cyberpunk Neon" "Gruvbox" "Kanagawa" "Monokai" "Dracula" "Nord")
+# Amber: warm ember/amber glass -- matches Hyprland/Waybar's Amber Sunset theme.
+THEMES[Amber]="dark_bg=#0a0a0a|bar_bg=#0c0c0c|seg_purple=#131313|seg_blue=#0f0f0f|text=#f5ead8|text_dim=#cab99d|primary=#ffb454|neon_green=#9fbf6e|neon_cyan=#4fa8a0|neon_magenta=#c98a5e|neon_pink=#ff6a3d|neon_yellow=#ffd27a|red=#ff5f4d|blue=#5f8fae|muted=#a08a63|muted2=#6b5636|border_normal=#2a1c0e|border_unfocused=#6b5636"
+
+THEME_ORDER=("Eldritch" "Tokyo Night" "Cyberpunk Neon" "Gruvbox" "Kanagawa" "Monokai" "Dracula" "Nord" "Amber")
 
 get_val() {
     local theme_data="$1" key="$2"

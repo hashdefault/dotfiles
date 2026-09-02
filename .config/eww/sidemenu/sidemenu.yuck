@@ -10,47 +10,49 @@
           (label :halign "start"  :class "profile-label-day"  :text "${month_full} ${number_day}")
           (label :halign "start" :class "profile-label-day"  :text "${day}")
         ))
-    (box :space-evenly false :orientation "h" 
-       (label :class "quote"  :wrap true :text text_quote )
+    (box :space-evenly false :orientation "h" :halign "center"
+       (label :class "quote"  :wrap true :halign "center" :justify "center" :width 370 :text text_quote )
     )
-    (box :halign "center"  :valign "center" :orientation "h" :class "buttons-space"
-      (box :valign "center" :halign "center" :space-evenly false :orientation "v" :class "button-item" 
-        (box :space-evenly false :class  "box-nightlight-buttons" :orientation "h" 
-          (button  :class {nightlight_active ?  "button-nightlight active":"button-nightlight"} :onclick "~/.config/eww/scripts/nightlight --toggle" {nightlight_active ? "󰛨" : "󰹏" })
-          (label :class "seperator"  :text "|")
-            (button :class {nightlight_active ?  "button-nightlight-arrow active":"button-nightlight-arrow"} :onclick "~/.config/eww/scripts/nightlight --toggle" ""  ))
-        (box :class "box-label"  :orientation "v" 
-          (label :class "nightlight-label"  :text "Night Light")))
-      (box :space-evenly false :orientation "v" 
-          (box :space-evenly false :class  "box-wifi-buttons" :orientation "h"  :valign "center" :halign "center"
-            (button  :class {wifi_active ?  "button-wifi active":"button-wifi"} :onclick "~/.config/eww/scripts/wifi --toggle" {wifi_active ? "󰖩" : "󰖪" })
+    (box :halign "center"  :valign "center" :orientation "v" :space-evenly false :class "buttons-space"
+      (box :halign "center" :valign "center" :orientation "h" :space-evenly false :class "buttons-row"
+        (box :valign "center" :halign "center" :space-evenly false :orientation "v" :class "button-item"
+          (box :space-evenly false :class  "box-nightlight-buttons" :orientation "h" :halign "center"
+            (button  :class {nightlight_active ?  "button-nightlight active":"button-nightlight"} :onclick "~/.config/eww/scripts/nightlight --toggle" {nightlight_active ? "󰛨" : "󰹏" })
             (label :class "seperator"  :text "|")
-          (button :class {wifi_active ?  "button-wifi-arrow active":"button-wifi-arrow"} :onclick "~/.config/eww/scripts/wifi --toggle" ""  ))
-          (box :class "box-label"  :orientation "h" 
-            (label :class "wifi-label" :text "Wifi" )))
-      (box :space-evenly false :orientation "v"  
-        (box :space-evenly false :class  "box-bluetooth-buttons" :orientation "h"  :valign "center" :halign "center"
-          (button  :class {bluetooth_active ?  "button-bluetooth active" : "button-bluetooth"} :onclick "~/.config/eww/scripts/bluetooth" {bluetooth_active ? "󰂯" : "󰂲" })
-          (label :class "seperator"  :text "|")
-          (button :class {bluetooth_active ?  "button-bluetooth-arrow active":"button-bluetooth-arrow"} :onclick "~/.config/eww/scripts/bluetooth" ""  ))
-        (box :class "box-label"  :orientation "h" 
-          (label :class "bluetooth-label" :text "Bluetooth")))
-      (box :space-evenly false :orientation "v" 
-        (box :space-evenly false :class  "box-not_disturb-buttons" :orientation "h" :valign "center" :halign "center"
-          (button  :class {not_disturb_active ?  "button-not_disturb active" : "button-not_disturb"} :onclick "~/.config/eww/scripts/do_not_disturb.sh" {not_disturb_active ? "󰂛" : "󰂚" })
-          (label :class "seperator"  :text "|")
-          (button :class {not_disturb_active ?  "button-not_disturb-arrow active":"button-not_disturb-arrow"} :onclick "~/.config/eww/scripts/do_not_disturb.sh" ""  ))
-        (box :class "box-label"  :orientation "h" 
-          (label :class "not_disturb-label" :text "Don't Disturb")))
+              (button :class {nightlight_active ?  "button-nightlight-arrow active":"button-nightlight-arrow"} :onclick "~/.config/eww/scripts/nightlight --toggle" ""  ))
+          (box :class "box-label"  :orientation "v" :halign "center"
+            (label :class "nightlight-label" :halign "center" :justify "center" :wrap true :text "Night Light")))
+        (box :valign "center" :halign "center" :space-evenly false :orientation "v" :class "button-item"
+            (box :space-evenly false :class  "box-wifi-buttons" :orientation "h"  :valign "center" :halign "center"
+              (button  :class {wifi_active ?  "button-wifi active":"button-wifi"} :onclick "~/.config/eww/scripts/wifi --toggle" {wifi_active ? "󰖩" : "󰖪" })
+              (label :class "seperator"  :text "|")
+            (button :class {wifi_active ?  "button-wifi-arrow active":"button-wifi-arrow"} :onclick "~/.config/eww/scripts/wifi --toggle" ""  ))
+            (box :class "box-label"  :orientation "h" :halign "center"
+              (label :class "wifi-label" :halign "center" :justify "center" :wrap true :text "Wifi" ))))
+      (box :halign "center" :valign "center" :orientation "h" :space-evenly false :class "buttons-row"
+        (box :valign "center" :halign "center" :space-evenly false :orientation "v" :class "button-item"
+          (box :space-evenly false :class  "box-bluetooth-buttons" :orientation "h"  :valign "center" :halign "center"
+            (button  :class {bluetooth_active ?  "button-bluetooth active" : "button-bluetooth"} :onclick "~/.config/eww/scripts/bluetooth" {bluetooth_active ? "󰂯" : "󰂲" })
+            (label :class "seperator"  :text "|")
+            (button :class {bluetooth_active ?  "button-bluetooth-arrow active":"button-bluetooth-arrow"} :onclick "~/.config/eww/scripts/bluetooth" ""  ))
+          (box :class "box-label"  :orientation "h" :halign "center"
+            (label :class "bluetooth-label" :halign "center" :justify "center" :wrap true :text "Bluetooth")))
+        (box :valign "center" :halign "center" :space-evenly false :orientation "v" :class "button-item"
+          (box :space-evenly false :class  "box-not_disturb-buttons" :orientation "h" :valign "center" :halign "center"
+            (button  :class {not_disturb_active ?  "button-not_disturb active" : "button-not_disturb"} :onclick "~/.config/eww/scripts/do_not_disturb.sh" {not_disturb_active ? "󰂛" : "󰂚" })
+            (label :class "seperator"  :text "|")
+            (button :class {not_disturb_active ?  "button-not_disturb-arrow active":"button-not_disturb-arrow"} :onclick "~/.config/eww/scripts/do_not_disturb.sh" ""  ))
+          (box :class "box-label"  :orientation "h" :halign "center"
+            (label :class "not_disturb-label" :halign "center" :justify "center" :wrap true :text "Don't Disturb")))
+      )
     )
-
-  (box :class "power-menu-side" :orientation "h"  :halign "center" :valign "center"
+    (box :class "power-menu-side" :orientation "h"  :halign "center" :valign "center"
         (eventbox :tooltip "Shutdown" :class "hover-power-side-btn" :cursor "pointer" 
-          (button :class "power-side-button" :onclick "systemctl poweroff" " "  ))
+          (button :class "power-side-button" :onclick "systemctl poweroff" ""  ))
         (eventbox :tooltip "Reboot" :class "hover-power-side-btn" :cursor "pointer" 
-          (button :class "reboot-side-button" :onclick "systemctl reboot" "  "))
+          (button :class "reboot-side-button" :onclick "systemctl reboot" ""))
         (eventbox :tooltip "Logout" :class "hover-power-side-btn" :cursor "pointer" 
-          (button :class "logout-side-button" :timeout "5000ms" :onclick "~/.config/eww/scripts/session_exit" " "))
+          (button :class "logout-side-button" :timeout "5000ms" :onclick "~/.config/eww/scripts/session_exit" ""))
         (eventbox :tooltip "Suspend" :class "hover-power-side-btn" :cursor "pointer" 
           (button :class "suspend-button-side" :onclick "systemctl suspend" "󰤄"))
     )
@@ -69,13 +71,13 @@
 (defpoll nightlight_active :interval "500ms" "~/.config/eww/scripts/nightlight_status")
 (defpoll bluetooth_active :interval "1s" "~/.config/eww/scripts/getbluetooth")
 (defpoll wifi_active :interval "2s" "~/.config/eww/scripts/wifi --is-on")
-(defpoll not_disturb_active :interval "1s" "dunstctl is-paused")
+(defpoll not_disturb_active :interval "1s" "dunstctl is-paused 2>/dev/null || echo false")
 
 (defwindow sidemenu
 	    :geometry (geometry  :x "10px"
                            :y "24px"
-                           :width "250px"
-                           :height "250px"
+                           :width "450px"
+                           :height "760px"
                            :anchor "top left"
                            )
 	     				(sidemenu))
