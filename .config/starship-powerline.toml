@@ -6,7 +6,7 @@
 format = """
 $os$username[](fg:primary bg:accent_dir)\
 $directory[](fg:accent_dir) \
-$git_branch$git_status$git_state$c$rust$golang$nodejs$python$php$java$docker_context
+ $git_branch$git_status$git_state$c$rust$golang$nodejs$python$php$java$docker_context
 $character"""
 
 palette = "amber"
@@ -70,7 +70,7 @@ read_only = " 󰌾"
 [git_branch]
 symbol = "󰘬"
 style = "bg:accent_git fg:text_light"
-format = "[](fg:accent_git)[$symbol $branch]($style)"
+format = "[](fg:accent_git)[ $symbol $branch ]($style)"
 
 [git_status]
 style = "bg:accent_git fg:text_light"
@@ -88,47 +88,47 @@ deleted = "󰅙${count} "
 
 [git_state]
 style = "bg:accent_git fg:text_light"
-format = "([ $state $progress_current/$progress_total]($style))"
+format = "([ $state $progress_current/$progress_total ]($style))"
 
 [c]
 symbol = ""
 style = "bg:accent_lang fg:text_light"
-format = "[](fg:accent_lang)[$symbol ($version)]($style)"
+format = " [](fg:accent_lang)[ $symbol ($version) ]($style)"
 
 [rust]
 symbol = ""
 style = "bg:accent_lang fg:text_light"
-format = "[](fg:accent_lang)[$symbol ($version)]($style)"
+format = " [](fg:accent_lang)[ $symbol ($version) ]($style)"
 
 [golang]
 symbol = ""
 style = "bg:accent_lang fg:text_light"
-format = "[](fg:accent_lang)[$symbol ($version)]($style)"
+format = " [](fg:accent_lang)[ $symbol ($version) ]($style)"
 
 [nodejs]
 symbol = ""
 style = "bg:accent_lang fg:text_light"
-format = "[](fg:accent_lang)[$symbol ($version)]($style)"
+format = " [](fg:accent_lang)[ $symbol ($version) ]($style)"
 
 [python]
 symbol = ""
 style = "bg:accent_lang fg:text_light"
-format = "[](fg:accent_lang)[$symbol ($version)(\\($virtualenv\\))]($style)"
+format = " [](fg:accent_lang)[ $symbol ($version)(\\($virtualenv\\)) ]($style)"
 
 [php]
 symbol = ""
 style = "bg:accent_lang fg:text_light"
-format = "[](fg:accent_lang)[$symbol ($version)]($style)"
+format = " [](fg:accent_lang)[ $symbol ($version) ]($style)"
 
 [java]
 symbol = ""
 style = "bg:accent_lang fg:text_light"
-format = "[](fg:accent_lang)[$symbol ($version)]($style)"
+format = " [](fg:accent_lang)[ $symbol ($version) ]($style)"
 
 [docker_context]
 symbol = "󰡨"
 style = "bg:accent_docker fg:bg_dark"
-format = "[](fg:accent_docker)[$symbol $context]($style)"
+format = " [](fg:accent_docker)[ $symbol $context ]($style)"
 only_with_files = true
 
 [cmd_duration]
