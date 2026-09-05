@@ -63,64 +63,45 @@ for _p in (f"{$HOME}/.local/bin", f"{$HOME}/bin"):
 del _p
 
 # =============================================================================
-# Prompt: delegate to Starship if available, otherwise fall back gracefully.
+# Prompt: native xonsh, without an external prompt renderer.
 # =============================================================================
 
-if shutil.which("starship"):
-    $STARSHIP_SHELL = "xonsh"
-    execx($(starship init xonsh --print-full-init))
+from xonsh.prompt.vc import current_branch, dirty_working_directory
 
-    def _prompt_style(args):
-        """prompt-style [bubbles|powerline]: switch the starship prompt theme.
-        With no argument, prints the currently active style."""
-        styles = {
-            "bubbles": Path($XONSH_CONFIG_DIR).parent / "starship-bubbles.toml",
-            "powerline": Path($XONSH_CONFIG_DIR).parent / "starship-powerline.toml",
-        }
-        active = Path($XONSH_CONFIG_DIR).parent / "starship.toml"
-        if not args:
-            for name, path in styles.items():
-                if path.exists() and active.exists() and path.read_text() == active.read_text():
-                    print(f"prompt-style: {name} (active)")
-                    return
-            print("prompt-style: custom/unknown (active file doesn't match a known style)")
-            print(f"usage: prompt-style [{'|'.join(styles)}]")
-            return
-        name = args[0]
-        if name not in styles:
-            print(f"prompt-style: unknown style '{name}' (choices: {', '.join(styles)})")
-            return
-        shutil.copy2(styles[name], active)
-        print(f"prompt-style: switched to {name}")
 
-    aliases["prompt-style"] = _prompt_style
-else:
-    # Fallback prompt (only used if starship isn't installed), built from
-    # xonsh's native $PROMPT_FIELDS -- see https://xon.sh/prompt.html.
-    # Colors are the same Amber xmonad palette used by the starship configs,
-    # so the look stays consistent even without starship.
-    #
-    # `env_name` returns "" (not None) outside a venv, so the usual
-    # "{field:prefix{}suffix}" hide-if-empty trick doesn't hide it -- wrap it
-    # in a field that returns None instead, which xonsh's formatter does hide.
-    $PROMPT_FIELDS["venv"] = lambda: $PROMPT_FIELDS["env_name"]() or None
+def _native_powerline_prompt():
+    # Build the transitions from the segments actually present.
+    branch = current_branch()
+    segments = [
+        ("#ffb454", "#161616", " 󰣇 {user} "),
+        ("#d85c47", "#ffffff", " 󰉋 {cwd} "),
+    ]
+    if branch:
+        $PROMPT_FIELDS["powerline_branch"] = branch
+        dirty = " *" if dirty_working_directory() else ""
+        segments.append(("#367d77", "#ffffff", " 󰘬 {powerline_branch}" + dirty + " "))
+    if __xonsh__.env.get("VIRTUAL_ENV"):
+        $PROMPT_FIELDS["powerline_venv"] = Path($VIRTUAL_ENV).name
+        segments.append(("#655b85", "#ffffff", "  {powerline_venv} "))
 
-    # Note: a field referenced *inside* another field's conditional format
-    # spec (e.g. "{curr_branch:{branch_color}...}") is NOT resolved -- it's
-    # only substituted when used at the top level. branch_color/gitstatus
-    # must sit next to curr_branch, not nested inside its spec. gitstatus
-    # also carries its own embedded ANSI coloring, so it needs no wrapper.
-    $PROMPT = (
-        "{venv:{BOLD_#ffd27a}({}) {RESET}}"
-        "{BOLD_#ffb454}{user}{RESET}@{BOLD_#5f8fae}{hostname}{RESET} "
-        "{BOLD_#ff6a3d}{cwd}{RESET}"
-        "{branch_color}{curr_branch: {}}{RESET}"
-        "{gitstatus: {}}"
-        "\n"
-        "{#ff5f4d}{last_return_code_if_nonzero:[{}] }{RESET}{BOLD_#ffb454}❯{RESET} "
+    parts = ["\n"]
+    for i, (background, foreground, label) in enumerate(segments):
+        parts.append("{BACKGROUND_" + background + "}{" + foreground + "}" + label)
+        parts.append("{RESET}{" + background + "}")
+        if i + 1 < len(segments):
+            parts.append("{BACKGROUND_" + segments[i + 1][0] + "}")
+        parts.append("")
+    parts.append(
+        "{RESET}\n"
+        "{#ff5f4d}{last_return_code_if_nonzero:[{}] }{RESET}"
+        "{BOLD_#ffb454}❯{RESET} "
     )
-    $RIGHT_PROMPT = "{#6b5636}{localtime:%H:%M:%S}{RESET}"
-    $MULTILINE_PROMPT = "{#6b5636}·{RESET}"
+    return "".join(parts)
+
+
+$PROMPT = _native_powerline_prompt
+$RIGHT_PROMPT = ""
+$MULTILINE_PROMPT = "{#6b5636}·{RESET}"
 
 # =============================================================================
 # Smarter navigation: zoxide ("z" / "zi") if installed.
