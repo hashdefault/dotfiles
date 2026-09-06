@@ -183,6 +183,8 @@ myStartupHook = do
   -- forecast row; loops itself every 2h (see the script), flock-guarded
   -- against duplicate loops across restarts.
   spawnOnce "$HOME/.config/xmonad/scripts/forecast-updater.sh"
+  -- Keep monitors on while idle, including while the screen is locked.
+  spawn "xset s off -dpms"
   -- Auto-locks after 20m idle (betterlockscreen wraps i3lock-color with the
   -- cached blurred wallpaper already generated per-output under
   -- ~/.cache/betterlockscreen). -detectsleep also locks immediately on
