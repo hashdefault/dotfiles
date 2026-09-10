@@ -63,6 +63,37 @@ for _p in (f"{$HOME}/.local/bin", f"{$HOME}/bin"):
 del _p
 
 # =============================================================================
+# SSH agent: keychain
+#   One ssh-agent shared by every terminal. The first interactive shell asks
+#   for the id_ed25519 passphrase; every later shell just attaches to it.
+# =============================================================================
+
+
+def _keychain_init():
+    import json
+
+    try:
+        # Not captured, so the passphrase prompt reaches the terminal.
+        # --quick returns at once when the agent already holds a key;
+        # --immediate skips keychain's "Press Enter to initialize keys" step.
+        subprocess.run(["keychain", "add", "--quiet", "--quick", "--immediate",
+                        "--nogui", "id_ed25519"])
+        # keychain 3 has no xonsh output target, so read the agent env as JSON.
+        out = subprocess.run(["keychain", "env", "--json"],
+                             capture_output=True, text=True).stdout
+        agent_env = json.loads(out or "{}")
+    except (KeyboardInterrupt, ValueError, OSError):
+        return
+    for name in ("SSH_AUTH_SOCK", "SSH_AGENT_PID"):
+        if agent_env.get(name):
+            __xonsh__.env[name] = agent_env[name]
+
+
+if $XONSH_INTERACTIVE and shutil.which("keychain"):
+    _keychain_init()
+del _keychain_init
+
+# =============================================================================
 # Prompt: native xonsh, without an external prompt renderer.
 # =============================================================================
 
