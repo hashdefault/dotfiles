@@ -13,7 +13,8 @@ input {
             // For more information, see xkeyboard-config(7).
 
             // For example:
-            // layout "us,ru"
+             layout "us"
+             variant "altgr-intl"
             // options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
 
             // If this section is empty, niri will fetch xkb settings
@@ -142,6 +143,9 @@ workspace "Chat-2" {
 }
 workspace "Media-2" {
     open-on-output "DP-1"
+}
+xwayland-satellite {
+    path "/usr/bin/xwayland-satellite"
 }
 
 // Settings that influence how windows are positioned and sized.
