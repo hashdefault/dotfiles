@@ -6,6 +6,11 @@ import XMonad.Layout.Spacing (spacing)
 import XMonad.Layout.SimpleFloat (simpleFloat)
 import XMonad.Layout.Renamed (renamed, Rename (Replace))
 import XMonad.Hooks.StatusBar.PP
+import XMonad.Hooks.WindowSwallowing (swallowEventHook)
+import XMonad.Hooks.ManageHelpers (doRectFloat, isDialog, isInProperty, transientTo)
+import XMonad.Hooks.OnPropertyChange (onTitleChange)
+import qualified XMonad.Util.ExtensibleState as XS
+import Data.Monoid (All (..))
 import XMonad.Util.SpawnOnce (spawnOnce)
 import XMonad.Util.EZConfig (additionalKeys)
 import Graphics.X11.ExtraTypes.XF86
@@ -16,8 +21,8 @@ import Graphics.X11.ExtraTypes.XF86
 import System.Exit (exitSuccess)
 import System.Environment (setEnv, lookupEnv)
 import Control.Exception (catch, SomeException)
-import Data.List (elemIndex, stripPrefix)
-import Data.Maybe (fromMaybe, listToMaybe)
+import Data.List (elemIndex, isPrefixOf, stripPrefix)
+import Data.Maybe (fromMaybe, isJust, listToMaybe)
 import qualified XMonad.StackSet as W
 import XMonad.Actions.Warp (warpToScreen)
 
@@ -306,9 +311,84 @@ xmobarCmd (S sid) =
     ++ ", ypos = 0, width = " ++ show (myBarWidth (S sid)) ++ ", height = 24 }\""
     ++ " $HOME/.config/xmobar/xmobarrc"
 
+-- Window swallowing: an office document opened from Alacritty or nemo takes
+-- over its parent's slot, and the parent comes back when the document
+-- closes. WindowSwallowing only considers the *focused* window as parent and
+-- matches it by process ancestry (`pstree`, via _NET_WM_PID), so this also
+-- works when LibreOffice/OnlyOffice is already running from that same
+-- parent -- the new window belongs to the existing, still-descendant process.
+swallowParent :: Query Bool
+swallowParent = className =? "Alacritty" <||> className =? "Nemo"
+
+-- LibreOffice's WM_CLASS is libreoffice-writer/-calc/-impress/-startcenter/...
+-- Dialogs and transients (e.g. Calc's CSV import) are excluded so they don't
+-- swallow the parent and hand it back before the real document window maps.
+swallowChild :: Query Bool
+swallowChild = isOffice <&&> fmap not (isDialog <||> fmap isJust transientTo)
+  where
+    isOffice = fmap ("libreoffice" `isPrefixOf`) className
+      <||> fmap (`elem` officeClasses) className
+    officeClasses =
+      [ "ONLYOFFICE", "DesktopEditors"
+      , "wps", "et", "wpp", "Wps", "Et", "Wpp"
+      , "calligrawords", "calligrasheets", "calligrastage"
+      , "Abiword", "Gnumeric"
+      ]
+
+-- Toggled with mod+f. PersistentExtension so the choice survives
+-- `xmonad --restart` (mod+shift+r).
+newtype SwallowEnabled = SwallowEnabled Bool deriving (Read, Show)
+
+instance ExtensionClass SwallowEnabled where
+  initialValue  = SwallowEnabled True
+  extensionType = PersistentExtension
+
+-- Only new-window (MapRequest) events are gated by the toggle: destroy and
+-- configure events always go through, so a window swallowed while enabled
+-- still gets its parent restored after swallowing is switched off.
+mySwallowHook :: Event -> X All
+mySwallowHook ev@MapRequestEvent{} = do
+  enabled <- XS.gets (\(SwallowEnabled b) -> b)
+  if enabled
+    then swallowEventHook swallowParent swallowChild ev
+    else return (All True)
+mySwallowHook ev = swallowEventHook swallowParent swallowChild ev
+
+toggleSwallow :: X ()
+toggleSwallow = do
+  XS.modify (\(SwallowEnabled b) -> SwallowEnabled (not b))
+  enabled <- XS.gets (\(SwallowEnabled b) -> b)
+  spawn ("notify-send -a xmonad -t 1500 'Window swallowing' '"
+    ++ (if enabled then "on" else "off") ++ "'")
+
+-- Browser picture-in-picture windows: Zen/Firefox title them
+-- "Picture-in-Picture" (role PictureInPicture), Chromium "Picture in picture".
+isPip :: Query Bool
+isPip = title =? "Picture-in-Picture"
+  <||> title =? "Picture in picture"
+  <||> stringProperty "WM_WINDOW_ROLE" =? "PictureInPicture"
+
+-- Small 16:9 float in the bottom-right corner (480x270 on a 1920x1080
+-- screen) with a 16px gap from the edges.
+pipHook :: ManageHook
+pipHook = isPip --> doRectFloat (W.RationalRect (1 - w - 16 / 1920) (1 - h - 16 / 1080) w h)
+  where
+    w = 1 / 4
+    h = 1 / 4
+
+myManageHook :: ManageHook
+myManageHook = composeAll
+  -- Splash screens (LibreOffice's startup logo) are left unmanaged so they
+  -- never take focus: swallowing needs the parent (nemo/Alacritty) to still
+  -- be focused when the document window maps.
+  [ isInProperty "_NET_WM_WINDOW_TYPE" "_NET_WM_WINDOW_TYPE_SPLASH" --> doIgnore
+  , pipHook
+  ]
+
 myKeys :: [((KeyMask, KeySym), X ())]
 myKeys =
   [ ((myModMask, xK_r), spawn myLauncher)
+  , ((myModMask, xK_f), toggleSwallow)
   , ((myModMask, xK_Return), spawn myTerminal)
   , ((myModMask .|. shiftMask, xK_r), spawn "xmonad --recompile && xmonad --restart")
   , ((myModMask, xK_b), sendMessage ToggleStruts)
@@ -347,6 +427,10 @@ myConfig theme =
     , focusedBorderColor  = themeFocusedBorder theme
     , layoutHook          = myLayout
     , startupHook         = myStartupHook
+    , manageHook          = myManageHook <+> manageHook def
+    -- onTitleChange re-runs the PiP rule for browsers (Chromium) that only
+    -- set the "Picture in picture" title after the window is already mapped.
+    , handleEventHook     = mySwallowHook <+> onTitleChange pipHook <+> handleEventHook def
     -- Publishes the pretty-printed workspace log to the _XMONAD_LOG property,
     -- which xmobar reads via `Run UnsafeXPropertyLog "_XMONAD_LOG"` in
     -- xmobarrc. Previously wired up implicitly by dynamicSBs; now explicit
