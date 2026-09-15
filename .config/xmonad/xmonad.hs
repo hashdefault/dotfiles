@@ -183,8 +183,6 @@ myStartupHook = do
   -- forecast row; loops itself every 2h (see the script), flock-guarded
   -- against duplicate loops across restarts.
   spawnOnce "$HOME/.config/xmonad/scripts/forecast-updater.sh"
-  -- Keep monitors on while idle, including while the screen is locked.
-  spawn "xset s off -dpms"
   -- Auto-locks after 20m idle (betterlockscreen wraps i3lock-color with the
   -- cached blurred wallpaper already generated per-output under
   -- ~/.cache/betterlockscreen). -detectsleep also locks immediately on
@@ -196,7 +194,12 @@ myStartupHook = do
   -- ~/.cache/clipboard-history/history.jsonl. MOD+v (myKeys) opens the rofi
   -- picker to browse/restore past entries.
   spawnOnce "$HOME/.local/bin/clipboard daemon"
-  spawn "xset r rate 200 35"
+  -- Keyboard autorepeat (200ms delay, 35Hz). Plain `spawn`, not spawnOnce:
+  -- the script applies `xset r rate` immediately on every start/restart, then
+  -- keeps a single flock-guarded watcher re-applying it whenever X re-adds
+  -- the keyboard (screen lock, resume, USB/udev re-trigger), which otherwise
+  -- silently resets it to the 660/25 default. See the script for details.
+  spawn "$HOME/.config/xmonad/scripts/keyboard-repeat.sh"
   -- One xmobar instance per physical monitor (pinned via `-x <screen>`), spawned
   -- directly here via spawnOnce instead of through XMonad.Hooks.StatusBar's
   -- dynamicSBs: dynamicSBs's bar bookkeeping doesn't survive `xmonad --restart`
