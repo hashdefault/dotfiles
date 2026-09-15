@@ -7,7 +7,7 @@ import XMonad.Layout.SimpleFloat (simpleFloat)
 import XMonad.Layout.Renamed (renamed, Rename (Replace))
 import XMonad.Hooks.StatusBar.PP
 import XMonad.Hooks.WindowSwallowing (swallowEventHook)
-import XMonad.Hooks.ManageHelpers (doRectFloat, isDialog, isInProperty, transientTo)
+import XMonad.Hooks.ManageHelpers (doCenterFloat, doRectFloat, isDialog, isInProperty, transientTo)
 import XMonad.Hooks.OnPropertyChange (onTitleChange)
 import qualified XMonad.Util.ExtensibleState as XS
 import Data.Monoid (All (..))
@@ -184,6 +184,7 @@ myStartupHook = do
   spawnOnce ("trayer --edge top --align right --widthtype pixel --width " ++ show myTrayerWidth ++ " --expand false --height 24 --transparent true --alpha 0 --tint 0x121222 --distance 0 --SetDockType true --SetPartialStrut true --monitor primary")
   spawnOnce "blueman-applet"
   spawnOnce "sh -c 'command -v nm-applet >/dev/null 2>&1 && nm-applet'"
+  spawnOnce "/usr/lib/xfce-polkit/xfce-polkit"
   -- Keeps /tmp/forecast_*day_* fed for the eww weather widget's 5-day
   -- forecast row; loops itself every 2h (see the script), flock-guarded
   -- against duplicate loops across restarts.
@@ -376,12 +377,19 @@ pipHook = isPip --> doRectFloat (W.RationalRect (1 - w - 16 / 1920) (1 - h - 16 
     w = 1 / 4
     h = 1 / 4
 
+-- XFCE PolicyKit's password prompt and its auxiliary error/info dialogs.
+-- Matching their fixed titles keeps the rule scoped to this agent.
+isPolkitDialog :: Query Bool
+isPolkitDialog = title =? "Authentication required"
+  <||> title =? "XFCE PolicyKit Agent"
+
 myManageHook :: ManageHook
 myManageHook = composeAll
   -- Splash screens (LibreOffice's startup logo) are left unmanaged so they
   -- never take focus: swallowing needs the parent (nemo/Alacritty) to still
   -- be focused when the document window maps.
   [ isInProperty "_NET_WM_WINDOW_TYPE" "_NET_WM_WINDOW_TYPE_SPLASH" --> doIgnore
+  , isPolkitDialog --> doCenterFloat
   , pipHook
   ]
 
