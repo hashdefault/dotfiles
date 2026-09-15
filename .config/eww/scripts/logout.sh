@@ -1,11 +1,13 @@
+#!/usr/bin/env bash
+
 # Confirmation
-dir="~/.config/rofi/powermenu"
+dir="$HOME/.config/rofi/powermenu"
 confirm_exit() {
 	rofi -dmenu\
 		-i\
 		-no-fixed-num-lines\
 		-p "Are You Sure? : "\
-		-theme $dir/confirm.rasi
+		-theme "$dir/confirm.rasi"
 }
 
 # Message
@@ -13,9 +15,9 @@ msg() {
 	rofi -theme "$dir/message.rasi" -e "Available Options  -  yes / y / no / n"
 }
 
-		ans=$(confirm_exit &)
+		ans=$(confirm_exit)
 		if [[ $ans == "yes" || $ans == "YES" || $ans == "y" || $ans == "Y" ]]; then
-			~/.config/eww/scripts/session_exit
+			exec "$HOME/.config/eww/scripts/session_exit"
 		elif [[ $ans == "no" || $ans == "NO" || $ans == "n" || $ans == "N" ]]; then
 			exit 0
         else

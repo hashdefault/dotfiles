@@ -6,6 +6,37 @@ set -uo pipefail   # NOT -e: we *want* to survive a failed attempt and try the n
 have()    { command -v "$1" >/dev/null 2>&1; }
 running() { pgrep -x "$1" >/dev/null 2>&1; }
 
+# Print the current graphical logind session. Eww normally inherits
+# XDG_SESSION_ID, but fall back to querying logind when it does not.
+graphical_session_id() {
+  local session_id="${XDG_SESSION_ID:-}"
+  local session_uid type active
+  local current_uid
+
+  have loginctl || return 1
+  current_uid=$(id -u)
+
+  if [[ -n "$session_id" ]]; then
+    session_uid=$(loginctl show-session "$session_id" -p User --value 2>/dev/null) || session_uid=""
+    if [[ "$session_uid" == "$current_uid" ]]; then
+      printf '%s\n' "$session_id"
+      return 0
+    fi
+  fi
+
+  while read -r session_id; do
+    [[ -n "$session_id" ]] || continue
+    type=$(loginctl show-session "$session_id" -p Type --value 2>/dev/null) || continue
+    active=$(loginctl show-session "$session_id" -p Active --value 2>/dev/null) || continue
+    if [[ "$active" == "yes" && ( "$type" == "x11" || "$type" == "wayland" ) ]]; then
+      printf '%s\n' "$session_id"
+      return 0
+    fi
+  done < <(loginctl --no-legend list-sessions 2>/dev/null | awk -v uid="$current_uid" '$2 == uid { print $1 }')
+
+  return 1
+}
+
 # Attempt a logout command. Exits the script on success; returns on failure.
 try() {
   have "$1" || return 1
@@ -55,15 +86,14 @@ fi
 # --- Xorg WMs ---
 if [[ "${XDG_SESSION_TYPE:-}" == x11 || -n "${DISPLAY:-}" ]]; then
   running i3     && try i3-msg exit
-  running xmonad && try pkill -x xmonad
   running awesome && try awesome-client 'awesome.quit()'
 fi
 
 # --- Fallback: ask logind/elogind to kill this session ---
-session_id="${XDG_SESSION_ID:-}"
-if [[ -z "$session_id" ]] && have loginctl; then
-  session_id=$(loginctl --no-legend list-sessions | awk -v u="$USER" '$3 == u { print $1; exit }')
-fi
+# XMonad deliberately reaches this path. Killing only its process can make a
+# session manager restart it, and compiled XMonad binaries do not necessarily
+# have the exact process name "xmonad".
+session_id=$(graphical_session_id) || session_id=""
 [[ -n "$session_id" ]] && try loginctl terminate-session "$session_id"
 
 # --- Last resort ---
