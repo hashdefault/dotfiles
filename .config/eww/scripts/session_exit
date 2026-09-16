@@ -89,10 +89,23 @@ if [[ "${XDG_SESSION_TYPE:-}" == x11 || -n "${DISPLAY:-}" ]]; then
   running awesome && try awesome-client 'awesome.quit()'
 fi
 
+# --- XMonad ---
+# The display manager (sddm-helper) runs xmonad directly as the session
+# process, so making xmonad exit ends the session cleanly, the same as
+# `io exitSuccess`. Terminating the whole logind session instead also kills
+# sddm-helper, which leaves the X server alive with only the wallpaper.
+# The compiled binary is usually named xmonad-<arch>-<os>, which pgrep -x
+# cannot match (process names are truncated to 15 chars), so match the command.
+if [[ -n "${DISPLAY:-}" ]]; then
+  xmonad_pids=$(pgrep -u "$(id -u)" -f '^(\S*/)?xmonad(-\S+)?( |$)' 2>/dev/null) || xmonad_pids=""
+  for pid in $xmonad_pids; do
+    # Only touch the xmonad that manages this display.
+    tr '\0' '\n' < "/proc/$pid/environ" 2>/dev/null | grep -qx "DISPLAY=$DISPLAY" || continue
+    kill -TERM "$pid" 2>/dev/null && exit 0
+  done
+fi
+
 # --- Fallback: ask logind/elogind to kill this session ---
-# XMonad deliberately reaches this path. Killing only its process can make a
-# session manager restart it, and compiled XMonad binaries do not necessarily
-# have the exact process name "xmonad".
 session_id=$(graphical_session_id) || session_id=""
 [[ -n "$session_id" ]] && try loginctl terminate-session "$session_id"
 
