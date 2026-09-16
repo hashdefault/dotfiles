@@ -3,14 +3,14 @@
 # regenerating xmobarrc (xmobar has no live config-reload, unlike kitty/
 # alacritty/eww), and safe to run any time xmobar needs a kick.
 #
-# Position values here (xpos/width per screen) must stay in sync with
-# xmonad.hs's myScreenXOffset/myBarWidth/myTrayerLaneWidth -- they're
-# duplicated here only because xmonad.hs's own spawnOnce calls never
-# re-fire after xmonad --restart, so the theme-chooser can't just ask
-# xmonad to redo it.
+# Geometry and per-screen instance locks live in start-xmobar.sh, also used
+# by XMonad. CommandReader's tray watchers exit when their bar closes.
 
-pkill -f "xmobar -x" 2>/dev/null
+bar_log_dir="${XDG_CACHE_HOME:-$HOME/.cache}/xmobar"
+mkdir -p "$bar_log_dir"
+pkill -u "$(id -u)" -x xmobar 2>/dev/null
 sleep 0.3
 
-env XMOBAR_SCREEN=0 xmobar -x 0 -p "Static { xpos = 1920, ypos = 0, width = 1765, height = 24 }" "$HOME/.config/xmobar/xmobarrc" &disown
-env XMOBAR_SCREEN=1 xmobar -x 1 -p "Static { xpos = 0, ypos = 0, width = 1920, height = 24 }" "$HOME/.config/xmobar/xmobarrc" &disown
+# Both windows span the monitor; tray-padding.py reserves content space.
+nohup "$HOME/.config/xmonad/scripts/start-xmobar.sh" 0 </dev/null >"$bar_log_dir/launch-0.log" 2>&1 &
+nohup "$HOME/.config/xmonad/scripts/start-xmobar.sh" 1 </dev/null >"$bar_log_dir/launch-1.log" 2>&1 &

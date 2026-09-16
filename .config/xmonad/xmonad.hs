@@ -7,7 +7,7 @@ import XMonad.Layout.SimpleFloat (simpleFloat)
 import XMonad.Layout.Renamed (renamed, Rename (Replace))
 import XMonad.Hooks.StatusBar.PP
 import XMonad.Hooks.ManageHelpers (doCenterFloat, doRectFloat, isInProperty)
-import XMonad.Hooks.OnPropertyChange (onTitleChange)
+import Data.Monoid (All (..), appEndo)
 import XMonad.Util.SpawnOnce (spawnOnce)
 import XMonad.Util.EZConfig (additionalKeys)
 import Graphics.X11.ExtraTypes.XF86
@@ -18,6 +18,7 @@ import Graphics.X11.ExtraTypes.XF86
 import System.Exit (exitSuccess)
 import System.Environment (setEnv, lookupEnv)
 import Control.Exception (catch, SomeException)
+import Control.Monad (when)
 import Data.List (elemIndex, stripPrefix)
 import Data.Maybe (fromMaybe, listToMaybe)
 import qualified Data.Map as M
@@ -168,18 +169,15 @@ myStartupHook = do
   -- left; work: HDMI right, VGA-riding-a-DP-named-port left), but the
   -- priority-based primary selection lands on the correct physical side
   -- either way. Downstream bits (trayer's --monitor primary,
-  -- myScreenXOffset below) depend on primary always ending up at x=1920.
+  -- start-xmobar.sh) depend on primary always ending up at x=1920.
   spawnOnce "$HOME/.config/xmonad/scripts/setup-monitors.sh"
   spawnOnce "xrdb -merge $HOME/.Xresources"
   spawnOnce "xsetroot -cursor_name left_ptr"
   spawnOnce "sh -c 'command -v feh >/dev/null 2>&1 && feh --bg-fill \"$(find \"$HOME\"/Pictures/wallpapers -type f \\( -iname \"*.jpg\" -o -iname \"*.jpeg\" -o -iname \"*.png\" \\) | shuf -n1)\"'"
   spawnOnce "picom --config $HOME/.config/xmonad/picom.conf -b"
-  -- Fixed pixel width (not --widthtype request) so trayer's window can
-  -- never grow past what xmobar has reserved for it (myTrayerWidth below) --
-  -- avoids needing a live watcher to keep the two in sync. Trade-off: icons
-  -- beyond what fits in that width get silently clipped instead of the bar
-  -- shrinking to make room.
-  spawnOnce ("trayer --edge top --align right --widthtype pixel --width " ++ show myTrayerWidth ++ " --expand false --height 24 --transparent true --alpha 0 --tint 0x121222 --distance 0 --SetDockType true --SetPartialStrut true --monitor primary")
+  -- Trayer grows with its icons; Xmobar's external watcher reserves matching
+  -- padding and keeps the tray above the bar without layout refreshes.
+  spawnOnce "$HOME/.config/xmonad/scripts/start-tray.sh"
   spawnOnce "blueman-applet"
   spawnOnce "sh -c 'command -v nm-applet >/dev/null 2>&1 && nm-applet'"
   spawnOnce "/usr/lib/xfce-polkit/xfce-polkit"
@@ -204,23 +202,10 @@ myStartupHook = do
   -- the keyboard (screen lock, resume, USB/udev re-trigger), which otherwise
   -- silently resets it to the 660/25 default. See the script for details.
   spawn "$HOME/.config/xmonad/scripts/keyboard-repeat.sh"
-  -- One xmobar instance per physical monitor (pinned via `-x <screen>`), spawned
-  -- directly here via spawnOnce instead of through XMonad.Hooks.StatusBar's
-  -- dynamicSBs: dynamicSBs's bar bookkeeping doesn't survive `xmonad --restart`
-  -- cleanly on this system (every restart re-triggers xmonad's own
-  -- recompile-and-replace-itself dance, which orphans whatever bar process
-  -- dynamicSBs was tracking and crashes with an uncaught `waitForProcess: does
-  -- not exist (No child processes)`, silently killing the bar). Plain
-  -- spawnOnce doesn't have that problem, same as trayer/picom above.
-  -- Trade-off: the bar no longer auto-rebuilds on monitor hotplug, only at
-  -- startup; acceptable since this is a fixed two-monitor setup (the xrandr
-  -- call above pins the layout on every start anyway).
-  -- XMOBAR_SCREEN is inherited by the eww click actions in xmobarrc so each
-  -- bar's widgets (calendar_full, weather, storagemon) open via `eww --screen`
-  -- on the same physical monitor the bar (and the click) is on. eww's numeric
-  -- screen index follows the same Xinerama/RandR order as xmonad's ScreenId.
-  spawnOnce (xmobarCmd (S 0))
-  spawnOnce (xmobarCmd (S 1))
+  -- One bar per monitor, with per-screen locks and a shared launcher.
+  -- XMOBAR_SCREEN also selects the monitor for eww click actions.
+  spawn "$HOME/.config/xmonad/scripts/start-xmobar.sh 0"
+  spawn "$HOME/.config/xmonad/scripts/start-xmobar.sh 1"
 
 -- EWMH desktop indices (as consumed by `wmctrl -s`) follow the same order
 -- as myWorkspaces, so a tag can be turned into the index wmctrl needs.
@@ -252,63 +237,6 @@ myXmobarPP theme = def
   , ppOrder           = \(ws : l : _) -> [ws, l]
   }
 
--- Global X offset of each physical screen's origin. Screen 0 (xmonad's
--- ScreenId, which follows xrandr's primary-first Xinerama order) is always
--- the primary output at +1920+0 -- setup-monitors.sh guarantees that
--- regardless of which physical port (DP/HDMI/VGA) ends up primary, see
--- myStartupHook. Needed because xmobar's `OnScreen N Static {...}` shifts
--- where the bar is *drawn* but NOT the _NET_WM_STRUT_PARTIAL it publishes
--- (both instances advertised the same x=3..1916 strut), so ManageDocks only
--- ever reserved space on screen 0 and windows on screen 1 could cover the
--- bar. Using plain `Static` with the real global xpos sidesteps that: the
--- strut ends up correct on both.
-myScreenXOffset :: ScreenId -> Int
-myScreenXOffset (S 0) = 1920
-myScreenXOffset _     = 0
-
--- Fixed width passed to trayer's --width (pixel widthtype, --expand false)
--- and mirrored into the bar-0 lane reservation below, so the two can never
--- disagree. ~23px/icon at height=24, so 200px comfortably fits ~8-9 icons;
--- bump this (and nothing else) if that's ever not enough.
-myTrayerWidth :: Int
-myTrayerWidth = 150
-
--- 5px breathing room between the bar's content and the tray lane.
-myTrayerLaneWidth :: Int
-myTrayerLaneWidth = myTrayerWidth + 5
-
--- Only screen 0 (DisplayPort-1) has a tray docked on it -- see
--- myStartupHook's trayer spawnOnce (--monitor primary --align right
--- --distance 0). Screen 1 always gets the full width.
-myBarWidth :: ScreenId -> Int
-myBarWidth (S 0) = 1920 - myTrayerLaneWidth
-myBarWidth _     = 1920
-
--- eww's `--screen N` now enumerates monitors in the same order xmonad's
--- ScreenId does on this rig (re-confirmed empirically 2026-08-17: `eww open
--- --screen 0` lands on DisplayPort-1/right, `--screen 1` lands on
--- HDMI-A-0/left — same as xmonad's S 0/S 1, see myScreenXOffset). This used
--- to be inverted (hence this function used to swap 0/1), which was exactly
--- why clicking a bar on one monitor opened widgets on the other. XMOBAR_SCREEN
--- only feeds the `eww open --screen $XMOBAR_SCREEN` click actions in
--- xmobarrc (xmobar's own `-x` Xinerama flag below is separate and
--- unaffected); kept as a passthrough function rather than inlined so a future
--- re-inversion (monitor hotplug/reorder, eww update) only needs editing here.
-ewwScreenFor :: ScreenId -> Int
-ewwScreenFor (S sid) = sid
-
--- Builds the shell command that launches one screen's xmobar, mirroring what
--- dynamicSBs used to construct for statusBarPropTo. See myStartupHook for why
--- this is now spawned directly via spawnOnce instead. The bar itself runs
--- flush edge to edge (minus the trayer lane on screen 0); the breathing room
--- around its content is xmobarrc's own left/right padding, not a gap here.
-xmobarCmd :: ScreenId -> String
-xmobarCmd (S sid) =
-  "env XMOBAR_SCREEN=" ++ show (ewwScreenFor (S sid))
-    ++ " xmobar -x " ++ show sid
-    ++ " -p \"Static { xpos = " ++ show (myScreenXOffset (S sid))
-    ++ ", ypos = 0, width = " ++ show (myBarWidth (S sid)) ++ ", height = 24 }\""
-    ++ " $HOME/.config/xmobar/xmobarrc"
 
 
 -- Browser picture-in-picture windows: Zen/Firefox title them
@@ -326,12 +254,21 @@ pipHook = isPip --> doRectFloat (W.RationalRect (1 - w - 16 / 1920) (1 - h - 16 
     w = 1 / 4
     h = 1 / 4
 
--- Late PiP titles should float a tiled window once, without resetting its
--- geometry on every later title notification or undoing a manual move.
-latePipHook :: ManageHook
-latePipHook = (isPip <&&> tiledWindow) --> pipHook
-  where
-    tiledWindow = ask >>= \w -> liftX (gets (M.notMember w . W.floating . windowset))
+-- Filter before calling `windows`: onTitleChange calls it even when its
+-- ManageHook returns identity, refreshing borders on every terminal title.
+-- Handle both title properties, and leave already-floating PiP windows alone.
+pipTitleEventHook :: Event -> X All
+pipTitleEventHook PropertyEvent { ev_window = w, ev_atom = a, ev_propstate = ps } = do
+  when (ps == propertyNewValue) $ do
+    titleAtoms <- mapM getAtom ["WM_NAME", "_NET_WM_NAME"]
+    when (a `elem` titleAtoms) $ do
+      eligible <- gets (\s -> W.member w (windowset s)
+        && M.notMember w (W.floating (windowset s)))
+      when eligible $ do
+        matches <- runQuery isPip w
+        when matches $ runQuery pipHook w >>= windows . appEndo
+  return (All True)
+pipTitleEventHook _ = return (All True)
 
 -- XFCE PolicyKit's password prompt and its auxiliary error/info dialogs.
 -- Matching their fixed titles keeps the rule scoped to this agent.
@@ -368,7 +305,7 @@ myKeys =
   -- Move focus to the physically right/left screen, and warp the mouse
   -- there too: rofi (and anything else that picks its monitor by pointer
   -- position rather than xmonad's focused screen) otherwise keeps opening
-  -- on whichever screen the mouse was last on. Per myScreenXOffset, S 0
+  -- on whichever screen the mouse was last on. Per start-xmobar.sh, S 0
   -- (DisplayPort-1) sits on the right and S 1 (HDMI-A-0) on the left.
   , ((myModMask, xK_l), do
       screenWorkspace 0 >>= flip whenJust (windows . W.view)
@@ -389,9 +326,8 @@ myConfig theme =
     , layoutHook          = myLayout
     , startupHook         = myStartupHook
     , manageHook          = myManageHook <+> manageHook def
-    -- onTitleChange re-runs the PiP rule for browsers (Chromium) that only
-    -- set the "Picture in picture" title after the window is already mapped.
-    , handleEventHook     = onTitleChange latePipHook <+> handleEventHook def
+    -- Float late-titled PiP windows without refreshing on unrelated titles.
+    , handleEventHook     = pipTitleEventHook <+> handleEventHook def
     -- Publishes the pretty-printed workspace log to the _XMONAD_LOG property,
     -- which xmobar reads via `Run UnsafeXPropertyLog "_XMONAD_LOG"` in
     -- xmobarrc. Previously wired up implicitly by dynamicSBs; now explicit
