@@ -191,6 +191,10 @@ myStartupHook = do
   -- suspend/resume. MOD+x / MOD+shift+x (myKeys) trigger the same locker
   -- on demand.
   spawnOnce "xautolock -time 20 -locker \"betterlockscreen -l\" -detectsleep"
+  -- Never blank or power off the monitor: disables the X screensaver (600s
+  -- default) and DPMS standby/suspend/off. Plain `spawn` so a restart
+  -- re-applies it if something re-enabled them.
+  spawn "xset s off s noblank -dpms"
   -- Clipboard history: watches the X11 CLIPBOARD selection (via clipnotify,
   -- event-driven, no polling) and appends changes to
   -- ~/.cache/clipboard-history/history.jsonl. MOD+v (myKeys) opens the rofi
